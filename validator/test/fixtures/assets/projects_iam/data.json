@@ -16,7 +16,8 @@
                     "role": "roles/cloudasset.viewer",
                     "members": [
                         "serviceAccount:cai-292@noble-history-87417.iam.gserviceaccount.com",
-                        "user:user@google.com"
+                        "user:specific-@google.com",
+		        "domain:google.com"
                     ]
                 },
                 {
@@ -62,7 +63,7 @@
             "bindings": [
                 {
                     "role": "roles/cloudasset.serviceAgent",
-                  "members": [
+                    "members": [
 		        "user:bad@notgoogle.com",
                         "serviceAccount:service-12345@gcp-sa-cloudasset.iam.gserviceaccount.com"
                     ]

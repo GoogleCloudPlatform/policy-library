@@ -27,7 +27,12 @@ spec:
       validation:
         openAPIV3Schema:
           properties:
-            # Domain must not start with '.' or '@'.
+            # Array of domains to whitelist.
+            # Both primary domains and subdomains are allowed.
+            # If a primary domain is whitelisted, all of its subdomains are
+            # whitelisted as well.
+            # For example, whitelisting "example.com" will cause IAM policy
+            # member "user@sub.example.com" to be accepted.
             domains:
               type: array
               items: string
@@ -66,7 +71,7 @@ spec:
            	iam_policy := asset.iam_policy
            	unique_members := {m | m = iam_policy.bindings[_].members[_]}
            	member := unique_members[_]
-           	matched_domains := [m | m = member; re_match(sprintf("[@.]%v$", [params.domains[_]]), member)]
+           	matched_domains := [m | m = member; re_match(sprintf("[:@.]%v$", [params.domains[_]]), member)]
            	count(matched_domains) == 0
            
            	message := sprintf("IAM policy for %v contains member from unexpected domain: %v", [asset.name, member])

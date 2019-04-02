@@ -29,7 +29,7 @@ deny[{
 	iam_policy := asset.iam_policy
 	unique_members := {m | m = iam_policy.bindings[_].members[_]}
 	member := unique_members[_]
-	matched_domains := [m | m = member; re_match(sprintf("[@.]%v$", [params.domains[_]]), member)]
+	matched_domains := [m | m = member; re_match(sprintf("[:@.]%v$", [params.domains[_]]), member)]
 	count(matched_domains) == 0
 
 	message := sprintf("IAM policy for %v contains member from unexpected domain: %v", [asset.name, member])
