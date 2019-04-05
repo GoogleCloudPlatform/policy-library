@@ -17,7 +17,7 @@
                     "members": [
                         "serviceAccount:cai-292@noble-history-87417.iam.gserviceaccount.com",
                         "user:specific-@google.com",
-		        "domain:google.com"
+                        "domain:google.com"
                     ]
                 },
                 {
@@ -64,7 +64,7 @@
                 {
                     "role": "roles/cloudasset.serviceAgent",
                     "members": [
-		        "user:bad@notgoogle.com",
+                        "user:bad@notgoogle.com",
                         "serviceAccount:service-12345@gcp-sa-cloudasset.iam.gserviceaccount.com"
                     ]
                 },
@@ -72,13 +72,14 @@
                     "role": "roles/cloudasset.viewer",
                     "members": [
                         "user:bad@notgoogle.com",
-  		        "serviceAccount:service-12345@notiam.gserviceaccount.com"
+                        "serviceAccount:service-12345@notiam.gserviceaccount.com"
                     ]
                 },
                 {
                     "role": "roles/dataflow.serviceAgent",
                     "members": [
-                        "serviceAccount:service-12345@dataflow-service-producer-prod.iam.gserviceaccount.com"
+                        "serviceAccount:service-12345@dataflow-service-producer-prod.iam.gserviceaccount.com",
+                        "projectViewer:my-project"
                     ]
                 }
             ]

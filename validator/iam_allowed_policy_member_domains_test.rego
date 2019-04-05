@@ -73,3 +73,18 @@ test_all_projects_with_expected_domains {
 
 	count(found_violations) = 0
 }
+
+violations_project_reference[violation] {
+	constraints := [fixture_constraints.iam_allowed_policy_member_reject_project_reference]
+
+	found_violations := find_violations with data.instances as fixture_assets
+		 with data.test_constraints as constraints
+
+	violation := found_violations[_]
+}
+
+test_reject_project_reference {
+	found_violations := violations_project_reference
+	count(found_violations) = 1
+	found_violations[_].details.member == "projectViewer:my-project"
+}
