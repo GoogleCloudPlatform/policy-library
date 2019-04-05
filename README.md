@@ -2,9 +2,11 @@
 
 This repo contains a library of constraint templates and sample constraints.
 
+For information on setting up Config Validator to secure your environment, see the [User Guide](./docs/user_guide.md).
+
 ## Developing a Constraint
 
-Constraint development is documented in the User Guide.
+Constraint development is documented in the [User Guide](./docs/user_guide.md).
 
 ### Available Commands
 
