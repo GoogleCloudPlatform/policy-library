@@ -26,13 +26,10 @@ deny[{
 	constraint := input.constraint
 	lib.get_constraint_params(constraint, params)
 	asset := input.asset
-	iam_policy := asset.iam_policy
-	unique_members := {m | m = iam_policy.bindings[_].members[_]}
+	unique_members := {m | m = asset.iam_policy.bindings[_].members[_]}
+	member_type_whitelist := lib.get_default(params, "member_type_whitelist", ["projectOwner", "projectEditor", "projectViewer"])
 
-	# The project reference parameter indicates whether to accept members that
-	# reference project roles. Example: "projectEditor:my-project".
-	allow_proj_ref := lib.get_default(params, "allow_project_references", true)
-	filter_members(allow_proj_ref, unique_members, members_to_check)
+	members_to_check := [m | m = unique_members[_]; not starts_with_whitelisted_type(member_type_whitelist, m)]
 	member := members_to_check[_]
 	matched_domains := [m | m = member; re_match(sprintf("[:@.]%v$", [params.domains[_]]), member)]
 	count(matched_domains) == 0
@@ -42,12 +39,7 @@ deny[{
 	metadata := {"member": member}
 }
 
-filter_members(allow_project_references, members) = out {
-	allow_project_references == true
-	out = [m | m = members[_]; not startswith(m, "project")]
-}
-
-filter_members(allow_project_references, members) = out {
-	allow_project_references == false
-	out = members
+starts_with_whitelisted_type(whitelist, member) {
+	member_type := whitelist[_]
+	startswith(member, sprintf("%v:", [member_type]))
 }

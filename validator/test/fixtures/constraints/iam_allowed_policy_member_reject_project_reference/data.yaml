@@ -8,7 +8,7 @@ spec:
     target: ["organization/*"]
     exclude: [] # optional, default is no exclusions
   parameters:
-    allow_project_references: false
+    member_type_whitelist: []
     domains:
       - gserviceaccount.com
       - google.com
