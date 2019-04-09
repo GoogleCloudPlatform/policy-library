@@ -27,6 +27,18 @@ spec:
       validation:
         openAPIV3Schema:
           properties:
+            # Array of IAM policy member types to whitelist. IAM member types
+            # in this list will not be checked by the constraint.
+            # See https://cloud.google.com/iam/reference/rest/v1/Binding
+            # for the typical types. Types are specified here without the ":"
+            # suffix. By default, "projectOwner", "projectEditor", and
+            # "projectViewer" types are whitelisted. Those are used in GCS and
+            # BigQuery. See https://cloud.google.com/storage/docs/access-control/iam
+            # and https://cloud.google.com/bigquery/docs/access-control for
+            # more information.
+            member_type_whitelist:
+              type: array
+              items: string
             # Array of domains to whitelist.
             # Both primary domains and subdomains are allowed.
             # If a primary domain is whitelisted, all of its subdomains are
@@ -68,14 +80,21 @@ spec:
            	constraint := input.constraint
            	lib.get_constraint_params(constraint, params)
            	asset := input.asset
-           	iam_policy := asset.iam_policy
-           	unique_members := {m | m = iam_policy.bindings[_].members[_]}
-           	member := unique_members[_]
+           	unique_members := {m | m = asset.iam_policy.bindings[_].members[_]}
+           	member_type_whitelist := lib.get_default(params, "member_type_whitelist", ["projectOwner", "projectEditor", "projectViewer"])
+           
+           	members_to_check := [m | m = unique_members[_]; not starts_with_whitelisted_type(member_type_whitelist, m)]
+           	member := members_to_check[_]
            	matched_domains := [m | m = member; re_match(sprintf("[:@.]%v$", [params.domains[_]]), member)]
            	count(matched_domains) == 0
            
            	message := sprintf("IAM policy for %v contains member from unexpected domain: %v", [asset.name, member])
            
            	metadata := {"member": member}
+           }
+           
+           starts_with_whitelisted_type(whitelist, member) {
+           	member_type := whitelist[_]
+           	startswith(member, sprintf("%v:", [member_type]))
            }
            #ENDINLINE
