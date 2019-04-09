@@ -19,5 +19,5 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organizations/*"]
+    target: ["organization/*"]
     exclude: [] # optional, default is no exclusions
