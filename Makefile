@@ -37,5 +37,9 @@ format: ## Format Rego rules
 .PHONY: build
 build: format build_templates ## Format and build
 
+.PHONY: push_make_image
+push_make_image: ## Construct and push Docker image for Cloud Build CI to gcr.io/config-validator/make
+	@cd cloudbuild && gcloud builds submit --project=config-validator --tag gcr.io/config-validator/make .
+
 help: ## Prints help for targets with comments
 	@grep -E '^[a-zA-Z._-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "make \033[36m%- 30s\033[0m %s\n", $$1, $$2}'
