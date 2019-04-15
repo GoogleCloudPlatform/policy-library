@@ -25,7 +25,7 @@ deny[{
 	constraint := input.constraint
 	lib.get_constraint_params(constraint, params)
 	asset := input.asset
-	asset.asset_type == "google.compute.Network"
+	asset.asset_type == "compute.googleapis.com/Network"
 
 	mode := lib.get_default(params, "mode", "GLOBAL")
 	network := asset.resource.data
