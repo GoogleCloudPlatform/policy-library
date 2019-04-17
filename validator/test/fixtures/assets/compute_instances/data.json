@@ -1,7 +1,7 @@
 [
   {
     "name": "//compute.googleapis.com/projects/test-project/zones/us-east1-c/instances/vm-no-ip",
-    "asset_type": "google.compute.Instance",
+    "asset_type": "compute.googleapis.com/Instance",
     "resource": {
       "version": "v1",
       "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
@@ -69,7 +69,7 @@
   },
   {
     "name": "//compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/vm-external-ip",
-    "asset_type": "google.compute.Instance",
+    "asset_type": "compute.googleapis.com/Instance",
     "resource": {
       "version": "v1",
       "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
@@ -147,7 +147,7 @@
   },
   {
     "name": "//compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/vm-external-ip-two",
-    "asset_type": "google.compute.Instance",
+    "asset_type": "compute.googleapis.com/Instance",
     "resource": {
       "version": "v1",
       "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
