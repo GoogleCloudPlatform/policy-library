@@ -76,6 +76,14 @@
                     ]
                 },
                 {
+                    "role": "roles/owner",
+                    "members": [
+                        "user:powerful@google.com",
+                        "group:admins@google.com",
+                        "user:evil@notgoogle.com"
+                    ]
+                },
+                {
                     "role": "roles/dataflow.serviceAgent",
                     "members": [
                         "serviceAccount:service-12345@dataflow-service-producer-prod.iam.gserviceaccount.com",
