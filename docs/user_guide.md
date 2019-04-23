@@ -439,7 +439,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organizations/*"]
+    target: ["organization/*"]
   parameters:
     domains:
       - gserviceaccount.com
@@ -506,7 +506,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organizations/*"]
+    target: ["organization/*"]
   parameters:
     domains:
       - gserviceaccount.com
