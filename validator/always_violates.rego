@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPAlwaysViolatesConstraintv1
+package templates.gcp.GCPAlwaysViolatesConstraintV1
 
 import data.validator.gcp.lib as lib
 

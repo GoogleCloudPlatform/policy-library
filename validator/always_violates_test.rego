@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPAlwaysViolatesConstraintv1
+package templates.gcp.GCPAlwaysViolatesConstraintV1
 
 # Confirm total violations count
 always_violates_all_violations[output] {
