@@ -39,25 +39,11 @@ deny[{
 	target_match_count(mode, desired_count)
 	count(matches_found) != desired_count
 
-	# Check if a match is found
-	# not binding_matches(member, role, params.bindings)
-
-	# member_type_whitelist := lib.get_default(params, "member_type_whitelist", ["projectOwner", "projectEditor", "projectViewer"])
-
-	# members_to_check := [m | m = unique_members[_]; not starts_with_whitelisted_type(member_type_whitelist, m)]
-	# member := members_to_check[_]
-	# matched_domains := [m | m = member; re_match(sprintf("[:@.]%v$", [params.domains[_]]), member)]
-	# count(matched_domains) == 0
-
 	message := sprintf("IAM policy for %v grants %v to %v", [asset.name, role, member])
 
 	metadata := {
 		"member": member,
-		# "binding": binding,
-		# "constraint": desired_count,
-		# "match": matches_found,
-		"member": member,
-		"role": role
+		"role": role,
 	}
 }
 
