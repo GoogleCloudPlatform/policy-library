@@ -1,17 +1,1 @@
-apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPIAMAllowedBindingsConstraintV1
-metadata:
-  name: whitelist_owner_role
-  annotations:
-    description: Example of restricting a role to only users from your domain
-spec:
-  severity: high
-  match:
-    target: ["organization/*"]
-    exclude: [] # optional, default is no exclusions
-  parameters:
-    mode: whitelist
-    role: roles/owner
-    members:
-    - "user:*@google.com"
-    - "group:*@google.com"
+../../../../../samples/iam_restrict_role.yaml

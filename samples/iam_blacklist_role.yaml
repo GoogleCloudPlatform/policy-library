@@ -1,0 +1,16 @@
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: GCPIAMAllowedBindingsConstraintV1
+metadata:
+  name: blacklist_cloudasset_role
+  annotations:
+    description: Ban any users from being granted a particular role
+spec:
+  severity: high
+  match:
+    target: ["organization/*"]
+    exclude: [] # optional, default is no exclusions
+  parameters:
+    mode: blacklist
+    role: roles/cloudasset.*
+    members:
+      - "*"
