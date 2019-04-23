@@ -13,11 +13,10 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPAlwaysViolatesConstraint
+kind: GCPAlwaysViolatesConstraintV1
 metadata:
   name: always_violates_all
 spec:
-  constraintVersion: 0.1.0
   severity: high
   match:
     gcp:
