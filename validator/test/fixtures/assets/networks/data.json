@@ -1,7 +1,7 @@
 [
   {
     "name": "//compute.googleapis.com/projects/test-project/global/networks/global-example",
-    "asset_type": "google.compute.Network",
+    "asset_type": "compute.googleapis.com/Network",
     "resource": {
       "version": "v1",
       "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
@@ -24,7 +24,7 @@
   },
   {
     "name": "//compute.googleapis.com/projects/test-project/global/networks/regional-example",
-    "asset_type": "google.compute.Network",
+    "asset_type": "compute.googleapis.com/Network",
     "resource": {
       "version": "v1",
       "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",

@@ -101,7 +101,7 @@ spec:
 
             	asset := input.asset
 
-            	asset.asset_type == "google.compute.Instance"
+            	asset.asset_type == "compute.googleapis.com/Instance"
 
             
 
