@@ -21,8 +21,7 @@ spec:
     spec:
       names:
         kind: GCPIAMAllowedPolicyMemberDomainsConstraintV1
-        plural: GCPIAMAllowedPolicyMemberDomainsConstraints
-        singular: GCPIAMAllowedPolicyMemberDomainsConstraint
+        plural: gcpiamallowedpolicymemberdomainsconstraintsv1
       validation:
         openAPIV3Schema:
           properties:

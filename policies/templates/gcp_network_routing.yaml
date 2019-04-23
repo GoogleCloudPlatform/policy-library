@@ -21,8 +21,7 @@ spec:
     spec:
       names:
         kind: GCPNetworkRoutingConstraintV1
-        plural: GCPNetworkRoutingConstraints
-        singular: GCPNetworkRoutingConstraint
+        plural: gcpnetworkroutingconstraintsv1
       validation:
         openAPIV3Schema:
           mode:

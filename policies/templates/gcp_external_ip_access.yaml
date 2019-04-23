@@ -24,8 +24,7 @@ spec:
     spec:
       names:
         kind: GCPExternalIpAccessConstraintV1
-        plural: GCPExternalIpAccessConstraints
-        singular: GCPExternalIpAccessConstraint
+        plural: gcpexternalipaccessconstraintsv1
       validation:
         openAPIV3Schema:
           properties:
