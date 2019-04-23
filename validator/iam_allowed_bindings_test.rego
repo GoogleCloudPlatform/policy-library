@@ -41,7 +41,7 @@ blacklist_role_violations[violation] {
 }
 
 test_blacklist_role_violations {
-	count(blacklist_role_violations) = 4
+	count(blacklist_role_violations) = 2
 	violation := blacklist_role_violations[_]
 }
 

@@ -3,7 +3,8 @@ kind: GCPIAMAllowedBindingsConstraintV1
 metadata:
   name: blacklist_cloudasset_role
   annotations:
-    description: Ban any users from being granted a particular role
+    description: Ban any users from being granted Service Account User access
+    benchmark: CIS11_1.05
 spec:
   severity: high
   match:
@@ -11,6 +12,6 @@ spec:
     exclude: [] # optional, default is no exclusions
   parameters:
     mode: blacklist
-    role: roles/cloudasset.*
+    role: roles/iam.serviceAccountUser
     members:
       - "*"
