@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPStorageLoggingConstraint
+kind: GCPStorageLoggingConstraintV1
 metadata:
   name: require_storage_logging
   annotations:

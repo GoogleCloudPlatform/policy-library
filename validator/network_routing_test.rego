@@ -1,4 +1,4 @@
-package templates.gcp.GCPNetworkRoutingConstraint
+package templates.gcp.GCPNetworkRoutingConstraintV1
 
 all_violations[violation] {
 	resource := data.test.fixtures.assets.networks[_]

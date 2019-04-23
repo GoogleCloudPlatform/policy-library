@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPStorageLoggingConstraint
+package templates.gcp.GCPStorageLoggingConstraintV1
 
 all_violations[violation] {
 	resource := data.test.fixtures.assets.storage_buckets[_]

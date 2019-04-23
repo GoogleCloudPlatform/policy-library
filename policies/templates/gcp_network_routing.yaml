@@ -20,8 +20,7 @@ spec:
   crd:
     spec:
       names:
-        kind: GCPNetworkRoutingConstraint
-        listKind: GCPNetworkRoutingConstraintList
+        kind: GCPNetworkRoutingConstraintV1
         plural: GCPNetworkRoutingConstraints
         singular: GCPNetworkRoutingConstraint
       validation:
@@ -49,7 +48,7 @@ spec:
             # limitations under the License.
             #
             
-            package templates.gcp.GCPNetworkRoutingConstraint
+            package templates.gcp.GCPNetworkRoutingConstraintV1
             
             import data.validator.gcp.lib as lib
             

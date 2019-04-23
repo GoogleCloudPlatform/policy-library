@@ -23,8 +23,7 @@ spec:
   crd:
     spec:
       names:
-        kind: GCPExternalIpAccessConstraint
-        listKind: GCPExternalIpAccessConstraintList
+        kind: GCPExternalIpAccessConstraintV1
         plural: GCPExternalIpAccessConstraints
         singular: GCPExternalIpAccessConstraint
       validation:
@@ -73,7 +72,7 @@ spec:
 
             
 
-            package templates.gcp.GCPExternalIpAccessConstraint
+            package templates.gcp.GCPExternalIpAccessConstraintV1
 
             
 
