@@ -1,0 +1,17 @@
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: GCPIAMAllowedBindingsConstraintV1
+metadata:
+  name: blacklist_all_users
+  annotations:
+    description: Example of preventing adding allUsers to IAM policies
+spec:
+  severity: high
+  match:
+    target: ["organization/*"]
+    exclude: [] # optional, default is no exclusions
+  parameters:
+    mode: blacklist
+    role: "roles/*"
+    members:
+    - "allUsers"
+    - "allAuthenticatedUsers"

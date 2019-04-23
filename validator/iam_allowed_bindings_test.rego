@@ -16,7 +16,7 @@
 
 package templates.gcp.GCPIAMAllowedBindingsConstraintV1
 
-import data.test.fixtures.assets.projects_iam as fixture_assets
+import data.test.fixtures.assets.projects_iam_bindings as fixture_assets
 import data.test.fixtures.constraints as fixture_constraints
 
 # Find all violations on our test cases
@@ -41,7 +41,7 @@ blacklist_role_violations[violation] {
 }
 
 test_blacklist_role_violations {
-	count(blacklist_role_violations) = 8
+	count(blacklist_role_violations) = 4
 	violation := blacklist_role_violations[_]
 }
 
@@ -57,4 +57,17 @@ test_whitelist_role_domain_violations {
 	count(whitelist_role_domain_violations) = 1
 	violation := whitelist_role_domain_violations[_]
 	violation.details.role == "roles/owner"
+}
+
+blacklist_public_violations[violation] {
+	constraints := [fixture_constraints.iam_allowed_bindings_blacklist_public]
+
+	found_violations := find_violations with data.test_constraints as constraints
+
+	violation := found_violations[_]
+}
+
+test_blacklist_public_violations {
+	count(blacklist_public_violations) = 2
+	violation := whitelist_role_domain_violations[_]
 }
