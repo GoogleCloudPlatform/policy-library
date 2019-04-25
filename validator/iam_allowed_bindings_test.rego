@@ -71,7 +71,6 @@ test_blacklist_public_violations {
 	count(blacklist_public_violations) = 2
 }
 
-
 # Try a constraint which shouldn't trigger any violations
 whitelist_role_no_violations[violation] {
 	constraints := [fixture_constraints.iam_allowed_bindings_whitelist_role_members]
