@@ -189,7 +189,7 @@ Here is a complete example of a sample external IP address constraint file:
 
 ```
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPExternalIpAccessConstraint
+kind: GCPExternalIpAccessConstraintV1
 metadata:
   name: forbid-external-ip-whitelist
 spec:
@@ -433,7 +433,7 @@ Let's take a look at this constraint:
 
 ```
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPIAMAllowedPolicyMemberDomainsConstraint
+kind: GCPIAMAllowedPolicyMemberDomainsConstraintV1
 metadata:
   name: service_accounts_only
 spec:
@@ -500,7 +500,7 @@ append your email domain to the domains whitelist:
 
 ```
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPIAMAllowedPolicyMemberDomainsConstraint
+kind: GCPIAMAllowedPolicyMemberDomainsConstraintV1
 metadata:
   name: service_accounts_only
 spec:
@@ -527,6 +527,14 @@ The command above should result in no violations found.
 This section is only applicable to advanced users who wish to create custom
 constraint templates. If the existing templates are sufficient, you can skip
 this section.
+
+#### Template Naming Convention
+
+Template names start with "GCP" and end with a version suffix (example: "V1").
+The version number does not follow semver form - it is just a single number.
+This effectively makes every version of a template an unique template.
+See [Constraint Framework: Versioning](https://docs.google.com/document/d/1vB_2wm60WCVLXoegMrupqwqKAuW6gbwEIxg3vBQj6cs/edit#)
+for reasons behind this convention.
 
 #### Validate your constraint goals and target resources
 
@@ -632,7 +640,7 @@ For example, this rule checks whether a VM with external IP address should be
 exempted (whitelist) or treated as a violation (blacklist):
 
 ```
-package validator.gcp.vm_external_ip
+package validator.gcp.GCPExternalIpAccessConstraintV1
 import data.validator.gcp.lib as lib
 
 deny[{
@@ -680,7 +688,7 @@ For example, here is a sample constraint used for external IP rule:
 
 ```
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPExternalIpAccessConstraint
+kind: GCPExternalIpAccessConstraintV1
 metadata:
   name: forbid-external-ip-whitelist
 spec:
@@ -714,7 +722,7 @@ rules which verify those violations.
 For example, here are the tests for the above external IP constraint:
 
 ```
-package validator.gcp.vm_external_ip
+package validator.gcp.GCPExternalIpAccessConstraintV1
 
 import data.test.fixtures.assets.compute_instances as fixture_instances
 import data.test.fixtures.constraints as fixture_constraints
@@ -770,10 +778,8 @@ spec:
   crd:
     spec:
       names:
-        kind: GCPExternalIpAccessConstraint
-        listKind: GCPExternalIpAccessConstraintList
-        plural: GCPExternalIpAccessConstraints
-        singular: GCPExternalIpAccessConstraint
+        kind: GCPExternalIpAccessConstraintV1
+        plural: gcpexternalipaccessconstraintsv1
       validation:
         openAPIV3Schema:
           properties:
