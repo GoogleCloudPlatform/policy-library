@@ -533,7 +533,7 @@ this section.
 Template names start with "GCP" and end with a version suffix (example: "V1").
 The version number does not follow semver form - it is just a single number.
 This effectively makes every version of a template an unique template.
-See [Constarint Framework: Versioning](https://docs.google.com/document/d/1vB_2wm60WCVLXoegMrupqwqKAuW6gbwEIxg3vBQj6cs/edit#)
+See [Constraint Framework: Versioning](https://docs.google.com/document/d/1vB_2wm60WCVLXoegMrupqwqKAuW6gbwEIxg3vBQj6cs/edit#)
 for reasons behind this convention.
 
 #### Validate your constraint goals and target resources
