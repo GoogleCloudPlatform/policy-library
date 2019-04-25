@@ -70,3 +70,17 @@ blacklist_public_violations[violation] {
 test_blacklist_public_violations {
 	count(blacklist_public_violations) = 2
 }
+
+
+# Try a constraint which shouldn't trigger any violations
+whitelist_role_no_violations[violation] {
+	constraints := [fixture_constraints.iam_allowed_bindings_whitelist_role_members]
+
+	found_violations := find_violations with data.test_constraints as constraints
+
+	violation := found_violations[_]
+}
+
+test_whitelist_role_no_violations {
+	count(whitelist_role_no_violations) = 0
+}
