@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPStorageLoggingConstraint
+package templates.gcp.GCPStorageLoggingConstraintV1
 
 import data.validator.gcp.lib as lib
 

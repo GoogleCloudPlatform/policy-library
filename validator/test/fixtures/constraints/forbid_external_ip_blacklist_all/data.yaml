@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPExternalIpAccessConstraint
+kind: GCPExternalIpAccessConstraintV1
 metadata:
   name: forbid_external_ip_blacklist_all
 spec:

@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPExternalIpAccessConstraint
+package templates.gcp.GCPExternalIpAccessConstraintV1
 
 import data.validator.gcp.lib as lib
 

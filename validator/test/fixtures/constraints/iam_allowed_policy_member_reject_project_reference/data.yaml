@@ -1,5 +1,5 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPIAMAllowedPolicyMemberDomainsConstraint
+kind: GCPIAMAllowedPolicyMemberDomainsConstraintV1
 metadata:
   name: reject_project_reference
 spec:

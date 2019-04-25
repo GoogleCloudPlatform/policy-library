@@ -20,10 +20,8 @@ spec:
   crd:
     spec:
       names:
-        kind: GCPStorageLoggingConstraint
-        listKind: GCPStorageLoggingConstraintList
-        plural: GCPStorageLoggingConstraints
-        singular: GCPStorageLoggingConstraint
+        kind: GCPStorageLoggingConstraintV1
+        plural: gcpstorageloggingconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}
@@ -47,7 +45,7 @@ spec:
             # limitations under the License.
             #
             
-            package templates.gcp.GCPStorageLoggingConstraint
+            package templates.gcp.GCPStorageLoggingConstraintV1
             
             import data.validator.gcp.lib as lib
             
