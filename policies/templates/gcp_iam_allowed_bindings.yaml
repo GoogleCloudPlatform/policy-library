@@ -21,17 +21,21 @@ spec:
     spec:
       names:
         kind: GCPIAMAllowedBindingsConstraintV1
-        plural: GCPIAMAllowedBindingsConstraintsV1
-        singular: GCPIAMAllowedBindingsConstraintV1
+        plural: gcpiamallowedbindingsconstraintsv1
       validation:
         openAPIV3Schema:
           properties:
             mode:
+              description: "Enforcement mode, defaults to whitelist"
               type: string
               enum: [blacklist, whitelist]
             role:
+              description: "Role to restrict bindings for,
+                ex. roles/owner; Wildcards (*) supported"
               type: string
             members:
+              description: "Members to either allow or deny for the given role,
+                depending on mode; Wildcards (*) supported"
               type: array
               items: string
   targets:

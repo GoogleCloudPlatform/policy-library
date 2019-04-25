@@ -42,7 +42,6 @@ blacklist_role_violations[violation] {
 
 test_blacklist_role_violations {
 	count(blacklist_role_violations) = 2
-	violation := blacklist_role_violations[_]
 }
 
 whitelist_role_domain_violations[violation] {
@@ -57,6 +56,7 @@ test_whitelist_role_domain_violations {
 	count(whitelist_role_domain_violations) = 1
 	violation := whitelist_role_domain_violations[_]
 	violation.details.role == "roles/owner"
+	violation.details.member == "user:evil@notgoogle.com"
 }
 
 blacklist_public_violations[violation] {
@@ -69,5 +69,4 @@ blacklist_public_violations[violation] {
 
 test_blacklist_public_violations {
 	count(blacklist_public_violations) = 2
-	violation := whitelist_role_domain_violations[_]
 }

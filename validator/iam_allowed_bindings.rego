@@ -18,7 +18,6 @@ package templates.gcp.GCPIAMAllowedBindingsConstraintV1
 
 import data.validator.gcp.lib as lib
 
-# If a primary domain is whitelisted, all of its sub domains are whitelisted as well.
 deny[{
 	"msg": message,
 	"details": metadata,
