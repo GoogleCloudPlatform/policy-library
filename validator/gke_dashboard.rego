@@ -39,6 +39,6 @@ deny[{
 ###########################
 dashboard_disabled(container) = dashboard_disabled {
 	addons_config := lib.get_default(container, "addonsConfig", "default")
-	dashboard := lib.get_default(addons_config, "kubernetesDashboard", "")
+	dashboard := lib.get_default(addons_config, "kubernetesDashboard", "default")
 	dashboard_disabled := lib.get_default(dashboard, "disabled", false)
 }
