@@ -34,7 +34,11 @@ deny[{
 
 	mode := lib.get_default(params, "mode", "whitelist")
 
-	matches_found = [m | m = params.members[_]; glob.match(m, [], member)]
+	matches_found = [m |
+		m = params.members[_]
+		glob.match(m, [], member)
+	]
+
 	target_match_count(mode, desired_count)
 	count(matches_found) != desired_count
 

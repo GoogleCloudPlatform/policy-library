@@ -29,9 +29,17 @@ deny[{
 	unique_members := {m | m = asset.iam_policy.bindings[_].members[_]}
 	member_type_whitelist := lib.get_default(params, "member_type_whitelist", ["projectOwner", "projectEditor", "projectViewer"])
 
-	members_to_check := [m | m = unique_members[_]; not starts_with_whitelisted_type(member_type_whitelist, m)]
+	members_to_check := [m |
+		m = unique_members[_]
+		not starts_with_whitelisted_type(member_type_whitelist, m)
+	]
+
 	member := members_to_check[_]
-	matched_domains := [m | m = member; re_match(sprintf("[:@.]%v$", [params.domains[_]]), member)]
+	matched_domains := [m |
+		m = member
+		re_match(sprintf("[:@.]%v$", [params.domains[_]]), member)
+	]
+
 	count(matched_domains) == 0
 
 	message := sprintf("IAM policy for %v contains member from unexpected domain: %v", [asset.name, member])
