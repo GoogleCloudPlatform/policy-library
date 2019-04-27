@@ -543,14 +543,15 @@ The template name appears in three places in a template YAML file:
     "gcpstorageloggingconstraintsv1")
 
 If a template applies to more than one type of resource, omit the resource part
-and only include the feature (example: "GCPExernalIPAccessV1"). The
-configuration YAML file name should take after the metadata name and replace "-"
-with "_" (example: "gcp_storage_logging_v1.yaml").
+and only include the feature (example: "GCPExernalIPAccessV1").
 
 The version number does not follow semver form - it is just a single number.
 This effectively makes every version of a template an unique template. See
 [Constraint Framework: Versioning](https://docs.google.com/document/d/1vB_2wm60WCVLXoegMrupqwqKAuW6gbwEIxg3vBQj6cs/edit#)
 for reasons behind this convention.
+
+The configuration YAML file name should take after the metadata name and replace
+"-" with "_" (example: "gcp_storage_logging_v1.yaml").
 
 ##### Commentary
 
