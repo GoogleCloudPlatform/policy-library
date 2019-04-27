@@ -5,17 +5,17 @@
 ## Overview
 
 As your business shifts towards an infrastructure-as-code workflow, security and
-cloud administrators are concerned about misconfigurations that may
-cause security and governance violations.
+cloud administrators are concerned about misconfigurations that may cause
+security and governance violations.
 
-Cloud Administrators need to be able to put up guardrails that follow security best
-practices and help drive the environment towards programmatic security and governance while
-enabling developers to go fast.
+Cloud Administrators need to be able to put up guardrails that follow security
+best practices and help drive the environment towards programmatic security and
+governance while enabling developers to go fast.
 
 Config Validator allows your administrators to enforce constraints that validate
 whether deployments can be provisioned while still enabling developers to move
-quickly within these safe guardrails. Validator accomplishes this through a three
-key components:
+quickly within these safe guardrails. Validator accomplishes this through a
+three key components:
 
 **One way to define constraints**
 
@@ -41,8 +41,8 @@ be built into a number of monitoring tools. For details,
 [check out Forseti Validator](#how-to-use-forseti-config-validator).
 
 The following guide will walk you through initial setup steps and instructions
-on how to use Config Validator. By the end, you will have a proof-of-concept to experiment with and
-to build your foundation upon.
+on how to use Config Validator. By the end, you will have a proof-of-concept to
+experiment with and to build your foundation upon.
 
 ## How to set up constraints with Policy Library
 
@@ -324,10 +324,10 @@ enabled by default; therefore you need to explicitly enable it.
 
 ### Copy over policy library repository
 
-Your policy library repository specifies the constraints to be enforced. In order
-for Forseti server to access it, you need to copy it over to Forseti server's
-GCS bucket. Assuming you already have a local copy of your policy library
-repository:
+Your policy library repository specifies the constraints to be enforced. In
+order for Forseti server to access it, you need to copy it over to Forseti
+server's GCS bucket. Assuming you already have a local copy of your policy
+library repository:
 
 ```
 export FORSETI_BUCKET=`terraform output -module=forseti forseti-server-storage-bucket`
@@ -336,8 +336,7 @@ gsutil -m rsync -d -r ${POLICY_LIBRARY_PATH}/policies gs://${FORSETI_BUCKET}/pol
 gsutil -m rsync -d -r ${POLICY_LIBRARY_PATH}/lib gs://${FORSETI_BUCKET}/policy-library/lib
 ```
 
-Example result:
-![GCS Bucket Content](user_guide_bucket.png)
+Example result: ![GCS Bucket Content](user_guide_bucket.png)
 
 After this is done, Forseti will pick up the new policy library content in the
 next scanner run.
@@ -366,8 +365,8 @@ apply the change.
 
 ### How to handle scaling for large resource sets
 
-If you want to scale for large resource sets, you need to add more RAM to
-your server**.** Upgrading the Forseti server VM to n1-standard-4 (15GB of RAM)
+If you want to scale for large resource sets, you need to add more RAM to your
+server**.** Upgrading the Forseti server VM to n1-standard-4 (15GB of RAM)
 should be able to handle most use cases. Depending on the state and size of your
 data, this may trigger a large number of violations. Currently GRPC has a
 payload size limitation of 4MB. If a scanner run results in > 4MB of violation
@@ -528,13 +527,36 @@ This section is only applicable to advanced users who wish to create custom
 constraint templates. If the existing templates are sufficient, you can skip
 this section.
 
-#### Template Naming Convention
+#### Template Authoring Convention
 
-Template names start with "GCP" and end with a version suffix (example: "V1").
+##### Naming
+
+The template name appears in three places in a template YAML file:
+
+*   metadata name: All lower case with "-" as the separator. It has the format
+    of "gcp-<resource>-<feature>-<version>" (example: "gcp-storage-logging-v1").
+*   CRD kind: Camel case. It has the format of
+    "GCP<resource><feature>Constraint<version>" (example:
+    "GCPStorageLoggingConstraintV1").
+*   CRD plural name: Same as CRD kind but in all lower case with the word
+    "constraints" replacing "constraint" (example:
+    "gcpstorageloggingconstraintsv1")
+
+If a template applies to more than one type of resource, omit the resource part
+and only include the feature (example: "GCPExernalIPAccessV1"). The
+configuration YAML file name should take after the metadata name and replace "-"
+with "_" (example: "gcp_storage_logging_v1.yaml").
+
 The version number does not follow semver form - it is just a single number.
-This effectively makes every version of a template an unique template.
-See [Constraint Framework: Versioning](https://docs.google.com/document/d/1vB_2wm60WCVLXoegMrupqwqKAuW6gbwEIxg3vBQj6cs/edit#)
+This effectively makes every version of a template an unique template. See
+[Constraint Framework: Versioning](https://docs.google.com/document/d/1vB_2wm60WCVLXoegMrupqwqKAuW6gbwEIxg3vBQj6cs/edit#)
 for reasons behind this convention.
+
+##### Commentary
+
+Every configuration YAML file should have a summary at the top to describe the
+constraint. In the parameters section, every parameter should have a preceding
+comment to explain what the parameter does.
 
 #### Validate your constraint goals and target resources
 
