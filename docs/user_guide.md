@@ -534,9 +534,9 @@ this section.
 The template name appears in three places in a template YAML file:
 
 *   metadata name: All lower case with "-" as the separator. It has the format
-    of "gcp-<resource>-<feature>-<version>" (example: "gcp-storage-logging-v1").
+    of "gcp-{resource}-{feature}-{version}" (example: "gcp-storage-logging-v1").
 *   CRD kind: Camel case. It has the format of
-    "GCP<resource><feature>Constraint<version>" (example:
+    "GCP{resource}{feature}Constraint{version}" (example:
     "GCPStorageLoggingConstraintV1").
 *   CRD plural name: Same as CRD kind but in all lower case with the word
     "constraints" replacing "constraint" (example:
