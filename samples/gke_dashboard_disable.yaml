@@ -20,7 +20,6 @@ metadata:
     # Example of tying a constraint to a CIS benchmark
     benchmark: GKE_HARDENING_GUIDELINE
 spec:
-  constraintVersion: 0.1.0
   severity: high
   match:
     gcp:

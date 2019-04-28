@@ -16,6 +16,8 @@
 
 package templates.gcp.GKEDashboardConstraintV1
 
+import data.validator.gcp.lib as lib
+
 all_violations[violation] {
 	resource := data.test.fixtures.assets.gke[_]
 	constraint := data.test.fixtures.constraints.disable_gke_dashboard
@@ -26,12 +28,13 @@ all_violations[violation] {
 	violation := issues[_]
 }
 
-# Confirm total violations count
-test_dashboard_disable_violations_count {
-	count(all_violations) == 1
-}
-
 test_dashboard_disable_violations_basic {
+	count(all_violations) == 1
 	violation := all_violations[_]
 	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust"
+}
+
+test_dashboard_disable_no_violation {
+    found_violations = all_violations with data.test.fixtures.assets.gke as []
+	count(found_violations) == 0
 }
