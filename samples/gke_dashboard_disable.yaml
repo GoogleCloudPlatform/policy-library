@@ -17,7 +17,6 @@ kind: GKEDashboardConstraintV1
 metadata:
   name: disable_gke_dashboard
   annotations:
-    # Example of tying a constraint to a CIS benchmark
     benchmark: GKE_HARDENING_GUIDELINE
 spec:
   severity: high
