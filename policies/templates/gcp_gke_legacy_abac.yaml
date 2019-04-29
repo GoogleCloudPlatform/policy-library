@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Check to see if GKE Dashboard is disabled.
+# Check to see if GKE Legacy ABAC is disabled.
 
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
