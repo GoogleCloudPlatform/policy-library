@@ -30,7 +30,7 @@ deny[{
 	enabled := legacy_abac_enabled(container)
 	enabled == true
 
-	message := sprintf("%v has kubernetes legacy ABAC enabled.", [asset.name])
+	message := sprintf("%v has legacy ABAC enabled.", [asset.name])
 	metadata := {"resource": asset.name}
 }
 
