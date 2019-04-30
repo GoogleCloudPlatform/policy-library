@@ -15,7 +15,7 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-iam-allowed-bindings
+  name: gcp-iam-allowed-bindings-v1
 spec:
   crd:
     spec:

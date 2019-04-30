@@ -12,23 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# Check to see if GKE Dashboard is disabled.
+
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-always-violates
+  name: gcp-gke-dashboard-v1
 spec:
   crd:
     spec:
       names:
-        kind: GCPAlwaysViolatesConstraintV1
-        plural: gcpalwaysviolatesconstraintsv1
+        kind: GKEDashboardConstraintV1
+        plural: GKEDashboardConstraintsV1
       validation:
         openAPIV3Schema:
           properties: {}
   targets:
    validation.gcp.forsetisecurity.org:
       rego: |
-           #INLINE("validator/always_violates.rego")
+            #INLINE("validator/gke_dashboard.rego")
            #
            # Copyright 2018 Google LLC
            #
@@ -45,7 +47,7 @@ spec:
            # limitations under the License.
            #
            
-           package templates.gcp.GCPAlwaysViolatesConstraintV1
+           package templates.gcp.GKEDashboardConstraintV1
            
            import data.validator.gcp.lib as lib
            
@@ -54,13 +56,23 @@ spec:
            	"details": metadata,
            }] {
            	constraint := input.constraint
-           	lib.get_constraint_info(constraint, info)
            	asset := input.asset
+           	asset.asset_type == "container.googleapis.com/Cluster"
            
-           	message := sprintf("%v violates on all resources.", [info.name])
-           	metadata := {
-           		"constraint": info,
-           		"asset": asset,
-           	}
+           	container := asset.resource.data
+           	disabled := dashboard_disabled(container)
+           	disabled == false
+           
+           	message := sprintf("%v has kubernetes dashboard enabled.", [asset.name])
+           	metadata := {"resource": asset.name}
+           }
+           
+           ###########################
+           # Rule Utilities
+           ###########################
+           dashboard_disabled(container) = dashboard_disabled {
+           	addons_config := lib.get_default(container, "addonsConfig", "default")
+           	dashboard := lib.get_default(addons_config, "kubernetesDashboard", "default")
+           	dashboard_disabled := lib.get_default(dashboard, "disabled", false)
            }
            #ENDINLINE
