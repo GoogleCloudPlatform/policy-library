@@ -15,7 +15,7 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-iam-allowed-policy-member-domains
+  name: gcp-iam-allowed-policy-member-domains-v1
 spec:
   crd:
     spec:

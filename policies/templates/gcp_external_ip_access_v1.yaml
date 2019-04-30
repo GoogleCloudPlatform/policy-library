@@ -15,7 +15,7 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-external-ip-access
+  name: gcp-external-ip-access-v1
   annotations:
     # Example of tying a template to a CIS benchmark
     benchmark: CIS11_5.03
