@@ -17,7 +17,7 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-gke-legacy-abac
+  name: gcp-gke-legacy-abac-v1
 spec:
   crd:
     spec:
