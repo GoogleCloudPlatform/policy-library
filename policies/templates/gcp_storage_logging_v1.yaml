@@ -15,7 +15,7 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-storage-logging
+  name: gcp-storage-logging-v1
 spec:
   crd:
     spec:
