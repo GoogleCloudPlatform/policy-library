@@ -15,7 +15,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GKELegacyAbacConstraintV1
 metadata:
-  name: disable_gke_dashboard
+  name: disable_gke_legacy_abac
   annotations:
     benchmark: GKE_HARDENING_GUIDELINE
 spec:
