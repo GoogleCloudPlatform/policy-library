@@ -15,7 +15,7 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-network-routing
+  name: gcp-network-routing-v1
 spec:
   crd:
     spec:
