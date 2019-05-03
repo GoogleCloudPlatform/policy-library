@@ -14,13 +14,11 @@
 # limitations under the License.
 #
 
-package templates.gcp.GKEDashboardConstraintV1
-
-import data.validator.gcp.lib as lib
+package templates.gcp.GCPDNSSECConstraintV1
 
 all_violations[violation] {
-	resource := data.test.fixtures.assets.gke[_]
-	constraint := data.test.fixtures.constraints.disable_gke_dashboard
+	resource := data.test.fixtures.assets.dnssec[_]
+	constraint := data.test.fixtures.constraints.require_dnssec
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
@@ -28,13 +26,15 @@ all_violations[violation] {
 	violation := issues[_]
 }
 
-test_dashboard_disable_violations_basic {
-	count(all_violations) == 1
-	violation := all_violations[_]
-	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust"
+# Confirm total violations count
+test_dnssec_violations_count {
+	count(all_violations) == 2
 }
 
-test_dashboard_disable_no_violation {
-	found_violations = all_violations with data.test.fixtures.assets.gke as []
-	count(found_violations) == 0
+test_dnssec_violations_basic {
+        violation_resources := { r | r = all_violations[_].details.resource }
+        violation_resources == {
+                "//dns.googleapis.com/projects/186783260185/managedZones/wrong-off",
+                "//dns.googleapis.com/projects/186783260185/managedZones/wrong-transfer"
+        }
 }
