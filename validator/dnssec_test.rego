@@ -28,10 +28,13 @@ all_violations[violation] {
 
 # Confirm total violations count
 test_dnssec_violations_count {
-	count(all_violations) == 1
+	count(all_violations) == 2
 }
 
 test_dnssec_violations_basic {
-	violation := all_violations[_]
-	violation.details.resource == "//dns.googleapis.com/projects/186783260185/managedZones/wrong"
+        violation_resources := { r | r = all_violations[_].details.resource }
+        violation_resources == {
+                "//dns.googleapis.com/projects/186783260185/managedZones/wrong-off",
+                "//dns.googleapis.com/projects/186783260185/managedZones/wrong-transfer"
+        }
 }

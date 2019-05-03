@@ -35,6 +35,6 @@ test_dashboard_disable_violations_basic {
 }
 
 test_dashboard_disable_no_violation {
-    found_violations = all_violations with data.test.fixtures.assets.gke as []
+	found_violations = all_violations with data.test.fixtures.assets.gke as []
 	count(found_violations) == 0
 }

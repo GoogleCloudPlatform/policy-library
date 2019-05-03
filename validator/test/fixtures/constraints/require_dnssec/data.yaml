@@ -17,7 +17,6 @@ kind: GCPDNSSECEnabledConstraintV1
 metadata:
   name: require_dnssec
 spec:
-  constraintVersion: 0.1.0
   severity: high
   match:
     gcp:
