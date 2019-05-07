@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPCloudSQLSSLV1
+package templates.gcp.GCPSQLSSLV1
 
 import data.validator.gcp.lib as lib
 

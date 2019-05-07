@@ -14,10 +14,11 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPCloudSQLSSLV1
+package templates.gcp.GCPSQLSSLV1
 
 all_violations[violation] {
 	resource := data.test.fixtures.assets.cloudsql[_]
+	constraint := data.test.fixtures.constraints.require_sql_ssl
 
 	issues := deny with input.asset as resource
 
@@ -25,11 +26,11 @@ all_violations[violation] {
 }
 
 # Confirm total violations count
-test_cloudsql_ssl_violations_count {
+test_sql_ssl_violations_count {
 	count(all_violations) == 1
 }
 
-test_cloudsql_ssl_violations_basic {
+test_sql_ssl_violations_basic {
 	violation := all_violations[_]
 	violation.details.resource == "//sqladmin.googleapis.com/my-cloudsql"
 }

@@ -15,7 +15,7 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-cloudsql-ssl-v1
+  name: gcp-sql-ssl-v1
   annotations:
     # Example of tying a template to a CIS benchmark
     benchmark: CIS11_5.03
@@ -23,15 +23,15 @@ spec:
   crd:
     spec:
       names:
-        kind: GCPCloudSQLSSLConstraintV1
-        plural: gcpcloudsqlsslconstraintsv1
+        kind: GCPSQLSSLConstraintV1
+        plural: gcpsqlsslconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}
   targets:
    validation.gcp.forsetisecurity.org:
       rego: |
-            #INLINE("validator/cloudsql_ssl.rego")
+            #INLINE("validator/sql_ssl.rego")
 
             #
 
@@ -65,7 +65,7 @@ spec:
 
             
 
-            package templates.gcp.GCPCloudSQLSSLV1
+            package templates.gcp.GCPSQLSSLV1
 
             
 
