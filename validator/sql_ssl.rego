@@ -26,6 +26,6 @@ deny[{
 	asset.asset_type == "sqladmin.googleapis.com/Instance"
 	asset.resource.settings.ipConfiguration.requireSsl == false
 
-	message := sprintf("%v does not have SSL enabled for incoming traffic", [asset.name])
+	message := sprintf("%v does not require SSL", [asset.name])
 	metadata := {"resource": asset.name}
 }

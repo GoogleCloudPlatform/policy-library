@@ -16,9 +16,6 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPSQLSSLConstraintV1
 metadata:
   name: require_sql_ssl
-  annotations:
-    # Example of tying a constraint to a CIS benchmark
-    benchmark: CIS11_5.03
 spec:
   constraintVersion: 0.1.0
   severity: high

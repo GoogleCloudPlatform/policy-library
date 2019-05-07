@@ -16,9 +16,6 @@ apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
   name: gcp-sql-ssl-v1
-  annotations:
-    # Example of tying a template to a CIS benchmark
-    benchmark: CIS11_5.03
 spec:
   crd:
     spec:
@@ -89,7 +86,7 @@ spec:
 
             
 
-            	message := sprintf("%v does not have SSL enabled for incoming traffic", [asset.name])
+            	message := sprintf("%v does not require SSL", [asset.name])
 
             	metadata := {"resource": asset.name}
 

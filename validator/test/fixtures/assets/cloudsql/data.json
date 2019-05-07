@@ -1,60 +1,5 @@
 [{
-  "name": "//sqladmin.googleapis.com/my-cloudsql",
-  "asset_type": "sqladmin.googleapis.com/Instance",
-  "resource": {
-    "settings": {
-      "ipConfiguration": {
-        "requireSsl": false
-      }
-    }
-  }
-},
-{
-  "name": "//sqladmin.googleapis.com/my-cloudsql2",
-  "asset_type": "sqladmin.googleapis.com/Instance",
-  "resource": {
-    "settings": {
-      "ipConfiguration": {
-        "requireSsl": true
-      }
-    }
-  }
-},
-{
-  "name": "//cloudsql.googleapis.com/projects/test1",
-  "asset_type": "sqladmin.googleapis.com/Instance",
-  "resource": {
-      "settings": {
-        "activationPolicy": "ALWAYS",
-        "backupConfiguration": {
-          "binaryLogEnabled": true,
-          "enabled": true,
-          "kind": "sql#backupConfiguration",
-          "startTime": "22:00"
-        },
-        "dataDiskSizeGb": "25",
-        "dataDiskType": "PD_SSD",
-        "ipConfiguration": {
-          "ipv4Enabled": true,
-          "requireSsl": true
-        },
-        "kind": "sql#settings",
-        "locationPreference": {
-          "kind": "sql#locationPreference",
-          "zone": "us-central1-b"
-        },
-        "pricingPlan": "PER_USE",
-        "replicationType": "SYNCHRONOUS",
-        "settingsVersion": "28",
-        "storageAutoResize": true,
-        "storageAutoResizeLimit": "0",
-        "tier": "db-n1-standard-1"
-      },
-      "state": "RUNNABLE"
-    }
-  },
-{
-  "name": "//cloudsql.googleapis.com/projects/noble-history-87417/instances/galu",
+  "name": "//cloudsql.googleapis.com/projects/noble-history-87417/instances/not-require-sql-ssl",
   "asset_type": "sqladmin.googleapis.com/Instance",
   "resource": {
       "settings": {
@@ -68,7 +13,8 @@
         "dataDiskSizeGb": "50",
         "dataDiskType": "PD_SSD",
         "ipConfiguration": {
-          "ipv4Enabled": true
+          "ipv4Enabled": true,
+          "requireSsl": false
         },
         "kind": "sql#settings",
         "locationPreference": {
@@ -89,9 +35,9 @@
       },
       "state": "RUNNABLE"
     }
-  },
+},
 {
-  "name": "//cloudsql.googleapis.com/projects/noble-history-87417/instances/five7-copy-clone",
+  "name": "//cloudsql.googleapis.com/projects/noble-history-87417/instances/require-sql-ssl",
   "asset_type": "sqladmin.googleapis.com/Instance",
   "resource": {
       "settings": {
@@ -148,38 +94,4 @@
       },
       "state": "RUNNABLE"
     }
-  },
-{
-  "name": "//cloudsql.googleapis.com/projects/noble-history-87417/instances/galu-failover",
-  "asset_type": "sqladmin.googleapis.com/Instance",
-  "resource": {
-      "settings": {
-        "activationPolicy": "ALWAYS",
-        "backupConfiguration": {
-          "enabled": false,
-          "kind": "sql#backupConfiguration",
-          "startTime": "02:00"
-        },
-        "crashSafeReplicationEnabled": true,
-        "dataDiskSizeGb": "50",
-        "dataDiskType": "PD_SSD",
-        "databaseReplicationEnabled": true,
-        "ipConfiguration": {
-          "ipv4Enabled": true
-        },
-        "kind": "sql#settings",
-        "locationPreference": {
-          "kind": "sql#locationPreference",
-          "zone": "us-central1-f"
-        },
-        "pricingPlan": "PER_USE",
-        "replicationType": "SYNCHRONOUS",
-        "settingsVersion": "34",
-        "storageAutoResize": true,
-        "storageAutoResizeLimit": "0",
-        "tier": "db-n1-standard-1"
-      },
-      "state": "RUNNABLE"
-    }
-  }
-]
+}]

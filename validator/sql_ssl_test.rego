@@ -32,5 +32,5 @@ test_sql_ssl_violations_count {
 
 test_sql_ssl_violations_basic {
 	violation := all_violations[_]
-	violation.details.resource == "//sqladmin.googleapis.com/my-cloudsql"
+	violation.details.resource == "//cloudsql.googleapis.com/projects/noble-history-87417/instances/not-require-sql-ssl"
 }
