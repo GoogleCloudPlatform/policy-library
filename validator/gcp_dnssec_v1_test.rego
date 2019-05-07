@@ -32,9 +32,9 @@ test_dnssec_violations_count {
 }
 
 test_dnssec_violations_basic {
-        violation_resources := { r | r = all_violations[_].details.resource }
-        violation_resources == {
-                "//dns.googleapis.com/projects/186783260185/managedZones/wrong-off",
-                "//dns.googleapis.com/projects/186783260185/managedZones/wrong-transfer"
-        }
+	violation_resources := {r | r = all_violations[_].details.resource}
+	violation_resources == {
+		"//dns.googleapis.com/projects/186783260185/managedZones/wrong-off",
+		"//dns.googleapis.com/projects/186783260185/managedZones/wrong-transfer",
+	}
 }

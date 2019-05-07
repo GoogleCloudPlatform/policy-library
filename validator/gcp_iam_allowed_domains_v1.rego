@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPIAMAllowedPolicyMemberDomainsConstraintV1
+package templates.gcp.GCPIAMAllowedDomainsConstraintV1
 
 import data.validator.gcp.lib as lib
 

@@ -28,7 +28,7 @@ spec:
   targets:
    validation.gcp.forsetisecurity.org:
       rego: |
-           #INLINE("validator/always_violates.rego")
+           #INLINE("validator/gcp_always_violates_v1.rego")
            #
            # Copyright 2018 Google LLC
            #

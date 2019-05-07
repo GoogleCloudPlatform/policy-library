@@ -41,7 +41,7 @@ spec:
   targets:
    validation.gcp.forsetisecurity.org:
       rego: |
-          #INLINE("validator/iam_allowed_bindings.rego")
+          #INLINE("validator/gcp_iam_allowed_bindings_v1.rego")
           #
           # Copyright 2019 Google LLC
           #

@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPIAMAllowedPolicyMemberDomainsConstraintV1
+package templates.gcp.GCPIAMAllowedDomainsConstraintV1
 
 import data.test.fixtures.assets.projects_iam as fixture_assets
 import data.test.fixtures.constraints as fixture_constraints

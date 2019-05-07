@@ -30,7 +30,7 @@ spec:
   targets:
     validation.gcp.forsetisecurity.org:
       rego: |
-            #INLINE("validator/network_routing.rego")
+            #INLINE("validator/gcp_network_routing_v1.rego")
             #
             # Copyright 2018 Google LLC
             #

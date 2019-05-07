@@ -15,13 +15,13 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-iam-allowed-policy-member-domains-v1
+  name: gcp-iam-allowed-domains-v1
 spec:
   crd:
     spec:
       names:
-        kind: GCPIAMAllowedPolicyMemberDomainsConstraintV1
-        plural: gcpiamallowedpolicymemberdomainsconstraintsv1
+        kind: GCPIAMAllowedDomainsConstraintV1
+        plural: gcpiamalloweddomainsconstraintsv1
       validation:
         openAPIV3Schema:
           properties:
@@ -49,7 +49,7 @@ spec:
   targets:
    validation.gcp.forsetisecurity.org:
       rego: |
-           #INLINE("validator/iam_allowed_policy_member_domains.rego")
+           #INLINE("validator/gcp_iam_allowed_domains_v1.rego")
            #
            # Copyright 2019 Google LLC
            #
@@ -66,7 +66,7 @@ spec:
            # limitations under the License.
            #
            
-           package templates.gcp.GCPIAMAllowedPolicyMemberDomainsConstraintV1
+           package templates.gcp.GCPIAMAllowedDomainsConstraintV1
            
            import data.validator.gcp.lib as lib
            

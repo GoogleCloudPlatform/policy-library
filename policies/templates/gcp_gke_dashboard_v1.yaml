@@ -30,7 +30,7 @@ spec:
   targets:
     validation.gcp.forsetisecurity.org:
       rego: |
-        #INLINE("validator/gke_dashboard.rego")
+        #INLINE("validator/gcp_gke_dashboard_v1.rego")
         #
         # Copyright 2018 Google LLC
         #
@@ -46,33 +46,33 @@ spec:
         # See the License for the specific language governing permissions and
         # limitations under the License.
         #
-
+        
         package templates.gcp.GKEDashboardConstraintV1
-
+        
         import data.validator.gcp.lib as lib
-
+        
         deny[{
-        "msg": message,
-        "details": metadata,
+        	"msg": message,
+        	"details": metadata,
         }] {
-        constraint := input.constraint
-        asset := input.asset
-        asset.asset_type == "container.googleapis.com/Cluster"
-
-        container := asset.resource.data
-        disabled := dashboard_disabled(container)
-        disabled == false
-
-        message := sprintf("%v has kubernetes dashboard enabled.", [asset.name])
-        metadata := {"resource": asset.name}
+        	constraint := input.constraint
+        	asset := input.asset
+        	asset.asset_type == "container.googleapis.com/Cluster"
+        
+        	container := asset.resource.data
+        	disabled := dashboard_disabled(container)
+        	disabled == false
+        
+        	message := sprintf("%v has kubernetes dashboard enabled.", [asset.name])
+        	metadata := {"resource": asset.name}
         }
-
+        
         ###########################
         # Rule Utilities
         ###########################
         dashboard_disabled(container) = dashboard_disabled {
-        addons_config := lib.get_default(container, "addonsConfig", "default")
-        dashboard := lib.get_default(addons_config, "kubernetesDashboard", "default")
-        dashboard_disabled := lib.get_default(dashboard, "disabled", false)
+        	addons_config := lib.get_default(container, "addonsConfig", "default")
+        	dashboard := lib.get_default(addons_config, "kubernetesDashboard", "default")
+        	dashboard_disabled := lib.get_default(dashboard, "disabled", false)
         }
         #ENDINLINE
