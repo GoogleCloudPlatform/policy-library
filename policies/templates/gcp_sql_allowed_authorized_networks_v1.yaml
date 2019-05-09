@@ -27,7 +27,7 @@ spec:
           properties:
             authorized_networks:
               description: "Networks that can be used as authorized networks
-                Cloud SQL instances. Network IPs need to match exactly.
+                for Cloud SQL instances. Network IPs need to match exactly.
                 
                 If no authorized_networks are specified, no authorized
                 networks can be configured on the Cloud SQL instances and
