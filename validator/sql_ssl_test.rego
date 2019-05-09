@@ -34,7 +34,6 @@ all_violations[violation] {
 
 # Confirm total violations count
 test_sql_ssl_violations_count {
-	trace(sprintf("Violations: %d", [count(all_violations)]))
 	count(all_violations) == 1
 }
 
