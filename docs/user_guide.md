@@ -542,6 +542,10 @@ The template name appears in three places in a template YAML file:
     as CRD kind but in all lower case with the word "constraints" replacing
     "constraint" (example: "gcpstorageloggingconstraintsv1")
 
+Wherever possible, follow [gcloud](https://cloud.google.com/sdk/gcloud/) group
+names for resource naming. For example, use "compute" instead of "gce", "sql"
+instead of "cloud-sql", and "container-cluster" instead of "gke".
+
 If a template applies to more than one type of resource, omit the resource part
 and only include the feature (example: "GCPExernalIPAccessV1").
 

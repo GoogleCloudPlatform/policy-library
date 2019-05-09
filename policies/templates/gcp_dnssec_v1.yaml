@@ -12,25 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Check to see if GKE Dashboard is disabled.
-
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-gke-dashboard-v1
+  name: gcp-dnssec-v1
 spec:
   crd:
     spec:
       names:
-        kind: GKEDashboardConstraintV1
-        plural: GKEDashboardConstraintsV1
+        kind: GCPDNSSECConstraintV1
+        plural: gcpdnssecconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}
   targets:
     validation.gcp.forsetisecurity.org:
       rego: |
-        #INLINE("validator/gke_dashboard.rego")
+        #INLINE("validator/dnssec.rego")
         #
         # Copyright 2018 Google LLC
         #
@@ -47,7 +45,7 @@ spec:
         # limitations under the License.
         #
         
-        package templates.gcp.GKEDashboardConstraintV1
+        package templates.gcp.GCPDNSSECConstraintV1
         
         import data.validator.gcp.lib as lib
         
@@ -57,22 +55,11 @@ spec:
         }] {
         	constraint := input.constraint
         	asset := input.asset
-        	asset.asset_type == "container.googleapis.com/Cluster"
+        	asset.asset_type == "dns.googleapis.com/ManagedZone"
         
-        	container := asset.resource.data
-        	disabled := dashboard_disabled(container)
-        	disabled == false
+        	asset.resource.data.dnssecConfig.state != "ON"
         
-        	message := sprintf("%v has kubernetes dashboard enabled.", [asset.name])
+        	message := sprintf("%v: DNSSEC is not enabled.", [asset.name])
         	metadata := {"resource": asset.name}
-        }
-        
-        ###########################
-        # Rule Utilities
-        ###########################
-        dashboard_disabled(container) = dashboard_disabled {
-        	addons_config := lib.get_default(container, "addonsConfig", "default")
-        	dashboard := lib.get_default(addons_config, "kubernetesDashboard", "default")
-        	dashboard_disabled := lib.get_default(dashboard, "disabled", false)
         }
         #ENDINLINE
