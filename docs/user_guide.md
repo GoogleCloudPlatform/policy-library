@@ -2,7 +2,7 @@
 
 ### Go from setup to proof-of-concept in under 1 hour
 
-*Table of Contents*
+**Table of Contents**
 
 * [Overview](#overview)
 * [How to set up constraints with Policy Library](#how-to-set-up-constraints-with-policy-library)

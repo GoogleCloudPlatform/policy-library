@@ -3,7 +3,7 @@
 This document is for advanced users who wish to create custom constraint
 templates.
 
-*Table of Contents*
+**Table of Contents**
 
 * [Template Authoring Convention](#template-authoring-convention)
   * [Naming](#naming)
