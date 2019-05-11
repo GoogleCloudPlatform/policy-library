@@ -38,6 +38,6 @@ deny[{
 # Rule Utilities
 ###########################
 legacy_abac_enabled(container) = legacy_abac_enabled {
-	legacy_abac := lib.get_default(container, "legacyAbac", "default")
+	legacy_abac := lib.get_default(container, "legacyAbac", {})
 	legacy_abac_enabled := lib.get_default(legacy_abac, "enabled", false)
 }
