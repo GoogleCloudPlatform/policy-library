@@ -3,9 +3,23 @@
 This document is for advanced users who wish to create custom constraint
 templates.
 
-#### Template Authoring Convention
+Table of Contents
+=================
 
-##### Naming
+  * [Template Authoring Convention](#template-authoring-convention)
+            * [Naming](#naming)
+            * [Commentary](#commentary)
+         * [Validate your constraint goals and target resources](#validate-your-constraint-goals-and-target-resources)
+         * [Gather sample resource data](#gather-sample-resource-data)
+         * [Write Rego rule for constraint template](#write-rego-rule-for-constraint-template)
+         * [Write constraint and resource fixtures for your constraint template](#write-constraint-and-resource-fixtures-for-your-constraint-template)
+         * [Write Rego tests for your rule](#write-rego-tests-for-your-rule)
+         * [Create constraint template YAML definition](#create-constraint-template-yaml-definition)
+         * [Contact Info](#contact-info)
+
+### Template Authoring Convention
+
+#### Naming
 
 The template name appears in three places in a template YAML file:
 
@@ -33,14 +47,14 @@ for reasons behind this convention.
 The configuration YAML file name should take after the metadata name and replace
 "-" with "_" (example: "gcp_storage_logging_v1.yaml").
 
-##### Commentary
+#### Commentary
 
 Every configuration YAML file should have a summary at the top to describe the
 constraint. In the parameters section, every parameter should include a
 [description](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#properties)
 field to explain what the parameter does.
 
-#### Validate your constraint goals and target resources
+### Validate your constraint goals and target resources
 
 Before beginning to develop your constraint template, you should write a
 concrete definition of your goals in plain language. In writing this definition,
@@ -53,7 +67,7 @@ For example:
 The External IP Access Constraint will scan GCP VM instances and validate that the Access Config of their network interface does not include an external IP address.
 ```
 
-#### Gather sample resource data
+### Gather sample resource data
 
 Before proceeding to develop your template, you should verify that Cloud Asset
 Inventory
@@ -105,7 +119,7 @@ assigned to the VM.
 ]
 ```
 
-#### Write Rego rule for constraint template
+### Write Rego rule for constraint template
 
 In order to develop a constraint template, you must develop a Rego rule to back
 it. Before you begin, read about
@@ -178,7 +192,7 @@ target_instance_match_count(mode) = 1 {
 }
 ```
 
-#### Write constraint and resource fixtures for your constraint template
+### Write constraint and resource fixtures for your constraint template
 
 To test your rule, create fixtures of the expected resources and constraints
 leveraging your rule. To implement your test cases, gather resource fixtures
@@ -209,7 +223,7 @@ The rule above says that the external IP constraint applies to all
 organizations, but the GCE instance `vm-external-ip` under `test-project` in
 `us-east1-b` is exempt.
 
-#### Write Rego tests for your rule
+### Write Rego tests for your rule
 
 As you develop your constraint template, implement test cases that ensure your
 logic doesn't break over time. Open Policy Agent allows you to
@@ -260,7 +274,7 @@ test_external_whitelist_ip_violates_one {
 
 ```
 
-#### Create constraint template YAML definition
+### Create constraint template YAML definition
 
 Once you have a working Rego rule, you are ready to package it into a constraint
 template. You can do this by writing a YAML file which defines the expected
@@ -304,6 +318,6 @@ The Rego rule is supposed to be inlined in the YAML file. To do that, run `make
 build`. That will format the rego rules and inline them in the YAML files under
 the `#INLINE` directive.
 
-## Contact Info
+### Contact Info
 
 Questions or comments? Please contact validator-support@google.com.
