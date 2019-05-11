@@ -4,18 +4,17 @@ This document is for advanced users who wish to create custom constraint
 templates.
 
 Table of Contents
-=================
 
-  * [Template Authoring Convention](#template-authoring-convention)
-            * [Naming](#naming)
-            * [Commentary](#commentary)
-         * [Validate your constraint goals and target resources](#validate-your-constraint-goals-and-target-resources)
-         * [Gather sample resource data](#gather-sample-resource-data)
-         * [Write Rego rule for constraint template](#write-rego-rule-for-constraint-template)
-         * [Write constraint and resource fixtures for your constraint template](#write-constraint-and-resource-fixtures-for-your-constraint-template)
-         * [Write Rego tests for your rule](#write-rego-tests-for-your-rule)
-         * [Create constraint template YAML definition](#create-constraint-template-yaml-definition)
-         * [Contact Info](#contact-info)
+* [Template Authoring Convention](#template-authoring-convention)
+  * [Naming](#naming)
+  * [Commentary](#commentary)
+* [Validate your constraint goals and target resources](#validate-your-constraint-goals-and-target-resources)
+* [Gather sample resource data](#gather-sample-resource-data)
+* [Write Rego rule for constraint template](#write-rego-rule-for-constraint-template)
+* [Write constraint and resource fixtures for your constraint template](#write-constraint-and-resource-fixtures-for-your-constraint-template)
+* [Write Rego tests for your rule](#write-rego-tests-for-your-rule)
+* [Create constraint template YAML definition](#create-constraint-template-yaml-definition)
+* [Contact Info](#contact-info)
 
 ### Template Authoring Convention
 

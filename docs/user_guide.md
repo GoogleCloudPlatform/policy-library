@@ -1,26 +1,26 @@
 ## Config Validator | Setup & User Guide
 
+### Go from setup to proof-of-concept in under 1 hour
+
 Table of Contents
 =================
 
-      * [Overview](#overview)
-      * [How to set up constraints with Policy Library](#how-to-set-up-constraints-with-policy-library)
-         * [Get started with the Policy Library repository](#get-started-with-the-policy-library-repository)
-         * [Instantiate constraints](#instantiate-constraints)
-      * [How to use Terraform Validator](#how-to-use-terraform-validator)
-         * [Install Terraform Validator](#install-terraform-validator)
-         * [For local development environments](#for-local-development-environments)
-         * [For Production Environments](#for-production-environments)
-      * [How to Use Forseti Config Validator](#how-to-use-forseti-config-validator)
-         * [Install Forseti](#install-forseti)
-         * [Copy over policy library repository](#copy-over-policy-library-repository)
-         * [How to change the run frequency of Forseti](#how-to-change-the-run-frequency-of-forseti)
-         * [How to handle scaling for large resource sets](#how-to-handle-scaling-for-large-resource-sets)
-         * [How to connect violation results with Cloud Security Command Center (CSCC)](#how-to-connect-violation-results-with-cloud-security-command-center-cscc)
-      * [End to end workflow with sample constraint](#end-to-end-workflow-with-sample-constraint)
-      * [Contact Info](#contact-info)
-
-### Go from setup to proof-of-concept in under 1 hour
+* [Overview](#overview)
+* [How to set up constraints with Policy Library](#how-to-set-up-constraints-with-policy-library)
+  * [Get started with the Policy Library repository](#get-started-with-the-policy-library-repository)
+  * [Instantiate constraints](#instantiate-constraints)
+* [How to use Terraform Validator](#how-to-use-terraform-validator)
+  * [Install Terraform Validator](#install-terraform-validator)
+  * [For local development environments](#for-local-development-environments)
+  * [For Production Environments](#for-production-environments)
+* [How to Use Forseti Config Validator](#how-to-use-forseti-config-validator)
+  * [Install Forseti](#install-forseti)
+  * [Copy over policy library repository](#copy-over-policy-library-repository)
+  * [How to change the run frequency of Forseti](#how-to-change-the-run-frequency-of-forseti)
+  * [How to handle scaling for large resource sets](#how-to-handle-scaling-for-large-resource-sets)
+  * [How to connect violation results with Cloud Security Command Center (CSCC)](#how-to-connect-violation-results-with-cloud-security-command-center-cscc)
+* [End to end workflow with sample constraint](#end-to-end-workflow-with-sample-constraint)
+* [Contact Info](#contact-info)
 
 ## Overview
 
