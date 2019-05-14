@@ -17,18 +17,11 @@
 package templates.gcp.GCPSQLSSLV1
 
 all_violations[violation] {
-	# Selecting only the Cloud SQL resources relevant for this test
-	resource_list := [test_data |
-		fixture_data := data.test.fixtures.assets.cloudsql[_]
-		startswith(fixture_data.name, "//cloudsql.googleapis.com/projects/noble-history-87417/instances/sql-ssl")
-		test_data := fixture_data
-	]
-
-	resource := resource_list[_]
-
+	resource := data.test.fixtures.assets.sql_ssl[_]
 	constraint := data.test.fixtures.constraints.require_sql_ssl
 
 	issues := deny with input.asset as resource
+
 	violation := issues[_]
 }
 
@@ -39,5 +32,5 @@ test_sql_ssl_violations_count {
 
 test_sql_ssl_violations_basic {
 	violation := all_violations[_]
-	violation.details.resource == "//cloudsql.googleapis.com/projects/noble-history-87417/instances/sql-ssl-not-required"
+	violation.details.resource == "//cloudsql.googleapis.com/projects/noble-history-87417/instances/not-require-sql-ssl"
 }

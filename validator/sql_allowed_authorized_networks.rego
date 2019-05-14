@@ -29,13 +29,14 @@ deny[{
 	asset.asset_type == "sqladmin.googleapis.com/Instance"
 
 	allowed_authorized_networks = lib.get_default(params, "authorized_networks", [])
-	matched_networks := [net |
-		net = asset.resource.settings.ipConfiguration.authorizedNetworks[_].value
+	configured_networks := { net | net = asset.resource.settings.ipConfiguration.authorizedNetworks[_].value }
+        matched_networks := { net |
+		net = configured_networks[_]
 		net == allowed_authorized_networks[_]
-	]
+	}
+        forbitten := configured_networks - matched_networks
+	count(forbitten) > 0
 
-	count(matched_networks) < count(asset.resource.settings.ipConfiguration.authorizedNetworks)
-
-	message := sprintf("%v has authorized networks that are not allowed", [asset.name])
+	message := sprintf("%v has authorized networks that are not allowed: %v", [asset.name, forbitten])
 	metadata := {"resource": asset.name}
 }

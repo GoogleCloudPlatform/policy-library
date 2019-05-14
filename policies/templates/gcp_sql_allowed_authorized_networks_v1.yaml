@@ -28,10 +28,11 @@ spec:
             authorized_networks:
               description: "Networks that can be used as authorized networks
                 for Cloud SQL instances. Network IPs need to match exactly.
-                
-                If no authorized_networks are specified, no authorized
-                networks can be configured on the Cloud SQL instances and
-                all connections need to be mediated by Cloud SQL Proxy."
+                For example, 199.27.25.0/24.
+
+                If no authorized_networks are specified in the constraint,
+                all connections to instances need to be mediated by the Cloud
+                SQL Proxy."
               type: array
               items: string
 
