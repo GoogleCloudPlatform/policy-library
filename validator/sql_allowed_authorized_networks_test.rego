@@ -43,3 +43,10 @@ test_sql_allowed_authorized_networks_whitelist {
 
 	count(violations) == 0
 }
+
+test_sql_allowed_authorized_networks_subnet {
+	constraints := [fixture_constraints.sql_allowed_authorized_networks_subnet]
+	violations := find_violations with data.test_constraints as constraints
+
+	count(violations) == 0
+}
