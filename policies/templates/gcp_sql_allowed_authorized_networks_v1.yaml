@@ -72,14 +72,19 @@ spec:
            	asset.asset_type == "sqladmin.googleapis.com/Instance"
            
            	allowed_authorized_networks = lib.get_default(params, "authorized_networks", [])
-           	matched_networks := [net |
-           		net = asset.resource.settings.ipConfiguration.authorizedNetworks[_].value
-           		net == allowed_authorized_networks[_]
-           	]
+           	configured_networks := {network |
+           		network = asset.resource.settings.ipConfiguration.authorizedNetworks[_].value
+           	}
            
-           	count(matched_networks) < count(asset.resource.settings.ipConfiguration.authorizedNetworks)
+           	matched_networks := {network |
+           		network = configured_networks[_]
+           		net.cidr_contains(allowed_authorized_networks[_], network)
+           	}
            
-           	message := sprintf("%v has authorized networks that are not allowed", [asset.name])
+           	forbidden := configured_networks - matched_networks
+           	count(forbidden) > 0
+           
+           	message := sprintf("%v has authorized networks that are not allowed: %v", [asset.name, forbidden])
            	metadata := {"resource": asset.name}
            }
            #ENDINLINE
