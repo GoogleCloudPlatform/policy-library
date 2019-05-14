@@ -6,7 +6,8 @@ For information on setting up Config Validator to secure your environment, see t
 
 ## Developing a Constraint
 
-Constraint development is documented in the [User Guide](./docs/user_guide.md).
+If this library doesn't contain a constraint that matches your use case, you can develop a new one
+using the [Constraint Template Authoring Guide](./docs/constraint_template_authoring.md).
 
 ### Available Commands
 
