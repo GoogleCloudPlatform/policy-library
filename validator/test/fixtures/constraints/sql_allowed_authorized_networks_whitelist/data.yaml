@@ -22,4 +22,4 @@ spec:
     gcp:
       target: ["organization/*"]
   parameters:
-    authorized_networks: ["35.187.118.181"]
+    authorized_networks: ["35.187.118.0/24"]

@@ -20,8 +20,8 @@ import data.test.fixtures.constraints as fixture_constraints
 
 # Find all violations of data.test_constraints.
 find_violations[violation] {
-        resource := data.test.fixtures.assets.sql_allowed_authorized_networks[_]
-        constraint := data.test_constraints[_]
+	resource := data.test.fixtures.assets.sql_allowed_authorized_networks[_]
+	constraint := data.test_constraints[_]
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
 

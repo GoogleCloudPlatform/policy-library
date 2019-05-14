@@ -26,13 +26,14 @@ spec:
         openAPIV3Schema:
           properties:
             authorized_networks:
-              description: "Networks that can be used as authorized networks
-                for Cloud SQL instances. Network IPs need to match exactly.
-                For example, 199.27.25.0/24.
-
-                If no authorized_networks are specified in the constraint,
-                all connections to instances need to be mediated by the Cloud
-                SQL Proxy."
+              description: "Networks CIDR that can be used as authorized
+                networks for Cloud SQL instances. For example, 199.27.25.0/24.
+                
+                The authorized networks specified in the instance need to
+                match or be a subnetwork of the ones specified in this
+                constraint. If no authorized_networks are specified in the
+                constraint, all connections to instances need to be mediated
+                by the Cloud SQL Proxy."
               type: array
               items: string
 
