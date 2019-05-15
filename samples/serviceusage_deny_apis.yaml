@@ -13,5 +13,5 @@ spec:
     mode: deny
     services:
     - "cloudvision.googleapis.com"
-    - "translate.googleapis.como"
+    - "translate.googleapis.com"
 
