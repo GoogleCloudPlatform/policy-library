@@ -1,7 +1,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPServiceUsageConstraintV1
 metadata:
-  name: disallow cloud vision API
+  name: disallow_cloudvision
   # annotations:
   #   description: Prevent public users from having access to resources via IAM
 spec:
