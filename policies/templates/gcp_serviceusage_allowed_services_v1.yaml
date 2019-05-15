@@ -74,7 +74,7 @@ spec:
          	mode := lib.get_default(params, "mode", "allow")
          
          	state == "ENABLED"
-         	matches_found = [m | m = params.services[_]; glob.match(m, [], service)]
+         	matches_found = [m | m = params.services[_]; m == service]
          	target_match_count(mode, desired_count)
          	count(matches_found) != desired_count
          
