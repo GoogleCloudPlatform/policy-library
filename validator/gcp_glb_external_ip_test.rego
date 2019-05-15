@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GLBExternalIpAccessConstraintV1
+package templates.gcp.GCPGLBExternalIpAccessConstraintV1
 
 import data.test.fixtures.assets.glb as fixture_instances
 import data.test.fixtures.constraints as fixture_constraints
