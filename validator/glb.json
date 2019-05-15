@@ -1,0 +1,24 @@
+{
+    "name": "//compute.googleapis.com/projects/kubeflow-ma/global/forwardingRules/ext-ip",
+    "asset_type": "compute.googleapis.com/GlobalForwardingRule",
+    "resource": {
+        "version": "v1",
+        "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+        "discovery_name": "GlobalForwardingRule",
+        "parent": "//cloudresourcemanager.googleapis.com/projects/627072082641",
+        "data": {
+            "creationTimestamp": "2019-02-27T09:12:12.910-08:00",
+            "description": "",
+            "id": "2807208141737654787",
+            "ipAddress": "34.95.94.176",
+            "ipProtocol": "TCP",
+            "ipVersion": "IPV4",
+            "loadBalancingScheme": "EXTERNAL",
+            "name": "ext-ip",
+            "networkTier": "PREMIUM",
+            "portRange": "80-80",
+            "selfLink": "https://www.googleapis.com/compute/v1/projects/kubeflow-ma/global/forwardingRules/ext-ip",
+            "target": "https://www.googleapis.com/compute/v1/projects/kubeflow-ma/global/targetHttpProxies/test-noip-target-proxy"
+        }
+    }
+}
