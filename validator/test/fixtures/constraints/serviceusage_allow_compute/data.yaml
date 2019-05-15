@@ -10,6 +10,6 @@ spec:
     target: ["organization/*"]
     exclude: [] # optional, default is no exclusions
   parameters:
-    mode: allowed
+    mode: allow
     services:
     - "compute.googleapis.com"

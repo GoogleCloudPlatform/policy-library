@@ -32,14 +32,14 @@ deny[{
 	state := service_usage.state
 	service := extract_service(service_usage.name)
 
-	mode := lib.get_default(params, "mode", "allowed")
+	mode := lib.get_default(params, "mode", "allow")
 
 	state == "ENABLED"
 	matches_found = [m | m = params.services[_]; glob.match(m, [], service)]
 	target_match_count(mode, desired_count)
 	count(matches_found) != desired_count
 
-	message := sprintf("%v is violates a service constraint", [asset.name])
+	message := sprintf("%v violates a service constraint", [asset.name])
 	metadata := {
 		"resource": asset.name,
 		"mode": mode,
@@ -57,9 +57,9 @@ extract_service(name) = service {
 }
 
 target_match_count(mode) = 0 {
-	mode == "disallowed"
+	mode == "deny"
 }
 
 target_match_count(mode) = 1 {
-	mode == "allowed"
+	mode == "allow"
 }

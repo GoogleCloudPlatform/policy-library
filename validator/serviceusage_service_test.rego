@@ -26,9 +26,9 @@ all_violations_allow[violation] {
 	violation := issues[_]
 }
 
-all_violations_disallow[violation] {
+all_violations_deny[violation] {
 	resource := data.test.fixtures.assets.service_usage_services[_]
-	constraint := data.test.fixtures.constraints.serviceusage_disallow_cloudvisionapi
+	constraint := data.test.fixtures.constraints.serviceusage_deny_cloudvisionapi
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
@@ -45,17 +45,17 @@ test_serviceusage_allow_violations_count {
 test_serviceusage_allow_violations_basic {
 	violation := all_violations_allow[_]
 	violation.details.resource == "//serviceusage.googleapis.com/projects/123/services/cloudvision.googleapis.com"
-	violation.details.mode == "allowed"
+	violation.details.mode == "allow"
 }
 
-# Confirm total disallow violations count
-test_serviceusage_disallow_violations_count {
-	count(all_violations_disallow) == 1
+# Confirm total deny violations count
+test_serviceusage_deny_violations_count {
+	count(all_violations_deny) == 1
 }
 
-# Confirm that cloudvision violates because is on the disallowed list
-test_serviceusage_disallow_violations_basic {
-	violation := all_violations_disallow[_]
+# Confirm that cloudvision violates because is on the deny list
+test_serviceusage_deny_violations_basic {
+	violation := all_violations_deny[_]
 	violation.details.resource == "//serviceusage.googleapis.com/projects/123/services/cloudvision.googleapis.com"
-	violation.details.mode == "disallowed"
+	violation.details.mode == "deny"
 }
