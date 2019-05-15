@@ -76,3 +76,4 @@ spec:
             	destination_bucket := lib.get_default(destination, "logBucket", "")
             }
             #ENDINLINE
+ 
