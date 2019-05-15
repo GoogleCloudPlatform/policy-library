@@ -30,7 +30,7 @@ deny[{
 	asset := input.asset
 	asset.asset_type == "compute.googleapis.com/GlobalForwardingRule"
 
-	# Find network access config block w/ external IP
+	# Find GLBs config block w/ external IP
 	instance := asset.resource.data
 	external_ip := instance.ipAddress
 
@@ -40,7 +40,7 @@ deny[{
 	target_instance_match_count(params.mode, desired_count)
 	count(matches) == desired_count
 
-	message := sprintf("%v is not allowed to have an external IP.", [asset.name])
+	message := sprintf("%v is not allowed, policy prohibits all GLBs due to public IP.", [asset.name])
 	metadata := {"external_ip": external_ip}
 }
 
