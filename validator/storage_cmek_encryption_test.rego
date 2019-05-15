@@ -27,11 +27,11 @@ all_violations[violation] {
 }
 
 # Confirm total violations count
-test_storage_logging_violations_count {
+test_storage_cmek_encryption_count {
 	count(all_violations) == 1
 }
 
-test_storage_logging_violations_basic {
+test_storage_cmek_encryption_violations_basic {
 	violation := all_violations[_]
 	violation.details.resource == "//storage.googleapis.com/my-storage-bucket-with-secure-logging"
 }
