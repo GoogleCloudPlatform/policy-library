@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.SQLPUBLICIPV1
+package templates.gcp.GCPSQLPublicIpConstraintV1
 
 all_violations[violation] {
 	resource := data.test.fixtures.assets.sql_public_ip[_]
