@@ -41,6 +41,6 @@ deny[{
 # Rule Utilities
 ###########################
 default_kms_key_name(bucket) = default_kms_key_name {
-	encryption := lib.get_default(bucket, "encryption", "default")
+	encryption := lib.get_default(bucket, "encryption", {})
 	default_kms_key_name := lib.get_default(encryption, "defaultKmsKeyName", "")
 }
