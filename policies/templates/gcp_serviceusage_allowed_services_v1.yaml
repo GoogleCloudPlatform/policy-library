@@ -15,7 +15,7 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-serviceusage_allowed_services_v1
+  name: gcp-serviceusage-allowed-services-v1
 spec:
   crd:
     spec:
