@@ -15,7 +15,7 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-storage-cmek_encryption-v1
+  name: gcp-storage-cmek-encryption-v1
 spec:
   crd:
     spec:
