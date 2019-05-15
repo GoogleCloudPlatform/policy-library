@@ -27,12 +27,12 @@ deny[{
 	asset.asset_type == "storage.googleapis.com/Bucket"
 
 	bucket := asset.resource.data
-	destination := destination_bucket(bucket)
-	destination == ""
+	kms_key_name := default_kms_key_name(bucket)
+	kms_key_name == ""
 
 	message := sprintf("%v does not have the required CMEK encryption configured.", [asset.name])
 	metadata := {
-		"destination_bucket": destination,
+		"default_kms_key_name": kms_key_name,
 		"resource": asset.name,
 	}
 }
@@ -40,7 +40,7 @@ deny[{
 ###########################
 # Rule Utilities
 ###########################
-destination_bucket(bucket) = default_kms_key_name {
+default_kms_key_name(bucket) = default_kms_key_name {
 	encryption := lib.get_default(bucket, "encryption", "default")
 	default_kms_key_name := lib.get_default(encryption, "defaultKmsKeyName", "")
 }
