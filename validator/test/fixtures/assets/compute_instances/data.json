@@ -263,14 +263,6 @@
             "name": "instance-west1-b",
             "networkInterface": [
                 {
-                    "accessConfig": [
-                        {
-                            "externalIp": "34.83.78.139",
-                            "name": "External NAT",
-                            "networkTier": "PREMIUM",
-                            "type": "ONE_TO_ONE_NAT"
-                        }
-                    ],
                     "fingerprint": "DmucjcL5aT8=",
                     "ipAddress": "10.138.0.2",
                     "name": "nic0",
@@ -346,14 +338,6 @@
             "name": "instance-1",
             "networkInterface": [
                 {
-                    "accessConfig": [
-                        {
-                            "externalIp": "35.227.42.182",
-                            "name": "External NAT",
-                            "networkTier": "PREMIUM",
-                            "type": "ONE_TO_ONE_NAT"
-                        }
-                    ],
                     "fingerprint": "txRPD69rSyo=",
                     "ipAddress": "10.142.0.2",
                     "name": "nic0",
@@ -424,14 +408,6 @@
             "name": "instance-east1-b",
             "networkInterface": [
                 {
-                    "accessConfig": [
-                        {
-                            "externalIp": "35.229.103.115",
-                            "name": "External NAT",
-                            "networkTier": "PREMIUM",
-                            "type": "ONE_TO_ONE_NAT"
-                        }
-                    ],
                     "fingerprint": "WeM4FEq7/I0=",
                     "ipAddress": "10.142.0.3",
                     "name": "nic0",
