@@ -1,0 +1,8 @@
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: GCPSQLPublicIpConstraintV1
+metadata:
+  name: gcp-sql-public-ip-v1
+spec:
+  severity: high
+  match:
+    target: ["organization/*"]
