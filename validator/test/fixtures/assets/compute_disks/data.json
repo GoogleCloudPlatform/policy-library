@@ -1,6 +1,6 @@
 [
     {
-        "name": "//compute.googleapis.com/projects/remund-sandbox2/zones/us-central1-f/disks/disk-central1-f",
+        "name": "//compute.googleapis.com/projects/sandbox2/zones/us-central1-f/disks/disk-central1-f",
         "asset_type": "compute.googleapis.com/Disk",
         "resource": {
             "version": "v1",
@@ -13,16 +13,16 @@
                 "labelFingerprint": "42WmSpB8rSM=",
                 "name": "disk-central1-f",
                 "physicalBlockSizeBytes": "4096",
-                "selfLink": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-central1-f/disks/disk-central1-f",
+                "selfLink": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-central1-f/disks/disk-central1-f",
                 "sizeGb": "200",
                 "status": "READY",
-                "type": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-central1-f/diskTypes/pd-standard",
-                "zone": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-central1-f"
+                "type": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-central1-f/diskTypes/pd-standard",
+                "zone": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-central1-f"
             }
         }
     },
     {
-        "name": "//compute.googleapis.com/projects/remund-sandbox2/zones/us-east1-b/disks/disk-east1-b",
+        "name": "//compute.googleapis.com/projects/sandbox2/zones/us-east1-b/disks/disk-east1-b",
         "asset_type": "compute.googleapis.com/Disk",
         "resource": {
             "version": "v1",
@@ -35,16 +35,16 @@
                 "labelFingerprint": "42WmSpB8rSM=",
                 "name": "disk-east1-b",
                 "physicalBlockSizeBytes": "4096",
-                "selfLink": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-east1-b/disks/disk-east1-b",
+                "selfLink": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b/disks/disk-east1-b",
                 "sizeGb": "200",
                 "status": "READY",
-                "type": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-east1-b/diskTypes/pd-standard",
-                "zone": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-east1-b"
+                "type": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b/diskTypes/pd-standard",
+                "zone": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b"
             }
         }
     },
     {
-        "name": "//compute.googleapis.com/projects/remund-sandbox2/zones/us-west1-b/disks/disk-west1-b",
+        "name": "//compute.googleapis.com/projects/sandbox2/zones/us-west1-b/disks/disk-asia-west1-b",
         "asset_type": "compute.googleapis.com/Disk",
         "resource": {
             "version": "v1",
@@ -57,11 +57,11 @@
                 "labelFingerprint": "42WmSpB8rSM=",
                 "name": "disk-asia-west1-b",
                 "physicalBlockSizeBytes": "4096",
-                "selfLink": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-west1-b/disks/disk-west1-b",
+                "selfLink": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-west1-b/disks/disk-west1-b",
                 "sizeGb": "500",
                 "status": "READY",
-                "type": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-west1-b/diskTypes/pd-standard",
-                "zone": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-west1-b"
+                "type": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-west1-b/diskTypes/pd-standard",
+                "zone": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-west1-b"
             }
         }
     }

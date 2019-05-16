@@ -224,7 +224,7 @@
     }
   },
   {
-    "name": "//compute.googleapis.com/projects/remund-sandbox2/zones/us-west1-b/instances/instance-west1-b",
+    "name": "//compute.googleapis.com/projects/sandbox2/zones/us-west1-b/instances/instance-west1-b",
     "asset_type": "compute.googleapis.com/Instance",
     "resource": {
         "version": "v1",
@@ -253,21 +253,21 @@
                         "https://www.googleapis.com/compute/v1/projects/debian-cloud/global/licenses/debian-9-stretch"
                     ],
                     "mode": "READ_WRITE",
-                    "source": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-west1-b/disks/instance-west1-b",
+                    "source": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-west1-b/disks/instance-west1-b",
                     "type": "PERSISTENT"
                 }
             ],
             "id": "7680465287756501088",
             "labelFingerprint": "42WmSpB8rSM=",
-            "machineType": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-west1-b/machineTypes/n1-standard-1",
+            "machineType": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-west1-b/machineTypes/n1-standard-1",
             "name": "instance-west1-b",
             "networkInterface": [
                 {
                     "fingerprint": "DmucjcL5aT8=",
                     "ipAddress": "10.138.0.2",
                     "name": "nic0",
-                    "network": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/global/networks/default",
-                    "subnetwork": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/regions/us-west1/subnetworks/default"
+                    "network": "https://www.googleapis.com/compute/v1/projects/sandbox2/global/networks/default",
+                    "subnetwork": "https://www.googleapis.com/compute/v1/projects/sandbox2/regions/us-west1/subnetworks/default"
                 }
             ],
             "scheduling": {
@@ -275,7 +275,7 @@
                 "onHostMaintenance": "MIGRATE",
                 "preemptible": false
             },
-            "selfLink": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-west1-b/instances/instance-west1-b",
+            "selfLink": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-west1-b/instances/instance-west1-b",
             "serviceAccount": [
                 {
                     "email": "142577876613-compute@developer.gserviceaccount.com",
@@ -294,12 +294,12 @@
             "tags": {
                 "fingerprint": "42WmSpB8rSM="
             },
-            "zone": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-west1-b"
+            "zone": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-west1-b"
         }
     }
   },
   {
-    "name": "//compute.googleapis.com/projects/remund-sandbox2/zones/us-east1-b/instances/instance-1",
+    "name": "//compute.googleapis.com/projects/sandbox2/zones/us-east1-b/instances/instance-1",
     "asset_type": "compute.googleapis.com/Instance",
     "resource": {
         "version": "v1",
@@ -328,21 +328,21 @@
                         "https://www.googleapis.com/compute/v1/projects/debian-cloud/global/licenses/debian-9-stretch"
                     ],
                     "mode": "READ_WRITE",
-                    "source": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-east1-b/disks/instance-1",
+                    "source": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b/disks/instance-1",
                     "type": "PERSISTENT"
                 }
             ],
             "id": "5666252164258958252",
             "labelFingerprint": "42WmSpB8rSM=",
-            "machineType": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-east1-b/machineTypes/n1-standard-2",
+            "machineType": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b/machineTypes/n1-standard-2",
             "name": "instance-1",
             "networkInterface": [
                 {
                     "fingerprint": "txRPD69rSyo=",
                     "ipAddress": "10.142.0.2",
                     "name": "nic0",
-                    "network": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/global/networks/default",
-                    "subnetwork": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/regions/us-east1/subnetworks/default"
+                    "network": "https://www.googleapis.com/compute/v1/projects/sandbox2/global/networks/default",
+                    "subnetwork": "https://www.googleapis.com/compute/v1/projects/sandbox2/regions/us-east1/subnetworks/default"
                 }
             ],
             "scheduling": {
@@ -350,10 +350,10 @@
                 "onHostMaintenance": "MIGRATE",
                 "preemptible": false
             },
-            "selfLink": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-east1-b/instances/instance-1",
+            "selfLink": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b/instances/instance-1",
             "serviceAccount": [
                 {
-                    "email": "cai-test-account@remund-sandbox2.iam.gserviceaccount.com",
+                    "email": "cai-test-account@sandbox2.iam.gserviceaccount.com",
                     "scope": [
                         "https://www.googleapis.com/auth/cloud-platform"
                     ]
@@ -364,12 +364,12 @@
             "tags": {
                 "fingerprint": "42WmSpB8rSM="
             },
-            "zone": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-east1-b"
+            "zone": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b"
         }
     }
   },
   {
-    "name": "//compute.googleapis.com/projects/remund-sandbox2/zones/us-east1-b/instances/instance-east1-b",
+    "name": "//compute.googleapis.com/projects/sandbox2/zones/us-east1-b/instances/instance-east1-b",
     "asset_type": "compute.googleapis.com/Instance",
     "resource": {
         "version": "v1",
@@ -398,21 +398,21 @@
                         "https://www.googleapis.com/compute/v1/projects/debian-cloud/global/licenses/debian-9-stretch"
                     ],
                     "mode": "READ_WRITE",
-                    "source": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-east1-b/disks/instance-east1-b",
+                    "source": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b/disks/instance-east1-b",
                     "type": "PERSISTENT"
                 }
             ],
             "id": "5442323693410832495",
             "labelFingerprint": "42WmSpB8rSM=",
-            "machineType": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-east1-b/machineTypes/n1-standard-1",
+            "machineType": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b/machineTypes/n1-standard-1",
             "name": "instance-east1-b",
             "networkInterface": [
                 {
                     "fingerprint": "WeM4FEq7/I0=",
                     "ipAddress": "10.142.0.3",
                     "name": "nic0",
-                    "network": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/global/networks/default",
-                    "subnetwork": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/regions/us-east1/subnetworks/default"
+                    "network": "https://www.googleapis.com/compute/v1/projects/sandbox2/global/networks/default",
+                    "subnetwork": "https://www.googleapis.com/compute/v1/projects/sandbox2/regions/us-east1/subnetworks/default"
                 }
             ],
             "scheduling": {
@@ -420,7 +420,7 @@
                 "onHostMaintenance": "MIGRATE",
                 "preemptible": false
             },
-            "selfLink": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-east1-b/instances/instance-east1-b",
+            "selfLink": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b/instances/instance-east1-b",
             "serviceAccount": [
                 {
                     "email": "142577876613-compute@developer.gserviceaccount.com",
@@ -439,7 +439,7 @@
             "tags": {
                 "fingerprint": "42WmSpB8rSM="
             },
-            "zone": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-east1-b"
+            "zone": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b"
         }
     }
   }
