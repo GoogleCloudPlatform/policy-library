@@ -55,7 +55,7 @@
                 "creationTimestamp": "2019-05-15T13:05:17.462-07:00",
                 "id": "720230790405934610",
                 "labelFingerprint": "42WmSpB8rSM=",
-                "name": "disk-west1-b",
+                "name": "disk-asia-west1-b",
                 "physicalBlockSizeBytes": "4096",
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/remund-sandbox2/zones/us-west1-b/disks/disk-west1-b",
                 "sizeGb": "500",

@@ -35,16 +35,18 @@ deny[{
 	# Check if resource is in exempt list
 	exempt_list := params.exemptions
 	matches := {asset.name} & cast_set(exempt_list)
-	count(matches) == 0
+	count(matches) = 0
 
 	# Check that zone is in allowlist/denylist
 	target_zones := params.target_zones
-	zone_matches := {asset.resource.data.zone} & cast_set(target_zones)
+	asset_zone_tokens := split(asset.resource.data.zone, "/")
+	asset_zone := asset_zone_tokens[8]
+	zone_matches := {asset_zone} & cast_set(target_zones)
 	target_zone_match_count(params.mode, desired_count)
 	count(zone_matches) == desired_count
 
 	message := sprintf("%v is in a disallowed zone.", [asset.name])
-	metadata := {"zone": asset.resource.data.zone}
+	metadata := {"zone": asset_zone}
 }
 
 #################
