@@ -22,7 +22,7 @@ import data.validator.gcp.lib as lib
 # Find Compute Asset Zone Violations
 #####################################
 deny[{
-	"mes": message,
+	"msg": message,
 	"details": metadata,
 }] {
 	constraint := input.constraint
@@ -38,7 +38,7 @@ deny[{
 	count(matches) = 0
 
 	# Check that zone is in allowlist/denylist
-	target_zones := params.target_zones
+	target_zones := params.zones
 	asset_zone_tokens := split(asset.resource.data.zone, "/")
 	asset_zone := asset_zone_tokens[8]
 	zone_matches := {asset_zone} & cast_set(target_zones)

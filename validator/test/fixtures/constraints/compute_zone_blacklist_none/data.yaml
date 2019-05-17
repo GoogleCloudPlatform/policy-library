@@ -15,7 +15,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPComputeZoneConstraintV1
 metadata:
-  name: compute_zone_allow_all
+  name: compute_zone_blacklist_none
 spec:
   severity: high
   match:
