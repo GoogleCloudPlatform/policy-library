@@ -95,12 +95,12 @@ spec:
            #################
            
            # Determine the overlap between zones under test and constraint
-           # By default (whitelist), we violate if there isn't overlap
+           # By default (allowlist), we violate if there isn't overlap
            target_zone_match_count(mode) = 0 {
-           	mode != "blacklist"
+           	mode != "denylist"
            }
            
            target_zone_match_count(mode) = 1 {
-           	mode == "blacklist"
+           	mode == "denylist"
            }
            #ENDINLINE
