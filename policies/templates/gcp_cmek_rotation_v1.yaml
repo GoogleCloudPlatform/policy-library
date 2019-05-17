@@ -57,6 +57,10 @@ spec:
            	asset := input.asset
            	asset.asset_type == "cloudkms.googleapis.com/CryptoKey"
            
+           	# The rotation period for a key may be "never".  This results
+           	# in the rotationPeriod attribute to be omitted from response
+           	# from the CAI.  The default is 99999999s.  This is 
+           	# sufficiently high enough to cause fail
            	rotation_period_string := lib.get_default(asset.resource.data, "rotationPeriod", "99999999s")
            	rotation_period := time.parse_duration_ns(rotation_period_string)
            
@@ -64,7 +68,7 @@ spec:
            	period_to_test := time.parse_duration_ns(period_string)
            
            	rotation_period > period_to_test
-           	message := sprintf("%v: CMEK Rotation Period must be or less.", [asset.name])
+           	message := sprintf("%v: CMEK Rotation Period must be at most %v.", [asset.name, period_string])
            	metadata := {"resource": asset.name}
            }
            #ENDINLINE

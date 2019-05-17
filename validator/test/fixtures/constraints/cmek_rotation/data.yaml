@@ -22,7 +22,7 @@ spec:
     gcp:
       target: ["organization/*"]
   parameters:
-    # Valud time units are  "ns", "us" (or "µs"), "ms", "s", "m", "h"
+    # Valid time units are  "ns", "us" (or "µs"), "ms", "s", "m", "h"
     # This is 365 days
     period: 8760h
 
