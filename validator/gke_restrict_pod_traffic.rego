@@ -43,6 +43,8 @@ check_all_enabled(container) {
 }
 
 network_policy_config_enabled(container) {
+	# URL to network policy config: 
+	# https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1beta1/projects.locations.clusters#Cluster.NetworkPolicyConfig
 	addons_config := lib.get_default(container, "addonsConfig", {})
 	networkPolicyConfig := lib.get_default(addons_config, "networkPolicyConfig", {})
 	network_policy_config_disabled := lib.get_default(networkPolicyConfig, "disabled", false)
@@ -50,12 +52,16 @@ network_policy_config_enabled(container) {
 }
 
 pod_security_policy_config_enabled(container) = pod_security_policy_config_enabled {
+	# URL to security policy config:
+	# https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1beta1/projects.locations.clusters#Cluster.PodSecurityPolicyConfig
 	pod_security_policy_config := lib.get_default(container, "podSecurityPolicyConfig", {})
 	pod_security_policy_config_enabled := lib.get_default(pod_security_policy_config, "enabled", false)
 	pod_security_policy_config_enabled == true
 }
 
 network_policy_enabled(container) = network_policy_enabled {
+	# URL to network policy: 
+	# https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1beta1/projects.locations.clusters#Cluster.NetworkPolicy
 	network_policy := lib.get_default(container, "networkPolicy", {})
 	network_policy_enabled := lib.get_default(network_policy, "enabled", false)
 	network_policy_enabled == true
