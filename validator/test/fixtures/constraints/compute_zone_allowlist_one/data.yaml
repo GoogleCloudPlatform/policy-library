@@ -15,12 +15,13 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPComputeZoneConstraintV1
 metadata:
-  name: compute_zone_blacklist_none
+  name: compute_zone_allowlist_one
 spec:
   severity: high
   match:
     target: ["organization/*"]
   parameters:
-    mode: "blacklist"
-    zones: []
+    mode: "allowlist"
+    zones:
+      - asia-west1-b
     exemptions: []

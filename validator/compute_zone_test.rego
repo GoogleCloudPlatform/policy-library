@@ -1,5 +1,5 @@
 #
-# Copyright 2018 Google LLC
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,25 +31,25 @@ find_violations[violation] {
 	violation := issues[_]
 }
 
-# Test logic for whitelisting/blacklisting
-test_target_zone_match_count_whitelist {
-	target_zone_match_count("whitelist", match_count)
+# Test logic for allowlisting/denylisting
+test_target_zone_match_count_allowlist {
+	target_zone_match_count("allowlist", match_count)
 	match_count = 0
 }
 
-test_target_zone_match_count_blacklist {
-	target_zone_match_count("blacklist", match_count)
+test_target_zone_match_count_denylist {
+	target_zone_match_count("denylist", match_count)
 	match_count = 1
 }
 
-# Confirm no violations with no assets
+# Test for no violations with no assets
 test_compute_zone_no_assets {
 	found_violations := find_violations with data.assets as []
 
 	count(found_violations) = 0
 }
 
-# Confirm no violations with no constraints
+# Test for no violations with no constraints
 test_compute_zone_no_constraints {
 	trace(sprintf("fixture_instances count: %v", [count(fixture_instances)]))
 	trace(sprintf("fixture_disks count: %v", [count(fixture_disks)]))
@@ -61,7 +61,7 @@ test_compute_zone_no_constraints {
 	count(found_violations) = 0
 }
 
-# Confirm no violations with empty parameters
+# Test for no violations with empty parameters
 violations_with_empty_parameters[violation] {
 	constraints := [fixture_constraints.compute_zone_default]
 	combined_assets := array.concat(fixture_instances, fixture_disks)
@@ -77,9 +77,9 @@ test_compute_zone_default {
 	count(found_violations) = 0
 }
 
-# Confirm empty blacklist works
-violations_with_empty_blacklist[violation] {
-	constraints := [fixture_constraints.compute_zone_allow_all]
+# Test empty denylist
+violations_with_empty_denylist[violation] {
+	constraints := [fixture_constraints.compute_zone_denylist_none]
 	combined_assets := array.concat(fixture_instances, fixture_disks)
 	found_violations := find_violations with data.assets as combined_assets
 		 with data.test_constraints as constraints
@@ -87,15 +87,15 @@ violations_with_empty_blacklist[violation] {
 	violation := found_violations[_]
 }
 
-test_compute_zone_allow_all {
-	found_violations := violations_with_empty_blacklist
+test_compute_zone_denylist_none {
+	found_violations := violations_with_empty_denylist
 
 	count(found_violations) = 0
 }
 
-# Confirm single blacklisted zone works
-violations_with_single_blacklist[violation] {
-	constraints := [fixture_constraints.compute_zone_deny_one]
+# Test empty allowlist
+violations_with_empty_allowlist[violation] {
+	constraints := [fixture_constraints.compute_zone_allowlist_none]
 	combined_assets := array.concat(fixture_instances, fixture_disks)
 	found_violations := find_violations with data.assets as combined_assets
 		 with data.test_constraints as constraints
@@ -103,8 +103,24 @@ violations_with_single_blacklist[violation] {
 	violation := found_violations[_]
 }
 
-test_compute_zone_deny_one {
-	found_violations := violations_with_single_blacklist
+test_compute_zone_allowlist_none {
+	found_violations := violations_with_empty_allowlist
+
+	count(found_violations) = count(array.concat(fixture_instances, fixture_disks))
+}
+
+# Test denylist with single zone
+violations_with_single_denylist[violation] {
+	constraints := [fixture_constraints.compute_zone_denylist_one]
+	combined_assets := array.concat(fixture_instances, fixture_disks)
+	found_violations := find_violations with data.assets as combined_assets
+		 with data.test_constraints as constraints
+
+	violation := found_violations[_]
+}
+
+test_compute_zone_denylist_one {
+	found_violations := violations_with_single_denylist
 	count(found_violations) = 1
 
 	violation := found_violations[_]
@@ -112,3 +128,16 @@ test_compute_zone_deny_one {
 	is_string(violation.msg)
 	is_object(violation.details)
 }
+
+# Test allowlist with single zone
+violations_with_single_allowlist[violation] {
+	constraints := [fixture_constraints.compute_zone_allowlist_one]
+	combined_assets := array.concat(fixture_instances, fixture_disks)
+	found_violations := find_violations with data.assets as combined_assets
+		 with data.test_constraints as constraints
+
+	violation := found_violations[_]
+}
+
+# Test denylist with all zones
+# Test allowlist with all zones
