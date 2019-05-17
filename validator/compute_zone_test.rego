@@ -23,7 +23,6 @@ import data.test.fixtures.constraints as fixture_constraints
 # Final all violations of our test cases
 
 find_violations[violation] {
-	trace(sprintf("Asset count: %v", [count(data.assets)]))
 	asset := data.assets[_]
 	constraint := data.test_constraints[_]
 	issues := deny with input.asset as asset with input.constraint as constraint
@@ -124,7 +123,7 @@ test_compute_zone_denylist_one {
 	count(found_violations) = 1
 
 	violation := found_violations[_]
-	resource_name := "//compute.googleapis.com/projects/sandbox2/zones/us-west1-b/disks/disk-asia-west1-b"
+	resource_name := "//compute.googleapis.com/projects/sandbox2/zones/asia-east1-b/disks/disk-asia-west1-b"
 	is_string(violation.msg)
 	is_object(violation.details)
 }
@@ -139,5 +138,40 @@ violations_with_single_allowlist[violation] {
 	violation := found_violations[_]
 }
 
+test_compute_zone_allowlist_one {
+	found_violations := violations_with_single_allowlist
+
+	count(found_violations) = count(array.concat(fixture_instances, fixture_disks)) - 1
+}
+
 # Test denylist with all zones
+violations_with_full_denylist[violation] {
+	constraints := [fixture_constraints.compute_zone_denylist_all]
+	combined_assets := array.concat(fixture_instances, fixture_disks)
+	found_violations := find_violations with data.assets as combined_assets
+		 with data.test_constraints as constraints
+
+	violation := found_violations[_]
+}
+
+test_compute_zone_denylist_all {
+	found_violations := violations_with_full_denylist
+
+	count(found_violations) = count(array.concat(fixture_instances, fixture_disks))
+}
+
 # Test allowlist with all zones
+violations_with_full_allowlist[violation] {
+	constraints := [fixture_constraints.compute_zone_allowlist_all]
+	combined_assets := array.concat(fixture_instances, fixture_disks)
+	found_violations := find_violations with data.assets as combined_assets
+		 with data.test_constraints as constraints
+
+	violation := found_violations[_]
+}
+
+test_compute_zone_allowlist_all {
+	found_violations := violations_with_full_allowlist
+
+	count(found_violations) = 0
+}
