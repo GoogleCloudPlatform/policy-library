@@ -14,23 +14,24 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPSQLSSLV1
+package templates.gcp.GCPStorageCMEKEncryptionConstraintV1
 
 all_violations[violation] {
-	resource := data.test.fixtures.assets.sql_ssl[_]
-	constraint := data.test.fixtures.constraints.require_sql_ssl
+	resource := data.test.fixtures.assets.storage_buckets[_]
+	constraint := data.test.fixtures.constraints.require_storage_cmek_encryption
 
 	issues := deny with input.asset as resource
+		 with input.constraint as constraint
 
 	violation := issues[_]
 }
 
 # Confirm total violations count
-test_sql_ssl_violations_count {
+test_storage_cmek_encryption_count {
 	count(all_violations) == 1
 }
 
-test_sql_ssl_violations_basic {
+test_storage_cmek_encryption_violations_basic {
 	violation := all_violations[_]
-	violation.details.resource == "//cloudsql.googleapis.com/projects/noble-history-87417/instances/not-require-sql-ssl"
+	violation.details.resource == "//storage.googleapis.com/my-storage-bucket-with-secure-logging"
 }

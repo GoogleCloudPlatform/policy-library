@@ -14,23 +14,11 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPSQLSSLV1
-
-all_violations[violation] {
-	resource := data.test.fixtures.assets.sql_ssl[_]
-	constraint := data.test.fixtures.constraints.require_sql_ssl
-
-	issues := deny with input.asset as resource
-
-	violation := issues[_]
-}
-
-# Confirm total violations count
-test_sql_ssl_violations_count {
-	count(all_violations) == 1
-}
-
-test_sql_ssl_violations_basic {
-	violation := all_violations[_]
-	violation.details.resource == "//cloudsql.googleapis.com/projects/noble-history-87417/instances/not-require-sql-ssl"
-}
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: GCPSQLPublicIpConstraintV1
+metadata:
+  name: gcp-sql-public-ip-v1
+spec:
+  severity: high
+  match:
+    target: ["organization/*"]
