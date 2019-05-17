@@ -15,20 +15,20 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-storage-logging-v1
+  name: gcp-bq-cmek-encryption-v1
 spec:
   crd:
     spec:
       names:
-        kind: GCPStorageLoggingConstraintV1
-        plural: gcpstorageloggingconstraintsv1
+        kind: GCPBigqueryCMEKEncryptionConstraintV1
+        plural: gcpbigquerycmekencryptionconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}
   targets:
    validation.gcp.forsetisecurity.org:
       rego: |
-            #INLINE("validator/storage_logging.rego")
+            #INLINE("validator/bigquery_cmek.rego")
             #
             # Copyright 2018 Google LLC
             #
@@ -45,35 +45,31 @@ spec:
             # limitations under the License.
             #
             
-            package templates.gcp.GCPStorageLoggingConstraintV1
+            package templates.gcp.GCPBigqueryCMEKEncryptionConstraintV1
             
             import data.validator.gcp.lib as lib
             
+            ###########################
+            # Find Whitelist Violations
+            ###########################
             deny[{
             	"msg": message,
             	"details": metadata,
             }] {
-            	constraint := input.constraint
             	asset := input.asset
-            	asset.asset_type == "storage.googleapis.com/Bucket"
+            	asset.asset_type == "bigquery.googleapis.com/Table"
             
-            	bucket := asset.resource.data
-            	destination := destination_bucket(bucket)
-            	destination == ""
+            	# Find KMS key name for the table
+            	kmskeyname := lib.get_default(asset.resource.data, "encryptionConfiguration", "NOTFOUND")
             
-            	message := sprintf("%v does not have the required logging destination.", [asset.name])
+            	# Check if KMS is enabled
+            	kmskeyname == "NOTFOUND"
+            
+            	message := sprintf("%v does not have the client managed encryption key setup.", [asset.name])
             	metadata := {
-            		"destination_bucket": destination,
             		"resource": asset.name,
+            		"type": "encryptionerror",
             	}
-            }
-            
-            ###########################
-            # Rule Utilities
-            ###########################
-            destination_bucket(bucket) = destination_bucket {
-            	destination := lib.get_default(bucket, "logging", "default")
-            	destination_bucket := lib.get_default(destination, "logBucket", "")
             }
             #ENDINLINE
  
