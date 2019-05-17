@@ -15,12 +15,9 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPComputeZoneConstraintV1
 metadata:
-  name: compute_zone_deny_all
+  name: compute_zone_default
 spec:
   severity: high
   match:
     target: ["organization/*"]
-  parameters:
-    mode: "whitelist"
-    zones: []
-    exemptions: []
+    exclude: [] # optional, default is no exclusions

@@ -57,11 +57,11 @@
                 "labelFingerprint": "42WmSpB8rSM=",
                 "name": "disk-asia-west1-b",
                 "physicalBlockSizeBytes": "4096",
-                "selfLink": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-west1-b/disks/disk-west1-b",
+                "selfLink": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/asia-west1-b/disks/disk-west1-b",
                 "sizeGb": "500",
                 "status": "READY",
-                "type": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-west1-b/diskTypes/pd-standard",
-                "zone": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-west1-b"
+                "type": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/asia-west1-b/diskTypes/pd-standard",
+                "zone": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/asia-west1-b"
             }
         }
     }
