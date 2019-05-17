@@ -23,5 +23,5 @@ spec:
   parameters:
     mode: "allowlist"
     zones:
-      - asia-west1-b
+      - asia-east1-b
     exemptions: []

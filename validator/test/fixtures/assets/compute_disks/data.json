@@ -44,7 +44,7 @@
         }
     },
     {
-        "name": "//compute.googleapis.com/projects/sandbox2/zones/us-west1-b/disks/disk-asia-west1-b",
+        "name": "//compute.googleapis.com/projects/sandbox2/zones/asia-east1-b/disks/disk-asia-east1-b",
         "asset_type": "compute.googleapis.com/Disk",
         "resource": {
             "version": "v1",
@@ -55,13 +55,13 @@
                 "creationTimestamp": "2019-05-15T13:05:17.462-07:00",
                 "id": "720230790405934610",
                 "labelFingerprint": "42WmSpB8rSM=",
-                "name": "disk-asia-west1-b",
+                "name": "disk-asia-east1-b",
                 "physicalBlockSizeBytes": "4096",
-                "selfLink": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/asia-west1-b/disks/disk-west1-b",
+                "selfLink": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/asia-east1-b/disks/disk-asia-east1-b",
                 "sizeGb": "500",
                 "status": "READY",
-                "type": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/asia-west1-b/diskTypes/pd-standard",
-                "zone": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/asia-west1-b"
+                "type": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/asia-east1-b/diskTypes/pd-standard",
+                "zone": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/asia-east1-b"
             }
         }
     }
