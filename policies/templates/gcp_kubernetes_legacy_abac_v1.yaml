@@ -22,8 +22,8 @@ spec:
   crd:
     spec:
       names:
-        kind: GKELegacyAbacConstraintV1
-        plural: GKELegacyAbacConstraintsV1
+        kind: GCPGKELegacyAbacConstraintV1
+        plural: GCPGKELegacyAbacConstraintsV1
       validation:
         openAPIV3Schema:
           properties: {}
@@ -71,7 +71,7 @@ spec:
         # Rule Utilities
         ###########################
         legacy_abac_enabled(container) = legacy_abac_enabled {
-        	legacy_abac := lib.get_default(container, "legacyAbac", "default")
+        	legacy_abac := lib.get_default(container, "legacyAbac", {})
         	legacy_abac_enabled := lib.get_default(legacy_abac, "enabled", false)
         }
         #ENDINLINE

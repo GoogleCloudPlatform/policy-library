@@ -19,7 +19,7 @@ package templates.gcp.GKELegacyAbacConstraintV1
 import data.validator.gcp.lib as lib
 
 all_violations[violation] {
-	resource := data.test.fixtures.assets.gke[_]
+	resource := data.test.fixtures.assets.gke_legacy_abac[_]
 	constraint := data.test.fixtures.constraints.disable_gke_legacy_abac
 
 	issues := deny with input.asset as resource
@@ -32,9 +32,4 @@ test_disable_legacy_abac_violations_basic {
 	count(all_violations) == 1
 	violation := all_violations[_]
 	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust"
-}
-
-test_dashboard_disable_no_violation {
-	found_violations = all_violations with data.test.fixtures.assets.gke as []
-	count(found_violations) == 0
 }
