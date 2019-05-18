@@ -14,11 +14,11 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPSQLSSLV1
+package templates.gcp.GCPSQLPublicIpConstraintV1
 
 all_violations[violation] {
-	resource := data.test.fixtures.assets.sql_ssl[_]
-	constraint := data.test.fixtures.constraints.require_sql_ssl
+	resource := data.test.fixtures.assets.sql_public_ip[_]
+	constraint := data.test.fixtures.constraints.sql_public_ip
 
 	issues := deny with input.asset as resource
 
@@ -26,11 +26,11 @@ all_violations[violation] {
 }
 
 # Confirm total violations count
-test_sql_ssl_violations_count {
-	count(all_violations) == 1
+test_sql_public_ip_violations_count {
+	count(all_violations) == 3
 }
 
-test_sql_ssl_violations_basic {
+test_sql_public_ip_violations_basic {
 	violation := all_violations[_]
-	violation.details.resource == "//cloudsql.googleapis.com/projects/noble-history-87417/instances/not-require-sql-ssl"
+	violation.details.resource == "//cloudsql.googleapis.com/projects/test-project/instances/public-sql"
 }
