@@ -3,7 +3,7 @@ kind: GCPServiceUsageConstraintV1
 metadata:
   name: deny_some_apis
   annotations:
-    description: Only a basic set of APIS
+    description: Deny a set of APIS
 spec:
   severity: high
   match:
