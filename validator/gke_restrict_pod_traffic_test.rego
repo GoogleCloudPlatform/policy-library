@@ -43,9 +43,9 @@ good_config_no_violations[violation] {
 test_violations_basic {
 	# 3 violation cases in the test fixtures:
 	#   1. network_policy_config disabled
-	#   2. network_policy does not exists
+	#   2. network_policy does not exist
 	#   3. network_policy exists and set to false
-	#   4. podsecurityconfig does not exists
+	#   4. podsecurityconfig does not exist
 	#   5. podsecurityconfig exists and set to false
 	count(all_violations) == 5
 	violation := all_violations[_]
