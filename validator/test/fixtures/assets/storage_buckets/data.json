@@ -11,7 +11,9 @@
       "billing": {},
       "cors": [],
       "defaultObjectAcl": [],
-      "encryption": {},
+      "encryption": {
+        "defaultKmsKeyName": "projects/andresolarte-gke-ent/locations/us/keyRings/us-ring/cryptoKeys/key1"
+      },
       "etag": "CAI=",
       "iamConfiguration": {
         "bucketPolicyOnly": {}
@@ -51,7 +53,9 @@
       "billing": {},
       "cors": [],
       "defaultObjectAcl": [],
-      "encryption": {},
+      "encryption": {
+        "defaultKmsKeyName": "projects/andresolarte-gke-ent/locations/us/keyRings/us-ring/cryptoKeys/key1"
+      },
       "etag": "CAI=",
       "iamConfiguration": {
         "bucketPolicyOnly": {}
