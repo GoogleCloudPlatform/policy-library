@@ -17,8 +17,7 @@ kind: ConstraintTemplate
 metadata:
   name: gcp-glb-external-ip-access-constraint-v1
   annotations:
-    # Example of tying a template to a CIS benchmark
-    benchmark: CIS11_5.03
+    description: "Constraint to restrict the creation of external load balancers."
 spec:
   crd:
     spec:
