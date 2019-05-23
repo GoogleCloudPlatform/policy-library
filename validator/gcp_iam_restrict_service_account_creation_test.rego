@@ -16,10 +16,12 @@
 package templates.gcp.GCPIAMServiceAccountCreationConstraintV1
 
 all_violations[violation] {
-    resource := data.test.fixtures.assets.service_accounts[_]
-    constraint := data.test.fixtures.constraints.iam_restrict_service_account_creation
-    issues := deny with input.asset as resource
-    violation := issues[_]
+	resource := data.test.fixtures.assets.service_accounts[_]
+	constraint := data.test.fixtures.constraints.iam_restrict_service_account_creation
+	issues := deny with input.asset as resource
+		 with input.constraint as constraint
+
+	violation := issues[_]
 }
 
 # Count total violations
