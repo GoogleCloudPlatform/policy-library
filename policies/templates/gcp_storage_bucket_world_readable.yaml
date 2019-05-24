@@ -15,20 +15,20 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-cmek-rotation-v1
+  name: gcp-storage-bucket-world-readable-v1
 spec:
   crd:
     spec:
       names:
-        kind: GCPCMEKRotationConstraintV1
-        plural: gcpcmekrotationconstraintsv1
+        kind: GCPStorageBucketWorldReadableConstraintV1
+        plural: GCPStorageBucketWorldReadableConstraintV1
       validation:
         openAPIV3Schema:
           properties: {}
   targets:
-    validation.gcp.forsetisecurity.org:
+   validation.gcp.forsetisecurity.org:
       rego: |
-           #INLINE("validator/cmek_rotation.rego")
+            #INLINE("validator/storage_bucket_world_readable.rego")
            #
            # Copyright 2018 Google LLC
            #
@@ -44,31 +44,25 @@ spec:
            # See the License for the specific language governing permissions and
            # limitations under the License.
            #
-           package templates.gcp.GCPCMEKRotationConstraintV1
            
-           import data.validator.gcp.lib as lib
+           package templates.gcp.GCPStorageBucketWorldReadableConstraintV1
            
            deny[{
            	"msg": message,
            	"details": metadata,
            }] {
            	constraint := input.constraint
-           	lib.get_constraint_params(constraint, params)
            	asset := input.asset
-           	asset.asset_type == "cloudkms.googleapis.com/CryptoKey"
+           	asset.asset_type == "storage.googleapis.com/Bucket"
            
-           	# The rotation period for a key may be "never".  This results
-           	# in the rotationPeriod attribute to be omitted from response
-           	# from the CAI.  The default is 99999999s.  This is 
-           	# sufficiently high enough to cause fail
-           	rotation_period_string := lib.get_default(asset.resource.data, "rotationPeriod", "99999999s")
-           	rotation_period := time.parse_duration_ns(rotation_period_string)
+           	world_readable_checks := [
+           		asset.iam_policy.bindings[_].members[_] == "allUsers",
+           		asset.iam_policy.bindings[_].members[_] == "allAuthenticatedUsers",
+           	]
            
-           	period_string := lib.get_default(params, "period", "31536000s")
-           	period_to_test := time.parse_duration_ns(period_string)
+           	world_readable_checks[_] == true
            
-           	rotation_period > period_to_test
-           	message := sprintf("%v: CMEK Rotation Period must be at most %v.", [asset.name, period_string])
+           	message := sprintf("%v is publicly accessable", [asset.name])
            	metadata := {"resource": asset.name}
            }
            #ENDINLINE

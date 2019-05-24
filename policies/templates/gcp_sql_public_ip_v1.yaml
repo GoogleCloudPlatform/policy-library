@@ -26,9 +26,9 @@ spec:
         openAPIV3Schema:
           properties: {}
   targets:
-   validation.gcp.forsetisecurity.org:
+    validation.gcp.forsetisecurity.org:
       rego: |
-            #INLINE("validator/sql_public_ip.rego")
+           #INLINE("validator/sql_public_ip.rego")
            #
            # Copyright 2018 Google LLC
            #
