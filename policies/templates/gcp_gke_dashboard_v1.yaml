@@ -22,8 +22,8 @@ spec:
   crd:
     spec:
       names:
-        kind: GCPGKEDashboardConstraintV1
-        plural: GCPGKEDashboardConstraintsV1
+        kind: GKEDashboardConstraintV1
+        plural: GKEDashboardConstraintsV1
       validation:
         openAPIV3Schema:
           properties: {}

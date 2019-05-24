@@ -28,7 +28,6 @@ deny[{
 
 	container := asset.resource.data
 	enabled := legacy_abac_enabled(container)
-	enabled == true
 
 	message := sprintf("%v has legacy ABAC enabled.", [asset.name])
 	metadata := {"resource": asset.name}
