@@ -22,7 +22,7 @@ deny[{
 }] {
 	constraint := input.constraint
 	asset := input.asset
-	asset.asset_type == "google.cloud.storage/Bucket"
+	asset.asset_type == "storage.googleapis.com/Bucket"
 
 	world_readable_checks := [
 		asset.iam_policy.bindings[_].members[_] == "allUsers",
