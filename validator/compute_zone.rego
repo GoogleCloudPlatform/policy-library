@@ -40,7 +40,7 @@ deny[{
 	# Check that zone is in allowlist/denylist
 	target_zones := params.zones
 	asset_zone_tokens := split(asset.resource.data.zone, "/")
-	asset_zone := asset_zone_tokens[8]
+	asset_zone := asset_zone_tokens[minus(count(asset_zone_tokens), 1)]
 	zone_matches := {asset_zone} & cast_set(target_zones)
 	target_zone_match_count(params.mode, desired_count)
 	count(zone_matches) == desired_count
