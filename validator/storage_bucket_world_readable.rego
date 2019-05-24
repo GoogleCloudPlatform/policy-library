@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPStorageWorldReadableConstraintV1
+package templates.gcp.GCPStorageBucketWorldReadableConstraintV1
 
 deny[{
 	"msg": message,
@@ -22,7 +22,7 @@ deny[{
 }] {
 	constraint := input.constraint
 	asset := input.asset
-	asset.asset_type == "google.cloud.storage.Bucket"
+	asset.asset_type == "google.cloud.storage/Bucket"
 
 	world_readable_checks := [
 		asset.iam_policy.bindings[_].members[_] == "allUsers",

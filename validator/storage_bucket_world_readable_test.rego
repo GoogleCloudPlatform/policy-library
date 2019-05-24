@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPStorageWorldReadableConstraintV1
+package templates.gcp.GCPStorageBucketWorldReadableConstraintV1
 
 all_violations[violation] {
 	resource := data.test.fixtures.assets.storage_bucket_world_readable[_]

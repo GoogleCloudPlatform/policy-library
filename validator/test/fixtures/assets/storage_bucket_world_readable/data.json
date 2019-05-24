@@ -1,7 +1,7 @@
 [
   {
     "name":"//storage.googleapis.com/my-test-bucket",
-    "asset_type":"google.cloud.storage.Bucket",
+    "asset_type":"google.cloud.storage/Bucket",
     "iam_policy":{
       "version":1,
       "etag":"",
@@ -24,7 +24,7 @@
     }
   },  {
     "name":"//storage.googleapis.com/my-second-test-bucket",
-    "asset_type":"google.cloud.storage.Bucket",
+    "asset_type":"google.cloud.storage/Bucket",
     "iam_policy":{
       "version":1,
       "etag":"",
@@ -47,7 +47,7 @@
     }
   },  {
     "name":"//storage.googleapis.com/my-third-test-bucket",
-    "asset_type":"google.cloud.storage.Bucket",
+    "asset_type":"google.cloud.storage/Bucket",
     "iam_policy":{
       "version":1,
       "etag":"",

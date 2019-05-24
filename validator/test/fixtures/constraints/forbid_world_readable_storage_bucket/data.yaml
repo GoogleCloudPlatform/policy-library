@@ -13,14 +13,13 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPStorageWorldReadableConstraintV1
+kind: GCPStorageBucketWorldReadableConstraintV1
 metadata:
   name: require_storage_iam
   annotations:
     # Example of tying a constraint to a CIS benchmark
     benchmark: CIS11_5.03
 spec:
-  constraintVersion: 0.1.0
   severity: high
   match:
     gcp:
