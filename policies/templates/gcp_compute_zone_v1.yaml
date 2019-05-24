@@ -12,6 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+# This template is for policies restricting the locations 
+# of compute (VM instance / persistent disk) resources to
+# specific zones in GCP. It supports allowlist or denylist
+# modes, as well as exempting selected assets from the list.
+
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
@@ -28,7 +34,7 @@ spec:
           properties:
             mode:
               type: string
-              enum: [blacklist, whitelist]
+              enum: [denylist, allowlist]
             exemptions:
               type: array
               items: string
