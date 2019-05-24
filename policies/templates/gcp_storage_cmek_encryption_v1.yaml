@@ -15,22 +15,22 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-dnssec-v1
+  name: gcp-storage-cmek-encryption-v1
 spec:
   crd:
     spec:
       names:
-        kind: GCPDNSSECConstraintV1
-        plural: gcpdnssecconstraintsv1
+        kind: GCPStorageCMEKEncryptionConstraintV1
+        plural: gcpstoragecmekencryptionconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}
   targets:
-    validation.gcp.forsetisecurity.org:
+   validation.gcp.forsetisecurity.org:
       rego: |
-            #INLINE("validator/dnssec.rego")
+            #INLINE("validator/storage_cmek_encryption.rego")
             #
-            # Copyright 2018 Google LLC
+            # Copyright 2019 Google LLC
             #
             # Licensed under the Apache License, Version 2.0 (the "License");
             # you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ spec:
             # limitations under the License.
             #
             
-            package templates.gcp.GCPDNSSECConstraintV1
+            package templates.gcp.GCPStorageCMEKEncryptionConstraintV1
             
             import data.validator.gcp.lib as lib
             
@@ -55,11 +55,24 @@ spec:
             }] {
             	constraint := input.constraint
             	asset := input.asset
-            	asset.asset_type == "dns.googleapis.com/ManagedZone"
+            	asset.asset_type == "storage.googleapis.com/Bucket"
             
-            	asset.resource.data.dnssecConfig.state != "ON"
+            	bucket := asset.resource.data
+            	kms_key_name := default_kms_key_name(bucket)
+            	kms_key_name == ""
             
-            	message := sprintf("%v: DNSSEC is not enabled.", [asset.name])
-            	metadata := {"resource": asset.name}
+            	message := sprintf("%v does not have the required CMEK encryption configured.", [asset.name])
+            	metadata := {
+            		"default_kms_key_name": kms_key_name,
+            		"resource": asset.name,
+            	}
+            }
+            
+            ###########################
+            # Rule Utilities
+            ###########################
+            default_kms_key_name(bucket) = default_kms_key_name {
+            	encryption := lib.get_default(bucket, "encryption", {})
+            	default_kms_key_name := lib.get_default(encryption, "defaultKmsKeyName", "")
             }
             #ENDINLINE
