@@ -32,6 +32,29 @@
         {
           "role":"roles/storage.legacyBucketOwner",
           "members":[
+            "allAuthenticatedUsers",
+            "projectEditor:test-editor",
+            "projectOwner:test-owner"
+            ]
+        },
+        {
+          "role":"roles/storage.legacyBucketReader",
+          "members":[
+            "projectViewer:test-viewer"
+            ]
+        }
+      ]
+    }
+  },  {
+    "name":"//storage.googleapis.com/my-third-test-bucket",
+    "asset_type":"google.cloud.storage.Bucket",
+    "iam_policy":{
+      "version":1,
+      "etag":"",
+      "bindings":[
+        {
+          "role":"roles/storage.legacyBucketOwner",
+          "members":[
             "projectEditor:test-editor",
             "projectOwner:test-owner"
             ]

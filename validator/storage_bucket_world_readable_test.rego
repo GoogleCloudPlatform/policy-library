@@ -28,10 +28,10 @@ all_violations[violation] {
 
 # Confirm total violations count
 test_storage_iam_violations_count {
-	count(all_violations) == 1
+	count(all_violations) == 2
 }
 
 test_storage_iam_violations_basic {
-	violation := all_violations[_]
-	violation.details.resource == "//storage.googleapis.com/my-test-bucket"
+	all_violations[_].details.resource == "//storage.googleapis.com/my-test-bucket"
+	all_violations[_].details.resource == "//storage.googleapis.com/my-second-test-bucket"
 }
