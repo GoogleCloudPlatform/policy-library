@@ -1,4 +1,4 @@
-# Copyright 2019 Google LLC
+# Copyright 2019 Google Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,26 +11,32 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-# Check to see if GKE Dashboard is disabled.
 
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-gke-dashboard-v1
+  name: gcp-serviceusage-allowed-services-v1
 spec:
   crd:
     spec:
       names:
-        kind: GKEDashboardConstraintV1
-        plural: GKEDashboardConstraintsV1
+        kind: GCPServiceUsageConstraintV1
+        plural: gcpserviceusageconstraintsV1
       validation:
         openAPIV3Schema:
-          properties: {}
+          properties:
+            mode:
+              description: "Enforcement mode, defaults to allow"
+              type: string
+              enum: [allow, deny]
+            services:
+              description: "List of APIs to enforce on e.g compute.googleapis.com"
+              type: array
+              items: string
   targets:
     validation.gcp.forsetisecurity.org:
       rego: |
-            #INLINE("validator/gke_dashboard.rego")
+            #INLINE("validator/serviceusage_service.rego")
             #
             # Copyright 2018 Google LLC
             #
@@ -47,7 +53,7 @@ spec:
             # limitations under the License.
             #
             
-            package templates.gcp.GKEDashboardConstraintV1
+            package templates.gcp.GCPServiceUsageConstraintV1
             
             import data.validator.gcp.lib as lib
             
@@ -56,23 +62,44 @@ spec:
             	"details": metadata,
             }] {
             	constraint := input.constraint
+            	lib.get_constraint_params(constraint, params)
             	asset := input.asset
-            	asset.asset_type == "container.googleapis.com/Cluster"
+            	asset.asset_type == "serviceusage.googleapis.com/Service"
             
-            	container := asset.resource.data
-            	disabled := dashboard_disabled(container)
-            	disabled == false
+            	service_usage := asset.resource.data
+            	parent := service_usage.parent
+            	state := service_usage.state
+            	service := extract_service(service_usage.name)
             
-            	message := sprintf("%v has kubernetes dashboard enabled.", [asset.name])
-            	metadata := {"resource": asset.name}
+            	mode := lib.get_default(params, "mode", "allow")
+            
+            	state == "ENABLED"
+            	matches_found = [m | m = params.services[_]; m == service]
+            	target_match_count(mode, desired_count)
+            	count(matches_found) != desired_count
+            
+            	message := sprintf("%v violates a service constraint", [asset.name])
+            	metadata := {
+            		"resource": asset.name,
+            		"mode": mode,
+            		"service": service,
+            	}
             }
             
             ###########################
             # Rule Utilities
             ###########################
-            dashboard_disabled(container) = dashboard_disabled {
-            	addons_config := lib.get_default(container, "addonsConfig", "default")
-            	dashboard := lib.get_default(addons_config, "kubernetesDashboard", "default")
-            	dashboard_disabled := lib.get_default(dashboard, "disabled", false)
+            
+            extract_service(name) = service {
+            	array := split(name, "/")
+            	service := array[3]
+            }
+            
+            target_match_count(mode) = 0 {
+            	mode == "deny"
+            }
+            
+            target_match_count(mode) = 1 {
+            	mode == "allow"
             }
             #ENDINLINE
