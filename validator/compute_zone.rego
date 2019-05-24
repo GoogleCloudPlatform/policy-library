@@ -35,7 +35,7 @@ deny[{
 	# Check if resource is in exempt list
 	exempt_list := params.exemptions
 	matches := {asset.name} & cast_set(exempt_list)
-	count(matches) = 0
+	count(matches) == 0
 
 	# Check that zone is in allowlist/denylist
 	target_zones := params.zones

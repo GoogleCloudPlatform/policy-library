@@ -35,12 +35,19 @@ spec:
             mode:
               type: string
               enum: [denylist, allowlist]
+              description: "String identifying the operational mode, allowlist or denylist. In allowlist mode, 
+              resources are only allowed in the zones specified in the 'zones' parameter. In denylist mode, resources 
+              are allowed in all zones except those listed in the 'zones' parameter."
             exemptions:
               type: array
               items: string
+              description: "Array of devices to exempt from zonal restriction. String values in the array should 
+              correspond to the full name values of exempted devices."
             zones:
               type: array
               items: string
+              description: "Array of zone names to be allowed or denied. Should be the simple form of hte zone name, 
+              e.g. asia-east1-b."
   targets:
     validation.gcp.forsetisecurity.org:
       rego: |
@@ -82,7 +89,7 @@ spec:
            	# Check if resource is in exempt list
            	exempt_list := params.exemptions
            	matches := {asset.name} & cast_set(exempt_list)
-           	count(matches) = 0
+           	count(matches) == 0
            
            	# Check that zone is in allowlist/denylist
            	target_zones := params.zones
