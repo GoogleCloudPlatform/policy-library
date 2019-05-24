@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPComputeZoneV1
+package templates.gcp.GCPComputeZoneConstraintV1
 
 import data.validator.gcp.lib as lib
 
