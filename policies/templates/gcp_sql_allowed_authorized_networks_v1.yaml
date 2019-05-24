@@ -30,10 +30,10 @@ spec:
                 networks for Cloud SQL instances. For example, 199.27.25.0/24.
                 
                 The authorized networks specified in the instance need to
-                match or be a subnetwork of the ones specified in this
-                constraint. If no authorized_networks are specified in the
-                constraint, all connections to instances need to be mediated
-                by the Cloud SQL Proxy."
+                match the ones specified in this constraint. If no
+                authorized_networks are specified in the constraint, all
+                connections to instances need to be mediated by the
+                Cloud SQL Proxy."
               type: array
               items: string
 
@@ -78,7 +78,7 @@ spec:
             
             	matched_networks := {network |
             		network = configured_networks[_]
-            		net.cidr_contains(allowed_authorized_networks[_], network)
+            		allowed_authorized_networks[_] == network
             	}
             
             	forbidden := configured_networks - matched_networks
