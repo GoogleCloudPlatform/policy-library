@@ -14,33 +14,23 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPSQLAllowedAuthorizedNetworksV1
-
-import data.validator.gcp.lib as lib
+package templates.gcp.GCPStorageBucketWorldReadableConstraintV1
 
 deny[{
 	"msg": message,
 	"details": metadata,
 }] {
 	constraint := input.constraint
-	lib.get_constraint_params(constraint, params)
-
 	asset := input.asset
-	asset.asset_type == "sqladmin.googleapis.com/Instance"
+	asset.asset_type == "storage.googleapis.com/Bucket"
 
-	allowed_authorized_networks = lib.get_default(params, "authorized_networks", [])
-	configured_networks := {network |
-		network = asset.resource.settings.ipConfiguration.authorizedNetworks[_].value
-	}
+	world_readable_checks := [
+		asset.iam_policy.bindings[_].members[_] == "allUsers",
+		asset.iam_policy.bindings[_].members[_] == "allAuthenticatedUsers",
+	]
 
-	matched_networks := {network |
-		network = configured_networks[_]
-		allowed_authorized_networks[_] == network
-	}
+	world_readable_checks[_] == true
 
-	forbidden := configured_networks - matched_networks
-	count(forbidden) > 0
-
-	message := sprintf("%v has authorized networks that are not allowed: %v", [asset.name, forbidden])
+	message := sprintf("%v is publicly accessable", [asset.name])
 	metadata := {"resource": asset.name}
 }
