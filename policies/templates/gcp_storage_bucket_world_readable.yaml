@@ -65,10 +65,4 @@ spec:
            	message := sprintf("%v is publicly accessable", [asset.name])
            	metadata := {"resource": asset.name}
            }
-           
-           ###########################
-           # Rule Utilities
-           ###########################
-           
-           user_type_present(bindings, user_type) = {bindings[_].members[_] == user_type}
            #ENDINLINE

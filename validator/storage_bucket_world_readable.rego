@@ -24,21 +24,13 @@ deny[{
 	asset := input.asset
 	asset.asset_type == "google.cloud.storage.Bucket"
 
-  world_readable_checks := [
-	   asset.iam_policy.bindings[_].members[_] == "allUsers",
-	   asset.iam_policy.bindings[_].members[_] == "allAuthenticatedUsers"
+	world_readable_checks := [
+		asset.iam_policy.bindings[_].members[_] == "allUsers",
+		asset.iam_policy.bindings[_].members[_] == "allAuthenticatedUsers",
 	]
 
 	world_readable_checks[_] == true
 
 	message := sprintf("%v is publicly accessable", [asset.name])
 	metadata := {"resource": asset.name}
-}
-
-###########################
-# Rule Utilities
-###########################
-
-user_type_present(bindings, user_type) = {
-	bindings[_].members[_] == user_type
 }
