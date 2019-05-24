@@ -35,7 +35,7 @@ deny[{
 
 	matched_networks := {network |
 		network = configured_networks[_]
-		net.cidr_contains(allowed_authorized_networks[_], network)
+		allowed_authorized_networks[_] == network
 	}
 
 	forbidden := configured_networks - matched_networks
