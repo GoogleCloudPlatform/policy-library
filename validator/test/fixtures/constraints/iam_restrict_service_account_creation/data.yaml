@@ -15,9 +15,10 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPIAMRestrictServiceAccountCreationConstraintV1
 metadata:
-  name: gcp-iam-restrict-service-account-creation-v1
+  name: iam_restrict_service_account_creation
 spec:
   severity: high
   match:
-    target: ["organization/*"]
-    exclude: [] # optional, default is no exclusions
+    gcp:
+      target: ["organization/*"]
+    parameters: {}

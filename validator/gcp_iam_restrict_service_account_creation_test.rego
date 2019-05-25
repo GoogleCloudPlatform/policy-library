@@ -13,11 +13,12 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPIAMServiceAccountCreationConstraintV1
+package templates.gcp.GCPIAMRestrictServiceAccountCreationConstraintV1
 
 all_violations[violation] {
 	resource := data.test.fixtures.assets.service_accounts[_]
 	constraint := data.test.fixtures.constraints.iam_restrict_service_account_creation
+
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
 
@@ -26,10 +27,10 @@ all_violations[violation] {
 
 # Count total violations
 test_service_account_creation_violations_count {
-	count(all_violations) = 2
+	count(all_violations) == 2
 }
 
 test_service_account_creation_violation_basic {
-	violation := all_violations[_]
-	violation.details.resource == "//iam.googleapis.com/projects/test-project/serviceAccounts/102628377948083709745"
+	violation_resources := {r | r = all_violations[_].details.resource}
+	violation_resources == {"//iam.googleapis.com/projects/test-project/serviceAccounts/102628377948083709745", "//iam.googleapis.com/projects/test-project/serviceAccounts/117792594799353095848"}
 }

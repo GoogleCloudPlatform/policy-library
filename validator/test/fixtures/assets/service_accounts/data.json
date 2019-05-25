@@ -20,25 +20,6 @@
     },
     {
         "asset_type": "google.iam.ServiceAccount",
-        "name": "//iam.googleapis.com/projects/test-project/serviceAccounts/123456789",
-        "resource": {
-            "data": {
-                "displayName": "compute-default",
-                "email": "1080966154435-compute@developer.gserviceaccount.com",
-                "etag": "AbCdOpZaT/Kc=",
-                "name": "projects/test-project/serviceAccounts/1080966154435-compute@developer.gserviceaccount.com",
-                "oauth2ClientId": "1111432434525345345",
-                "projectId": "test-project",
-                "uniqueId": "102628377948083709746"
-            },
-            "discovery_document_uri": "https://iam.googleapis.com/$discovery/rest",
-            "discovery_name": "ServiceAccount",
-            "parent": "//cloudresourcemanager.googleapis.com/projects/773711848681",
-            "version": "v1"
-        }
-    },
-    {
-        "asset_type": "google.iam.ServiceAccount",
         "name": "//iam.googleapis.com/projects/test-project/serviceAccounts/103713983260897258813",
         "resource": {
             "data": {
@@ -55,5 +36,24 @@
             "parent": "//cloudresourcemanager.googleapis.com/projects/773711848681",
             "version": "v1"
         }
+    },
+    {
+        "asset_type": "google.iam.ServiceAccount",
+        "name": "//iam.googleapis.com/projects/test-project/serviceAccounts/117792594799353095848",
+        "resource": {
+            "data": {
+                "email": "my-account@test-project.iam.gserviceaccount.com",
+                "etag": "BwVkyv5Uzbw=",
+                "name": "projects/test-project/serviceAccounts/my-account@test-project.iam.gserviceaccount.com",
+                "oauth2ClientId": "117792594799353095848",
+                "projectId": "test-project",
+                "uniqueId": "117792594799353095848"
+            },
+            "discovery_document_uri": "https://iam.googleapis.com/$discovery/rest",
+            "discovery_name": "ServiceAccount",
+            "parent": "//cloudresourcemanager.googleapis.com/projects/773711848681",
+            "version": "v1"
+        }
     }
+
 ]
