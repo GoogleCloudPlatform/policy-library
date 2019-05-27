@@ -41,7 +41,7 @@ spec:
             exemptions:
               type: array
               items: string
-              description: "Array of devices to exempt from zonal restriction. String values in the array should 
+              description: "Array of compute assets to exempt from zonal restriction. String values in the array should 
               correspond to the full name values of exempted devices."
             zones:
               type: array
