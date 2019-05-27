@@ -46,7 +46,7 @@ spec:
             zones:
               type: array
               items: string
-              description: "Array of zone names to be allowed or denied. Should be the simple form of hte zone name, 
+              description: "Array of zone names to be allowed or denied. Should be the simple form of the zone name, 
               e.g. asia-east1-b."
   targets:
     validation.gcp.forsetisecurity.org:
