@@ -52,7 +52,7 @@ deny[{
 # Rule Utilities
 #################
 
-# Determine the overlap between zones under test and constraint
+# Determine the overlap between locations under test and constraint
 # By default (allowlist), we violate if there isn't overlap
 target_location_match_count(mode) = 0 {
 	mode != "denylist"
