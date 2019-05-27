@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPComputeZoneConstraintV1
+package templates.gcp.GCPBigQueryDatasetLocationConstraintV1
 
 import data.validator.gcp.lib as lib
 
