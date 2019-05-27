@@ -6,7 +6,7 @@
             "version": "v2",
             "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/bigquery/v2/rest",
             "discovery_name": "Dataset",
-            "parent": "//cloudresourcemanager.googleapis.com/projects/142577876613",
+            "parent": "//cloudresourcemanager.googleapis.com/projects/0000000000",
             "data": {
                 "datasetReference": {
                     "datasetId": "us_west2_test_dataset",
@@ -25,7 +25,7 @@
             "version": "v2",
             "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/bigquery/v2/rest",
             "discovery_name": "Dataset",
-            "parent": "//cloudresourcemanager.googleapis.com/projects/142577876613",
+            "parent": "//cloudresourcemanager.googleapis.com/projects/000000000",
             "data": {
                 "datasetReference": {
                     "datasetId": "eu_test_dataset",
@@ -44,7 +44,7 @@
             "version": "v2",
             "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/bigquery/v2/rest",
             "discovery_name": "Dataset",
-            "parent": "//cloudresourcemanager.googleapis.com/projects/142577876613",
+            "parent": "//cloudresourcemanager.googleapis.com/projects/0000000000",
             "data": {
                 "datasetReference": {
                     "datasetId": "us_east4_test_dataset",
