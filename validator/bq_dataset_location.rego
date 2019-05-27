@@ -18,9 +18,9 @@ package templates.gcp.GCPBigQueryDatasetLocationConstraintV1
 
 import data.validator.gcp.lib as lib
 
-#####################################
-# Find Compute Asset Zone Violations
-#####################################
+############################################
+# Find BigQuery Dataset Location Violations
+############################################
 deny[{
 	"msg": message,
 	"details": metadata,
