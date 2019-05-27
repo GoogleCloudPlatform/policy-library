@@ -1,6 +1,6 @@
  [
     {
-        "name": "//bigquery.googleapis.com/projects/remund-sandbox2/datasets/us_west2_test_dataset",
+        "name": "//bigquery.googleapis.com/projects/sandbox2/datasets/us_west2_test_dataset",
         "asset_type": "bigquery.googleapis.com/Dataset",
         "resource": {
             "version": "v2",
@@ -10,16 +10,16 @@
             "data": {
                 "datasetReference": {
                     "datasetId": "us_west2_test_dataset",
-                    "projectId": "remund-sandbox2"
+                    "projectId": "sandbox2"
                 },
-                "id": "remund-sandbox2:us_west2_test_dataset",
+                "id": "sandbox2:us_west2_test_dataset",
                 "kind": "bigquery#dataset",
                 "location": "us-west2"
             }
         }
     },
     {
-        "name": "//bigquery.googleapis.com/projects/remund-sandbox2/datasets/eu_test_dataset",
+        "name": "//bigquery.googleapis.com/projects/sandbox2/datasets/eu_test_dataset",
         "asset_type": "bigquery.googleapis.com/Dataset",
         "resource": {
             "version": "v2",
@@ -29,16 +29,16 @@
             "data": {
                 "datasetReference": {
                     "datasetId": "eu_test_dataset",
-                    "projectId": "remund-sandbox2"
+                    "projectId": "sandbox2"
                 },
-                "id": "remund-sandbox2:eu_test_dataset",
+                "id": "sandbox2:eu_test_dataset",
                 "kind": "bigquery#dataset",
                 "location": "EU"
             }
         }
     },
     {
-        "name": "//bigquery.googleapis.com/projects/remund-sandbox2/datasets/us_east4_test_dataset",
+        "name": "//bigquery.googleapis.com/projects/sandbox2/datasets/us_east4_test_dataset",
         "asset_type": "bigquery.googleapis.com/Dataset",
         "resource": {
             "version": "v2",
@@ -48,9 +48,9 @@
             "data": {
                 "datasetReference": {
                     "datasetId": "us_east4_test_dataset",
-                    "projectId": "remund-sandbox2"
+                    "projectId": "sandbox2"
                 },
-                "id": "remund-sandbox2:us_east4_test_dataset",
+                "id": "sandbox2:us_east4_test_dataset",
                 "kind": "bigquery#dataset",
                 "location": "us-east4"
             }
