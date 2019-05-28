@@ -23,11 +23,11 @@ deny[{
 }] {
 	constraint := input.constraint
 	asset := input.asset
-	asset.asset_type == "google.iam.ServiceAccount"
+	asset.asset_type == "iam.googleapis.com/ServiceAccount"
 	service_account := asset.resource.data
 	service_account_email := service_account.email
 
-	# TODO(johngao): should include project id.
+	# TODO(johngao): should include project id. 
 endwith(	service_account_email, "iam.gserviceaccount.com")
 
 	message := sprintf("%v: should not exist by policy.", [asset.name])

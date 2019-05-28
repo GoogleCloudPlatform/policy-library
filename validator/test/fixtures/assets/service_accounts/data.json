@@ -1,6 +1,6 @@
 [
     {
-        "asset_type": "google.iam.ServiceAccount",
+        "asset_type": "iam.googleapis.com/ServiceAccount",
         "name": "//iam.googleapis.com/projects/test-project/serviceAccounts/102628377948083709745",
         "resource": {
             "data": {
@@ -19,7 +19,7 @@
         }
     },
     {
-        "asset_type": "google.iam.ServiceAccount",
+        "asset_type": "iam.googleapis.com/ServiceAccount",
         "name": "//iam.googleapis.com/projects/test-project/serviceAccounts/103713983260897258813",
         "resource": {
             "data": {
@@ -38,7 +38,7 @@
         }
     },
     {
-        "asset_type": "google.iam.ServiceAccount",
+        "asset_type": "iam.googleapis.com/ServiceAccount",
         "name": "//iam.googleapis.com/projects/test-project/serviceAccounts/117792594799353095848",
         "resource": {
             "data": {
