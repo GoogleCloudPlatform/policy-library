@@ -13,13 +13,15 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPSQLAllowedAuthorizedNetworksConstraintV1
+kind: GCPStorageBucketWorldReadableConstraintV1
 metadata:
-  name: sql_allowed_authorized_networks_subnet
+  name: require_storage_iam
+  annotations:
+    # Example of tying a constraint to a CIS benchmark
+    benchmark: CIS11_5.03
 spec:
   severity: high
   match:
     gcp:
       target: ["organization/*"]
-  parameters:
-    authorized_networks: ["35.187.118.0/20"]
+  parameters: {}
