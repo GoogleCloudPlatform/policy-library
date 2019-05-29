@@ -51,7 +51,7 @@ spec:
   targets:
     validation.gcp.forsetisecurity.org:
       rego: |
-            #INLINE("validator/compute_zone.rego")
+           #INLINE("validator/compute_zone.rego")
            #
            # Copyright 2019 Google LLC
            #
