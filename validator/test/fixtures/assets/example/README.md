@@ -1,0 +1,1 @@
+This directory should include the test fixture in JSON format. Keep the test fixtures independent and do not reuse them across tests. You should be able to export sample fixture data via Cloud Asset Inventory (CAI). See https://github.com/forseti-security/policy-library/blob/master/docs/cai.md for CAI usage.
