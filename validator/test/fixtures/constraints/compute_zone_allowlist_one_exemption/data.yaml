@@ -13,14 +13,16 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPGKERestrictPodTrafficConstraintV1
+kind: GCPComputeZoneConstraintV1
 metadata:
-  name: gke_restrict_pod_traffic
-  annotations:
-    benchmark: GKE_HARDENING_GUIDELINE
+  name: compute_zone_allowlist_one_exemption
 spec:
   severity: high
   match:
-    gcp:
-      target: ["organization/*"]
-  parameters: {}
+    target: ["organization/*"]
+  parameters:
+    mode: "allowlist"
+    zones:
+      - asia-east1-b
+    exemptions: 
+     - //compute.googleapis.com/projects/sandbox2/zones/us-east1-b/disks/disk-east1-b
