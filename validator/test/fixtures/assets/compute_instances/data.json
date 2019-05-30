@@ -222,5 +222,225 @@
         "zone": "https://www.googleapis.com/compute/v1/projects/test-project/zones/us-east1-b"
       }
     }
+  },
+  {
+    "name": "//compute.googleapis.com/projects/sandbox2/zones/us-west1-b/instances/instance-west1-b",
+    "asset_type": "compute.googleapis.com/Instance",
+    "resource": {
+        "version": "v1",
+        "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+        "discovery_name": "Instance",
+        "parent": "//cloudresourcemanager.googleapis.com/projects/142577876613",
+        "data": {
+            "canIpForward": false,
+            "cpuPlatform": "Intel Broadwell",
+            "creationTimestamp": "2019-05-15T12:54:56.081-07:00",
+            "deletionProtection": false,
+            "description": "",
+            "disk": [
+                {
+                    "autoDelete": true,
+                    "boot": true,
+                    "deviceName": "instance-west1-b",
+                    "guestOsFeature": [
+                        {
+                            "type": "VIRTIO_SCSI_MULTIQUEUE"
+                        }
+                    ],
+                    "index": 0,
+                    "interface": "SCSI",
+                    "license": [
+                        "https://www.googleapis.com/compute/v1/projects/debian-cloud/global/licenses/debian-9-stretch"
+                    ],
+                    "mode": "READ_WRITE",
+                    "source": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-west1-b/disks/instance-west1-b",
+                    "type": "PERSISTENT"
+                }
+            ],
+            "id": "7680465287756501088",
+            "labelFingerprint": "42WmSpB8rSM=",
+            "machineType": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-west1-b/machineTypes/n1-standard-1",
+            "name": "instance-west1-b",
+            "networkInterface": [
+                {
+                    "fingerprint": "DmucjcL5aT8=",
+                    "ipAddress": "10.138.0.2",
+                    "name": "nic0",
+                    "network": "https://www.googleapis.com/compute/v1/projects/sandbox2/global/networks/default",
+                    "subnetwork": "https://www.googleapis.com/compute/v1/projects/sandbox2/regions/us-west1/subnetworks/default"
+                }
+            ],
+            "scheduling": {
+                "automaticRestart": true,
+                "onHostMaintenance": "MIGRATE",
+                "preemptible": false
+            },
+            "selfLink": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-west1-b/instances/instance-west1-b",
+            "serviceAccount": [
+                {
+                    "email": "142577876613-compute@developer.gserviceaccount.com",
+                    "scope": [
+                        "https://www.googleapis.com/auth/devstorage.read_only",
+                        "https://www.googleapis.com/auth/logging.write",
+                        "https://www.googleapis.com/auth/monitoring.write",
+                        "https://www.googleapis.com/auth/servicecontrol",
+                        "https://www.googleapis.com/auth/service.management.readonly",
+                        "https://www.googleapis.com/auth/trace.append"
+                    ]
+                }
+            ],
+            "startRestricted": false,
+            "status": "RUNNING",
+            "tags": {
+                "fingerprint": "42WmSpB8rSM="
+            },
+            "zone": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-west1-b"
+        }
+    }
+  },
+  {
+    "name": "//compute.googleapis.com/projects/sandbox2/zones/us-east1-b/instances/instance-1",
+    "asset_type": "compute.googleapis.com/Instance",
+    "resource": {
+        "version": "v1",
+        "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+        "discovery_name": "Instance",
+        "parent": "//cloudresourcemanager.googleapis.com/projects/142577876613",
+        "data": {
+            "canIpForward": false,
+            "cpuPlatform": "Intel Haswell",
+            "creationTimestamp": "2019-05-15T08:50:28.550-07:00",
+            "deletionProtection": false,
+            "description": "",
+            "disk": [
+                {
+                    "autoDelete": true,
+                    "boot": true,
+                    "deviceName": "instance-1",
+                    "guestOsFeature": [
+                        {
+                            "type": "VIRTIO_SCSI_MULTIQUEUE"
+                        }
+                    ],
+                    "index": 0,
+                    "interface": "SCSI",
+                    "license": [
+                        "https://www.googleapis.com/compute/v1/projects/debian-cloud/global/licenses/debian-9-stretch"
+                    ],
+                    "mode": "READ_WRITE",
+                    "source": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b/disks/instance-1",
+                    "type": "PERSISTENT"
+                }
+            ],
+            "id": "5666252164258958252",
+            "labelFingerprint": "42WmSpB8rSM=",
+            "machineType": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b/machineTypes/n1-standard-2",
+            "name": "instance-1",
+            "networkInterface": [
+                {
+                    "fingerprint": "txRPD69rSyo=",
+                    "ipAddress": "10.142.0.2",
+                    "name": "nic0",
+                    "network": "https://www.googleapis.com/compute/v1/projects/sandbox2/global/networks/default",
+                    "subnetwork": "https://www.googleapis.com/compute/v1/projects/sandbox2/regions/us-east1/subnetworks/default"
+                }
+            ],
+            "scheduling": {
+                "automaticRestart": true,
+                "onHostMaintenance": "MIGRATE",
+                "preemptible": false
+            },
+            "selfLink": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b/instances/instance-1",
+            "serviceAccount": [
+                {
+                    "email": "cai-test-account@sandbox2.iam.gserviceaccount.com",
+                    "scope": [
+                        "https://www.googleapis.com/auth/cloud-platform"
+                    ]
+                }
+            ],
+            "startRestricted": false,
+            "status": "RUNNING",
+            "tags": {
+                "fingerprint": "42WmSpB8rSM="
+            },
+            "zone": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b"
+        }
+    }
+  },
+  {
+    "name": "//compute.googleapis.com/projects/sandbox2/zones/us-east1-b/instances/instance-east1-b",
+    "asset_type": "compute.googleapis.com/Instance",
+    "resource": {
+        "version": "v1",
+        "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+        "discovery_name": "Instance",
+        "parent": "//cloudresourcemanager.googleapis.com/projects/142577876613",
+        "data": {
+            "canIpForward": false,
+            "cpuPlatform": "Unknown CPU Platform",
+            "creationTimestamp": "2019-05-15T12:54:41.280-07:00",
+            "deletionProtection": false,
+            "description": "",
+            "disk": [
+                {
+                    "autoDelete": true,
+                    "boot": true,
+                    "deviceName": "instance-east1-b",
+                    "guestOsFeature": [
+                        {
+                            "type": "VIRTIO_SCSI_MULTIQUEUE"
+                        }
+                    ],
+                    "index": 0,
+                    "interface": "SCSI",
+                    "license": [
+                        "https://www.googleapis.com/compute/v1/projects/debian-cloud/global/licenses/debian-9-stretch"
+                    ],
+                    "mode": "READ_WRITE",
+                    "source": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b/disks/instance-east1-b",
+                    "type": "PERSISTENT"
+                }
+            ],
+            "id": "5442323693410832495",
+            "labelFingerprint": "42WmSpB8rSM=",
+            "machineType": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b/machineTypes/n1-standard-1",
+            "name": "instance-east1-b",
+            "networkInterface": [
+                {
+                    "fingerprint": "WeM4FEq7/I0=",
+                    "ipAddress": "10.142.0.3",
+                    "name": "nic0",
+                    "network": "https://www.googleapis.com/compute/v1/projects/sandbox2/global/networks/default",
+                    "subnetwork": "https://www.googleapis.com/compute/v1/projects/sandbox2/regions/us-east1/subnetworks/default"
+                }
+            ],
+            "scheduling": {
+                "automaticRestart": true,
+                "onHostMaintenance": "MIGRATE",
+                "preemptible": false
+            },
+            "selfLink": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b/instances/instance-east1-b",
+            "serviceAccount": [
+                {
+                    "email": "142577876613-compute@developer.gserviceaccount.com",
+                    "scope": [
+                        "https://www.googleapis.com/auth/devstorage.read_only",
+                        "https://www.googleapis.com/auth/logging.write",
+                        "https://www.googleapis.com/auth/monitoring.write",
+                        "https://www.googleapis.com/auth/servicecontrol",
+                        "https://www.googleapis.com/auth/service.management.readonly",
+                        "https://www.googleapis.com/auth/trace.append"
+                    ]
+                }
+            ],
+            "startRestricted": false,
+            "status": "STAGING",
+            "tags": {
+                "fingerprint": "42WmSpB8rSM="
+            },
+            "zone": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b"
+        }
+    }
   }
 ]

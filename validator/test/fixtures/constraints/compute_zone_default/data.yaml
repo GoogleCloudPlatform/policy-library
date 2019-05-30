@@ -13,13 +13,11 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPSQLAllowedAuthorizedNetworksConstraintV1
+kind: GCPComputeZoneConstraintV1
 metadata:
-  name: sql_allowed_authorized_networks_subnet
+  name: compute_zone_default
 spec:
   severity: high
   match:
-    gcp:
-      target: ["organization/*"]
-  parameters:
-    authorized_networks: ["35.187.118.0/20"]
+    target: ["organization/*"]
+    exclude: [] # optional, default is no exclusions
