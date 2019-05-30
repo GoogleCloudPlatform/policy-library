@@ -22,8 +22,8 @@ spec:
   crd:
     spec:
       names:
-        kind: GKEDashboardConstraintV1
-        plural: GKEDashboardConstraintsV1
+        kind: GCPGKEDashboardConstraintV1
+        plural: GCPGKEDashboardConstraintsV1
       validation:
         openAPIV3Schema:
           properties: {}
@@ -47,7 +47,7 @@ spec:
             # limitations under the License.
             #
             
-            package templates.gcp.GKEDashboardConstraintV1
+            package templates.gcp.GCPGKEDashboardConstraintV1
             
             import data.validator.gcp.lib as lib
             

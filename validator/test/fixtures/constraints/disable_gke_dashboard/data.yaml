@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GKEDashboardConstraintV1
+kind: GCPGKEDashboardConstraintV1
 metadata:
   name: disable_gke_dashboard
   annotations:
