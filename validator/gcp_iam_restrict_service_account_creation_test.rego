@@ -1,5 +1,4 @@
-#
-# Copyright 2018 Google LLC
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,13 +13,11 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPGKEDashboardConstraintV1
-
-import data.validator.gcp.lib as lib
+package templates.gcp.GCPIAMRestrictServiceAccountCreationConstraintV1
 
 all_violations[violation] {
-	resource := data.test.fixtures.assets.gke_dashboard[_]
-	constraint := data.test.fixtures.constraints.disable_gke_dashboard
+	resource := data.test.fixtures.assets.service_accounts[_]
+	constraint := data.test.fixtures.constraints.iam_restrict_service_account_creation
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
@@ -28,13 +25,12 @@ all_violations[violation] {
 	violation := issues[_]
 }
 
-test_dashboard_disable_violations_basic {
-	count(all_violations) == 1
-	violation := all_violations[_]
-	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust"
+# Count total violations
+test_service_account_creation_violations_count {
+	count(all_violations) == 2
 }
 
-test_dashboard_disable_no_violation {
-	found_violations = all_violations with data.test.fixtures.assets.gke_dashboard as []
-	count(found_violations) == 0
+test_service_account_creation_violation_basic {
+	violation_resources := {r | r = all_violations[_].details.resource}
+	violation_resources == {"//iam.googleapis.com/projects/test-project/serviceAccounts/102628377948083709745", "//iam.googleapis.com/projects/test-project/serviceAccounts/117792594799353095848"}
 }

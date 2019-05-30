@@ -13,14 +13,12 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPGKERestrictPodTrafficConstraintV1
+kind: GCPIAMRestrictServiceAccountCreationConstraintV1
 metadata:
-  name: gke_restrict_pod_traffic
-  annotations:
-    benchmark: GKE_HARDENING_GUIDELINE
+  name: iam_restrict_service_account_creation
 spec:
   severity: high
   match:
     gcp:
       target: ["organization/*"]
-  parameters: {}
+    parameters: {}

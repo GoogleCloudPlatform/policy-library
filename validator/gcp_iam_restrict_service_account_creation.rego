@@ -1,5 +1,4 @@
-#
-# Copyright 2018 Google LLC
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +13,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPGKEDashboardConstraintV1
+package templates.gcp.GCPIAMRestrictServiceAccountCreationConstraintV1
 
 import data.validator.gcp.lib as lib
 
@@ -24,21 +23,10 @@ deny[{
 }] {
 	constraint := input.constraint
 	asset := input.asset
-	asset.asset_type == "container.googleapis.com/Cluster"
-
-	container := asset.resource.data
-	disabled := dashboard_disabled(container)
-	disabled == false
-
-	message := sprintf("%v has kubernetes dashboard enabled.", [asset.name])
+	asset.asset_type == "iam.googleapis.com/ServiceAccount"
+	service_account := asset.resource.data
+	service_account_email := service_account.email
+	endswith(service_account_email, "iam.gserviceaccount.com")
+	message := sprintf("%v: should not exist by policy.", [asset.name])
 	metadata := {"resource": asset.name}
-}
-
-###########################
-# Rule Utilities
-###########################
-dashboard_disabled(container) = dashboard_disabled {
-	addons_config := lib.get_default(container, "addonsConfig", "default")
-	dashboard := lib.get_default(addons_config, "kubernetesDashboard", "default")
-	dashboard_disabled := lib.get_default(dashboard, "disabled", false)
 }
