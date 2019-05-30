@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GKEDashboardConstraintV1
+package templates.gcp.GCPGKEDashboardConstraintV1
 
 import data.validator.gcp.lib as lib
 
