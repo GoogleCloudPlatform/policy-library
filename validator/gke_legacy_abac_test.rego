@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GKELegacyAbacConstraintV1
+package templates.gcp.GCPGKELegacyAbacConstraintV1
 
 import data.validator.gcp.lib as lib
 
