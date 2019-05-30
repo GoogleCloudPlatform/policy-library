@@ -32,4 +32,3 @@ deny[{
 	message := sprintf("IAM policy for %v is missing audit log type %v for service %v", [asset.name, params.log_type, params.service])
 	metadata := {"resource": asset.name}
 }
-
