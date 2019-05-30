@@ -38,7 +38,7 @@ deny[{
 	# the asset name in the input parameter.
 	# A violation happens if the given input asset name is in the
 	# "asset_names" parameter.
-	{asset.name} == {asset.name} & cast_set(params.asset_names)
+	asset.name == params.asset_names[_]
 
 	# You'd want to customize the error message and metadata here.
 	message := sprintf("%v is a bad asset.", [asset.name])	
