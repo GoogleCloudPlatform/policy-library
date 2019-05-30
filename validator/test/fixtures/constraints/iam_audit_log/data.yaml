@@ -1,0 +1,9 @@
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: GCPIAMAuditLogConstraintV1
+metadata:
+  name: audit_test
+spec:
+  severity: high
+  parameters:
+    service: cloudasset.googleapis.com
+    log_type: 3

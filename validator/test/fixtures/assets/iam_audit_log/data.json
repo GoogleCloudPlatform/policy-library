@@ -1,0 +1,31 @@
+[
+    {
+        "name": "//cloudresourcemanager.googleapis.com/projects/186783260185",
+        "asset_type": "cloudresourcemanager.googleapis.com/Project",
+        "iam_policy": {
+            "version": 1,
+            "etag": "BwWKImhngxs=",
+            "audit_configs": [
+                {
+                    "service": "cloudasset.googleapis.com",
+                    "audit_log_configs": [
+                        {
+                            "log_type": 1
+                        },
+                        {
+                            "log_type": 3
+                        }
+                    ]
+                },
+                {
+                    "service": "healthcare.googleapis.com",
+                    "audit_log_configs": [
+                        {
+                            "log_type": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+]
