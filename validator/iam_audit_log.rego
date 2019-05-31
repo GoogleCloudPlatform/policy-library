@@ -22,13 +22,27 @@ deny[{
 	"msg": message,
 	"details": metadata,
 }] {
-	constraint := input.constraint
-	lib.get_constraint_params(constraint, params)
-	asset := input.asset
-	asset.asset_type == "cloudresourcemanager.googleapis.com/Project"
-	audit_configs := lib.get_default(asset.iam_policy, "audit_configs", {})
-	configs := [c | c = audit_configs[_]; c.service == params.service; c.audit_log_configs[_].log_type == params.log_type]
-	count(configs) == 0
-	message := sprintf("IAM policy for %v is missing audit log type %v for service %v", [asset.name, params.log_type, params.service])
-	metadata := {"resource": asset.name}
+	asset_types := {
+		"cloudresourcemanager.googleapis.com/Organization",
+		"cloudresourcemanager.googleapis.com/Folder",
+		"cloudresourcemanager.googleapis.com/Project",
+	}
+
+	input.asset.asset_type == asset_types[_]
+	count(expected_audit_configs) == 0
+	lib.get_constraint_params(input.constraint, params)
+	message := sprintf("IAM policy for %v does not have correct audit logs enabled in service %v", [input.asset.name, params.service])
+
+	metadata := {"resource": input.asset.name}
+}
+
+expected_audit_configs[config] {
+	configs := lib.get_default(input.asset.iam_policy, "audit_configs", {})
+	config := configs[_]
+	lib.get_constraint_params(input.constraint, params)
+	config.service == params.service
+	actual_log_types := {t | t = config.audit_log_configs[_].log_type}
+	expected_log_types := cast_set(params.log_types)
+	missing_log_types := expected_log_types - actual_log_types
+	count(missing_log_types) == 0
 }
