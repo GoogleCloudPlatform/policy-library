@@ -21,5 +21,3 @@ test_audit_log_missing_service {
 test_audit_log_missing_log_types {
 	violations[_].details.resource == "//cloudresourcemanager.googleapis.com/projects/wrong-log-type"
 }
-
-
