@@ -10,6 +10,16 @@ violations[violation] {
 	violation := issues[_]
 }
 
-test_audit_log_violation {
-	count(violations) == 0
+test_audit_log_violation_count {
+	count(violations) == 2
 }
+
+test_audit_log_missing_service {
+	violations[_].details.resource == "//cloudresourcemanager.googleapis.com/projects/wrong-service"
+}
+
+test_audit_log_missing_log_types {
+	violations[_].details.resource == "//cloudresourcemanager.googleapis.com/projects/wrong-log-type"
+}
+
+
