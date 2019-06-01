@@ -22,7 +22,6 @@ apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
   name: gcp-bq-dataset-location-v1
-  annoations:
 spec:
   crd:
     spec:
