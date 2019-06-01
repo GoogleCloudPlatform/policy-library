@@ -16,7 +16,7 @@
 
 package templates.gcp.GCPBigQueryDatasetLocationConstraintV1
 
-import data.test.fixtures.assets.bq_datasets.location_constraint as fixture_datasets
+import data.test.fixtures.assets.bq_datasets.bq_dataset_location_constraint as fixture_datasets
 import data.test.fixtures.assets.compute_instances as fixture_instances
 import data.test.fixtures.constraints as fixture_constraints
 
