@@ -45,8 +45,8 @@ spec:
             locations:
               type: array
               items: string
-              description: "Array of location names to be allowed or denied. Should be the simple form of the location name, 
-              e.g. EU or us-west2."
+              description: "Array of location names to be allowed or denied. Should be the the location name, whether regional  
+              (e.g. us-west2) or multi-regional (e.g. EU), as defined at https://cloud.google.com/bigquery/docs/locations."
   targets:
     validation.gcp.forsetisecurity.org:
       rego: |
