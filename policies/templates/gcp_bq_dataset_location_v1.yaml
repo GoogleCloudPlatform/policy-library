@@ -21,7 +21,7 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-bq-dataset-location-v1
+  name: gcp-bigquery-dataset-location-v1
 spec:
   crd:
     spec:
