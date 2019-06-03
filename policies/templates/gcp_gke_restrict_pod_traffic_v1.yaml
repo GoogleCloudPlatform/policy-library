@@ -29,8 +29,7 @@ spec:
           properties: {}
   targets:
     validation.gcp.forsetisecurity.org:
-      rego: |
-         #INLINE("validator/gke_restrict_pod_traffic.rego")
+      rego: | #INLINE("validator/gke_restrict_pod_traffic.rego")
          #
          # Copyright 2018 Google LLC
          #

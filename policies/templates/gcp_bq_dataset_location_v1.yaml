@@ -49,8 +49,7 @@ spec:
               (e.g. us-west2) or multi-regional (e.g. EU), as defined at https://cloud.google.com/bigquery/docs/locations."
   targets:
     validation.gcp.forsetisecurity.org:
-      rego: |
-            #INLINE("validator/bq_dataset_location.rego")
+      rego: | #INLINE("validator/bq_dataset_location.rego")
            
            #
            

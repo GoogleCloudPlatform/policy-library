@@ -27,8 +27,7 @@ spec:
           properties: {}
   targets:
     validation.gcp.forsetisecurity.org:
-      rego: |
-            #INLINE("validator/dnssec.rego")
+      rego: | #INLINE("validator/dnssec.rego")
             #
             # Copyright 2018 Google LLC
             #
