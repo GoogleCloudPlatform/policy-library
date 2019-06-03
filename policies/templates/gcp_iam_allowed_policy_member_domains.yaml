@@ -48,8 +48,7 @@ spec:
               items: string
   targets:
    validation.gcp.forsetisecurity.org:
-      rego: |
-            #INLINE("validator/iam_allowed_policy_member_domains.rego")
+      rego: | #INLINE("validator/iam_allowed_policy_member_domains.rego")
             #
             # Copyright 2019 Google LLC
             #

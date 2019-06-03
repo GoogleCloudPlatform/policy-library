@@ -29,8 +29,7 @@ spec:
           properties: {}
   targets:
     validation.gcp.forsetisecurity.org:
-      rego: |
-            #INLINE("validator/gke_dashboard.rego")
+      rego: | #INLINE("validator/gke_dashboard.rego")
             #
             # Copyright 2018 Google LLC
             #

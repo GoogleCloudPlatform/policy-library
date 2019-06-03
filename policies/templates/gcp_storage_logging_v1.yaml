@@ -27,8 +27,7 @@ spec:
           properties: {}
   targets:
    validation.gcp.forsetisecurity.org:
-      rego: |
-            #INLINE("validator/storage_logging.rego")
+      rego: | #INLINE("validator/storage_logging.rego")
             #
             # Copyright 2018 Google LLC
             #

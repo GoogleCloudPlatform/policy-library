@@ -27,8 +27,7 @@ spec:
           properties: {}
   targets:
     validation.gcp.forsetisecurity.org:
-      rego: |
-           #INLINE("validator/cmek_rotation.rego")
+      rego: | #INLINE("validator/cmek_rotation.rego")
            #
            # Copyright 2018 Google LLC
            #
