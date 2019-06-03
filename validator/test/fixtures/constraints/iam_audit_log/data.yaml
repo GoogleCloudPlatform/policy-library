@@ -2,7 +2,7 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPIAMAuditLogConstraintV1
 metadata:
   name: audit_test
-spec:  
+spec:
   parameters:
     service: cloudasset.googleapis.com
-    log_types: [2, 3]
+    log_types: [DATA_READ, DATA_WRITE]

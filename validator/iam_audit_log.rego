@@ -41,8 +41,14 @@ expected_audit_configs[config] {
 	config := configs[_]
 	lib.get_constraint_params(input.constraint, params)
 	config.service == params.service
-	actual_log_types := {t | t = config.audit_log_configs[_].log_type}
-	expected_log_types := cast_set(params.log_types)
-	missing_log_types := expected_log_types - actual_log_types
+	log_type_map := {
+		"ADMIN_READ": 1,
+		"DATA_WRITE": 2,
+		"DATA_READ": 3,
+	}
+
+	got_log_types := {t | t = config.audit_log_configs[_].log_type}
+	want_log_types := {t | t = log_type_map[params.log_types[_]]}
+	missing_log_types := want_log_types - got_log_types
 	count(missing_log_types) == 0
 }
