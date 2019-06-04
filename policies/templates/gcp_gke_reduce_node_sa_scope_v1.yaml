@@ -27,8 +27,10 @@ spec:
       validation:
         openAPIV3Schema:
           properties:
-            # The OAuth scope you want your node service account has.
-            # e.g. "https://www.googleapis.com/auth/monitoring"
+            # The list of OAuth scopes that can be assigned to the node service account.
+            # This will check and make sure the node service account doesn't have more scopes
+            # than what is listed here.
+            # Example scope: "https://www.googleapis.com/auth/monitoring"
             # You can read more about access scopes here:
             # https://cloud.google.com/compute/docs/access/service-accounts#accesscopesiam
             oauth_scopes:
