@@ -13,9 +13,9 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPGKEReduceNodeSAConstraintV1
+kind: GCPGKEAllowedNodeSAConstraintV1
 metadata:
-  name: gke_reduce_node_service_account_scope_customized
+  name: gke_allowed_node_service_account_scope_default
   annotations:
     benchmark: GKE_HARDENING_GUIDELINE
 spec:
@@ -23,8 +23,4 @@ spec:
   match:
     gcp:
       target: ["organization/*"]
-  parameters: 
-    oauth_scopes:
-      - "https://www.googleapis.com/auth/logging.write"
-      - "https://www.googleapis.com/auth/monitoring"
-      - "https://www.googleapis.com/auth/devstorage.read_only"
+  parameters: {}

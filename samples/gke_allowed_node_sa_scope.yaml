@@ -13,9 +13,9 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPGKEReduceNodeSAConstraintV1
+kind: GCPGKEAllowedNodeSAConstraintV1
 metadata:
-  name: gke_reduce_node_service_account_scope_default
+  name: gke_allowed_node_service_account_scope_default
   annotations:
     benchmark: GKE_HARDENING_GUIDELINE
 spec:
@@ -23,4 +23,6 @@ spec:
   match:
     gcp:
       target: ["organization/*"]
-  parameters: {}
+  # By default, the scopes listed here is being used:
+  # https://cloud.google.com/kubernetes-engine/docs/how-to/hardening-your-cluster#reduce_node_sa_scopes
+  parameters: {} 

@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPGKEReduceNodeSAConstraintV1
+package templates.gcp.GCPGKEAllowedNodeSAConstraintV1
 
 import data.validator.gcp.lib as lib
 
@@ -40,26 +40,21 @@ deny[{
 	oauth_scopes := lib.get_default(params, "oauth_scopes", default_oauth_scopes)
 
 	container := asset.resource.data
-	additional_scopes := find_additional_oauth_scopes(container, oauth_scopes)
+	node_pools := lib.get_default(container, "nodePools", [])
+	node_pool := node_pools[_]
+	config := lib.get_default(node_pool, "config", {})
+	additional_scopes := find_additional_oauth_scopes(config, oauth_scopes)
 	count(additional_scopes) != 0
 
-	message := sprintf("Additional OAuth scope %v is assigned to the node service account.", additional_scopes)
+	message := sprintf("Additional OAuth scope %v is assigned to the node service account '%v'.", [additional_scopes, config.serviceAccount])
+
 	metadata := {"resource": asset.name}
 }
 
 ###########################
 # Rule Utilities
 ###########################
-find_additional_oauth_scopes(container, oauth_scopes) = additional_scopes {
-	node_pools := lib.get_default(container, "nodePools", [])
-	node_pool := node_pools[_]
-	config := lib.get_default(node_pool, "config", {})
+find_additional_oauth_scopes(config, oauth_scopes) = additional_scopes {
 	node_oauth_scopes := lib.get_default(config, "oauthScopes", [])
-
-	additional_scopes := [scope | scope = node_oauth_scopes[_]; not check_scope_in_scopes(oauth_scopes, scope)]
-}
-
-check_scope_in_scopes(oauth_scopes, scope) {
-	oauth_scope := oauth_scopes[_]
-	oauth_scope == scope
+	additional_scopes := cast_set(node_oauth_scopes) - cast_set(oauth_scopes)
 }
