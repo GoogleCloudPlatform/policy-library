@@ -27,8 +27,7 @@ spec:
           properties: {}
   targets:
    validation.gcp.forsetisecurity.org:
-      rego: |
-           #INLINE("validator/storage_bucket_world_readable.rego")
+      rego: | #INLINE("validator/storage_bucket_world_readable.rego")
            #
            # Copyright 2018 Google LLC
            #

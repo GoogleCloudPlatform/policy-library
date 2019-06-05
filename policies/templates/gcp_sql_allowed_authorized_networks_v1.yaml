@@ -39,8 +39,7 @@ spec:
 
   targets:
    validation.gcp.forsetisecurity.org:
-      rego: |
-            #INLINE("validator/sql_allowed_authorized_networks.rego")
+      rego: | #INLINE("validator/sql_allowed_authorized_networks.rego")
             #
             # Copyright 2018 Google LLC
             #
