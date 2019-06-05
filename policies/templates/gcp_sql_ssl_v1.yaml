@@ -27,8 +27,7 @@ spec:
           properties: {}
   targets:
    validation.gcp.forsetisecurity.org:
-      rego: |
-            #INLINE("validator/sql_ssl.rego")
+      rego: | #INLINE("validator/sql_ssl.rego")
 
             #
 

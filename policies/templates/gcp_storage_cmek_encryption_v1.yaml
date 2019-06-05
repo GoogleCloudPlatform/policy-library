@@ -27,8 +27,7 @@ spec:
           properties: {}
   targets:
    validation.gcp.forsetisecurity.org:
-      rego: |
-            #INLINE("validator/storage_cmek_encryption.rego")
+      rego: | #INLINE("validator/storage_cmek_encryption.rego")
             #
             # Copyright 2019 Google LLC
             #

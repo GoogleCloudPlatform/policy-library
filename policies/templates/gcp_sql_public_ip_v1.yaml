@@ -27,8 +27,7 @@ spec:
           properties: {}
   targets:
     validation.gcp.forsetisecurity.org:
-      rego: |
-           #INLINE("validator/sql_public_ip.rego")
+      rego: | #INLINE("validator/sql_public_ip.rego")
            #
            # Copyright 2018 Google LLC
            #
