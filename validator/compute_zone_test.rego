@@ -16,9 +16,9 @@
 
 package templates.gcp.GCPComputeZoneConstraintV1
 
-import data.test.fixtures.assets.compute_disks as fixture_disks
-import data.test.fixtures.assets.compute_instances as fixture_instances
-import data.test.fixtures.constraints as fixture_constraints
+import data.test.fixtures.assets.GCPComputeZoneConstraintV1.disks as fixture_disks
+import data.test.fixtures.assets.GCPComputeZoneConstraintV1.instances as fixture_instances
+import data.test.fixtures.constraints.GCPComputeZoneConstraintV1 as fixture_constraints
 
 # Final all violations of our test cases
 
@@ -62,7 +62,7 @@ test_compute_zone_no_constraints {
 
 # Test for no violations with empty parameters
 violations_with_empty_parameters[violation] {
-	constraints := [fixture_constraints.compute_zone_default]
+	constraints := [fixture_constraints.zone_default]
 	combined_assets := array.concat(fixture_instances, fixture_disks)
 	found_violations := find_violations with data.assets as combined_assets
 		 with data.test_constraints as constraints
@@ -78,7 +78,7 @@ test_compute_zone_default {
 
 # Test empty denylist
 violations_with_empty_denylist[violation] {
-	constraints := [fixture_constraints.compute_zone_denylist_none]
+	constraints := [fixture_constraints.denylist_none]
 	combined_assets := array.concat(fixture_instances, fixture_disks)
 	found_violations := find_violations with data.assets as combined_assets
 		 with data.test_constraints as constraints
@@ -94,7 +94,7 @@ test_compute_zone_denylist_none {
 
 # Test empty allowlist
 violations_with_empty_allowlist[violation] {
-	constraints := [fixture_constraints.compute_zone_allowlist_none]
+	constraints := [fixture_constraints.allowlist_none]
 	combined_assets := array.concat(fixture_instances, fixture_disks)
 	found_violations := find_violations with data.assets as combined_assets
 		 with data.test_constraints as constraints
@@ -110,7 +110,7 @@ test_compute_zone_allowlist_none {
 
 # Test denylist with single zone
 violations_with_single_denylist[violation] {
-	constraints := [fixture_constraints.compute_zone_denylist_one]
+	constraints := [fixture_constraints.denylist_one]
 	combined_assets := array.concat(fixture_instances, fixture_disks)
 	found_violations := find_violations with data.assets as combined_assets
 		 with data.test_constraints as constraints
@@ -130,7 +130,7 @@ test_compute_zone_denylist_one {
 
 # Test denylist with single zone and one exemption
 violations_with_single_denylist_exemption[violation] {
-	constraints := [fixture_constraints.compute_zone_denylist_one_exemption]
+	constraints := [fixture_constraints.denylist_one_exemption]
 	combined_assets := array.concat(fixture_instances, fixture_disks)
 	found_violations := find_violations with data.assets as combined_assets
 		 with data.test_constraints as constraints
@@ -145,7 +145,7 @@ test_compute_zone_denylist_one_exemption {
 
 # Test allowlist with single zone
 violations_with_single_allowlist[violation] {
-	constraints := [fixture_constraints.compute_zone_allowlist_one]
+	constraints := [fixture_constraints.allowlist_one]
 	combined_assets := array.concat(fixture_instances, fixture_disks)
 	found_violations := find_violations with data.assets as combined_assets
 		 with data.test_constraints as constraints
@@ -161,7 +161,7 @@ test_compute_zone_allowlist_one {
 
 # Test allowlist with single zone and one exemption
 violations_with_single_allowlist_exemption[violation] {
-	constraints := [fixture_constraints.compute_zone_allowlist_one_exemption]
+	constraints := [fixture_constraints.allowlist_one_exemption]
 	combined_assets := array.concat(fixture_instances, fixture_disks)
 	found_violations := find_violations with data.assets as combined_assets
 		 with data.test_constraints as constraints
@@ -177,7 +177,7 @@ test_compute_zone_allowlist_one_exemption {
 
 # Test denylist with all zones
 violations_with_full_denylist[violation] {
-	constraints := [fixture_constraints.compute_zone_denylist_all]
+	constraints := [fixture_constraints.denylist_all]
 	combined_assets := array.concat(fixture_instances, fixture_disks)
 	found_violations := find_violations with data.assets as combined_assets
 		 with data.test_constraints as constraints
@@ -193,7 +193,7 @@ test_compute_zone_denylist_all {
 
 # Test allowlist with all zones
 violations_with_full_allowlist[violation] {
-	constraints := [fixture_constraints.compute_zone_allowlist_all]
+	constraints := [fixture_constraints.allowlist_all]
 	combined_assets := array.concat(fixture_instances, fixture_disks)
 	found_violations := find_violations with data.assets as combined_assets
 		 with data.test_constraints as constraints
