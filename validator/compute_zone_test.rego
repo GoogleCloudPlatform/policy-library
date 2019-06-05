@@ -16,9 +16,9 @@
 
 package templates.gcp.GCPComputeZoneConstraintV1
 
-import data.test.fixtures.assets.GCPComputeZoneConstraintV1.disks as fixture_disks
-import data.test.fixtures.assets.GCPComputeZoneConstraintV1.instances as fixture_instances
-import data.test.fixtures.constraints.GCPComputeZoneConstraintV1 as fixture_constraints
+import data.test.fixtures.compute_zone.assets.disks as fixture_disks
+import data.test.fixtures.compute_zone.assets.instances as fixture_instances
+import data.test.fixtures.compute_zone.constraints as fixture_constraints
 
 # Final all violations of our test cases
 
