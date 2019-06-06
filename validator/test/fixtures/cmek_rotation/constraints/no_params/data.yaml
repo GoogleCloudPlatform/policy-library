@@ -15,14 +15,11 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPCMEKRotationConstraintV1
 metadata:
-  name: cmek_rotation
+  name: cmek_rotation_no_params
 spec:
   severity: high
   match:
     gcp:
       target: ["organization/*"]
-  parameters:
-    # Valid time units are  "ns", "us" (or "µs"), "ms", "s", "m", "h"
-    # This is 365 days
-    period: 8760h
+  parameters: {}
 
