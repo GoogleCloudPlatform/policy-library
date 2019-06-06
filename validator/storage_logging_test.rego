@@ -17,8 +17,8 @@
 package templates.gcp.GCPStorageLoggingConstraintV1
 
 all_violations[violation] {
-	resource := data.test.fixtures.assets.storage_buckets[_]
-	constraint := data.test.fixtures.constraints.require_storage_logging
+	resource := data.test.fixtures.storage_logging.assets[_]
+	constraint := data.test.fixtures.storage_logging.constraints.require_storage_logging
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
