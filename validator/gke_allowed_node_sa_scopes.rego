@@ -46,7 +46,7 @@ deny[{
 	additional_scopes := find_additional_oauth_scopes(config, oauth_scopes)
 	count(additional_scopes) != 0
 
-	message := sprintf("Additional OAuth scope %v is assigned to the node service account '%v'.", [additional_scopes, config.serviceAccount])
+	message := sprintf("Additional OAuth scope %v is assigned to node pool '%v' on service account '%v'.", [additional_scopes, node_pool.name, config.serviceAccount])
 
 	metadata := {"resource": asset.name}
 }
