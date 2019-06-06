@@ -17,8 +17,8 @@
 package templates.gcp.GCPSQLPublicIpConstraintV1
 
 all_violations[violation] {
-	resource := data.test.fixtures.assets.sql_public_ip[_]
-	constraint := data.test.fixtures.constraints.sql_public_ip
+	resource := data.test.fixtures.sql_public_ip.assets[_]
+	constraint := data.test.fixtures.sql_public_ip.constraints
 
 	issues := deny with input.asset as resource
 
