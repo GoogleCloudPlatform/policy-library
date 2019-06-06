@@ -19,8 +19,8 @@ package templates.gcp.GCPGKEDashboardConstraintV1
 import data.validator.gcp.lib as lib
 
 all_violations[violation] {
-	resource := data.test.fixtures.assets.gke_dashboard[_]
-	constraint := data.test.fixtures.constraints.disable_gke_dashboard
+	resource := data.test.fixtures.gke_dashboard.assets[_]
+	constraint := data.test.fixtures.gke_dashboard.constraints.disable_gke_dashboard
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
@@ -35,6 +35,6 @@ test_dashboard_disable_violations_basic {
 }
 
 test_dashboard_disable_no_violation {
-	found_violations = all_violations with data.test.fixtures.assets.gke_dashboard as []
+	found_violations = all_violations with data.test.fixtures.gke_dashboard.assets as []
 	count(found_violations) == 0
 }
