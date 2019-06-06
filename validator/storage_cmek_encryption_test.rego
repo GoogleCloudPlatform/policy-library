@@ -17,8 +17,8 @@
 package templates.gcp.GCPStorageCMEKEncryptionConstraintV1
 
 all_violations[violation] {
-	resource := data.test.fixtures.assets.storage_buckets[_]
-	constraint := data.test.fixtures.constraints.require_storage_cmek_encryption
+	resource := data.test.fixtures.storage_cmek_encryption.assets[_]
+	constraint := data.test.fixtures.storage_cmek_encryption.constraints.require_storage_cmek_encryption
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
