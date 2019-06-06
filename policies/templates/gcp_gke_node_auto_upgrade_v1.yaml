@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Check to see if auto upgrade is disabled on node pool.
+# Check to see if auto upgrade is disabled on node.
 
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
