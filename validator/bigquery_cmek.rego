@@ -14,13 +14,10 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPBigqueryCMEKEncryptionConstraintV1
+package templates.gcp.GCPBigQueryCMEKEncryptionConstraintV1
 
 import data.validator.gcp.lib as lib
 
-###########################
-# Find Whitelist Violations
-###########################
 deny[{
 	"msg": message,
 	"details": metadata,

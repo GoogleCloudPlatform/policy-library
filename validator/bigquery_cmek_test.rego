@@ -23,12 +23,8 @@ all_violations[violation] {
 	violation := issues[_]
 }
 
-# Confirm total violations count
-test_bigquery_cmek_count {
-	count(all_violations) == 1
-}
-
-test_bigquery_cmek_basic {
+test_bigquery_cmek_logic {
 	violation := all_violations[_]
+	count(all_violations) == 1
 	violation.details.type == "encryptionerror"
 }

@@ -124,23 +124,6 @@
         }
     },
     {
-        "name": "//spanner.googleapis.com/projects/anand-spanner/instances/demo",
-        "asset_type": "spanner.googleapis.com/Instance",
-        "resource": {
-            "version": "v1",
-            "discovery_document_uri": "https://spanner.googleapis.com/$discovery/rest",
-            "discovery_name": "Instance",
-            "parent": "//cloudresourcemanager.googleapis.com/projects/734817249001",
-            "data": {
-                "config": "projects/anand-spanner/instanceConfigs/regional-us-east1",
-                "displayName": "demo",
-                "name": "projects/anand-spanner/instances/demo",
-                "nodeCount": 1,
-                "state": "READY"
-            }
-        }
-    },
-    {
         "name": "//spanner.googleapis.com/projects/anand-spanner/instances/demo/databases/test",
         "asset_type": "spanner.googleapis.com/Database",
         "resource": {

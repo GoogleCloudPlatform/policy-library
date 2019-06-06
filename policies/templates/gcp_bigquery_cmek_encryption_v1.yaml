@@ -12,15 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# This constraint checks to see if all the BigQuery table has customer managed encryption key enabled. It 
+# flags those tables that doesn't have customer manged encryption keys enabled.
+#
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-bq-cmek-encryption-v1
+  name: gcp-bigquery-cmek-encryption-v1
 spec:
   crd:
     spec:
       names:
-        kind: GCPBigqueryCMEKEncryptionConstraintV1
+        kind: GCPBigQueryCMEKEncryptionConstraintV1
         plural: gcpbigquerycmekencryptionconstraintsv1
       validation:
         openAPIV3Schema:
