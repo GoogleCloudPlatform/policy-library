@@ -17,8 +17,8 @@
 package templates.gcp.GCPSQLSSLV1
 
 all_violations[violation] {
-	resource := data.test.fixtures.assets.sql_ssl[_]
-	constraint := data.test.fixtures.constraints.require_sql_ssl
+	resource := data.test.fixtures.sql_ssl.assets[_]
+	constraint := data.test.fixtures.sql_ssl.constraints.require_sql_ssl
 
 	issues := deny with input.asset as resource
 
