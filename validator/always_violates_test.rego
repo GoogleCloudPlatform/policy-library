@@ -26,5 +26,5 @@ always_violates_all_violations[output] {
 }
 
 test_always_violates_all_violations {
-	count(always_violates_all_violations) == count(data.test.fixtures.assets.storage_buckets)
+	count(always_violates_all_violations) == count(data.test.fixtures.always_violates.assets)
 }
