@@ -24,7 +24,7 @@
       "lifecycle": {
         "rule": []
       },
-      "location": "US-CENTRAL1",
+      "location": "US",
       "logging": {},
       "metageneration": 2,
       "name": "my-storage-bucket",
