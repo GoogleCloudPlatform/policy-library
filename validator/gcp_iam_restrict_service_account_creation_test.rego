@@ -16,8 +16,8 @@
 package templates.gcp.GCPIAMRestrictServiceAccountCreationConstraintV1
 
 all_violations[violation] {
-	resource := data.test.fixtures.assets.service_accounts[_]
-	constraint := data.test.fixtures.constraints.iam_restrict_service_account_creation
+	resource := data.test.fixtures.gcp_iam_restrict_service_account_creation.assets[_]
+	constraint := data.test.fixtures.gcp_iam_restrict_service_account_creation.constraints.iam_restrict_service_account_creation
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
