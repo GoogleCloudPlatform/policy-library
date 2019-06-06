@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPBigqueryCMEKEncryptionConstraintV1
+package templates.gcp.GCPBigQueryCMEKEncryptionConstraintV1
 
 all_violations[violation] {
 	resource := data.test.fixtures.assets.bigquery_cmek[_]
