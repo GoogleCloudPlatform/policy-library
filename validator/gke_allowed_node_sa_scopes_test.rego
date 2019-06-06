@@ -19,8 +19,8 @@ package templates.gcp.GCPGKEAllowedNodeSAConstraintV1
 import data.validator.gcp.lib as lib
 
 default_scopes_violations[violation] {
-	resource := data.test.fixtures.assets.gke_allowed_sa_scope[_]
-	constraint := data.test.fixtures.constraints.allowed_gke_node_sa_scope_default
+	resource := data.test.fixtures.gke_allowed_node_sa_scopes.assets[_]
+	constraint := data.test.fixtures.gke_allowed_node_sa_scopes.constraints.allowed_gke_node_sa_scope_default
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
@@ -29,8 +29,8 @@ default_scopes_violations[violation] {
 }
 
 customized_scopes_violations[violation] {
-	resource := data.test.fixtures.assets.gke_allowed_sa_scope[_]
-	constraint := data.test.fixtures.constraints.allowed_gke_node_sa_scope_customized
+	resource := data.test.fixtures.gke_allowed_node_sa_scopes.assets[_]
+	constraint := data.test.fixtures.gke_allowed_node_sa_scopes.constraints.allowed_gke_node_sa_scope_customized
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
