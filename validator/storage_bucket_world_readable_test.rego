@@ -17,8 +17,8 @@
 package templates.gcp.GCPStorageBucketWorldReadableConstraintV1
 
 all_violations[violation] {
-	resource := data.test.fixtures.assets.storage_bucket_world_readable[_]
-	constraint := data.test.fixtures.constraints.forbid_world_readable_storage_bucket
+	resource := data.test.fixtures.storage_bucket_world_readable.assets[_]
+	constraint := data.test.fixtures.storage_bucket_world_readable.constraints.forbid_world_readable_storage_bucket
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint

@@ -17,8 +17,8 @@
 package templates.gcp.GCPCMEKRotationConstraintV1
 
 all_violations[violation] {
-	resource := data.test.fixtures.assets.cmek_rotation[_]
-	constraint := data.test.fixtures.constraints.cmek_rotation
+	resource := data.test.fixtures.cmek_rotation.assets[_]
+	constraint := data.test.fixtures.cmek_rotation.constraints.one_year
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
@@ -27,8 +27,8 @@ all_violations[violation] {
 }
 
 all_violations_no_params[violation] {
-	resource := data.test.fixtures.assets.cmek_rotation[_]
-	constraint := data.test.fixtures.constraints.cmek_rotation_no_params
+	resource := data.test.fixtures.cmek_rotation.assets[_]
+	constraint := data.test.fixtures.cmek_rotation.constraints.no_params
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint

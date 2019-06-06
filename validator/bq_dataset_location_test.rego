@@ -16,9 +16,9 @@
 
 package templates.gcp.GCPBigQueryDatasetLocationConstraintV1
 
-import data.test.fixtures.assets.bq_datasets.bq_dataset_location_constraint as fixture_datasets
-import data.test.fixtures.assets.compute_instances as fixture_instances
-import data.test.fixtures.constraints as fixture_constraints
+import data.test.fixtures.bq_dataset_location.assets.datasets as fixture_datasets
+import data.test.fixtures.bq_dataset_location.assets.instances as fixture_instances
+import data.test.fixtures.bq_dataset_location.constraints as fixture_constraints
 
 # Final all violations of our test cases
 
@@ -58,7 +58,7 @@ test_bq_dataset_location_no_constraints {
 
 # Test for no violations with empty parameters
 violations_with_empty_parameters[violation] {
-	constraints := [fixture_constraints.bq_dataset_location_default]
+	constraints := [fixture_constraints.location_default]
 	found_violations := find_violations with data.assets as fixture_datasets
 		 with data.test_constraints as constraints
 
@@ -73,7 +73,7 @@ test_bq_dataset_location_default {
 
 # Test empty denylist
 violations_with_empty_denylist[violation] {
-	constraints := [fixture_constraints.bq_dataset_location_denylist_none]
+	constraints := [fixture_constraints.denylist_none]
 	found_violations := find_violations with data.assets as fixture_datasets
 		 with data.test_constraints as constraints
 
@@ -86,9 +86,9 @@ test_compute_zone_denylist_none {
 	count(found_violations) == 0
 }
 
-# Test empty denylist with incorrect assets
+# Test empty denylist with incorrect asset type
 violations_with_empty_denylist_incorrect_assets[violation] {
-	constraints := [fixture_constraints.bq_dataset_location_denylist_none]
+	constraints := [fixture_constraints.denylist_none]
 	combined_assets := array.concat(fixture_instances, fixture_datasets)
 	found_violations := find_violations with data.assets as combined_assets
 		 with data.test_constraints as constraints
@@ -104,7 +104,7 @@ test_bq_dataset_location_denylist_none_incorrect_assets {
 
 # Test empty allowlist
 violations_with_empty_allowlist[violation] {
-	constraints := [fixture_constraints.bq_dataset_location_allowlist_none]
+	constraints := [fixture_constraints.allowlist_none]
 	found_violations := find_violations with data.assets as fixture_datasets
 		 with data.test_constraints as constraints
 
@@ -119,7 +119,7 @@ test_bq_dataset_location_allowlist_none {
 
 # Test empty allowlist with incorrect assets
 violations_with_empty_allowlist_incorrect_assets[violation] {
-	constraints := [fixture_constraints.bq_dataset_location_allowlist_none]
+	constraints := [fixture_constraints.allowlist_none]
 	combined_assets := array.concat(fixture_instances, fixture_datasets)
 	found_violations := find_violations with data.assets as combined_assets
 		 with data.test_constraints as constraints
@@ -135,7 +135,7 @@ test_bq_dataset_location_allowlist_none_incorrect_assets {
 
 # Test denylist with single location
 violations_with_single_denylist[violation] {
-	constraints := [fixture_constraints.bq_dataset_location_denylist_one]
+	constraints := [fixture_constraints.denylist_one]
 	found_violations := find_violations with data.assets as fixture_datasets
 		 with data.test_constraints as constraints
 
@@ -154,7 +154,7 @@ test_bq_dataset_location_denylist_one {
 
 # Test denylist with single location and one exemption
 violations_with_single_denylist_exemption[violation] {
-	constraints := [fixture_constraints.bq_dataset_location_denylist_one_exemption]
+	constraints := [fixture_constraints.denylist_one_exemption]
 	found_violations := find_violations with data.assets as fixture_datasets
 		 with data.test_constraints as constraints
 
@@ -169,7 +169,7 @@ test_bq_dataset_location_denylist_one_exemption {
 
 # Test allowlist with single location
 violations_with_single_allowlist[violation] {
-	constraints := [fixture_constraints.bq_dataset_location_allowlist_one]
+	constraints := [fixture_constraints.allowlist_one]
 	found_violations := find_violations with data.assets as fixture_datasets
 		 with data.test_constraints as constraints
 
@@ -184,7 +184,7 @@ test_bq_dataset_location_allowlist_one {
 
 # Test allowlist with single location and one exemption
 violations_with_single_allowlist_exemption[violation] {
-	constraints := [fixture_constraints.bq_dataset_location_allowlist_one_exemption]
+	constraints := [fixture_constraints.allowlist_one_exemption]
 	found_violations := find_violations with data.assets as fixture_datasets
 		 with data.test_constraints as constraints
 
@@ -199,7 +199,7 @@ test_bq_dataset_location_allowlist_one_exemption {
 
 # Test denylist with all locations
 violations_with_full_denylist[violation] {
-	constraints := [fixture_constraints.bq_dataset_location_denylist_all]
+	constraints := [fixture_constraints.denylist_all]
 	found_violations := find_violations with data.assets as fixture_datasets
 		 with data.test_constraints as constraints
 
@@ -214,7 +214,7 @@ test_bq_dataset_location_denylist_all {
 
 # Test allowlist with all zones
 violations_with_full_allowlist[violation] {
-	constraints := [fixture_constraints.bq_dataset_location_allowlist_all]
+	constraints := [fixture_constraints.allowlist_all]
 	found_violations := find_violations with data.assets as fixture_datasets
 		 with data.test_constraints as constraints
 

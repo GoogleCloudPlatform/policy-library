@@ -17,8 +17,8 @@
 package templates.gcp.GCPServiceUsageConstraintV1
 
 all_violations_allow[violation] {
-	resource := data.test.fixtures.assets.service_usage_services[_]
-	constraint := data.test.fixtures.constraints.serviceusage_allow_compute
+	resource := data.test.fixtures.serviceusage_service.assets[_]
+	constraint := data.test.fixtures.serviceusage_service.constraints.serviceusage_allow_compute
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
@@ -27,8 +27,8 @@ all_violations_allow[violation] {
 }
 
 all_violations_deny[violation] {
-	resource := data.test.fixtures.assets.service_usage_services[_]
-	constraint := data.test.fixtures.constraints.serviceusage_deny_cloudvisionapi
+	resource := data.test.fixtures.serviceusage_service.assets[_]
+	constraint := data.test.fixtures.serviceusage_service.constraints.serviceusage_deny_cloudvisionapi
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
