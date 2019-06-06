@@ -18,13 +18,13 @@ package templates.gcp.GCPAlwaysViolatesConstraintV1
 
 # Confirm total violations count
 always_violates_all_violations[output] {
-	resource := data.test.fixtures.assets.storage_buckets[_]
-	constraint := data.test.fixtures.constraints.always_violates_all
+	resource := data.test.fixtures.always_violates.assets[_]
+	constraint := data.test.fixtures.always_violates.constraints.always_violates_all
 
 	output := deny[_] with input.asset as resource
 		 with input.constraint as constraint
 }
 
 test_always_violates_all_violations {
-	count(always_violates_all_violations) == count(data.test.fixtures.assets.storage_buckets)
+	count(always_violates_all_violations) == count(data.test.fixtures.always_violates.assets)
 }

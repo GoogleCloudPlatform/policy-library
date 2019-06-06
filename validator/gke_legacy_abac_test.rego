@@ -19,8 +19,8 @@ package templates.gcp.GCPGKELegacyAbacConstraintV1
 import data.validator.gcp.lib as lib
 
 all_violations[violation] {
-	resource := data.test.fixtures.assets.gke_legacy_abac[_]
-	constraint := data.test.fixtures.constraints.disable_gke_legacy_abac
+	resource := data.test.fixtures.gke_legacy_abac.assets[_]
+	constraint := data.test.fixtures.gke_legacy_abac.constraints.disable_gke_legacy_abac
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
