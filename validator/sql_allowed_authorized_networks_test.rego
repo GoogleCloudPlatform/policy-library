@@ -16,11 +16,11 @@
 
 package templates.gcp.GCPSQLAllowedAuthorizedNetworksV1
 
-import data.test.fixtures.constraints as fixture_constraints
+import data.test.fixtures.sql_allowed_authorized_networks.constraints as fixture_constraints
 
 # Find all violations of data.test_constraints.
 find_violations[violation] {
-	resource := data.test.fixtures.assets.sql_allowed_authorized_networks[_]
+	resource := data.test.fixtures.sql_allowed_authorized_networks.assets[_]
 	constraint := data.test_constraints[_]
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
@@ -29,7 +29,7 @@ find_violations[violation] {
 }
 
 test_sql_allowed_authorized_networks_default {
-	constraints := [fixture_constraints.sql_allowed_authorized_networks_default]
+	constraints := [fixture_constraints.default_params]
 	violations := find_violations with data.test_constraints as constraints
 	count(violations) == 1
 
@@ -38,14 +38,7 @@ test_sql_allowed_authorized_networks_default {
 }
 
 test_sql_allowed_authorized_networks_whitelist {
-	constraints := [fixture_constraints.sql_allowed_authorized_networks_whitelist]
-	violations := find_violations with data.test_constraints as constraints
-
-	count(violations) == 0
-}
-
-test_sql_allowed_authorized_networks_subnet {
-	constraints := [fixture_constraints.sql_allowed_authorized_networks_subnet]
+	constraints := [fixture_constraints.whitelist]
 	violations := find_violations with data.test_constraints as constraints
 
 	count(violations) == 0
