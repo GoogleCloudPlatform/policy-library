@@ -63,9 +63,9 @@ spec:
             	node_pool := node_pools[_]
             	not auto_upgrade_enabled(node_pool)
             
-            	message := sprintf("Auto upgrade is not enabled on node '%v'.", [node_pool.name])
+            	message := sprintf("Auto upgrade is not enabled on node pool '%v'.", [node_pool.name])
             
-            	metadata := {"resource": asset.name}
+            	metadata := {"resource": asset.name, "node_pool": node_pool.name}
             }
             
             ###########################
