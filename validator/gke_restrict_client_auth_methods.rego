@@ -25,8 +25,8 @@ deny[{
 	constraint := input.constraint
 	asset := input.asset
 	asset.asset_type == "container.googleapis.com/Cluster"
-	container := asset.resource.data
-	master_auth := lib.get_default(container, "masterAuth", {})
+	cluster := asset.resource.data
+	master_auth := lib.get_default(cluster, "masterAuth", {})
 
 	not check_all_disabled(master_auth)
 

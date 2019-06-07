@@ -13,6 +13,7 @@
 # limitations under the License.
 #
 # Restrict client auth methods on GKE. 
+# https://cloud.google.com/kubernetes-engine/docs/how-to/hardening-your-cluster#restrict_authn_methods
 
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate

@@ -28,21 +28,32 @@ all_violations[violation] {
 	violation := issues[_]
 }
 
-test_restrict_client_auth_methods_violations {
-	# Following use cases are being tested:
-	# 1. masterAuth not specified.
-	# 2. issueClientCertificate set to true.
-	# 3. issueClientCertificate set to false.
-	# 4. username set to "".
-	# 5. username set to "test".
-	count(all_violations) == 3
+test_master_auth_not_specified {
 	violation := all_violations[_]
-	resource_names := {x | x = all_violations[_].details.resource}
-	expected_resource_name := {
-		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust",
-		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2",
-		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust5",
-	}
+	resource_names := {x | x = violation.details.resource; violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust"}
+	count(resource_names) == 1
+}
 
-	resource_names == expected_resource_name
+test_issue_client_cert_set_to_true {
+	violation := all_violations[_]
+	resource_names := {x | x = violation.details.resource; violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2"}
+	count(resource_names) == 1
+}
+
+test_issue_client_cert_set_to_false {
+	violation := all_violations[_]
+	resource_names := {x | x = violation.details.resource; violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust3"}
+	count(resource_names) == 0
+}
+
+test_username_empty {
+	violation := all_violations[_]
+	resource_names := {x | x = violation.details.resource; violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust4"}
+	count(resource_names) == 0
+}
+
+test_username_non_empty{
+	violation := all_violations[_]
+	resource_names := {x | x = violation.details.resource; violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust5"}
+	count(resource_names) == 1
 }
