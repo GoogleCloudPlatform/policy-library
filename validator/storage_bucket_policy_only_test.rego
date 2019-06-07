@@ -16,11 +16,12 @@
 
 package templates.gcp.GCPStorageBucketPolicyOnlyConstraintV1
 
+import data.test.fixtures.storage_bucket_policy_only.assets as fixture_buckets
+
 all_violations[violation] {
-	resource := data.test.fixtures.storage_bucket_policy_only.assets[_]
 	constraint := data.test.fixtures.storage_bucket_policy_only.constraints.require_bucket_policy_only
 
-	issues := deny with input.asset as resource
+	issues := deny with input.asset as fixture_buckets[_]
 		 with input.constraint as constraint
 
 	violation := issues[_]
@@ -28,10 +29,15 @@ all_violations[violation] {
 
 # Confirm total violations count
 test_storage_bucket_policy_only_violations_count {
-	count(all_violations) == 2
+	count(all_violations) == count(fixture_buckets) - 1
 }
 
-test_storage_bucket_policy_only_violations_basic {
+test_storage_bucket_policy_only_violations_no_data {
 	violation := all_violations[_]
-	violation.details.resource == "//storage.googleapis.com/my-storage-bucket-with-logging"
+	violation.details.resource == "//storage.googleapis.com/my-storage-bucket-with-no-bucketpolicyonly-data"
+}
+
+test_storage_bucket_policy_only_violations_null_data {
+	violation := all_violations[_]
+	violation.details.resource == "//storage.googleapis.com/my-storage-bucket-with-null-bucketpolicyonly"
 }

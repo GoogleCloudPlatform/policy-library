@@ -17,7 +17,6 @@ kind: GCPStorageBucketPolicyOnlyConstraintV1
 metadata:
   name: require_bucket_policy_only
 spec:
-  constraintVersion: 0.1.0
   severity: high
   match:
     gcp:

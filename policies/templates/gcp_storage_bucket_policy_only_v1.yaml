@@ -12,6 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+# This template ensures Bucket Policy Only is enabled.
+# Bucket Policy Only feature allows you to uniformly control access to 
+# Cloud Storage resources. When enabled on a bucket, only bucket-level 
+# Cloud IAM permissions grant access to that bucket and the objects it 
+# contains; Access Control Lists (ACLs) are disabled and access granted 
+# by ACLs is revoked.
+# For more details see https://cloud.google.com/storage/docs/bucket-policy-only
+
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
