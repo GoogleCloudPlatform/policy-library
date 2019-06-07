@@ -14,9 +14,10 @@
 #
 
 # This template is for policies restricting the locations 
-# of BigQuery datasets to specific locations in GCP. It supports 
+# of Cloud Storage buckets to specific locations in GCP. 
+# Location names need to be exact match. It supports 
 # allowlist or denylist modes, as well as exempting selected 
-# datasets from the list.
+# buckets from the list. 
 
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
@@ -46,7 +47,8 @@ spec:
               type: array
               items: string
               description: "Array of location names to be allowed or denied. Should be the the location name, whether regional  
-              (e.g. us-west2) or multi-regional (e.g. EU), as defined at https://cloud.google.com/storage/docs/locations."
+              (e.g. us-west2) or multi-regional (e.g. EU), as defined at https://cloud.google.com/storage/docs/locations. 
+              Location names need to be exact match."
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/storage_location.rego")

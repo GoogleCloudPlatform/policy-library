@@ -40,22 +40,6 @@ test_target_location_match_count_denylist {
 	match_count == 1
 }
 
-# Test for no violations with no assets
-test_storage_bucket_no_assets {
-	found_violations := find_violations with data.assets as []
-
-	count(found_violations) == 0
-}
-
-# Test for no violations with no constraints
-test_storage_bucket_no_constraints {
-	trace(sprintf("fixture_buckets count: %v", [count(fixture_buckets)]))
-	found_violations := find_violations with data.assets as fixture_buckets
-		 with data.constraints as []
-
-	count(found_violations) == 0
-}
-
 # Test for no violations with empty parameters
 violations_with_empty_parameters[violation] {
 	constraints := [fixture_constraints.location_default]
