@@ -52,7 +52,7 @@ test_username_empty {
 	count(resource_names) == 0
 }
 
-test_username_non_empty{
+test_username_non_empty {
 	violation := all_violations[_]
 	resource_names := {x | x = violation.details.resource; violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust5"}
 	count(resource_names) == 1
