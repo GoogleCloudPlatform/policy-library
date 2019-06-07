@@ -28,18 +28,27 @@ all_violations[violation] {
 	violation := issues[_]
 }
 
-test_enable_auto_upgrade_violations {
-	# Following use cases are being tested:
-	# 1. auto upgrade is set to true.
-	# 2. auto upgrade is set to false.
-	# 3. management field not specified.
-	count(all_violations) == 2
+test_enable_auto_upgrade_set_to_true {
 	violation := all_violations[_]
 	resource_names := {x | x = all_violations[_].details.resource}
-	expected_resource_name := {
-		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2",
-		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust3",
-	}
+	not resource_names["//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust"]
+}
 
-	resource_names == expected_resource_name
+test_enable_auto_upgrade_set_to_false {
+	violation := all_violations[_]
+	resource_names := {x | x = all_violations[_].details.resource}
+	resource_names["//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2"]
+}
+
+test_enable_management_field_not_specified {
+	violation := all_violations[_]
+	resource_names := {x | x = all_violations[_].details.resource}
+	resource_names["//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust3"]
+}
+
+test_multiple_node_pools {
+	# Autoupgrade is set to true on one of them and false on the other one.
+	violation := all_violations[_]
+	resource_names := {x | x = all_violations[_].details.resource}
+	resource_names["//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust4"]
 }
