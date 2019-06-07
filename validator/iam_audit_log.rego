@@ -31,7 +31,7 @@ deny[{
 	input.asset.asset_type == asset_types[_]
 	count(expected_audit_configs) == 0
 	lib.get_constraint_params(input.constraint, params)
-	message := sprintf("IAM policy for %v does not have correct audit logs enabled in service %v", [input.asset.name, params.service])
+	message := sprintf("IAM policy for %v does not have correct audit logs enabled in service(s) %v", [input.asset.name, params.services])
 
 	metadata := {"resource": input.asset.name}
 }
@@ -40,7 +40,7 @@ expected_audit_configs[config] {
 	configs := lib.get_default(input.asset.iam_policy, "audit_configs", {})
 	config := configs[_]
 	lib.get_constraint_params(input.constraint, params)
-	config.service == params.service
+	config.service == params.services[_]
 	log_type_map := {
 		"ADMIN_READ": 1,
 		"DATA_WRITE": 2,
