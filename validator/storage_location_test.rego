@@ -16,18 +16,8 @@
 
 package templates.gcp.GCPStorageLocationConstraintV1
 
-import data.test.fixtures.assets.storage_buckets as fixture_buckets
-import data.test.fixtures.constraints as fixture_constraints
-
-all_violations[violation] {
-	resource := data.test.fixtures.assets.storage_buckets[_]
-	constraint := data.test.fixtures.constraints.require_storage_logging
-
-	issues := deny with input.asset as resource
-		 with input.constraint as constraint
-
-	violation := issues[_]
-}
+import data.test.fixtures.storage_location.assets.storage_buckets as fixture_buckets
+import data.test.fixtures.storage_location.constraints as fixture_constraints
 
 # Final all violations of our test cases
 
@@ -68,7 +58,7 @@ test_storage_bucket_no_constraints {
 
 # Test for no violations with empty parameters
 violations_with_empty_parameters[violation] {
-	constraints := [fixture_constraints.storage_location_default]
+	constraints := [fixture_constraints.location_default]
 	found_violations := find_violations with data.assets as fixture_buckets
 		 with data.test_constraints as constraints
 
@@ -83,7 +73,7 @@ test_storage_bucket_default {
 
 # Test empty denylist
 violations_with_empty_denylist[violation] {
-	constraints := [fixture_constraints.storage_location_denylist_none]
+	constraints := [fixture_constraints.denylist_none]
 	found_violations := find_violations with data.assets as fixture_buckets
 		 with data.test_constraints as constraints
 
@@ -98,7 +88,7 @@ test_storage_bucket_denylist_none {
 
 # Test empty allowlist
 violations_with_empty_allowlist[violation] {
-	constraints := [fixture_constraints.storage_location_allowlist_none]
+	constraints := [fixture_constraints.allowlist_none]
 	found_violations := find_violations with data.assets as fixture_buckets
 		 with data.test_constraints as constraints
 
@@ -107,13 +97,13 @@ violations_with_empty_allowlist[violation] {
 
 test_storage_bucket_allowlist_none {
 	found_violations := violations_with_empty_allowlist
-
-	count(found_violations) == count(fixture_buckets)
+	count(found_violations) == count(fixture_buckets) 
+	
 }
 
 # Test denylist with single location
 violations_with_single_denylist[violation] {
-	constraints := [fixture_constraints.storage_location_denylist_one]
+	constraints := [fixture_constraints.denylist_one]
 	found_violations := find_violations with data.assets as fixture_buckets
 		 with data.test_constraints as constraints
 
@@ -132,7 +122,7 @@ test_storage_bucket_denylist_one {
 
 # Test denylist with single location and one exemption
 violations_with_single_denylist_exemption[violation] {
-	constraints := [fixture_constraints.storage_location_denylist_one_exemption]
+	constraints := [fixture_constraints.denylist_one_exemption]
 	found_violations := find_violations with data.assets as fixture_buckets
 		 with data.test_constraints as constraints
 
@@ -146,7 +136,7 @@ test_storage_bucket_denylist_one_exemption {
 
 # Test allowlist with single location
 violations_with_single_allowlist[violation] {
-	constraints := [fixture_constraints.storage_location_allowlist_one]
+	constraints := [fixture_constraints.allowlist_one]
 	found_violations := find_violations with data.assets as fixture_buckets
 		 with data.test_constraints as constraints
 
@@ -160,7 +150,7 @@ test_storage_bucket_allowlist_one {
 
 # Test allowlist with single location and one exemption
 violations_with_single_allowlist_exemption[violation] {
-	constraints := [fixture_constraints.storage_location_allowlist_one_exemption]
+	constraints := [fixture_constraints.allowlist_one_exemption]
 	found_violations := find_violations with data.assets as fixture_buckets
 		 with data.test_constraints as constraints
 
@@ -175,7 +165,7 @@ test_storage_bucket_allowlist_one_exemption {
 
 # Test denylist with all locations
 violations_with_full_denylist[violation] {
-	constraints := [fixture_constraints.storage_location_denylist_all]
+	constraints := [fixture_constraints.denylist_all]
 	found_violations := find_violations with data.assets as fixture_buckets
 		 with data.test_constraints as constraints
 
@@ -190,7 +180,7 @@ test_storage_bucket_denylist_all {
 
 # Test allowlist with all locations
 violations_with_full_allowlist[violation] {
-	constraints := [fixture_constraints.storage_location_allowlist_all]
+	constraints := [fixture_constraints.allowlist_all]
 	found_violations := find_violations with data.assets as fixture_buckets
 		 with data.test_constraints as constraints
 
