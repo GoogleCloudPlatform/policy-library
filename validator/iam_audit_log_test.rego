@@ -2,8 +2,8 @@ package templates.gcp.GCPIAMAuditLogConstraintV1
 
 # Find all violations from test constraint and data.
 resources_in_violation[resource] {
-	asset := data.test.fixtures.assets.iam_audit_log[_]
-	constraint := data.test.fixtures.constraints.iam_audit_log
+	asset := data.test.fixtures.iam_audit_log.assets[_]
+	constraint := data.test.fixtures.iam_audit_log.constraints
 	issues := deny with input.asset as asset
 		 with input.constraint as constraint
 
