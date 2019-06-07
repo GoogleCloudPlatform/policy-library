@@ -15,7 +15,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPStorageLocationConstraintV1
 metadata:
-  name: bq_dataset_location_denylist_all
+  name: storage_location_denylist_all
 spec:
   severity: high
   match:
