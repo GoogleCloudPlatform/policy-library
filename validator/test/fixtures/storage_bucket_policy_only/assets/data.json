@@ -1,5 +1,5 @@
 [{
-  "name": "//storage.googleapis.com/my-storage-bucket",
+  "name": "//storage.googleapis.com/my-storage-bucket-with-bucketpolicyonly",
   "asset_type": "storage.googleapis.com/Bucket",
   "resource": {
     "version": "v1",
@@ -21,7 +21,7 @@
           "lockedTime": "2019-09-05T10:18:44.437Z"
         }
       },
-      "id": "my-storage-bucket",
+      "id": "my-storage-bucket-with-bucketpolicyonly",
       "kind": "storage#bucket",
       "labels": {},
       "lifecycle": {
@@ -30,21 +30,21 @@
       "location": "US-CENTRAL1",
       "logging": {},
       "metageneration": 2,
-      "name": "my-storage-bucket",
+      "name": "my-storage-bucket-with-bucketpolicyonly",
       "owner": {},
       "projectNumber": 68478495408,
       "retentionPolicy": {},
-      "selfLink": "https://www.googleapis.com/storage/v1/b/my-storage-bucket",
+      "selfLink": "https://www.googleapis.com/storage/v1/b/my-storage-bucket-with-bucketpolicyonly",
       "storageClass": "STANDARD",
       "timeCreated": "2018-07-23T17:30:22.691Z",
-      "updated": "2018-07-23T17:30:23.324Z",
+      "updated": "2019-09-05T10:18:44.437Z",
       "versioning": {},
       "website": {}
     }
   }
 },
 {
-  "name": "//storage.googleapis.com/my-storage-bucket-with-logging",
+  "name": "//storage.googleapis.com/my-storage-bucket-with-null-bucketpolicyonly",
   "asset_type": "storage.googleapis.com/Bucket",
   "resource": {
     "version": "v1",
@@ -61,9 +61,11 @@
       },
       "etag": "CAI=",
       "iamConfiguration": {
-        "bucketPolicyOnly": {"enabled": null}
+        "bucketPolicyOnly": {
+          "enabled": null
+        }
       },
-      "id": "my-storage-bucket",
+      "id": "my-storage-bucket-with-null-bucketpolicyonly",
       "kind": "storage#bucket",
       "labels": {},
       "lifecycle": {
@@ -79,7 +81,7 @@
       "owner": {},
       "projectNumber": 68478495408,
       "retentionPolicy": {},
-      "selfLink": "https://www.googleapis.com/storage/v1/b/my-storage-bucket",
+      "selfLink": "https://www.googleapis.com/storage/v1/b/my-storage-bucket-with-null-bucketpolicyonly",
       "storageClass": "STANDARD",
       "timeCreated": "2018-07-23T17:30:22.691Z",
       "updated": "2018-07-23T17:30:23.324Z",
@@ -89,7 +91,7 @@
   }
 },
 {
-  "name": "//storage.googleapis.com/my-storage-bucket-with-secure-logging",
+  "name": "//storage.googleapis.com/my-storage-bucket-with-no-bucketpolicyonly-data",
   "asset_type": "storage.googleapis.com/Bucket",
   "resource": {
     "version": "v1",
@@ -104,9 +106,9 @@
       "encryption": {},
       "etag": "CAI=",
       "iamConfiguration": {
-        "bucketPolicyOnly": {"enabled": null}
+        "bucketPolicyOnly": {}
       },
-      "id": "my-storage-bucket",
+      "id": "my-storage-bucket-with-no-bucketpolicyonly-data",
       "kind": "storage#bucket",
       "labels": {},
       "lifecycle": {
@@ -118,11 +120,11 @@
         "logObjectPrefix": "log_object_prefix"
       },
       "metageneration": 2,
-      "name": "my-storage-bucket-with-secure-logging",
+      "name": "my-storage-bucket-with-no-bucketpolicyonly-data",
       "owner": {},
       "projectNumber": 68478495408,
       "retentionPolicy": {},
-      "selfLink": "https://www.googleapis.com/storage/v1/b/my-storage-bucket",
+      "selfLink": "https://www.googleapis.com/storage/v1/b/my-storage-bucket-with-no-bucketpolicyonly-data",
       "storageClass": "STANDARD",
       "timeCreated": "2018-07-23T17:30:22.691Z",
       "updated": "2018-07-23T17:30:23.324Z",
