@@ -1,0 +1,89 @@
+# Copyright 2019 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+apiVersion: templates.gatekeeper.sh/v1alpha1
+kind: ConstraintTemplate
+metadata:
+  name: gcp-sql-allowed-authorized-networks-v1
+spec:
+  crd:
+    spec:
+      names:
+        kind: GCPSQLAllowedAuthorizedNetworksConstraintV1
+        plural: gcpsqlallowedauthorizednetworksconstraintsv1
+      validation:
+        openAPIV3Schema:
+          properties:
+            authorized_networks:
+              description: "Networks CIDR that can be used as authorized
+                networks for Cloud SQL instances. For example, 199.27.25.0/24.
+                
+                The authorized networks specified in the instance need to
+                match the ones specified in this constraint. If no
+                authorized_networks are specified in the constraint, all
+                connections to instances need to be mediated by the
+                Cloud SQL Proxy."
+              type: array
+              items: string
+
+  targets:
+   validation.gcp.forsetisecurity.org:
+      rego: | #INLINE("validator/sql_allowed_authorized_networks.rego")
+            #
+            # Copyright 2018 Google LLC
+            #
+            # Licensed under the Apache License, Version 2.0 (the "License");
+            # you may not use this file except in compliance with the License.
+            # You may obtain a copy of the License at
+            #
+            #      http://www.apache.org/licenses/LICENSE-2.0
+            #
+            # Unless required by applicable law or agreed to in writing, software
+            # distributed under the License is distributed on an "AS IS" BASIS,
+            # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+            # See the License for the specific language governing permissions and
+            # limitations under the License.
+            #
+            
+            package templates.gcp.GCPSQLAllowedAuthorizedNetworksV1
+            
+            import data.validator.gcp.lib as lib
+            
+            deny[{
+            	"msg": message,
+            	"details": metadata,
+            }] {
+            	constraint := input.constraint
+            	lib.get_constraint_params(constraint, params)
+            
+            	asset := input.asset
+            	asset.asset_type == "sqladmin.googleapis.com/Instance"
+            
+            	allowed_authorized_networks = lib.get_default(params, "authorized_networks", [])
+            	configured_networks := {network |
+            		network = asset.resource.settings.ipConfiguration.authorizedNetworks[_].value
+            	}
+            
+            	matched_networks := {network |
+            		network = configured_networks[_]
+            		allowed_authorized_networks[_] == network
+            	}
+            
+            	forbidden := configured_networks - matched_networks
+            	count(forbidden) > 0
+            
+            	message := sprintf("%v has authorized networks that are not allowed: %v", [asset.name, forbidden])
+            	metadata := {"resource": asset.name}
+            }
+            #ENDINLINE

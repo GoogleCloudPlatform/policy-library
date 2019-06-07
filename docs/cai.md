@@ -15,7 +15,7 @@ These steps *must* be conducted from a VM or using a Service Account on a projec
 
     curl -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
         -d '{"contentType":"RESOURCE", "outputConfig":{"gcsDestination":{"uri":"gs://$MY_BUCKET/resource_inventory.json"}}}' \
-            https://cloudasset.googleapis.com/v1beta1/organizations/$ORG_ID\:exportAssets
+            https://cloudasset.googleapis.com/v1/organizations/$ORG_ID\:exportAssets
     ```
 
 2. Export policies.
@@ -23,7 +23,7 @@ These steps *must* be conducted from a VM or using a Service Account on a projec
     ```
     curl -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
         -d '{"contentType":"IAM_POLICY", "outputConfig":{"gcsDestination":{"uri":"gs://$MY_BUCKET/iam_inventory.json"}}}' \
-            https://cloudasset.googleapis.com/v1beta1/organizations/$ORG_ID\:exportAssets
+            https://cloudasset.googleapis.com/v1/organizations/$ORG_ID\:exportAssets
     ```
 
 3. Check operation status
@@ -31,7 +31,7 @@ These steps *must* be conducted from a VM or using a Service Account on a projec
     ```
     curl -H "Authorization: Bearer $TOKEN" \
         -H "Content-Type: application/json" \
-            https://cloudasset.googleapis.com/v1beta1/organizations/$ORG_ID/operations/ExportAssets/14988324955088615864
+            https://cloudasset.googleapis.com/v1/organizations/$ORG_ID/operations/ExportAssets/14988324955088615864
     ```
 
 ## Finding Resources

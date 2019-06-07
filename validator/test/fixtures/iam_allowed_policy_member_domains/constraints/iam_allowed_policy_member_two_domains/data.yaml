@@ -1,0 +1,13 @@
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: GCPIAMAllowedPolicyMemberDomainsConstraintV1
+metadata:
+  name: allow_google_and_gserviceaccount_dot_com
+spec:
+  severity: high
+  match:
+    target: ["organization/*"]
+    exclude: [] # optional, default is no exclusions
+  parameters:
+    domains:
+      - iam.gserviceaccount.com
+      - google.com

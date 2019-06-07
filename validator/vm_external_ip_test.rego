@@ -14,10 +14,10 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPExternalIpAccessConstraint
+package templates.gcp.GCPExternalIpAccessConstraintV1
 
-import data.test.fixtures.assets.compute_instances as fixture_instances
-import data.test.fixtures.constraints as fixture_constraints
+import data.test.fixtures.vm_external_ip.assets as fixture_instances
+import data.test.fixtures.vm_external_ip.constraints as fixture_constraints
 
 # Find all violations on our test cases
 find_violations[violation] {

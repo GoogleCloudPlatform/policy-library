@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPExternalIpAccessConstraint
+package templates.gcp.GCPExternalIpAccessConstraintV1
 
 import data.validator.gcp.lib as lib
 
@@ -28,7 +28,7 @@ deny[{
 	constraint := input.constraint
 	lib.get_constraint_params(constraint, params)
 	asset := input.asset
-	asset.asset_type == "google.compute.Instance"
+	asset.asset_type == "compute.googleapis.com/Instance"
 
 	# Find network access config block w/ external IP
 	instance := asset.resource.data
