@@ -16,6 +16,17 @@
                             "log_type": 3
                         }
                     ]
+                },
+                {
+                    "service": "sqladmin.googleapis.com",
+                    "audit_log_configs": [
+                        {
+                            "log_type": 2
+                        },
+                        {
+                            "log_type": 3
+                        }
+                    ]
                 }
             ]
         }

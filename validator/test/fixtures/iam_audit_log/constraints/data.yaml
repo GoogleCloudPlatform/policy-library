@@ -4,5 +4,5 @@ metadata:
   name: audit_test
 spec:
   parameters:
-    service: cloudasset.googleapis.com
+    services: [cloudasset.googleapis.com, sqladmin.googleapis.com]
     log_types: [DATA_READ, DATA_WRITE]
