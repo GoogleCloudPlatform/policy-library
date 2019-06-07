@@ -47,8 +47,8 @@ spec:
               type: array
               items: string
               description: "Array of location names to be allowed or denied. Should be the the location name, whether regional  
-              (e.g. us-west2) or multi-regional (e.g. EU), as defined at https://cloud.google.com/storage/docs/locations. 
-              Location names need to be exact match."
+              (e.g. us-west2), multi-regional (e.g. EU), or dual-region (e.g. eur4), as defined at 
+              https://cloud.google.com/storage/docs/locations. Location names need to be exact match."
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/storage_location.rego")
