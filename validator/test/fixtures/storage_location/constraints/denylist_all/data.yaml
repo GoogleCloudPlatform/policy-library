@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPBigQueryDatasetLocationConstraintV1
+kind: GCPStorageLocationConstraintV1
 metadata:
   name: bq_dataset_location_denylist_all
 spec:
