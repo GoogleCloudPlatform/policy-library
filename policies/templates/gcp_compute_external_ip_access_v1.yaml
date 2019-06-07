@@ -15,7 +15,7 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-external-ip-access-v1
+  name: gcp-compute-external-ip-access-v1
   annotations:
     # Example of tying a template to a CIS benchmark
     benchmark: CIS11_5.03
@@ -23,8 +23,8 @@ spec:
   crd:
     spec:
       names:
-        kind: GCPExternalIpAccessConstraintV1
-        plural: gcpexternalipaccessconstraintsv1
+        kind: GCPComputeExternalIpAccessConstraintV1
+        plural: gcpcomputeexternalipaccessconstraintsv1
       validation:
         openAPIV3Schema:
           properties:
@@ -53,7 +53,7 @@ spec:
             # limitations under the License.
             #
             
-            package templates.gcp.GCPExternalIpAccessConstraintV1
+            package templates.gcp.GCPComputeExternalIpAccessConstraintV1
             
             import data.validator.gcp.lib as lib
             
