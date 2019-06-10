@@ -32,6 +32,6 @@ spec:
               type: array
               items: string
   targets:
-    validation.gcp.forsetisecurity.org:
+    - target: validation.gcp.forsetisecurity.org
       rego: | #INLINE("validator/example.rego")
           #ENDINLINE
