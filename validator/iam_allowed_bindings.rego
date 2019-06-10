@@ -41,6 +41,7 @@ deny[{
 	message := sprintf("IAM policy for %v grants %v to %v", [asset.name, role, member])
 
 	metadata := {
+		"resource": asset.name,
 		"member": member,
 		"role": role,
 	}

@@ -18,7 +18,7 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-gke-dashboard-v1
+  name: gcp-gke-disable-legacy-endpoints-v1
 spec:
   crd:
     spec:
