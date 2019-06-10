@@ -12,22 +12,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+# This template ensures Bucket Policy Only is enabled.
+# Bucket Policy Only feature allows you to uniformly control access to 
+# Cloud Storage resources. When enabled on a bucket, only bucket-level 
+# Cloud IAM permissions grant access to that bucket and the objects it 
+# contains; Access Control Lists (ACLs) are disabled and access granted 
+# by ACLs is revoked.
+# For more details see https://cloud.google.com/storage/docs/bucket-policy-only
+
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-storage-bucket-world-readable-v1
+  name: gcp-storage-bucket-policy-only-v1
 spec:
   crd:
     spec:
       names:
-        kind: GCPStorageBucketWorldReadableConstraintV1
-        plural: gcpstoragebucketworldreadableconstraintv1
+        kind: GCPStorageBucketPolicyOnlyConstraintV1
+        plural: gcpstoragebucketpolicyonlyconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}
   targets:
    validation.gcp.forsetisecurity.org:
-      rego: | #INLINE("validator/storage_bucket_world_readable.rego")
+      rego: | #INLINE("validator/storage_bucket_policy_only.rego")
            #
            # Copyright 2018 Google LLC
            #
@@ -44,7 +53,9 @@ spec:
            # limitations under the License.
            #
            
-           package templates.gcp.GCPStorageBucketWorldReadableConstraintV1
+           package templates.gcp.GCPStorageBucketPolicyOnlyConstraintV1
+           
+           import data.validator.gcp.lib as lib
            
            deny[{
            	"msg": message,
@@ -54,14 +65,20 @@ spec:
            	asset := input.asset
            	asset.asset_type == "storage.googleapis.com/Bucket"
            
-           	world_readable_checks := [
-           		asset.iam_policy.bindings[_].members[_] == "allUsers",
-           		asset.iam_policy.bindings[_].members[_] == "allAuthenticatedUsers",
-           	]
+           	bucket := asset.resource.data
+           	enabled := bucket_policy_enabled(bucket)
+           	enabled != true
            
-           	world_readable_checks[_] == true
-           
-           	message := sprintf("%v is publicly accessable", [asset.name])
+           	message := sprintf("%v does not have bucket policy only enabled.", [asset.name])
            	metadata := {"resource": asset.name}
+           }
+           
+           ###########################
+           # Rule Utilities
+           ###########################
+           bucket_policy_enabled(bucket) = bucket_policy_enabled {
+           	iam_configuration := lib.get_default(bucket, "iamConfiguration", {})
+           	bucket_policy_only := lib.get_default(iam_configuration, "bucketPolicyOnly", {})
+           	bucket_policy_enabled := lib.get_default(bucket_policy_only, "enabled", null)
            }
            #ENDINLINE
