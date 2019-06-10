@@ -54,3 +54,9 @@ test_username_non_empty {
 	violation := all_violations[_]
 	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust5"
 }
+
+test_username_empty_and_issue_client_cert_set_to_false {
+	violation := all_violations[_]
+	resource_names := {x | x = violation.details.resource; violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust6"}
+	count(resource_names) == 0
+}

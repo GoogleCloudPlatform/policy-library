@@ -24,7 +24,7 @@ spec:
     spec:
       names:
         kind: GCPGKERestrictClientAuthenticationMethodsConstraintV1
-        plural: GCPGKERestrictClientAuthenticationMethodsConstraintsV1
+        plural: gcpgkerestrictclientauthenticationmethodsconstraintsV1
       validation:
         openAPIV3Schema:
           properties: {}
