@@ -24,7 +24,7 @@ spec:
     spec:
       names:
         kind: GCPGKENodeAutoUpgradeConstraintV1
-        plural: GCPGKENodeAutoUpgradeConstraintsV1
+        plural: gcpgkenodeautoupgradeconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}
