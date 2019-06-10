@@ -12,7 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Check to see if auto upgrade is disabled on node.
+# Check to see if auto upgrade is disabled on node pool.
+# https://cloud.google.com/kubernetes-engine/docs/how-to/hardening-your-cluster#automatically_upgrade_your_nodes
 
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate

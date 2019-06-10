@@ -36,19 +36,16 @@ test_enable_auto_upgrade_set_to_true {
 
 test_enable_auto_upgrade_set_to_false {
 	violation := all_violations[_]
-	resource_names := {x | x = all_violations[_].details.resource}
-	resource_names["//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2"]
+	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2"
 }
 
 test_enable_management_field_not_specified {
 	violation := all_violations[_]
-	resource_names := {x | x = all_violations[_].details.resource}
-	resource_names["//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust3"]
+	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust3"
 }
 
 test_multiple_node_pools {
 	# Autoupgrade is set to true on one of them and false on the other one.
 	violation := all_violations[_]
-	resource_names := {x | x = all_violations[_].details.resource}
-	resource_names["//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust4"]
+	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust4"
 }
