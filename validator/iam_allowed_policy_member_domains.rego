@@ -36,7 +36,7 @@ deny[{
 
 	message := sprintf("IAM policy for %v contains member from unexpected domain: %v", [asset.name, member])
 
-	metadata := {"member": member}
+	metadata := {"resource": asset.name, "member": member}
 }
 
 starts_with_whitelisted_type(whitelist, member) {
