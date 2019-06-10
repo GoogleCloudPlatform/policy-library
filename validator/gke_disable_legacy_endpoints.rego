@@ -1,5 +1,5 @@
 #
-# Copyright 2018 Google LLC
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ deny[{
 	cluster := asset.resource.data
 	node_pools := lib.get_default(cluster, "nodePools", [])
 	node_pool := node_pools[_]
-	not legacy_endpoints_disabled(node_pool)
+	legacy_endpoints_enabled(node_pool)
 
 	message := sprintf("Cluster %v has node pool %v with legacy endpoints enabled.", [asset.name, node_pool.name])
 	metadata := {"resource": asset.name}
@@ -38,9 +38,9 @@ deny[{
 ###########################
 # Rule Utilities
 ###########################
-legacy_endpoints_disabled(node_pool) {
+legacy_endpoints_enabled(node_pool) {
 	nodeConfig := lib.get_default(node_pool, "config", {})
 	metadata := lib.get_default(nodeConfig, "metadata", {})
-	legacy_endpoints_disabled := lib.get_default(metadata, "disable-legacy-endpoints", false)
-	legacy_endpoints_disabled == true
+	legacy_endpoints_enabled := lib.get_default(metadata, "disable-legacy-endpoints", true)
+	legacy_endpoints_enabled == true
 }
