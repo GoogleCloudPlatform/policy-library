@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPExternalIpAccessConstraintV1
+package templates.gcp.GCPComputeExternalIpAccessConstraintV1
 
 import data.test.fixtures.vm_external_ip.assets as fixture_instances
 import data.test.fixtures.vm_external_ip.constraints as fixture_constraints
