@@ -13,6 +13,7 @@
 # limitations under the License.
 #
 # Check to see if GKE master auth networks is enabled.
+# Part of https://cloud.google.com/kubernetes-engine/docs/how-to/hardening-your-cluster#restrict_cluster_discovery_rbac_permissions
 
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
