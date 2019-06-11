@@ -1,5 +1,5 @@
 #
-# Copyright 2018 Google LLC
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPStorageBucketPolicyOnlyConstraintV1
+package templates.gcp.GCPGKEDisableLegacyEndpointsConstraintV1
 
 import data.validator.gcp.lib as lib
 
@@ -24,20 +24,22 @@ deny[{
 }] {
 	constraint := input.constraint
 	asset := input.asset
-	asset.asset_type == "storage.googleapis.com/Bucket"
+	asset.asset_type == "container.googleapis.com/Cluster"
 
-	bucket := asset.resource.data
-	bucket_policy_enabled(bucket) != true
+	cluster := asset.resource.data
+	node_pools := lib.get_default(cluster, "nodePools", [])
+	node_pool := node_pools[_]
+	legacy_endpoints_enabled(node_pool)
 
-	message := sprintf("%v does not have bucket policy only enabled.", [asset.name])
+	message := sprintf("Cluster %v has node pool %v with legacy endpoints enabled.", [asset.name, node_pool.name])
 	metadata := {"resource": asset.name}
 }
 
 ###########################
 # Rule Utilities
 ###########################
-bucket_policy_enabled(bucket) = bucket_policy_enabled {
-	iam_configuration := lib.get_default(bucket, "iamConfiguration", {})
-	bucket_policy_only := lib.get_default(iam_configuration, "bucketPolicyOnly", {})
-	bucket_policy_enabled := lib.get_default(bucket_policy_only, "enabled", null)
+legacy_endpoints_enabled(node_pool) {
+	nodeConfig := lib.get_default(node_pool, "config", {})
+	metadata := lib.get_default(nodeConfig, "metadata", {})
+	legacy_endpoints_enabled := lib.get_default(metadata, "disable-legacy-endpoints", true)
 }
