@@ -23,7 +23,7 @@ spec:
     spec:
       names:
         kind: GCPGLBExternalIpAccessConstraintV1
-        plural: GCPGLBExternalIpAccessConstraintv1
+        plural: gcpglbexternalipaccessconstraintv1
       validation:
         openAPIV3Schema:
           properties:
