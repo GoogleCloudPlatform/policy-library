@@ -30,7 +30,7 @@ all_violations[violation] {
 
 test_nodepool_legacy_endpoints_disabled {
 	violation := all_violations[_]
-	resource_names := {x | x = violation.details.resource }
+	resource_names := {x | x = violation.details.resource}
 	not resource_names["//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust"]
 }
 
