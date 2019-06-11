@@ -18,8 +18,8 @@ package templates.gcp.GCPExampleConstraintV1
 
 # Find all violations from test constraint and data.
 violations[violation] {
-	asset := data.test.fixtures.assets.example[_]
-	constraint := data.test.fixtures.constraints.example
+	asset := data.test.fixtures.example.assets[_]
+	constraint := data.test.fixtures.example.constraints.forbid_bad_asset_name
 	issues := deny with input.asset as asset
 		 with input.constraint as constraint
 
@@ -27,6 +27,5 @@ violations[violation] {
 }
 
 test_example_violation {
-	count(violations) == 1
 	violations[_].details.resource == "//cloudsql.googleapis.com/projects/project-id/instances/bad"	
 }
