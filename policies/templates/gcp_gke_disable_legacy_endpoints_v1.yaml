@@ -74,7 +74,6 @@ spec:
             legacy_endpoints_enabled(node_pool) {
             	nodeConfig := lib.get_default(node_pool, "config", {})
             	metadata := lib.get_default(nodeConfig, "metadata", {})
-            	legacy_endpoints_enabled := lib.get_default(metadata, "disable-legacy-endpoints", true)
-            	legacy_endpoints_enabled == true
+            	lib.get_default(metadata, "disable-legacy-endpoints", true)
             }
             #ENDINLINE
