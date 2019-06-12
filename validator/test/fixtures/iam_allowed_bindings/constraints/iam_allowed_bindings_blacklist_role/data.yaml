@@ -7,9 +7,6 @@ metadata:
     benchmark: CIS11_1.05
 spec:
   severity: high
-  match:
-    target: ["organization/*"]
-    exclude: [] # optional, default is no exclusions
   parameters:
     mode: blacklist
     role: roles/iam.serviceAccountUser

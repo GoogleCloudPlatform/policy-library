@@ -18,6 +18,3 @@ metadata:
   name: compute_zone_default
 spec:
   severity: high
-  match:
-    target: ["organization/*"]
-    exclude: [] # optional, default is no exclusions
