@@ -81,8 +81,7 @@ violations_with_empty_allowlist[violation] {
 
 test_storage_bucket_allowlist_none {
 	found_violations := violations_with_empty_allowlist
-	count(found_violations) == count(fixture_buckets) 
-	
+	count(found_violations) == count(fixture_buckets)
 }
 
 # Test denylist with single location
