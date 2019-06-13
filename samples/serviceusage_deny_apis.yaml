@@ -14,4 +14,3 @@ spec:
     services:
     - "cloudvision.googleapis.com"
     - "translate.googleapis.com"
-

@@ -20,6 +20,5 @@ spec:
   constraintVersion: 0.1.0
   severity: high
   match:
-    gcp:
-      target: ["organization/*"]
+    target: ["organization/*"]
   parameters: {}

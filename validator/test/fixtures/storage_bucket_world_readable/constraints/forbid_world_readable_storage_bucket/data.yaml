@@ -21,7 +21,5 @@ metadata:
     benchmark: CIS11_5.03
 spec:
   severity: high
-  match:
-    gcp:
-      target: ["organization/*"]
+    
   parameters: {}

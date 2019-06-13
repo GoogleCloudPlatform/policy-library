@@ -18,9 +18,7 @@ metadata:
   name: sql_allowed_authorized_networks_default
 spec:
   severity: high
-  match:
-    gcp:
-      target: ["organization/*"]
+    
    # No allowed authorized networks indicates that no authorized networks can
    # be configured on the resource.
   parameters: {}

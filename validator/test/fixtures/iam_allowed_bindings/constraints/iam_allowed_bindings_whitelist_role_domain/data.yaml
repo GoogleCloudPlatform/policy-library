@@ -6,9 +6,6 @@ metadata:
     description: All projects must have owner from my domain
 spec:
   severity: high
-  match:
-    target: ["organization/*"]
-    exclude: [] # optional, default is no exclusions
   parameters:
     mode: whitelist
     role: roles/owner
