@@ -21,6 +21,5 @@ metadata:
 spec:
   severity: high
   match:
-    gcp:
-      target: ["organization/*"]
+    target: ["organization/*"]
   parameters: {}

@@ -18,8 +18,5 @@ metadata:
   name: cmek_rotation_no_params
 spec:
   severity: high
-  match:
-    gcp:
-      target: ["organization/*"]
   parameters: {}
 

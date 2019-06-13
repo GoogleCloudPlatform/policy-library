@@ -18,6 +18,3 @@ metadata:
   name: storage_location_default
 spec:
   severity: high
-  match:
-    target: ["organization/*"]
-    exclude: [] # optional, default is no exclusions

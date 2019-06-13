@@ -18,8 +18,6 @@ metadata:
   name: sql_allowed_authorized_networks_whitelist
 spec:
   severity: high
-  match:
-    gcp:
-      target: ["organization/*"]
+    
   parameters:
     authorized_networks: ["35.187.118.0/24"]
