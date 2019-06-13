@@ -20,7 +20,7 @@ import data.validator.gcp.lib as lib
 
 all_violations[violation] {
 	resource := data.test.fixtures.gke_restrict_client_auth_methods.assets[_]
-	constraint := data.test.fixtures.gke_restrict_client_auth_methods.restrict_gke_client_auth_methods.constraints
+	constraint := data.test.fixtures.gke_restrict_client_auth_methods.constraints.restrict_gke_client_auth_methods
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
