@@ -18,7 +18,4 @@ metadata:
   name: require_bucket_policy_only
 spec:
   severity: high
-  match:
-    gcp:
-      target: ["organization/*"]
   parameters: {}

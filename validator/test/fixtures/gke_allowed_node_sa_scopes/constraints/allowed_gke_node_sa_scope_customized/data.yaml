@@ -20,9 +20,7 @@ metadata:
     benchmark: GKE_HARDENING_GUIDELINE
 spec:
   severity: high
-  match:
-    gcp:
-      target: ["organization/*"]
+    
   parameters: 
     oauth_scopes:
       - "https://www.googleapis.com/auth/logging.write"

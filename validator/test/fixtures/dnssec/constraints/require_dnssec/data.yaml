@@ -18,7 +18,5 @@ metadata:
   name: require_dnssec
 spec:
   severity: high
-  match:
-    gcp:
-      target: ["organization/*"]
+    
   parameters: {}

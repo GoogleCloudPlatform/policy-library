@@ -18,9 +18,6 @@ metadata:
   name: cmek_rotation_one_year
 spec:
   severity: high
-  match:
-    gcp:
-      target: ["organization/*"]
   parameters:
     # Valid time units are  "ns", "us" (or "µs"), "ms", "s", "m", "h"
     # This is 365 days
