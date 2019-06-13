@@ -27,16 +27,9 @@ deny[{
 	asset.asset_type == "container.googleapis.com/Cluster"
 
 	cluster := asset.resource.data
-	check_cluster_private(cluster)
+	private_cluster_config := lib.get_default(cluster, "privateClusterConfig", {})
+	private_cluster_config == {}
 
 	message := sprintf("Cluster %v is not private.", [asset.name])
 	metadata := {"resource": asset.name}
-}
-
-###########################
-# Rule Utilities
-###########################
-check_cluster_private(cluster) {
-	private_cluster_config := lib.get_default(cluster, "privateClusterConfig", {})
-	private_cluster_config == {}
 }
