@@ -4,9 +4,6 @@ metadata:
   name: allow_everything
 spec:
   severity: high
-  match:
-    target: ["organization/*"]
-    exclude: [] # optional, default is no exclusions
   parameters:
     domains:
       - gserviceaccount.com

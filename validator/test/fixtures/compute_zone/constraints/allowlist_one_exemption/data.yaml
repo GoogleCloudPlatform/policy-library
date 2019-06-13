@@ -18,8 +18,6 @@ metadata:
   name: compute_zone_allowlist_one_exemption
 spec:
   severity: high
-  match:
-    target: ["organization/*"]
   parameters:
     mode: "allowlist"
     zones:

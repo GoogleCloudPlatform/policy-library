@@ -18,8 +18,6 @@ metadata:
   name: storage_location_allowlist_one
 spec:
   severity: high
-  match:
-    target: ["organization/*"]
   parameters:
     mode: "allowlist"
     locations:

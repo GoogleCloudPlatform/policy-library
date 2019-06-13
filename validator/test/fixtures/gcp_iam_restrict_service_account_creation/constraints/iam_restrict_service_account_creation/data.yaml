@@ -18,7 +18,4 @@ metadata:
   name: iam_restrict_service_account_creation
 spec:
   severity: high
-  match:
-    gcp:
-      target: ["organization/*"]
-    parameters: {}
+  parameters: {}

@@ -6,9 +6,6 @@ metadata:
     description: Prevents the cloud vision API from being enabled
 spec:
   severity: high
-  match:
-    target: ["organization/*"]
-    exclude: [] # optional, default is no exclusions
   parameters:
     mode: deny
     services:
