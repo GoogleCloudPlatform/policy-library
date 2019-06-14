@@ -48,22 +48,23 @@ labelIsValid(label, asset) = true {
 	labelValue := resourceLabels[label]
 }
 
-# getGenericLabel Object for most resources
+# getGenericLabel Object for standard resources
 getGenericLabel(asset) = resource {
 	resource := asset.resource.data
 }
 
-# getLabel for projects
+# getLabel for standard resources
 getLabel(asset) = resource {
-	asset.asset_type == "cloudresourcemanager.googleapis.com/Project"
+	standard_resource_types = [
+		"cloudresourcemanager.googleapis.com/Project",
+		"storage.googleapis.com/Bucket"
+	]
+	standard_resource_types[_] == asset.asset_type
 	resource := getGenericLabel(asset)
 }
 
-# getLabel for buckets
-getLabel(asset) = resource {
-	asset.asset_type == "storage.googleapis.com/Bucket"
-	resource := getGenericLabel(asset)
-}
+# Non-standard labels locations for resources
+# i.e not in resource.data
 
 # getLabel for k8s.io/Pod
 getLabel(asset) = resource {
