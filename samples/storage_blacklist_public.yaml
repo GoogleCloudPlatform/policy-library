@@ -1,0 +1,12 @@
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: GCPStorageBucketWorldReadableConstraintV1
+metadata:
+  name: blacklist_public_users
+  annotations:
+    description: Prevent public users from having access to resources via IAM
+spec:
+  severity: high
+  match:
+    target: ["organization/*"]
+    exclude: [] # optional, default is no exclusions
+  parameters: {}
