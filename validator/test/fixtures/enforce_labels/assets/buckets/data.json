@@ -1,0 +1,137 @@
+[
+  {
+    "name": "//storage.googleapis.com/bucket-with-valid-labels",
+    "asset_type": "storage.googleapis.com/Bucket",
+    "resource": {
+      "version": "v1",
+      "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/storage/v1/rest",
+      "discovery_name": "Bucket",
+      "parent": "//cloudresourcemanager.googleapis.com/projects/318576589455",
+      "data": {
+        "acl": [],
+        "billing": {},
+        "cors": [],
+        "defaultObjectAcl": [],
+        "encryption": {},
+        "etag": "CAU=",
+        "iamConfiguration": {
+          "bucketPolicyOnly": {
+            "enabled": true,
+            "lockedTime": "2019-08-13T15:22:00.617Z"
+          }
+        },
+        "id": "cf-cft-cai-bucket",
+        "kind": "storage#bucket",
+        "labels": {
+          "my-label-key": "some-value",
+          "label2": "some-other-vale"
+        },
+        "lifecycle": {
+          "rule": []
+        },
+        "location": "US-CENTRAL1",
+        "logging": {},
+        "metageneration": 5,
+        "name": "cf-cft-cai-bucket",
+        "owner": {},
+        "projectNumber": 318576589455,
+        "retentionPolicy": {},
+        "selfLink": "https://www.googleapis.com/storage/v1/b/cf-cft-cai-bucket",
+        "storageClass": "REGIONAL",
+        "timeCreated": "2019-05-15T15:05:56.580Z",
+        "updated": "2019-05-15T15:56:44.899Z",
+        "versioning": {},
+        "website": {}
+      }
+    }
+  },
+  {
+    "name": "//storage.googleapis.com/bucket-with-no-labels",
+    "asset_type": "storage.googleapis.com/Bucket",
+    "resource": {
+      "version": "v1",
+      "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/storage/v1/rest",
+      "discovery_name": "Bucket",
+      "parent": "//cloudresourcemanager.googleapis.com/projects/318576589455",
+      "data": {
+        "acl": [],
+        "billing": {},
+        "cors": [],
+        "defaultObjectAcl": [],
+        "encryption": {},
+        "etag": "CAU=",
+        "iamConfiguration": {
+          "bucketPolicyOnly": {
+            "enabled": true,
+            "lockedTime": "2019-08-13T15:22:00.617Z"
+          }
+        },
+        "id": "bucket-with-no-labels",
+        "kind": "storage#bucket",
+        "lifecycle": {
+          "rule": []
+        },
+        "location": "US-CENTRAL1",
+        "logging": {},
+        "metageneration": 5,
+        "name": "cf-cft-cai-bucket",
+        "owner": {},
+        "projectNumber": 318576589455,
+        "retentionPolicy": {},
+        "selfLink": "https://www.googleapis.com/storage/v1/b/cf-cft-cai-bucket",
+        "storageClass": "REGIONAL",
+        "timeCreated": "2019-05-15T15:05:56.580Z",
+        "updated": "2019-05-15T15:56:44.899Z",
+        "versioning": {},
+        "website": {}
+      }
+    }
+  },
+  {
+    "name": "//storage.googleapis.com/bucket-with-missing-labels",
+    "asset_type": "storage.googleapis.com/Bucket",
+    "resource": {
+      "version": "v1",
+      "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/storage/v1/rest",
+      "discovery_name": "Bucket",
+      "parent": "//cloudresourcemanager.googleapis.com/projects/318576589455",
+      "data": {
+        "acl": [],
+        "billing": {},
+        "cors": [],
+        "defaultObjectAcl": [],
+        "encryption": {},
+        "etag": "CAU=",
+        "iamConfiguration": {
+          "bucketPolicyOnly": {
+            "enabled": true,
+            "lockedTime": "2019-08-13T15:22:00.617Z"
+          }
+        },
+        "id": "bucket-with-missing-labels",
+        "kind": "storage#bucket",
+        "labels": {
+          "my-label-key": "some-value",
+          "label1": "some-other-vale"
+        },
+        "lifecycle": {
+          "rule": []
+        },
+        "location": "US-CENTRAL1",
+        "logging": {},
+        "metageneration": 5,
+        "name": "cf-cft-cai-bucket",
+        "owner": {},
+        "projectNumber": 318576589455,
+        "retentionPolicy": {},
+        "selfLink": "https://www.googleapis.com/storage/v1/b/cf-cft-cai-bucket",
+        "storageClass": "REGIONAL",
+        "timeCreated": "2019-05-15T15:05:56.580Z",
+        "updated": "2019-05-15T15:56:44.899Z",
+        "versioning": {},
+        "website": {}
+      }
+    }
+  }
+]
+

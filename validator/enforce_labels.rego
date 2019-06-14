@@ -16,6 +16,8 @@
 
 # Note: supported resource types for this rule: 
 # - projects
+# - buckets
+# - k8s pods
 
 package templates.gcp.GCPResourceLabelsV1
 
@@ -38,10 +40,33 @@ deny[{
 	metadata := {"resource": asset.name, "mandatory_labels": mandatory_labels}
 }
 
-# labelIsValid for projects
+
+# generic labelIsValid for all resources
 labelIsValid(label, asset) = true {
+	resource := getLabel(asset)
+	resourceLabels := lib.get_default(resource, "labels", {})
+	labelValue := resourceLabels[label]
+}
+
+# getGenericLabel Object for most resources
+getGenericLabel(asset) = resource {
+	resource := asset.resource.data
+}
+
+# getLabel for projects
+getLabel(asset) = resource {
 	asset.asset_type == "cloudresourcemanager.googleapis.com/Project"
-	project := asset.resource.data
-	projectLabel := lib.get_default(project, "labels", {})
-	labelValue := projectLabel[label]
+	resource := getGenericLabel(asset)
+}
+
+# getLabel for buckets
+getLabel(asset) = resource {
+	asset.asset_type == "storage.googleapis.com/Bucket"
+	resource := getGenericLabel(asset)
+}
+
+# getLabel for k8s.io/Pod
+getLabel(asset) = resource {
+	asset.asset_type == "k8s.io/Pod"
+	resource := asset.resource.data.metadata
 }
