@@ -17,32 +17,38 @@
 package templates.gcp.GCPResourceLabelsV1
 
 import data.validator.gcp.lib as lib
-import data.test.fixtures.assets.projects as fixture_projects
-import data.test.fixtures.constraints as fixture_constraints
+import data.test.fixtures.resource_labels.assets.projects as fixture_projects
+import data.test.fixtures.resource_labels.constraints as fixture_constraints
 
 # Find all violations on our test cases
-find_violations[violation] {
-        project := data.projects[_]
+find_all_violations[violation] {
+        resources := data.resources[_]
         constraint := data.test_constraints[_]
-        issues := deny with input.asset as project
+        issues := deny with input.asset as resources
                  with input.constraint as constraint
-        total_issues := count(issues)
         violation := issues[_]
 }
 
 projects_violations[violation] {
         constraints := [fixture_constraints.require_labels]
-        found_violations := find_violations with data.projects as fixture_projects
+        violations := find_all_violations with data.resources as fixture_projects
                  with data.test_constraints as constraints
-        violation := found_violations[_]
+        violation := violations[_]
 }
 
 
-# Confirm only a single violation was found (resource_labels constraint)
-test_resource_label_projects_violates_one {
-        found_violations := projects_violations
-        count(found_violations) == 1
-        violation := found_violations[_]
+# # Confirm only a single violation was found for projects
+test_resource_label_projects_violates_project_one {
+        violations := projects_violations
+        count(violations) == 2
+        violation := violations[_]
         is_string(violation.msg)
         is_object(violation.details)
+}
+
+# confirm which 2 projects are in violation
+test_resource_label_projects_violates_project_basic { 
+        violations := projects_violations
+	projects_violations[_].details.resource == "//cloudresourcemanager.googleapis.com/projects/357960133769"
+	projects_violations[_].details.resource == "//cloudresourcemanager.googleapis.com/projects/169463810970"
 }

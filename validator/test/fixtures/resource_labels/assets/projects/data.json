@@ -14,12 +14,12 @@
               "label2": "value2"
             },
           "lifecycleState": "ACTIVE",
-          "name": "vpc-sc-pub-sub-billing-alerts",
+          "name": "valid-project-test",
           "parent": {
             "id": "382777088978",
             "type": "organization"
           },
-          "projectId": "vpc-sc-pub-sub-billing-alerts",
+          "projectId": "valid-project-test",
           "projectNumber": "216968792402"
         }
       }
@@ -35,12 +35,12 @@
         "data": {
           "createTime": "2018-10-30T19:46:31.035Z",
           "lifecycleState": "ACTIVE",
-          "name": "gcpc-shared-monitoring",
+          "name": "invalid-project-missing-labels-test",
           "parent": {
             "id": "655583390968",
             "type": "folder"
           },
-          "projectId": "gcpc-shared-monitoring-514f",
+          "projectId": "invalid-project-missing-labels-test-514f",
           "projectNumber": "169463810970"
         }
       }
@@ -56,18 +56,18 @@
         "data": {
           "createTime": "2019-03-02T01:59:22.288Z",
           "labels": {
-              "mandatory-label": "mandatory-label-matching-value",
-              "label2": "value2"
+              "test-label": "test-label-matching-value",
+              "non-label2": "value2"
             },
           "lifecycleState": "ACTIVE",
-          "name": "awalko-hm-training",
+          "name": "invalid-project-missing-label2",
           "parent": {
             "id": "382777088978",
             "type": "organization"
           },
-          "projectId": "awalko-hm-training",
+          "projectId": "invalid-project-missing-label2",
           "projectNumber": "357960133769"
         }
       }
-    }    
+    }
 ]

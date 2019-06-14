@@ -14,6 +14,9 @@
 # limitations under the License.
 #
 
+# Note: supported resource types for this rule: 
+# - projects
+
 package templates.gcp.GCPResourceLabelsV1
 
 import data.validator.gcp.lib as lib
@@ -26,20 +29,19 @@ deny[{
 	constraint := input.constraint
 	lib.get_constraint_params(constraint, params)
 	asset := input.asset
-	asset.asset_type == "cloudresourcemanager.googleapis.com/Project"
-
-	project := asset.resource.data
 
 	mandatory_labels := params.mandatory_labels[_]
-
-	not labelIsValid(mandatory_labels, project)
+	not labelIsValid(mandatory_labels, asset)
 	
 	message := sprintf("%v doesn't have a required label.", [asset.name])
 
-	metadata := {"resource": asset.name}
+	metadata := {"resource": asset.name, "mandatory_labels": mandatory_labels}
 }
 
-labelIsValid(label, project) = true {
+# labelIsValid for projects
+labelIsValid(label, asset) = true {
+	asset.asset_type == "cloudresourcemanager.googleapis.com/Project"
+	project := asset.resource.data
 	projectLabel := lib.get_default(project, "labels", {})
 	labelValue := projectLabel[label]
 }
