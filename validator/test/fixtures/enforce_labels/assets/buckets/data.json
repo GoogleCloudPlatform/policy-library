@@ -20,11 +20,12 @@
             "lockedTime": "2019-08-13T15:22:00.617Z"
           }
         },
-        "id": "cf-cft-cai-bucket",
+        "id": "bucket-with-valid-labels",
         "kind": "storage#bucket",
         "labels": {
           "my-label-key": "some-value",
-          "label2": "some-other-vale"
+          "label2": "some-other-vale",
+          "label1": "another-value"
         },
         "lifecycle": {
           "rule": []
@@ -32,11 +33,11 @@
         "location": "US-CENTRAL1",
         "logging": {},
         "metageneration": 5,
-        "name": "cf-cft-cai-bucket",
+        "name": "bucket-with-valid-labels",
         "owner": {},
         "projectNumber": 318576589455,
         "retentionPolicy": {},
-        "selfLink": "https://www.googleapis.com/storage/v1/b/cf-cft-cai-bucket",
+        "selfLink": "https://www.googleapis.com/storage/v1/b/bucket-with-valid-labels",
         "storageClass": "REGIONAL",
         "timeCreated": "2019-05-15T15:05:56.580Z",
         "updated": "2019-05-15T15:56:44.899Z",
@@ -74,11 +75,11 @@
         "location": "US-CENTRAL1",
         "logging": {},
         "metageneration": 5,
-        "name": "cf-cft-cai-bucket",
+        "name": "bucket-with-no-labels",
         "owner": {},
         "projectNumber": 318576589455,
         "retentionPolicy": {},
-        "selfLink": "https://www.googleapis.com/storage/v1/b/cf-cft-cai-bucket",
+        "selfLink": "https://www.googleapis.com/storage/v1/b/bucket-with-no-labels",
         "storageClass": "REGIONAL",
         "timeCreated": "2019-05-15T15:05:56.580Z",
         "updated": "2019-05-15T15:56:44.899Z",
@@ -88,7 +89,7 @@
     }
   },
   {
-    "name": "//storage.googleapis.com/bucket-with-missing-labels",
+    "name": "//storage.googleapis.com/bucket-with-label2-missing",
     "asset_type": "storage.googleapis.com/Bucket",
     "resource": {
       "version": "v1",
@@ -108,7 +109,7 @@
             "lockedTime": "2019-08-13T15:22:00.617Z"
           }
         },
-        "id": "bucket-with-missing-labels",
+        "id": "bucket-with-label2-missing",
         "kind": "storage#bucket",
         "labels": {
           "my-label-key": "some-value",
@@ -120,11 +121,57 @@
         "location": "US-CENTRAL1",
         "logging": {},
         "metageneration": 5,
-        "name": "cf-cft-cai-bucket",
+        "name": "bucket-with-label2-missing",
         "owner": {},
         "projectNumber": 318576589455,
         "retentionPolicy": {},
-        "selfLink": "https://www.googleapis.com/storage/v1/b/cf-cft-cai-bucket",
+        "selfLink": "https://www.googleapis.com/storage/v1/b/bucket-with-label2-missing",
+        "storageClass": "REGIONAL",
+        "timeCreated": "2019-05-15T15:05:56.580Z",
+        "updated": "2019-05-15T15:56:44.899Z",
+        "versioning": {},
+        "website": {}
+      }
+    }
+  },
+  {
+    "name": "//storage.googleapis.com/bucket-with-label1-missing",
+    "asset_type": "storage.googleapis.com/Bucket",
+    "resource": {
+      "version": "v1",
+      "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/storage/v1/rest",
+      "discovery_name": "Bucket",
+      "parent": "//cloudresourcemanager.googleapis.com/projects/318576589455",
+      "data": {
+        "acl": [],
+        "billing": {},
+        "cors": [],
+        "defaultObjectAcl": [],
+        "encryption": {},
+        "etag": "CAU=",
+        "iamConfiguration": {
+          "bucketPolicyOnly": {
+            "enabled": true,
+            "lockedTime": "2019-08-13T15:22:00.617Z"
+          }
+        },
+        "id": "bucket-with-label1-missing",
+        "kind": "storage#bucket",
+        "labels": {
+          "my-label-key": "some-value",
+          "label2": "some-other-vale"
+        },
+        "lifecycle": {
+          "rule": []
+        },
+        "location": "US-CENTRAL1",
+        "logging": {},
+        "metageneration": 5,
+        "name": "bucket-with-label1-missing",
+        "owner": {},
+        "projectNumber": 318576589455,
+        "retentionPolicy": {},
+        "selfLink": "https://www.googleapis.com/storage/v1/b/bucket-with-label1-missing",
         "storageClass": "REGIONAL",
         "timeCreated": "2019-05-15T15:05:56.580Z",
         "updated": "2019-05-15T15:56:44.899Z",
@@ -134,4 +181,3 @@
     }
   }
 ]
-

@@ -13,7 +13,8 @@
           "labels": {
             "k8s-app": "fluentd-gcp-scaler",
             "pod-template-hash": "69d79984cb",
-            "label2": "some-value"
+            "label2": "some-value",
+            "label1": "another-value"
           },
           "name": "fluentd-gcp-scaler-69d79984cb-xt9bg",
           "namespace": "kube-system",
@@ -239,7 +240,7 @@
     }
   },
   {
-    "name": "//container.googleapis.com/projects/project-with-missing-labels/zones/us-west1-a/clusters/gke-data-dog-cluster/k8s/namespaces/kube-system/pods/fluentd-gcp-scaler-69d79984cb-xt9bg",
+    "name": "//container.googleapis.com/projects/project-with-missing-label1/zones/us-west1-a/clusters/gke-data-dog-cluster/k8s/namespaces/kube-system/pods/fluentd-gcp-scaler-69d79984cb-xt9bg",
     "asset_type": "k8s.io/Pod",
     "resource": {
       "version": "v1",
@@ -251,7 +252,130 @@
           "generateName": "fluentd-gcp-scaler-69d79984cb-",
           "labels": {
             "k8s-app": "fluentd-gcp-scaler",
-            "pod-template-hash": "69d79984cb"
+            "pod-template-hash": "69d79984cb",
+            "label2": "some-value"
+          },
+          "name": "fluentd-gcp-scaler-69d79984cb-xt9bg",
+          "namespace": "kube-system",
+          "ownerReferences": [
+            {
+              "apiVersion": "apps/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "ReplicaSet",
+              "name": "fluentd-gcp-scaler-69d79984cb",
+              "uid": "16755182-3e7e-11e9-b751-42010a8a013a"
+            }
+          ],
+          "resourceVersion": "20172209",
+          "selfLink": "/api/v1/namespaces/kube-system/pods/fluentd-gcp-scaler-69d79984cb-xt9bg",
+          "uid": "74a06763-3e93-11e9-b751-42010a8a013a"
+        },
+        "spec": {
+          "containers": [
+            {
+              "command": [
+                "/scaler.sh",
+                "--ds-name=fluentd-gcp-v3.2.0",
+                "--scaling-policy=fluentd-gcp-scaling-policy"
+              ],
+              "env": [
+                {
+                  "name": "CPU_REQUEST",
+                  "value": "100m"
+                },
+                {
+                  "name": "MEMORY_REQUEST",
+                  "value": "200Mi"
+                },
+                {
+                  "name": "CPU_LIMIT",
+                  "value": "1000m"
+                },
+                {
+                  "name": "MEMORY_LIMIT",
+                  "value": "500Mi"
+                }
+              ],
+              "image": "k8s.gcr.io/fluentd-gcp-scaler:0.5",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "fluentd-gcp-scaler",
+              "resources": {},
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "fluentd-gcp-scaler-token-q9rhj",
+                  "readOnly": true
+                }
+              ]
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "priority": 0,
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {},
+          "serviceAccount": "fluentd-gcp-scaler",
+          "serviceAccountName": "fluentd-gcp-scaler",
+          "terminationGracePeriodSeconds": 30,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ],
+          "volumes": [
+            {
+              "name": "fluentd-gcp-scaler-token-q9rhj",
+              "secret": {
+                "defaultMode": 420,
+                "secretName": "fluentd-gcp-scaler-token-q9rhj"
+              }
+            }
+          ]
+        },
+        "status": {
+          "conditions": [
+            {
+              "lastProbeTime": "2019-06-14T10:53:13Z",
+              "lastTransitionTime": "2019-03-04T15:37:47Z",
+              "message": "no nodes available to schedule pods",
+              "reason": "Unschedulable",
+              "status": "False",
+              "type": "PodScheduled"
+            }
+          ],
+          "phase": "Pending",
+          "qosClass": "BestEffort"
+        }
+      }
+    }
+  },
+  {
+    "name": "//container.googleapis.com/projects/project-with-missing-label2/zones/us-west1-a/clusters/gke-data-dog-cluster/k8s/namespaces/kube-system/pods/fluentd-gcp-scaler-69d79984cb-xt9bg",
+    "asset_type": "k8s.io/Pod",
+    "resource": {
+      "version": "v1",
+      "discovery_document_uri": "https://raw.githubusercontent.com/kubernetes/kubernetes/master/api/openapi-spec/swagger.json",
+      "discovery_name": "io.k8s.api.core.v1.Pod",
+      "data": {
+        "metadata": {
+          "creationTimestamp": "2019-03-04T15:37:44Z",
+          "generateName": "fluentd-gcp-scaler-69d79984cb-",
+          "labels": {
+            "k8s-app": "fluentd-gcp-scaler",
+            "pod-template-hash": "69d79984cb",
+            "label1": "some-value"
           },
           "name": "fluentd-gcp-scaler-69d79984cb-xt9bg",
           "namespace": "kube-system",

@@ -22,5 +22,5 @@ spec:
     gcp:
       target: ["organization/*"]
   parameters: 
-    mandatory_labels: ["label2"]
+    mandatory_labels: ["label1", "label2"]
   

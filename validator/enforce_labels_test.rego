@@ -57,56 +57,61 @@ bucket_violations[violation] {
 
 ##### Testing for projects
 
-# # Confirm two violations were found for projects
-test_enforce_label_projects_violates_project_one {
+# # Confirm four violations were found for all projects
+test_enforce_label_projects_violates_project_four {
         violations := project_violations
-        count(violations) == 2
+        count(violations) == 4
         violation := violations[_]
         is_string(violation.msg)
         is_object(violation.details)
 }
 
-# confirm which 2 projects are in violation
+# confirm which 3 projects are in violation
 test_enforce_label_projects_violates_project_basic { 
         violations := project_violations
-	violations[_].details.resource == "//cloudresourcemanager.googleapis.com/projects/357960133769"
+                trace(sprintf("YYYYYY %s", [violations]))
+
 	violations[_].details.resource == "//cloudresourcemanager.googleapis.com/projects/169463810970"
+	violations[_].details.resource == "//cloudresourcemanager.googleapis.com/projects/357960133769"
+        violations[_].details.resource == "//cloudresourcemanager.googleapis.com/projects/357960133899"
 }
 
 ##### Testing for k8s
 
 
-# # Confirm exactly 2 k8s pod violations were found for k8s
-test_enforce_label_k8s_violates_project_two {
+# Confirm exactly 4 k8s pod violations were found for k8s
+test_enforce_label_k8s_violates_project_four {
         violations := k8s_violations
-        count(violations) == 2
+        count(violations) == 4
         violation := violations[_]
         is_string(violation.msg)
         is_object(violation.details)
 }
 
-# confirm which 2 k8s pods are in violation
+# confirm which 4 k8s pods are in violation
 test_enforce_label_k8s_violates_project_basic { 
         violations := k8s_violations
     	violations[_].details.resource == "//container.googleapis.com/projects/project-without-labels/zones/us-west1-a/clusters/gke-data-dog-cluster/k8s/namespaces/kube-system/pods/fluentd-gcp-scaler-69d79984cb-xt9bg"
-	violations[_].details.resource == "//container.googleapis.com/projects/project-with-missing-labels/zones/us-west1-a/clusters/gke-data-dog-cluster/k8s/namespaces/kube-system/pods/fluentd-gcp-scaler-69d79984cb-xt9bg"
+	violations[_].details.resource == "//container.googleapis.com/projects/project-with-missing-label1/zones/us-west1-a/clusters/gke-data-dog-cluster/k8s/namespaces/kube-system/pods/fluentd-gcp-scaler-69d79984cb-xt9bg"
+	violations[_].details.resource == "//container.googleapis.com/projects/project-with-missing-label2/zones/us-west1-a/clusters/gke-data-dog-cluster/k8s/namespaces/kube-system/pods/fluentd-gcp-scaler-69d79984cb-xt9bg"
 }
 
 ##### Testing for buckets
 
 
-# # Confirm exactly 2 bucket violations were found for k8s
-test_enforce_label_bucket_violates_project_two {
+# # Confirm exactly 4 bucket violations were found for k8s
+test_enforce_label_bucket_violates_project_four {
         violations := bucket_violations
-        count(violations) == 2
+        count(violations) == 4
         violation := violations[_]
         is_string(violation.msg)
         is_object(violation.details)
 }
 
-# confirm which 2 bucket pods are in violation
+# confirm which 4 bucket pods are in violation
 test_enforce_label_bucket_violates_project_basic { 
         violations := bucket_violations
-    	violations[_].details.resource == "//storage.googleapis.com/bucket-with-missing-labels"
-	violations[_].details.resource == "//storage.googleapis.com/bucket-with-no-labels"
+    	violations[_].details.resource == "//storage.googleapis.com/bucket-with-no-labels"
+	violations[_].details.resource == "//storage.googleapis.com/bucket-with-label2-missing"
+	violations[_].details.resource == "//storage.googleapis.com/bucket-with-label1-missing"
 }

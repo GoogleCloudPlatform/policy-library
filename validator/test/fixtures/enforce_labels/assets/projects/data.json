@@ -57,7 +57,7 @@
         "createTime": "2019-03-02T01:59:22.288Z",
         "labels": {
           "test-label": "test-label-matching-value",
-          "non-label2": "value2"
+          "label1": "value2"
         },
         "lifecycleState": "ACTIVE",
         "name": "invalid-project-missing-label2",
@@ -71,170 +71,27 @@
     }
   },
   {
-    "name": "//storage.googleapis.com/cf-cft-cai-bucket",
-    "asset_type": "storage.googleapis.com/Bucket",
+    "name": "//cloudresourcemanager.googleapis.com/projects/357960133899",
+    "asset_type": "cloudresourcemanager.googleapis.com/Project",
     "resource": {
-      "version": "v1",
-      "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/storage/v1/rest",
-      "discovery_name": "Bucket",
-      "parent": "//cloudresourcemanager.googleapis.com/projects/318576589455",
+      "version": "v1beta1",
+      "discovery_document_uri": "https://cloudresourcemanager.googleapis.com/$discovery/rest?version=v1beta1",
+      "discovery_name": "Project",
+      "parent": "//cloudresourcemanager.googleapis.com/organizations/382777088978",
       "data": {
-        "acl": [],
-        "billing": {},
-        "cors": [],
-        "defaultObjectAcl": [],
-        "encryption": {},
-        "etag": "CAU=",
-        "iamConfiguration": {
-          "bucketPolicyOnly": {
-            "enabled": true,
-            "lockedTime": "2019-08-13T15:22:00.617Z"
-          }
-        },
-        "id": "cf-cft-cai-bucket",
-        "kind": "storage#bucket",
+        "createTime": "2019-03-02T01:59:22.288Z",
         "labels": {
-          "my-label-key": "some-value",
-          "label2": "some-other-vale"
+          "test-label": "test-label-matching-value",
+          "label2": "value2"
         },
-        "lifecycle": {
-          "rule": []
+        "lifecycleState": "ACTIVE",
+        "name": "invalid-project-missing-label2",
+        "parent": {
+          "id": "382777088978",
+          "type": "organization"
         },
-        "location": "US-CENTRAL1",
-        "logging": {},
-        "metageneration": 5,
-        "name": "cf-cft-cai-bucket",
-        "owner": {},
-        "projectNumber": 318576589455,
-        "retentionPolicy": {},
-        "selfLink": "https://www.googleapis.com/storage/v1/b/cf-cft-cai-bucket",
-        "storageClass": "REGIONAL",
-        "timeCreated": "2019-05-15T15:05:56.580Z",
-        "updated": "2019-05-15T15:56:44.899Z",
-        "versioning": {},
-        "website": {}
-      }
-    }
-  },
-  {
-    "name": "//container.googleapis.com/projects/awalko-hm-training/zones/us-west1-a/clusters/gke-data-dog-cluster/k8s/namespaces/kube-system/pods/fluentd-gcp-scaler-69d79984cb-xt9bg",
-    "asset_type": "k8s.io/Pod",
-    "resource": {
-      "version": "v1",
-      "discovery_document_uri": "https://raw.githubusercontent.com/kubernetes/kubernetes/master/api/openapi-spec/swagger.json",
-      "discovery_name": "io.k8s.api.core.v1.Pod",
-      "data": {
-        "metadata": {
-          "creationTimestamp": "2019-03-04T15:37:44Z",
-          "generateName": "fluentd-gcp-scaler-69d79984cb-",
-          "labels": {
-            "k8s-app": "fluentd-gcp-scaler",
-            "pod-template-hash": "69d79984cb",
-            "label2": "some-value"
-          },
-          "name": "fluentd-gcp-scaler-69d79984cb-xt9bg",
-          "namespace": "kube-system",
-          "ownerReferences": [
-            {
-              "apiVersion": "apps/v1",
-              "blockOwnerDeletion": true,
-              "controller": true,
-              "kind": "ReplicaSet",
-              "name": "fluentd-gcp-scaler-69d79984cb",
-              "uid": "16755182-3e7e-11e9-b751-42010a8a013a"
-            }
-          ],
-          "resourceVersion": "20172209",
-          "selfLink": "/api/v1/namespaces/kube-system/pods/fluentd-gcp-scaler-69d79984cb-xt9bg",
-          "uid": "74a06763-3e93-11e9-b751-42010a8a013a"
-        },
-        "spec": {
-          "containers": [
-            {
-              "command": [
-                "/scaler.sh",
-                "--ds-name=fluentd-gcp-v3.2.0",
-                "--scaling-policy=fluentd-gcp-scaling-policy"
-              ],
-              "env": [
-                {
-                  "name": "CPU_REQUEST",
-                  "value": "100m"
-                },
-                {
-                  "name": "MEMORY_REQUEST",
-                  "value": "200Mi"
-                },
-                {
-                  "name": "CPU_LIMIT",
-                  "value": "1000m"
-                },
-                {
-                  "name": "MEMORY_LIMIT",
-                  "value": "500Mi"
-                }
-              ],
-              "image": "k8s.gcr.io/fluentd-gcp-scaler:0.5",
-              "imagePullPolicy": "IfNotPresent",
-              "name": "fluentd-gcp-scaler",
-              "resources": {},
-              "terminationMessagePath": "/dev/termination-log",
-              "terminationMessagePolicy": "File",
-              "volumeMounts": [
-                {
-                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                  "name": "fluentd-gcp-scaler-token-q9rhj",
-                  "readOnly": true
-                }
-              ]
-            }
-          ],
-          "dnsPolicy": "ClusterFirst",
-          "priority": 0,
-          "restartPolicy": "Always",
-          "schedulerName": "default-scheduler",
-          "securityContext": {},
-          "serviceAccount": "fluentd-gcp-scaler",
-          "serviceAccountName": "fluentd-gcp-scaler",
-          "terminationGracePeriodSeconds": 30,
-          "tolerations": [
-            {
-              "effect": "NoExecute",
-              "key": "node.kubernetes.io/not-ready",
-              "operator": "Exists",
-              "tolerationSeconds": 300
-            },
-            {
-              "effect": "NoExecute",
-              "key": "node.kubernetes.io/unreachable",
-              "operator": "Exists",
-              "tolerationSeconds": 300
-            }
-          ],
-          "volumes": [
-            {
-              "name": "fluentd-gcp-scaler-token-q9rhj",
-              "secret": {
-                "defaultMode": 420,
-                "secretName": "fluentd-gcp-scaler-token-q9rhj"
-              }
-            }
-          ]
-        },
-        "status": {
-          "conditions": [
-            {
-              "lastProbeTime": "2019-06-14T10:53:13Z",
-              "lastTransitionTime": "2019-03-04T15:37:47Z",
-              "message": "no nodes available to schedule pods",
-              "reason": "Unschedulable",
-              "status": "False",
-              "type": "PodScheduled"
-            }
-          ],
-          "phase": "Pending",
-          "qosClass": "BestEffort"
-        }
+        "projectId": "invalid-project-missing-label1",
+        "projectNumber": "357960133769"
       }
     }
   }
