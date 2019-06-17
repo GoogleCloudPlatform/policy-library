@@ -59,6 +59,7 @@ spec:
      	"compute.googleapis.com/Instance",
      	"compute.googleapis.com/Image",
      	"compute.googleapis.com/Disk",
+     	"compute.googleapis.com/Snapshot",
      ]
      
      deny[{

@@ -23,6 +23,7 @@ import data.test.fixtures.enforce_labels.assets.buckets as fixture_buckets
 import data.test.fixtures.enforce_labels.assets.compute.disks as fixture_compute_disks
 import data.test.fixtures.enforce_labels.assets.compute.images as fixture_compute_images
 import data.test.fixtures.enforce_labels.assets.compute.instances as fixture_compute_instances
+import data.test.fixtures.enforce_labels.assets.compute.snapshots as fixture_compute_snapshots
 import data.test.fixtures.enforce_labels.assets.projects as fixture_projects
 
 import data.test.fixtures.enforce_labels.constraints as fixture_constraints
@@ -72,6 +73,14 @@ compute_image_violations[violation] {
 compute_disk_violations[violation] {
 	constraints := [fixture_constraints.require_labels]
 	violations := find_all_violations with data.resources as fixture_compute_disks
+		 with data.test_constraints as constraints
+
+	violation := violations[_]
+}
+
+compute_snapshot_violations[violation] {
+	constraints := [fixture_constraints.require_labels]
+	violations := find_all_violations with data.resources as fixture_compute_snapshots
 		 with data.test_constraints as constraints
 
 	violation := violations[_]
@@ -154,7 +163,7 @@ test_enforce_label_compute_image_violates_project_basic {
 }
 
 #### Testing for GCE Disks
-# # Confirm exactly 4 disks violations were found
+# # Confirm exactly 4 disk violations were found
 test_enforce_label_compute_disk_violates_project_four {
 	violations := compute_disk_violations
 	count(violations) == 4
@@ -170,4 +179,23 @@ test_enforce_label_compute_disk_violates_project_basic {
 	violations[_].details.resource == "//compute.googleapis.com/projects/my-test-project/zones/us-east1-b/disks/instance-1-invalid-disk-missing-labels"
 	violations[_].details.resource == "//compute.googleapis.com/projects/my-test-project/zones/us-east1-b/disks/instance-1-invalid-disk-missing-label1"
 	violations[_].details.resource == "//compute.googleapis.com/projects/my-test-project/zones/us-east1-b/disks/instance-1-invalid-disk-missing-label2"
+}
+
+#### Testing for GCE Snapshots
+# # Confirm exactly 4 snapshot violations were found
+test_enforce_label_compute_snapshot_violates_project_four {
+	violations := compute_snapshot_violations
+	count(violations) == 4
+	violation := violations[_]
+	is_string(violation.msg)
+	is_object(violation.details)
+}
+
+# confirm which 3 snapshots are in violation
+test_enforce_label_compute_snapshot_violates_project_basic {
+	violations := compute_snapshot_violations
+
+	violations[_].details.resource == "//compute.googleapis.com/projects/my-test-project/global/snapshots/snapshot-1-invalid-missing-labels"
+	violations[_].details.resource == "//compute.googleapis.com/projects/my-test-project/global/snapshots/snapshot-1-invalid-missing-label1"
+	violations[_].details.resource == "//compute.googleapis.com/projects/my-test-project/global/snapshots/snapshot-1-invalid-missing-label2"
 }

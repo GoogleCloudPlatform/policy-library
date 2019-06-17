@@ -29,6 +29,7 @@ resource_types_to_scan = [
 	"compute.googleapis.com/Instance",
 	"compute.googleapis.com/Image",
 	"compute.googleapis.com/Disk",
+	"compute.googleapis.com/Snapshot",
 ]
 
 deny[{
