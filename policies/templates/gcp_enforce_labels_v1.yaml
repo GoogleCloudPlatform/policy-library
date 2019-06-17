@@ -24,7 +24,11 @@ spec:
         plural: gcpenforcelabelconstraintsv1
       validation:
         openAPIV3Schema:
-          properties: {}
+          properties: 
+            mandatory_labels:
+              description: "List of mandatory labels to check for on all supported resources. Each missing label will result in a violation."
+                type: array
+                items: string
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/enforce_labels.rego")

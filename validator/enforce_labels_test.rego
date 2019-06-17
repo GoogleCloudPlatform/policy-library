@@ -88,8 +88,9 @@ compute_snapshot_violations[violation] {
 
 ##### Testing for projects
 
-# # Confirm four violations were found for all projects
-test_enforce_label_projects_violates_project_four {
+# Confirm four violations were found for all projects
+# 3 projects have violations - 1 of which has 2 violations (missing 2 labels) 
+test_enforce_label_projects_violates_four {
 	violations := project_violations
 	count(violations) == 4
 	violation := violations[_]
@@ -98,7 +99,7 @@ test_enforce_label_projects_violates_project_four {
 }
 
 # confirm which 3 projects are in violation
-test_enforce_label_projects_violates_project_basic {
+test_enforce_label_projects_violates_basic {
 	violations := project_violations
 	violations[_].details.resource == "//cloudresourcemanager.googleapis.com/projects/169463810970"
 	violations[_].details.resource == "//cloudresourcemanager.googleapis.com/projects/357960133769"
@@ -107,8 +108,9 @@ test_enforce_label_projects_violates_project_basic {
 
 ##### Testing for buckets
 
-# # Confirm exactly 4 bucket violations were found
-test_enforce_label_bucket_violates_project_four {
+# Confirm exactly 4 bucket violations were found
+# 3 buckets have violations - 1 of which has 2 violations (missing 2 labels)
+test_enforce_label_bucket_violates_four {
 	violations := bucket_violations
 	count(violations) == 4
 	violation := violations[_]
@@ -117,7 +119,7 @@ test_enforce_label_bucket_violates_project_four {
 }
 
 # confirm which 3 buckets are in violation
-test_enforce_label_bucket_violates_project_basic {
+test_enforce_label_bucket_violates_basic {
 	violations := bucket_violations
 	violations[_].details.resource == "//storage.googleapis.com/bucket-with-no-labels"
 	violations[_].details.resource == "//storage.googleapis.com/bucket-with-label2-missing"
@@ -127,8 +129,9 @@ test_enforce_label_bucket_violates_project_basic {
 #### Testing for GCE resources
 
 #### Testing for GCE instances
-# # Confirm exactly 4 instance violations were found
-test_enforce_label_compute_instance_violates_project_four {
+# Confirm exactly 4 instance violations were found
+# 3 instances have violations - 1 of which has 2 violations (missing 2 labels)
+test_enforce_label_compute_instance_violates_four {
 	violations := compute_instance_violations
 	count(violations) == 4
 	violation := violations[_]
@@ -137,7 +140,7 @@ test_enforce_label_compute_instance_violates_project_four {
 }
 
 # confirm which 3 instances are in violation
-test_enforce_label_compute_instance_violates_project_basic {
+test_enforce_label_compute_instance_violates_basic {
 	violations := compute_instance_violations
 	violations[_].details.resource == "//compute.googleapis.com/projects/vpc-sc-pub-sub-billing-alerts/zones/us-central1-b/instances/invalid-instance-missing-labels-8hz5"
 	violations[_].details.resource == "//compute.googleapis.com/projects/vpc-sc-pub-sub-billing-alerts/zones/us-central1-b/instances/invalid-instance-missing-label1-8hz5"
@@ -145,8 +148,9 @@ test_enforce_label_compute_instance_violates_project_basic {
 }
 
 #### Testing for GCE Images
-# # Confirm exactly 4 images violations were found
-test_enforce_label_compute_instance_violates_project_four {
+# Confirm exactly 4 images violations were found
+# 3 images have violations - 1 of which has 2 violations (missing 2 labels)
+test_enforce_label_compute_instance_violates_four {
 	violations := compute_image_violations
 	count(violations) == 4
 	violation := violations[_]
@@ -155,7 +159,7 @@ test_enforce_label_compute_instance_violates_project_four {
 }
 
 # confirm which 3 images are in violation
-test_enforce_label_compute_image_violates_project_basic {
+test_enforce_label_compute_image_violates_basic {
 	violations := compute_image_violations
 	violations[_].details.resource == "//compute.googleapis.com/projects/my-own-project/global/images/test-invalid-image-missing-label1"
 	violations[_].details.resource == "//compute.googleapis.com/projects/my-own-project/global/images/test-invalid-image-missing-label2"
@@ -163,8 +167,9 @@ test_enforce_label_compute_image_violates_project_basic {
 }
 
 #### Testing for GCE Disks
-# # Confirm exactly 4 disk violations were found
-test_enforce_label_compute_disk_violates_project_four {
+# Confirm exactly 4 disk violations were found
+# 3 disks have violations - 1 of which has 2 violations (missing 2 labels)
+test_enforce_label_compute_disk_violates_four {
 	violations := compute_disk_violations
 	count(violations) == 4
 	violation := violations[_]
@@ -173,7 +178,7 @@ test_enforce_label_compute_disk_violates_project_four {
 }
 
 # confirm which 3 disks are in violation
-test_enforce_label_compute_disk_violates_project_basic {
+test_enforce_label_compute_disk_violates_basic {
 	violations := compute_disk_violations
 
 	violations[_].details.resource == "//compute.googleapis.com/projects/my-test-project/zones/us-east1-b/disks/instance-1-invalid-disk-missing-labels"
@@ -182,8 +187,9 @@ test_enforce_label_compute_disk_violates_project_basic {
 }
 
 #### Testing for GCE Snapshots
-# # Confirm exactly 4 snapshot violations were found
-test_enforce_label_compute_snapshot_violates_project_four {
+# Confirm exactly 4 snapshot violations were found
+# 3 snapshots have violations - 1 of which has 2 violations (missing 2 labels)
+test_enforce_label_compute_snapshot_violates_four {
 	violations := compute_snapshot_violations
 	count(violations) == 4
 	violation := violations[_]
@@ -192,7 +198,7 @@ test_enforce_label_compute_snapshot_violates_project_four {
 }
 
 # confirm which 3 snapshots are in violation
-test_enforce_label_compute_snapshot_violates_project_basic {
+test_enforce_label_compute_snapshot_violates_basic {
 	violations := compute_snapshot_violations
 
 	violations[_].details.resource == "//compute.googleapis.com/projects/my-test-project/global/snapshots/snapshot-1-invalid-missing-labels"
