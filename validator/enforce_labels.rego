@@ -27,9 +27,9 @@ resource_types_to_scan = [
 	"cloudresourcemanager.googleapis.com/Project",
 	"storage.googleapis.com/Bucket",
 	"compute.googleapis.com/Instance",
-	"compute.googleapis.com/Image"
+	"compute.googleapis.com/Image",
+	"compute.googleapis.com/Disk",
 ]
-
 
 deny[{
 	"msg": message,
@@ -40,33 +40,34 @@ deny[{
 	asset := input.asset
 
 	mandatory_labels := params.mandatory_labels[_]
-	resourceIsToScan(asset)
-	not labelIsValid(mandatory_labels, asset)
+	resource_is_to_scan(asset)
+	not label_is_valid(mandatory_labels, asset)
 
 	message := sprintf("%v doesn't have a required label.", [asset.name])
 
 	metadata := {"resource": asset.name, "mandatory_labels": mandatory_labels}
 }
 
-resourceIsToScan(asset){
+resource_is_to_scan(asset) {
 	resource_types_to_scan[_] == asset.asset_type
 }
 
-# generic labelIsValid for all resources
-labelIsValid(label, asset) {
-	resource := getLabel(asset)
-	resourceLabels := lib.get_default(resource, "labels", {})
-	labelValue := resourceLabels[label]
+# generic label_is_valid for all resources
+label_is_valid(label, asset) {
+	resource := get_label(asset)
+	resource_labels := lib.get_default(resource, "labels", {})
+	labelValue := resource_labels[label]
 }
 
-# getGenericLabel Object for standard resources
-getGenericLabel(asset) = resource {
+# get_generic_label Object for standard resources
+get_generic_label(asset) = resource {
 	resource := asset.resource.data
 }
 
-# getLabel for standard resources
-getLabel(asset) = resource {
+# get_label for standard resources
+# placeholder function: in case we run into non-standard location for labels
 
+get_label(asset) = resource {
 	resource_types_to_scan[_] == asset.asset_type
-	resource := getGenericLabel(asset)
+	resource := get_generic_label(asset)
 }

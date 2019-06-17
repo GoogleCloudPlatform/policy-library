@@ -19,10 +19,11 @@ package templates.gcp.GCPResourceLabelsV1
 import data.validator.gcp.lib as lib
 
 # Importing the test data 
-import data.test.fixtures.enforce_labels.assets.projects as fixture_projects
 import data.test.fixtures.enforce_labels.assets.buckets as fixture_buckets
-import data.test.fixtures.enforce_labels.assets.compute.instances as fixture_compute_instances
+import data.test.fixtures.enforce_labels.assets.compute.disks as fixture_compute_disks
 import data.test.fixtures.enforce_labels.assets.compute.images as fixture_compute_images
+import data.test.fixtures.enforce_labels.assets.compute.instances as fixture_compute_instances
+import data.test.fixtures.enforce_labels.assets.projects as fixture_projects
 
 import data.test.fixtures.enforce_labels.constraints as fixture_constraints
 
@@ -68,6 +69,14 @@ compute_image_violations[violation] {
 	violation := violations[_]
 }
 
+compute_disk_violations[violation] {
+	constraints := [fixture_constraints.require_labels]
+	violations := find_all_violations with data.resources as fixture_compute_disks
+		 with data.test_constraints as constraints
+
+	violation := violations[_]
+}
+
 ##### Testing for projects
 
 # # Confirm four violations were found for all projects
@@ -86,7 +95,6 @@ test_enforce_label_projects_violates_project_basic {
 	violations[_].details.resource == "//cloudresourcemanager.googleapis.com/projects/357960133769"
 	violations[_].details.resource == "//cloudresourcemanager.googleapis.com/projects/357960133899"
 }
-
 
 ##### Testing for buckets
 
@@ -127,7 +135,6 @@ test_enforce_label_compute_instance_violates_project_basic {
 	violations[_].details.resource == "//compute.googleapis.com/projects/vpc-sc-pub-sub-billing-alerts/zones/us-central1-b/instances/invalid-instance-missing-label2-8hz5"
 }
 
-
 #### Testing for GCE Images
 # # Confirm exactly 4 images violations were found
 test_enforce_label_compute_instance_violates_project_four {
@@ -144,4 +151,25 @@ test_enforce_label_compute_image_violates_project_basic {
 	violations[_].details.resource == "//compute.googleapis.com/projects/my-own-project/global/images/test-invalid-image-missing-label1"
 	violations[_].details.resource == "//compute.googleapis.com/projects/my-own-project/global/images/test-invalid-image-missing-label2"
 	violations[_].details.resource == "//compute.googleapis.com/projects/my-own-project/global/images/test-invalid-image-missing-label1"
+}
+
+#### Testing for GCE Disks
+# # Confirm exactly 4 disks violations were found
+test_enforce_label_compute_disk_violates_project_four {
+	violations := compute_disk_violations
+	trace(sprintf("RRRRRRRR %s", [violations]))
+	count(violations) == 4
+	violation := violations[_]
+	is_string(violation.msg)
+	is_object(violation.details)
+}
+
+# confirm which 3 disks are in violation
+test_enforce_label_compute_disk_violates_project_basic {
+	violations := compute_disk_violations
+	trace(sprintf("UUUUUUU %s", [violations]))
+
+	violations[_].details.resource == "//compute.googleapis.com/projects/my-test-project/zones/us-east1-b/disks/instance-1-invalid-disk-missing-labels"
+	violations[_].details.resource == "//compute.googleapis.com/projects/my-test-project/zones/us-east1-b/disks/instance-1-invalid-disk-missing-label1"
+	violations[_].details.resource == "//compute.googleapis.com/projects/my-test-project/zones/us-east1-b/disks/instance-1-invalid-disk-missing-label2"
 }
