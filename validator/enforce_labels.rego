@@ -56,7 +56,8 @@ getLabel(asset) = resource {
 	standard_resource_types = [
 		"cloudresourcemanager.googleapis.com/Project",
 		"storage.googleapis.com/Bucket",
-		"compute.googleapis.com/Instance"
+		"compute.googleapis.com/Instance",
+		"compute.googleapis.com/Image"
 	]
 
 	standard_resource_types[_] == asset.asset_type

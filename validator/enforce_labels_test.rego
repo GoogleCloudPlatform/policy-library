@@ -23,6 +23,7 @@ import data.test.fixtures.enforce_labels.assets.projects as fixture_projects
 import data.test.fixtures.enforce_labels.assets.k8s as fixture_k8s
 import data.test.fixtures.enforce_labels.assets.buckets as fixture_buckets
 import data.test.fixtures.enforce_labels.assets.compute.instances as fixture_compute_instances
+import data.test.fixtures.enforce_labels.assets.compute.images as fixture_compute_images
 
 import data.test.fixtures.enforce_labels.constraints as fixture_constraints
 
@@ -63,6 +64,14 @@ bucket_violations[violation] {
 compute_instance_violations[violation] {
 	constraints := [fixture_constraints.require_labels]
 	violations := find_all_violations with data.resources as fixture_compute_instances
+		 with data.test_constraints as constraints
+
+	violation := violations[_]
+}
+
+compute_image_violations[violation] {
+	constraints := [fixture_constraints.require_labels]
+	violations := find_all_violations with data.resources as fixture_compute_images
 		 with data.test_constraints as constraints
 
 	violation := violations[_]
@@ -129,11 +138,10 @@ test_enforce_label_bucket_violates_project_basic {
 
 #### Testing for GCE resources
 
-#### Testing for GCE instanes
-# # Confirm exactly 4 instance violations were found for k8s
+#### Testing for GCE instances
+# # Confirm exactly 4 instance violations were found
 test_enforce_label_compute_instance_violates_project_four {
 	violations := compute_instance_violations
-        trace(sprintf("OOOOOOOOOOO %s", [violations]))
 	count(violations) == 4
 	violation := violations[_]
 	is_string(violation.msg)
@@ -146,4 +154,23 @@ test_enforce_label_compute_instance_violates_project_basic {
 	violations[_].details.resource == "//compute.googleapis.com/projects/vpc-sc-pub-sub-billing-alerts/zones/us-central1-b/instances/invalid-instance-missing-labels-8hz5"
 	violations[_].details.resource == "//compute.googleapis.com/projects/vpc-sc-pub-sub-billing-alerts/zones/us-central1-b/instances/invalid-instance-missing-label1-8hz5"
 	violations[_].details.resource == "//compute.googleapis.com/projects/vpc-sc-pub-sub-billing-alerts/zones/us-central1-b/instances/invalid-instance-missing-label2-8hz5"
+}
+
+
+#### Testing for GCE Images
+# # Confirm exactly 4 images violations were found
+test_enforce_label_compute_instance_violates_project_four {
+	violations := compute_image_violations
+	count(violations) == 4
+	violation := violations[_]
+	is_string(violation.msg)
+	is_object(violation.details)
+}
+
+# confirm which 3 images are in violation
+test_enforce_label_compute_image_violates_project_basic {
+	violations := compute_image_violations
+	violations[_].details.resource == "//compute.googleapis.com/projects/my-own-project/global/images/test-invalid-image-missing-label1"
+	violations[_].details.resource == "//compute.googleapis.com/projects/my-own-project/global/images/test-invalid-image-missing-label2"
+	violations[_].details.resource == "//compute.googleapis.com/projects/my-own-project/global/images/test-invalid-image-missing-label1"
 }
