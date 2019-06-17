@@ -14,11 +14,6 @@
 # limitations under the License.
 #
 
-# Note: supported resource types for this rule: 
-# - projects
-# - buckets
-# - k8s pods
-
 package templates.gcp.GCPResourceLabelsV1
 
 import data.validator.gcp.lib as lib
