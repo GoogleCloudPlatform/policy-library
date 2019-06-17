@@ -56,6 +56,7 @@ getLabel(asset) = resource {
 	standard_resource_types = [
 		"cloudresourcemanager.googleapis.com/Project",
 		"storage.googleapis.com/Bucket",
+		"compute.googleapis.com/Instance"
 	]
 
 	standard_resource_types[_] == asset.asset_type
@@ -65,8 +66,11 @@ getLabel(asset) = resource {
 # Non-standard labels locations for resources
 # i.e not in resource.data
 
-# getLabel for k8s.io/Pod
+# getLabel for resources with lables in metadata
 getLabel(asset) = resource {
-	asset.asset_type == "k8s.io/Pod"
+	matching_resource_types = [
+		"k8s.io/Pod"
+	]
+	matching_resource_types[_] == asset.asset_type 
 	resource := asset.resource.data.metadata
 }
