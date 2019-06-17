@@ -23,6 +23,14 @@ package templates.gcp.GCPResourceLabelsV1
 
 import data.validator.gcp.lib as lib
 
+resource_types_to_scan = [
+	"cloudresourcemanager.googleapis.com/Project",
+	"storage.googleapis.com/Bucket",
+	"compute.googleapis.com/Instance",
+	"compute.googleapis.com/Image"
+]
+
+
 deny[{
 	"msg": message,
 	"details": metadata,
@@ -32,11 +40,16 @@ deny[{
 	asset := input.asset
 
 	mandatory_labels := params.mandatory_labels[_]
+	resourceIsToScan(asset)
 	not labelIsValid(mandatory_labels, asset)
 
 	message := sprintf("%v doesn't have a required label.", [asset.name])
 
 	metadata := {"resource": asset.name, "mandatory_labels": mandatory_labels}
+}
+
+resourceIsToScan(asset){
+	resource_types_to_scan[_] == asset.asset_type
 }
 
 # generic labelIsValid for all resources
@@ -53,25 +66,7 @@ getGenericLabel(asset) = resource {
 
 # getLabel for standard resources
 getLabel(asset) = resource {
-	standard_resource_types = [
-		"cloudresourcemanager.googleapis.com/Project",
-		"storage.googleapis.com/Bucket",
-		"compute.googleapis.com/Instance",
-		"compute.googleapis.com/Image"
-	]
 
-	standard_resource_types[_] == asset.asset_type
+	resource_types_to_scan[_] == asset.asset_type
 	resource := getGenericLabel(asset)
-}
-
-# Non-standard labels locations for resources
-# i.e not in resource.data
-
-# getLabel for resources with lables in metadata
-getLabel(asset) = resource {
-	matching_resource_types = [
-		"k8s.io/Pod"
-	]
-	matching_resource_types[_] == asset.asset_type 
-	resource := asset.resource.data.metadata
 }
