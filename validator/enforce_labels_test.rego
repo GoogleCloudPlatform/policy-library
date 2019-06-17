@@ -157,7 +157,6 @@ test_enforce_label_compute_image_violates_project_basic {
 # # Confirm exactly 4 disks violations were found
 test_enforce_label_compute_disk_violates_project_four {
 	violations := compute_disk_violations
-	trace(sprintf("RRRRRRRR %s", [violations]))
 	count(violations) == 4
 	violation := violations[_]
 	is_string(violation.msg)
@@ -167,7 +166,6 @@ test_enforce_label_compute_disk_violates_project_four {
 # confirm which 3 disks are in violation
 test_enforce_label_compute_disk_violates_project_basic {
 	violations := compute_disk_violations
-	trace(sprintf("UUUUUUU %s", [violations]))
 
 	violations[_].details.resource == "//compute.googleapis.com/projects/my-test-project/zones/us-east1-b/disks/instance-1-invalid-disk-missing-labels"
 	violations[_].details.resource == "//compute.googleapis.com/projects/my-test-project/zones/us-east1-b/disks/instance-1-invalid-disk-missing-label1"
