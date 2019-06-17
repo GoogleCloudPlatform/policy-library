@@ -27,22 +27,20 @@ deny[{
 	"msg": message,
 	"details": metadata,
 }] {
-
 	constraint := input.constraint
 	lib.get_constraint_params(constraint, params)
 	asset := input.asset
 
 	mandatory_labels := params.mandatory_labels[_]
 	not labelIsValid(mandatory_labels, asset)
-	
+
 	message := sprintf("%v doesn't have a required label.", [asset.name])
 
 	metadata := {"resource": asset.name, "mandatory_labels": mandatory_labels}
 }
 
-
 # generic labelIsValid for all resources
-labelIsValid(label, asset) = true {
+labelIsValid(label, asset) {
 	resource := getLabel(asset)
 	resourceLabels := lib.get_default(resource, "labels", {})
 	labelValue := resourceLabels[label]
@@ -57,8 +55,9 @@ getGenericLabel(asset) = resource {
 getLabel(asset) = resource {
 	standard_resource_types = [
 		"cloudresourcemanager.googleapis.com/Project",
-		"storage.googleapis.com/Bucket"
+		"storage.googleapis.com/Bucket",
 	]
+
 	standard_resource_types[_] == asset.asset_type
 	resource := getGenericLabel(asset)
 }
