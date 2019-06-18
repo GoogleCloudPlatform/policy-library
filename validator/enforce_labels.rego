@@ -18,15 +18,6 @@ package templates.gcp.GCPResourceLabelsV1
 
 import data.validator.gcp.lib as lib
 
-resource_types_to_scan = [
-	"cloudresourcemanager.googleapis.com/Project",
-	"storage.googleapis.com/Bucket",
-	"compute.googleapis.com/Instance",
-	"compute.googleapis.com/Image",
-	"compute.googleapis.com/Disk",
-	"compute.googleapis.com/Snapshot",
-]
-
 deny[{
 	"msg": message,
 	"details": metadata,
@@ -36,7 +27,20 @@ deny[{
 	asset := input.asset
 
 	mandatory_labels := params.mandatory_labels[_]
-	resource_is_to_scan(asset)
+
+	tested_resource_types := [
+		"cloudresourcemanager.googleapis.com/Project",
+		"storage.googleapis.com/Bucket",
+		"compute.googleapis.com/Instance",
+		"compute.googleapis.com/Image",
+		"compute.googleapis.com/Disk",
+		"compute.googleapis.com/Snapshot",
+		"google.bigtable.Instance",
+	]
+
+	resource_types_to_scan := lib.get_default(params, "resource_types_to_scan", tested_resource_types)
+
+	resource_is_to_scan(asset, resource_types_to_scan)
 	not label_is_valid(mandatory_labels, asset)
 
 	message := sprintf("%v doesn't have a required label.", [asset.name])
@@ -44,7 +48,7 @@ deny[{
 	metadata := {"resource": asset.name, "mandatory_labels": mandatory_labels}
 }
 
-resource_is_to_scan(asset) {
+resource_is_to_scan(asset, resource_types_to_scan) {
 	resource_types_to_scan[_] == asset.asset_type
 }
 
@@ -64,6 +68,5 @@ get_generic_label(asset) = resource {
 # placeholder function: in case we run into non-standard location for labels
 
 get_label(asset) = resource {
-	resource_types_to_scan[_] == asset.asset_type
 	resource := get_generic_label(asset)
 }

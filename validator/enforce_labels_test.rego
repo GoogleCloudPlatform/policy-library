@@ -19,6 +19,7 @@ package templates.gcp.GCPResourceLabelsV1
 import data.validator.gcp.lib as lib
 
 # Importing the test data 
+import data.test.fixtures.enforce_labels.assets.bigtable as fixture_bigtable
 import data.test.fixtures.enforce_labels.assets.buckets as fixture_buckets
 import data.test.fixtures.enforce_labels.assets.compute.disks as fixture_compute_disks
 import data.test.fixtures.enforce_labels.assets.compute.images as fixture_compute_images
@@ -81,6 +82,14 @@ compute_disk_violations[violation] {
 compute_snapshot_violations[violation] {
 	constraints := [fixture_constraints.require_labels]
 	violations := find_all_violations with data.resources as fixture_compute_snapshots
+		 with data.test_constraints as constraints
+
+	violation := violations[_]
+}
+
+bigtable_violations[violation] {
+	constraints := [fixture_constraints.require_labels]
+	violations := find_all_violations with data.resources as fixture_bigtable
 		 with data.test_constraints as constraints
 
 	violation := violations[_]
@@ -204,4 +213,24 @@ test_enforce_label_compute_snapshot_violates_basic {
 	violations[_].details.resource == "//compute.googleapis.com/projects/my-test-project/global/snapshots/snapshot-1-invalid-missing-labels"
 	violations[_].details.resource == "//compute.googleapis.com/projects/my-test-project/global/snapshots/snapshot-1-invalid-missing-label1"
 	violations[_].details.resource == "//compute.googleapis.com/projects/my-test-project/global/snapshots/snapshot-1-invalid-missing-label2"
+}
+
+#### Testing for BigTable Instances
+# Confirm exactly 4 bigtable violations were found
+# 3 bigtable instances have violations - 1 of which has 2 violations (missing 2 labels)
+test_enforce_label_bigtable_violates_four {
+	violations := bigtable_violations
+	count(violations) == 4
+	violation := violations[_]
+	is_string(violation.msg)
+	is_object(violation.details)
+}
+
+# confirm which 3 bigtable instances are in violation
+test_enforce_label_bigtable_violates_basic {
+	violations := bigtable_violations
+
+	violations[_].details.resource == "//bigtable.googleapis.com/projects/my-test-project/instances/test-bigtable-invalid-missing-labels"
+	violations[_].details.resource == "//bigtable.googleapis.com/projects/my-test-project/instances/test-bigtable-invalid-missing-label1"
+	violations[_].details.resource == "//bigtable.googleapis.com/projects/my-test-project/instances/test-bigtable-invalid-missing-label2"
 }
