@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPResourceLabelsV1
+package templates.gcp.GCPEnforceLabelConstraintV1
 
 import data.validator.gcp.lib as lib
 

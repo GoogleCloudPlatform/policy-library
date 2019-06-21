@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPGCPResourceLabelsV1ConstraintV1
+kind: GCPEnforceLabelConstraintV1
 metadata:
   name: require_labels
 spec:
