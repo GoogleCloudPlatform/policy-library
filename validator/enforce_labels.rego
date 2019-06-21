@@ -75,7 +75,7 @@ get_labels(asset, non_standard_types) = resource_labels {
 	resource_labels := lib.get_default(resource, "labels", {})
 }
 
-# ge_labels for cloudsql instances
+# get_labels for cloudsql instances
 get_labels(asset, non_standard_types) = resource_labels {
 	asset.asset_type == "sqladmin.googleapis.com/Instance"
 	resource := asset.resource.data.settings
