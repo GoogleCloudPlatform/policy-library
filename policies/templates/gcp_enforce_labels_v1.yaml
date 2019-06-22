@@ -35,7 +35,6 @@ spec:
                 "
               type: array
               items: objects
-              required: true
             resource_types_to_scan:
               description: | 
                 "Optional parameter: list of resource types to scan for labels.
@@ -53,7 +52,7 @@ spec:
                 "
               type: array
               items: string
-              required: false
+            required: ["mandatory_labels"]
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/enforce_labels.rego")
