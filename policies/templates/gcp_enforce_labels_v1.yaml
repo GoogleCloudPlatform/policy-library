@@ -99,13 +99,21 @@ spec:
        		"sqladmin.googleapis.com/Instance",
        	]
        
-       	non_standard_types := ["sqladmin.googleapis.com/Instance"]
+       	standard_types := [
+       		"cloudresourcemanager.googleapis.com/Project",
+       		"storage.googleapis.com/Bucket",
+       		"compute.googleapis.com/Instance",
+       		"compute.googleapis.com/Image",
+       		"compute.googleapis.com/Disk",
+       		"compute.googleapis.com/Snapshot",
+       		"google.bigtable.Instance",
+       	]
        
        	resource_types_to_scan := lib.get_default(params, "resource_types_to_scan", tested_resource_types)
        
        	resource_is_to_scan(asset, resource_types_to_scan)
        
-       	not label_is_valid(label_key, label_value_pattern, asset, non_standard_types)
+       	not label_is_valid(label_key, label_value_pattern, asset, standard_types)
        
        	message := sprintf("%v's label is in violation.", [asset.name])
        	metadata := {"resource": asset.name, "label_in_violation": label_key}
@@ -116,9 +124,9 @@ spec:
        }
        
        # check if label exists for all resources to scan
-       label_is_valid(label_key, label_value_pattern, asset, non_standard_types) {
+       label_is_valid(label_key, label_value_pattern, asset, standard_types) {
        	# retrieve the right values from asset
-       	resource_labels := get_labels(asset, non_standard_types)
+       	resource_labels := get_labels(asset, standard_types)
        
        	# test if label exists in asset
        	resource_labels[label_key]
@@ -128,14 +136,14 @@ spec:
        }
        
        # get_labels for standard resources
-       get_labels(asset, non_standard_types) = resource_labels {
-       	asset.asset_type != non_standard_types[_]
+       get_labels(asset, standard_types) = resource_labels {
+       	asset.asset_type == standard_types[_]
        	resource := asset.resource.data
        	resource_labels := lib.get_default(resource, "labels", {})
        }
        
        # get_labels for cloudsql instances
-       get_labels(asset, non_standard_types) = resource_labels {
+       get_labels(asset, standard_types) = resource_labels {
        	asset.asset_type == "sqladmin.googleapis.com/Instance"
        	resource := asset.resource.data.settings
        	resource_labels := lib.get_default(resource, "userLabels", {})
