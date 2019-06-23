@@ -22,5 +22,5 @@ spec:
     mode: "denylist"
     locations:
     - asia-southeast1
-    exemptions: 
-    - //cloudsql.googleapis.com/projects/test-project-2/instances/test-instance-2
+    exemptions:
+    - //cloudsql.googleapis.com/projects/test-project-2/instances/test-instance-2-singapore

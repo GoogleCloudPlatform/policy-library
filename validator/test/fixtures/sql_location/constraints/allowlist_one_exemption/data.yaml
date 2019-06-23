@@ -22,6 +22,5 @@ spec:
     mode: "allowlist"
     locations:
     - asia-southeast1
-    exemptions: 
-    - //cloudsql.googleapis.com/projects/test-project-2/instances/mysql-2nd-gen-test-1
-    - //cloudsql.googleapis.com/projects/test-project-2/instances/mysql-2nd-gen-test-2
+    exemptions:
+    - //cloudsql.googleapis.com/projects/test-project-2/instances/mysql-2nd-gen-sydney

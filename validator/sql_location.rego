@@ -44,7 +44,7 @@ deny[{
 	target_location_match_count(params.mode, desired_count)
 	count(location_matches) == desired_count
 
-	message := sprintf("%v is in a disallowed location.", [asset.name])
+	message := sprintf("%v is in a disallowed location (%v).", [asset.name, asset_location])
 	metadata := {"location": asset_location, "resource": asset.name}
 }
 

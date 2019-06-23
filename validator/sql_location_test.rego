@@ -23,7 +23,6 @@ find_violations[violation] {
 	asset := data.assets[_]
 	constraint := data.test_constraints[_]
 	issues := deny with input.asset as asset with input.constraint as constraint
-	total_issues := count(issues)
 	violation := issues[_]
 }
 
@@ -78,6 +77,12 @@ violations_with_empty_allowlist[violation] {
 test_sql_instance_allowlist_none {
 	found_violations := violations_with_empty_allowlist
 	count(found_violations) == count(fixture_sql_instances)
+
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/test-project-1/instances/test-instance-1-singapore"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/test-project-2/instances/test-instance-2-singapore"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/test-project-2/instances/mysql-2nd-gen-singapore"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/test-project-2/instances/mysql-2nd-gen-sydney"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/test-project-2/instances/postgres-11-sydney"
 }
 
 # Test denylist with single location
@@ -92,6 +97,10 @@ violations_with_single_denylist[violation] {
 test_sql_instance_denylist_one {
 	found_violations := violations_with_single_denylist
 	count(found_violations) == 3
+
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/test-project-1/instances/test-instance-1-singapore"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/test-project-2/instances/test-instance-2-singapore"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/test-project-2/instances/mysql-2nd-gen-singapore"
 }
 
 # Test denylist with single location and one exemption
@@ -106,6 +115,9 @@ violations_with_single_denylist_exemption[violation] {
 test_sql_instance_denylist_one_exemption {
 	found_violations := violations_with_single_denylist_exemption
 	count(found_violations) == 2
+
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/test-project-1/instances/test-instance-1-singapore"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/test-project-2/instances/mysql-2nd-gen-singapore"
 }
 
 # Test allowlist with single location
@@ -120,6 +132,9 @@ violations_with_single_allowlist[violation] {
 test_sql_instance_allowlist_one {
 	found_violations := violations_with_single_allowlist
 	count(found_violations) == 2
+
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/test-project-2/instances/mysql-2nd-gen-sydney"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/test-project-2/instances/postgres-11-sydney"
 }
 
 # Test allowlist with single location and one exemption
@@ -134,6 +149,8 @@ violations_with_single_allowlist_exemption[violation] {
 test_sql_instance_allowlist_one_exemption {
 	found_violations := violations_with_single_allowlist_exemption
 	count(found_violations) == 1
+
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/test-project-2/instances/postgres-11-sydney"
 }
 
 # Test denylist with all locations
@@ -148,6 +165,12 @@ violations_with_full_denylist[violation] {
 test_sql_instance_denylist_all {
 	found_violations := violations_with_full_denylist
 	count(found_violations) == count(fixture_sql_instances)
+
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/test-project-1/instances/test-instance-1-singapore"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/test-project-2/instances/test-instance-2-singapore"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/test-project-2/instances/mysql-2nd-gen-singapore"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/test-project-2/instances/mysql-2nd-gen-sydney"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/test-project-2/instances/postgres-11-sydney"
 }
 
 # Test allowlist with all locations
