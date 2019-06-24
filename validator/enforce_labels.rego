@@ -52,7 +52,8 @@ deny[{
 
 	resource_types_to_scan := lib.get_default(params, "resource_types_to_scan", tested_resource_types)
 
-	resource_is_to_scan(asset, resource_types_to_scan)
+	# test if resource needs to be scanned
+	resource_types_to_scan[_] == asset.asset_type
 
 	not label_is_valid(label_key, label_value_pattern, asset, standard_types)
 
@@ -60,11 +61,7 @@ deny[{
 	metadata := {"resource": asset.name, "label_in_violation": label_key}
 }
 
-resource_is_to_scan(asset, resource_types_to_scan) {
-	resource_types_to_scan[_] == asset.asset_type
-}
-
-# check if label exists for all resources to scan
+# check if label exists and if its value matches the pattern passed as a parameter for all resources to scan
 label_is_valid(label_key, label_value_pattern, asset, standard_types) {
 	# retrieve the right values from asset
 	resource_labels := get_labels(asset, standard_types)
