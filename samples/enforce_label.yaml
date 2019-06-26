@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPGCPResourceLabelsV1ConstraintV1
+kind: GCPEnforceLabelConstraintV1
 metadata:
   name: require_labels
 spec:
@@ -22,11 +22,30 @@ spec:
     gcp:
       target: ["organization/*"]
   parameters: 
-    # required parameter: list of labels that need to exist to validate resource
-    # any missing label results in a violation. For instance if a resource has no label 
-    # with this sample case, it will raise 2 violations: 
-    # one for label1 being absent and one for label2.
+    # required parameter: list of label objects that resources should have.
+    # A label object is composed of a key value pair like: 
+    #
+    #   "label_key": "label_value_regex_to_match"
+    #
+    # Any missing label results in a violation. For instance a resource with no label1 or label2 label,
+    # in this sample case, would raise 2 violations: one for label1 being absent and one for label2.
+    #
+    # In the same spirit, a resource with label1 or label2 present, but with values not matching their respective regex
+    # would also raise one violation per mismatch. 
+    #
+    # In the following example, valid values for a label named "label1" would be only "label1-value",
+    # but a label named label2 could have various values like "label2-value", "label2-valueOK" etc. 
+    #
+    # A violation is raised if the label value does not match the pattern passed as a parameter here.
     mandatory_labels: 
-      - "label1"
-      - "label2"
+      - "label1": "^label1-value$"
+      - "label2": "^label2-value.*$"
+
+    # optional parameter: list of resource types to scan for labels
+    # any resource that is not of these types will not raise any violation.
+    # In this sample use case, only non-compliant projects and buckets would be flagged.
+    # If not passed, all tested resource types would be scanned for (see template for full list)
+    resource_types_to_scan:
+      - "cloudresourcemanager.googleapis.com/Project"
+      - "storage.googleapis.com/Bucket"
   

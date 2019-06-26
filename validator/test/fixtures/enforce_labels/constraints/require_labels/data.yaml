@@ -15,12 +15,23 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPGCPResourceLabelsV1ConstraintV1
 metadata:
-  name: require_labels
+  name: enforce_labels
 spec:
   severity: high
   match:
     gcp:
       target: ["organization/*"]
   parameters: 
-    mandatory_labels: ["label1", "label2"]
+    mandatory_labels: 
+      - "label1": "^label1-value$"
+      - "label2": "^label2-value.*$"
+    resource_types_to_scan:
+      - "cloudresourcemanager.googleapis.com/Project"
+      - "storage.googleapis.com/Bucket"
+      - "compute.googleapis.com/Instance"
+      - "compute.googleapis.com/Image"
+      - "compute.googleapis.com/Disk"
+      - "compute.googleapis.com/Snapshot"
+      - "google.bigtable.Instance"
+      - "sqladmin.googleapis.com/Instance"
   
