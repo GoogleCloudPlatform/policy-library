@@ -250,6 +250,7 @@ chmod 755 terraform-validator-linux-amd64
 
 ### For local development environments
 
+Currently only Terraform v0.11 is supported.
 These instructions assume you have forked a branch and is working locally.
 
 Generate a Terraform plan for the current environment by running:
