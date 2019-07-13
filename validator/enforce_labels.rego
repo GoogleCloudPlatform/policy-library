@@ -41,6 +41,7 @@ deny[{
 		"compute.googleapis.com/Snapshot",
 		"google.bigtable.Instance",
 		"sqladmin.googleapis.com/Instance",
+		"dataproc.googleapis.com/Job",
 	}
 
 	non_standard_types := {"sqladmin.googleapis.com/Instance"}
@@ -65,7 +66,7 @@ label_is_valid(label_key, label_value_pattern, asset, non_standard_types) {
 	resource_labels[label_key]
 
 	# test if label value matches pattern passed as a parameter 
-	re_match(	label_value_pattern, resource_labels[label_key])
+re_match(	label_value_pattern, resource_labels[label_key])
 }
 
 # get_labels for cloudsql instances

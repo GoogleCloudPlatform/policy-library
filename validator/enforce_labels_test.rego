@@ -19,6 +19,7 @@ package templates.gcp.GCPEnforceLabelConstraintV1
 import data.validator.gcp.lib as lib
 
 # Importing the test data 
+
 import data.test.fixtures.enforce_labels.assets.bigtable as fixture_bigtable
 import data.test.fixtures.enforce_labels.assets.buckets as fixture_buckets
 import data.test.fixtures.enforce_labels.assets.cloudsql as fixture_cloudsql
@@ -26,8 +27,10 @@ import data.test.fixtures.enforce_labels.assets.compute.disks as fixture_compute
 import data.test.fixtures.enforce_labels.assets.compute.images as fixture_compute_images
 import data.test.fixtures.enforce_labels.assets.compute.instances as fixture_compute_instances
 import data.test.fixtures.enforce_labels.assets.compute.snapshots as fixture_compute_snapshots
+import data.test.fixtures.enforce_labels.assets.dataproc as fixture_dataproc
 import data.test.fixtures.enforce_labels.assets.projects as fixture_projects
 
+# Importing the test constraint
 import data.test.fixtures.enforce_labels.constraints as fixture_constraints
 
 # Find all violations on our test cases
@@ -41,7 +44,7 @@ find_all_violations[violation] {
 }
 
 project_violations[violation] {
-	constraints := [fixture_constraints.require_labels]
+	constraints := [fixture_constraints]
 	violations := find_all_violations with data.resources as fixture_projects
 		 with data.test_constraints as constraints
 
@@ -49,7 +52,7 @@ project_violations[violation] {
 }
 
 bucket_violations[violation] {
-	constraints := [fixture_constraints.require_labels]
+	constraints := [fixture_constraints]
 	violations := find_all_violations with data.resources as fixture_buckets
 		 with data.test_constraints as constraints
 
@@ -57,7 +60,7 @@ bucket_violations[violation] {
 }
 
 compute_instance_violations[violation] {
-	constraints := [fixture_constraints.require_labels]
+	constraints := [fixture_constraints]
 	violations := find_all_violations with data.resources as fixture_compute_instances
 		 with data.test_constraints as constraints
 
@@ -65,7 +68,7 @@ compute_instance_violations[violation] {
 }
 
 compute_image_violations[violation] {
-	constraints := [fixture_constraints.require_labels]
+	constraints := [fixture_constraints]
 	violations := find_all_violations with data.resources as fixture_compute_images
 		 with data.test_constraints as constraints
 
@@ -73,7 +76,7 @@ compute_image_violations[violation] {
 }
 
 compute_disk_violations[violation] {
-	constraints := [fixture_constraints.require_labels]
+	constraints := [fixture_constraints]
 	violations := find_all_violations with data.resources as fixture_compute_disks
 		 with data.test_constraints as constraints
 
@@ -81,7 +84,7 @@ compute_disk_violations[violation] {
 }
 
 compute_snapshot_violations[violation] {
-	constraints := [fixture_constraints.require_labels]
+	constraints := [fixture_constraints]
 	violations := find_all_violations with data.resources as fixture_compute_snapshots
 		 with data.test_constraints as constraints
 
@@ -89,7 +92,7 @@ compute_snapshot_violations[violation] {
 }
 
 bigtable_violations[violation] {
-	constraints := [fixture_constraints.require_labels]
+	constraints := [fixture_constraints]
 	violations := find_all_violations with data.resources as fixture_bigtable
 		 with data.test_constraints as constraints
 
@@ -97,8 +100,16 @@ bigtable_violations[violation] {
 }
 
 cloudsql_violations[violation] {
-	constraints := [fixture_constraints.require_labels]
+	constraints := [fixture_constraints]
 	violations := find_all_violations with data.resources as fixture_cloudsql
+		 with data.test_constraints as constraints
+
+	violation := violations[_]
+}
+
+dataproc_violations[violation] {
+	constraints := [fixture_constraints]
+	violations := find_all_violations with data.resources as fixture_dataproc
 		 with data.test_constraints as constraints
 
 	violation := violations[_]
@@ -290,6 +301,31 @@ test_enforce_label_cloudsql_violations {
 		"//cloudsql.googleapis.com/projects/my-test-project/instances/cloudsql-instance-1-invalid-missing-label1",
 		"//cloudsql.googleapis.com/projects/my-test-project/instances/cloudsql-instance-1-invalid-missing-label2",
 		"//cloudsql.googleapis.com/projects/my-test-project/instances/cloudsql-instance-1-invalid-label1-and-label2-bad-values",
+	}
+
+	resource_names == expected_resource_name
+
+	violation := violations[_]
+	is_string(violation.msg)
+	is_object(violation.details)
+}
+
+#### Testing for Dataproc 
+# Confirm exactly 6 dataproc violations were found
+# 4 dataproc jobs have violations - 2 of which have 2 violations (one has 2 labels missing, 
+# the other has 2 labels with invalid values)
+# confirm which 4 dataproc jobs are in violation
+test_enforce_label_dataproc_violations {
+	violations := dataproc_violations
+
+	count(violations) == 6
+
+	resource_names := {x | x = violations[_].details.resource}
+	expected_resource_name := {
+		"//dataproc.googleapis.com/projects/cf-gcp-challenge-dev/regions/global/jobs/job-b068791b-dataproc-job-missing-label1",
+		"//dataproc.googleapis.com/projects/cf-gcp-challenge-dev/regions/global/jobs/job-b068791b-dataproc-job-missing-label2",
+		"//dataproc.googleapis.com/projects/cf-gcp-challenge-dev/regions/global/jobs/job-b068791b-dataproc-job-missing-labels",
+		"//dataproc.googleapis.com/projects/cf-gcp-challenge-dev/regions/global/jobs/job-b068791b-dataproc-job-bad-values",
 	}
 
 	resource_names == expected_resource_name
