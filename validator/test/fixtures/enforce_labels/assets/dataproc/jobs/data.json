@@ -1,6 +1,6 @@
 [
     {
-        "name": "//dataproc.googleapis.com/projects/cf-gcp-challenge-dev/regions/global/jobs/job-b068791b-dataproc-job-ok",
+        "name": "//dataproc.googleapis.com/projects/my-own-project/regions/global/jobs/job-b068791b-dataproc-job-ok",
         "asset_type": "dataproc.googleapis.com/Job",
         "resource": {
             "version": "v1",
@@ -21,7 +21,7 @@
                 },
                 "reference": {
                     "jobId": "job-b068791b-dataproc-job-ok",
-                    "projectId": "cf-gcp-challenge-dev"
+                    "projectId": "my-own-project"
                 },
                 "status": {
                     "state": "PENDING",
@@ -31,7 +31,7 @@
         }
     },
     {
-        "name": "//dataproc.googleapis.com/projects/cf-gcp-challenge-dev/regions/global/jobs/job-b068791b-dataproc-job-missing-labels",
+        "name": "//dataproc.googleapis.com/projects/my-own-project/regions/global/jobs/job-b068791b-dataproc-job-missing-labels",
         "asset_type": "dataproc.googleapis.com/Job",
         "resource": {
             "version": "v1",
@@ -48,7 +48,7 @@
                 },
                 "reference": {
                     "jobId": "job-b068791b-dataproc-job-missing-labels",
-                    "projectId": "cf-gcp-challenge-dev"
+                    "projectId": "my-own-project"
                 },
                 "status": {
                     "state": "PENDING",
@@ -58,7 +58,7 @@
         }
     },
     {
-        "name": "//dataproc.googleapis.com/projects/cf-gcp-challenge-dev/regions/global/jobs/job-b068791b-dataproc-job-missing-label1",
+        "name": "//dataproc.googleapis.com/projects/my-own-project/regions/global/jobs/job-b068791b-dataproc-job-missing-label1",
         "asset_type": "dataproc.googleapis.com/Job",
         "resource": {
             "version": "v1",
@@ -78,7 +78,7 @@
                 },
                 "reference": {
                     "jobId": "job-b068791b-dataproc-job-missing-label1",
-                    "projectId": "cf-gcp-challenge-dev"
+                    "projectId": "my-own-project"
                 },
                 "status": {
                     "state": "PENDING",
@@ -88,7 +88,7 @@
         }
     },
     {
-        "name": "//dataproc.googleapis.com/projects/cf-gcp-challenge-dev/regions/global/jobs/job-b068791b-dataproc-job-missing-label2",
+        "name": "//dataproc.googleapis.com/projects/my-own-project/regions/global/jobs/job-b068791b-dataproc-job-missing-label2",
         "asset_type": "dataproc.googleapis.com/Job",
         "resource": {
             "version": "v1",
@@ -108,7 +108,7 @@
                 },
                 "reference": {
                     "jobId": "job-b068791b-test-dataproc-job-missing-label2",
-                    "projectId": "cf-gcp-challenge-dev"
+                    "projectId": "my-own-project"
                 },
                 "status": {
                     "state": "PENDING",
@@ -118,7 +118,7 @@
         }
     },
     {
-        "name": "//dataproc.googleapis.com/projects/cf-gcp-challenge-dev/regions/global/jobs/job-b068791b-dataproc-job-bad-values",
+        "name": "//dataproc.googleapis.com/projects/my-own-project/regions/global/jobs/job-b068791b-dataproc-job-bad-values",
         "asset_type": "dataproc.googleapis.com/Job",
         "resource": {
             "version": "v1",
@@ -139,7 +139,7 @@
                 },
                 "reference": {
                     "jobId": "job-b068791b-dataproc-job-bad-values",
-                    "projectId": "cf-gcp-challenge-dev"
+                    "projectId": "my-own-project"
                 },
                 "status": {
                     "state": "PENDING",
@@ -148,5 +148,4 @@
             }
         }
     }
-
 ]

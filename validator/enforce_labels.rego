@@ -42,6 +42,7 @@ deny[{
 		"google.bigtable.Instance",
 		"sqladmin.googleapis.com/Instance",
 		"dataproc.googleapis.com/Job",
+		"dataproc.googleapis.com/Cluster",
 	}
 
 	non_standard_types := {"sqladmin.googleapis.com/Instance"}

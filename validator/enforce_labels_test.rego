@@ -27,7 +27,8 @@ import data.test.fixtures.enforce_labels.assets.compute.disks as fixture_compute
 import data.test.fixtures.enforce_labels.assets.compute.images as fixture_compute_images
 import data.test.fixtures.enforce_labels.assets.compute.instances as fixture_compute_instances
 import data.test.fixtures.enforce_labels.assets.compute.snapshots as fixture_compute_snapshots
-import data.test.fixtures.enforce_labels.assets.dataproc as fixture_dataproc
+import data.test.fixtures.enforce_labels.assets.dataproc.clusters as fixture_dataproc_clusters
+import data.test.fixtures.enforce_labels.assets.dataproc.jobs as fixture_dataproc_jobs
 import data.test.fixtures.enforce_labels.assets.projects as fixture_projects
 
 # Importing the test constraint
@@ -109,8 +110,14 @@ cloudsql_violations[violation] {
 
 dataproc_violations[violation] {
 	constraints := [fixture_constraints]
-	violations := find_all_violations with data.resources as fixture_dataproc
+
+	job_violations := find_all_violations with data.resources as fixture_dataproc_jobs
 		 with data.test_constraints as constraints
+
+	cluster_violations := find_all_violations with data.resources as fixture_dataproc_clusters
+		 with data.test_constraints as constraints
+
+	violations := job_violations | cluster_violations
 
 	violation := violations[_]
 }
@@ -311,21 +318,26 @@ test_enforce_label_cloudsql_violations {
 }
 
 #### Testing for Dataproc 
-# Confirm exactly 6 dataproc violations were found
+# Confirm exactly 12 dataproc violations were found
 # 4 dataproc jobs have violations - 2 of which have 2 violations (one has 2 labels missing, 
+# 4 dataproc clusters have violations - 2 of which have 2 violations (one has 2 labels missing, 
 # the other has 2 labels with invalid values)
-# confirm which 4 dataproc jobs are in violation
+# confirm which 8 dataproc jobs are in violation
 test_enforce_label_dataproc_violations {
 	violations := dataproc_violations
 
-	count(violations) == 6
+	count(violations) == 12
 
 	resource_names := {x | x = violations[_].details.resource}
 	expected_resource_name := {
-		"//dataproc.googleapis.com/projects/cf-gcp-challenge-dev/regions/global/jobs/job-b068791b-dataproc-job-missing-label1",
-		"//dataproc.googleapis.com/projects/cf-gcp-challenge-dev/regions/global/jobs/job-b068791b-dataproc-job-missing-label2",
-		"//dataproc.googleapis.com/projects/cf-gcp-challenge-dev/regions/global/jobs/job-b068791b-dataproc-job-missing-labels",
-		"//dataproc.googleapis.com/projects/cf-gcp-challenge-dev/regions/global/jobs/job-b068791b-dataproc-job-bad-values",
+		"//dataproc.googleapis.com/projects/my-own-project/regions/global/jobs/job-b068791b-dataproc-job-missing-label1",
+		"//dataproc.googleapis.com/projects/my-own-project/regions/global/jobs/job-b068791b-dataproc-job-missing-label2",
+		"//dataproc.googleapis.com/projects/my-own-project/regions/global/jobs/job-b068791b-dataproc-job-missing-labels",
+		"//dataproc.googleapis.com/projects/my-own-project/regions/global/jobs/job-b068791b-dataproc-job-bad-values",
+		"//dataproc.googleapis.com/projects/my-own-project/regions/global/clusters/cluster-a1b6-test-dataproc-missing-labels",
+		"//dataproc.googleapis.com/projects/my-own-project/regions/global/clusters/cluster-a1b6-test-dataproc-missing-label1",
+		"//dataproc.googleapis.com/projects/my-own-project/regions/global/clusters/cluster-a1b6-test-dataproc-missing-label2",
+		"//dataproc.googleapis.com/projects/my-own-project/regions/global/clusters/cluster-a1b6-test-dataproc-bad-values",
 	}
 
 	resource_names == expected_resource_name
