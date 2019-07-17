@@ -34,4 +34,5 @@ spec:
       - "compute.googleapis.com/Snapshot"
       - "google.bigtable.Instance"
       - "sqladmin.googleapis.com/Instance"
-  
+      - "dataproc.googleapis.com/Job"
+      - "dataproc.googleapis.com/Cluster"

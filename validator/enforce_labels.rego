@@ -26,10 +26,13 @@ deny[{
 	lib.get_constraint_params(constraint, params)
 	asset := input.asset
 
+	# test if we have a valid resource
+	resource := asset.resource.data
+
 	mandatory_label := params.mandatory_labels[_]
 	label_value_pattern := mandatory_label[label_key]
 
-	tested_resource_types := [
+	default_resource_types := {
 		"cloudresourcemanager.googleapis.com/Project",
 		"storage.googleapis.com/Bucket",
 		"compute.googleapis.com/Instance",
@@ -38,33 +41,27 @@ deny[{
 		"compute.googleapis.com/Snapshot",
 		"google.bigtable.Instance",
 		"sqladmin.googleapis.com/Instance",
-	]
+		"dataproc.googleapis.com/Job",
+		"dataproc.googleapis.com/Cluster",
+	}
 
-	standard_types := [
-		"cloudresourcemanager.googleapis.com/Project",
-		"storage.googleapis.com/Bucket",
-		"compute.googleapis.com/Instance",
-		"compute.googleapis.com/Image",
-		"compute.googleapis.com/Disk",
-		"compute.googleapis.com/Snapshot",
-		"google.bigtable.Instance",
-	]
+	non_standard_types := {"sqladmin.googleapis.com/Instance"}
 
-	resource_types_to_scan := lib.get_default(params, "resource_types_to_scan", tested_resource_types)
+	resource_types_to_scan := lib.get_default(params, "resource_types_to_scan", default_resource_types)
 
 	# test if resource needs to be scanned
 	resource_types_to_scan[_] == asset.asset_type
 
-	not label_is_valid(label_key, label_value_pattern, asset, standard_types)
+	not label_is_valid(label_key, label_value_pattern, asset, non_standard_types)
 
 	message := sprintf("%v's label is in violation.", [asset.name])
 	metadata := {"resource": asset.name, "label_in_violation": label_key}
 }
 
 # check if label exists and if its value matches the pattern passed as a parameter for all resources to scan
-label_is_valid(label_key, label_value_pattern, asset, standard_types) {
+label_is_valid(label_key, label_value_pattern, asset, non_standard_types) {
 	# retrieve the right values from asset
-	resource_labels := get_labels(asset, standard_types)
+	resource_labels := get_labels(asset, non_standard_types)
 
 	# test if label exists in asset
 	resource_labels[label_key]
@@ -73,16 +70,20 @@ label_is_valid(label_key, label_value_pattern, asset, standard_types) {
 re_match(	label_value_pattern, resource_labels[label_key])
 }
 
-# get_labels for standard resources
-get_labels(asset, standard_types) = resource_labels {
-	asset.asset_type == standard_types[_]
-	resource := asset.resource.data
-	resource_labels := lib.get_default(resource, "labels", {})
-}
-
 # get_labels for cloudsql instances
-get_labels(asset, standard_types) = resource_labels {
+get_labels(asset, non_standard_types) = resource_labels {
+	# check if we have a non-standard type 
+	asset.asset_type == non_standard_types[_]
 	asset.asset_type == "sqladmin.googleapis.com/Instance"
 	resource := asset.resource.data.settings
 	resource_labels := lib.get_default(resource, "userLabels", {})
+}
+
+# get_labels for most resources (not non-standard resources)
+# this defaults to asset.resource.data.labels
+get_labels(asset, non_standard_types) = resource_labels {
+	asset_type := asset.asset_type
+	not non_standard_types[asset_type]
+	resource := asset.resource.data
+	resource_labels := lib.get_default(resource, "labels", {})
 }
