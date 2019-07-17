@@ -27,7 +27,8 @@ spec:
           properties: {}
   targets:
     validation.gcp.forsetisecurity.org:
-      rego: | #INLINE("validator/sql_public_ip.rego")
+      rego: |
+           #INLINE("validator/sql_public_ip.rego")
            #
            # Copyright 2018 Google LLC
            #
@@ -55,9 +56,11 @@ spec:
            	asset := input.asset
            	asset.asset_type == "sqladmin.googleapis.com/Instance"
            
-           	asset.resource.data.settings.ipConfiguration.ipv4Enabled == true
-           
-           	message := sprintf("%v is not allowed to have an external IP.", [asset.name])
+            ip_config := lib.get_default(asset.resource.data.settings, "ipConfiguration", {})
+            ipv4 := lib.get_default(ip_config, "ipv4Enabled", true)
+            ipv4 == true           
+
+           	message := sprintf("%v is not allowed to have a Public IP.", [asset.name])
            	metadata := {"resource": asset.name}
            }
            #ENDINLINE
