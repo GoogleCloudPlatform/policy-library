@@ -17,8 +17,8 @@
 package templates.gcp.GCPBigQueryCMEKEncryptionConstraintV1
 
 all_violations[violation] {
-	resource := data.test.fixtures.assets.bigquery_cmek[_]
-	constraint := data.test.fixtures.constraints.bigquery_cmek
+	resource := data.test.fixtures.bigquery_cmek.assets[_]
+	constraint := data.test.fixtures.bigquery_cmek.constraints
 	issues := deny with input.asset as resource
 	violation := issues[_]
 }
@@ -26,5 +26,4 @@ all_violations[violation] {
 test_bigquery_cmek_logic {
 	violation := all_violations[_]
 	count(all_violations) == 1
-	violation.details.type == "encryptionerror"
 }

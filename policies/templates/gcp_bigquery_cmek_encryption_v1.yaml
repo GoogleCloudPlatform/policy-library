@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 # This constraint checks to see if all the BigQuery table has customer managed encryption key enabled. It 
-# flags those tables that doesn't have customer manged encryption keys enabled.
+# flags those tables that don't have customer managed encryption keys enabled.
 #
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
