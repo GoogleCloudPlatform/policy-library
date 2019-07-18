@@ -26,4 +26,5 @@ all_violations[violation] {
 test_bigquery_cmek_logic {
 	violation := all_violations[_]
 	count(all_violations) == 1
+	violation.details.resource == "//bigquery.googleapis.com/projects/anand-spanner/datasets/anand_bq_test_3/tables/test_google_encryption_key"
 }
