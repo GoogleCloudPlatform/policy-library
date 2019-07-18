@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPSQLPublicIpConstraintV1
+package templates.gcp.GCPBigQueryCMEKEncryptionConstraintV1
 
 import data.validator.gcp.lib as lib
 
@@ -23,12 +23,15 @@ deny[{
 	"details": metadata,
 }] {
 	asset := input.asset
-	asset.asset_type == "sqladmin.googleapis.com/Instance"
+	asset.asset_type == "bigquery.googleapis.com/Table"
 
-	ip_config := lib.get_default(asset.resource.data.settings, "ipConfiguration", {})
-	ipv4 := lib.get_default(ip_config, "ipv4Enabled", true)
-	ipv4 == true
+	# Find KMS key name for the table
+	encryptionConfiguration := lib.get_default(asset.resource.data, "encryptionConfiguration", {})
+	kmsKeyName := lib.get_default(encryptionConfiguration, "kmsKeyName", "NOTFOUND")
 
-	message := sprintf("%v is not allowed to have a Public IP.", [asset.name])
+	# Check if KMS is enabled
+	kmsKeyName == "NOTFOUND"
+
+	message := sprintf("%v does not have the client managed encryption key setup.", [asset.name])
 	metadata := {"resource": asset.name}
 }
