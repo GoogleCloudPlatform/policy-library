@@ -33,7 +33,5 @@ deny[{
 	kmsKeyName == "NOTFOUND"
 
 	message := sprintf("%v does not have the client managed encryption key setup.", [asset.name])
-	metadata := {
-		"resource": asset.name
-	}
+	metadata := {"resource": asset.name}
 }

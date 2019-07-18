@@ -60,16 +60,14 @@ spec:
             	asset.asset_type == "bigquery.googleapis.com/Table"
             
             	# Find KMS key name for the table
-            	kmskeyname := lib.get_default(asset.resource.data, "encryptionConfiguration", "NOTFOUND")
+            	encryptionConfiguration := lib.get_default(asset.resource.data, "encryptionConfiguration", {})
+            	kmsKeyName := lib.get_default(encryptionConfiguration, "kmsKeyName", "NOTFOUND")
             
             	# Check if KMS is enabled
-            	kmskeyname == "NOTFOUND"
+            	kmsKeyName == "NOTFOUND"
             
             	message := sprintf("%v does not have the client managed encryption key setup.", [asset.name])
-            	metadata := {
-            		"resource": asset.name,
-            		"type": "encryptionerror",
-            	}
+            	metadata := {"resource": asset.name}
             }
             #ENDINLINE
  
