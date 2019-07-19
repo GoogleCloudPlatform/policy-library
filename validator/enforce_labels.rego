@@ -36,13 +36,8 @@ deny[{
 		"cloudresourcemanager.googleapis.com/Project",
 		"storage.googleapis.com/Bucket",
 		"compute.googleapis.com/Instance",
-		"compute.googleapis.com/Image",
 		"compute.googleapis.com/Disk",
-		"compute.googleapis.com/Snapshot",
-		"google.bigtable.Instance",
 		"sqladmin.googleapis.com/Instance",
-		"dataproc.googleapis.com/Job",
-		"dataproc.googleapis.com/Cluster",
 	}
 
 	non_standard_types := {"sqladmin.googleapis.com/Instance"}
