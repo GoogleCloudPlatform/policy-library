@@ -24,7 +24,12 @@ deny[{
 }] {
 	asset := input.asset
 	asset.asset_type == "sqladmin.googleapis.com/Instance"
-	asset.resource.settings.ipConfiguration.requireSsl == false
+
+	settings := asset.resource.data.settings
+
+	ipConfiguration := lib.get_default(settings, "ipConfiguration", {})
+	requireSsl := lib.get_default(ipConfiguration, "requireSsl", false)
+	requireSsl == false
 
 	message := sprintf("%v does not require SSL", [asset.name])
 	metadata := {"resource": asset.name}
