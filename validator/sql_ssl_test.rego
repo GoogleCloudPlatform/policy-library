@@ -27,10 +27,15 @@ all_violations[violation] {
 
 # Confirm total violations count
 test_sql_ssl_violations_count {
-	count(all_violations) == 1
+	count(all_violations) == 2
 }
 
-test_sql_ssl_violations_basic {
+test_sql_ssl_violations_off {
 	violation := all_violations[_]
-	violation.details.resource == "//cloudsql.googleapis.com/projects/noble-history-87417/instances/not-require-sql-ssl"
+	violation.details.resource == "//cloudsql.googleapis.com/projects/test-project/instances/sql-instance-without-ssl"
+}
+
+test_sql_ssl_violations_missing{
+	violation := all_violations[_]
+	violation.details.resource == "//cloudsql.googleapis.com/projects/test-project/instances/sql-instance-without-ipconfig"
 }
