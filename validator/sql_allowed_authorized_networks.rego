@@ -29,9 +29,14 @@ deny[{
 	asset.asset_type == "sqladmin.googleapis.com/Instance"
 
 	allowed_authorized_networks = lib.get_default(params, "authorized_networks", [])
-	configured_networks := {network |
-		network = asset.resource.data.settings.ipConfiguration.authorizedNetworks[_].value
-	}
+
+	# Check whether authorizedNetworks field exists, so that
+  # we can report violation when this field is not set
+  config_auth_networks = lib.get_default(asset.resource.data.settings.ipConfiguration, "authorizedNetworks", [{"value":"authorized network unspecified"}])
+
+  configured_networks := {network |
+    network = config_auth_networks[_].value
+  }
 
 	matched_networks := {network |
 		network = configured_networks[_]
