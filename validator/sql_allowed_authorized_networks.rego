@@ -30,7 +30,7 @@ deny[{
 
 	allowed_authorized_networks = lib.get_default(params, "authorized_networks", [])
 	configured_networks := {network |
-		network = asset.resource.settings.ipConfiguration.authorizedNetworks[_].value
+		network = asset.resource.data.settings.ipConfiguration.authorizedNetworks[_].value
 	}
 
 	matched_networks := {network |
