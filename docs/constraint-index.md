@@ -1,4 +1,0 @@
-#New doc
-
-##Testing
-Test
