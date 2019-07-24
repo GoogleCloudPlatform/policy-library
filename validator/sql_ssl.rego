@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPSQLSSLV1
+package templates.gcp.GCPSQLSSLConstraintV1
 
 import data.validator.gcp.lib as lib
 
