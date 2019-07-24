@@ -32,8 +32,7 @@ deny[{
 
 	# Find network access config block w/ external IP
 	instance := asset.resource.data
-	access_config := instance.networkInterface[_].accessConfig
-	external_ip := access_config[_].externalIp
+	access_config := instance.networkInterfaces[_].accessConfigs
 
 	# Check if instance is in blacklist/whitelist
 	target_instances := params.instances
@@ -42,7 +41,7 @@ deny[{
 	count(matches) == desired_count
 
 	message := sprintf("%v is not allowed to have an external IP.", [asset.name])
-	metadata := {"external_ip": external_ip}
+	metadata := {"access_config": access_config}
 }
 
 ###########################
