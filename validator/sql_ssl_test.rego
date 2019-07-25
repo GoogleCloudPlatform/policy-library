@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPSQLSSLV1
+package templates.gcp.GCPSQLSSLConstraintV1
 
 all_violations[violation] {
 	resource := data.test.fixtures.sql_ssl.assets[_]
