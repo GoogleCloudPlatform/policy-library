@@ -33,6 +33,7 @@ deny[{
 	# Find network access config block w/ external IP
 	instance := asset.resource.data
 	access_config := instance.networkInterfaces[_].accessConfigs
+	count(access_config) > 0
 
 	# Check if instance is in blacklist/whitelist
 	target_instances := params.instances
