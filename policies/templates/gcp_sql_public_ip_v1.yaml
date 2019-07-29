@@ -29,7 +29,7 @@ spec:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/sql_public_ip.rego")
          #
-         # Copyright 2019 Google LLC
+         # Copyright 2018 Google LLC
          #
          # Licensed under the Apache License, Version 2.0 (the "License");
          # you may not use this file except in compliance with the License.
@@ -43,23 +43,23 @@ spec:
          # See the License for the specific language governing permissions and
          # limitations under the License.
          #
-           
-           package templates.gcp.GCPSQLPublicIpConstraintV1
-           
-           import data.validator.gcp.lib as lib
-           
-           deny[{
-             "msg": message,
-             "details": metadata,
-           }] {
-             asset := input.asset
-             asset.asset_type == "sqladmin.googleapis.com/Instance"
-             
-             ip_config := lib.get_default(asset.resource.data.settings, "ipConfiguration", {})
-             ipv4 := lib.get_default(ip_config, "ipv4Enabled", true)
-             ipv4 == true           
-             
-             message := sprintf("%v is not allowed to have a Public IP.", [asset.name])
-             metadata := {"resource": asset.name}
-           }
-           #ENDINLINE
+         
+         package templates.gcp.GCPSQLPublicIpConstraintV1
+         
+         import data.validator.gcp.lib as lib
+         
+         deny[{
+         	"msg": message,
+         	"details": metadata,
+         }] {
+         	asset := input.asset
+         	asset.asset_type == "sqladmin.googleapis.com/Instance"
+         
+         	ip_config := lib.get_default(asset.resource.data.settings, "ipConfiguration", {})
+         	ipv4 := lib.get_default(ip_config, "ipv4Enabled", true)
+         	ipv4 == true
+         
+         	message := sprintf("%v is not allowed to have a Public IP.", [asset.name])
+         	metadata := {"resource": asset.name}
+         }
+         #ENDINLINE

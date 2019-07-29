@@ -1,5 +1,5 @@
 #
-# Copyright 2019 Google LLC
+# Copyright 2018 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPSQLSSLConstraintV1
+package templates.gcp.GCPBigQueryCMEKEncryptionConstraintV1
 
 import data.validator.gcp.lib as lib
 
@@ -23,14 +23,15 @@ deny[{
 	"details": metadata,
 }] {
 	asset := input.asset
-	asset.asset_type == "sqladmin.googleapis.com/Instance"
+	asset.asset_type == "bigquery.googleapis.com/Table"
 
-	settings := asset.resource.data.settings
+	# Find KMS key name for the table
+	encryptionConfiguration := lib.get_default(asset.resource.data, "encryptionConfiguration", {})
+	kmsKeyName := lib.get_default(encryptionConfiguration, "kmsKeyName", "NOTFOUND")
 
-	ipConfiguration := lib.get_default(settings, "ipConfiguration", {})
-	requireSsl := lib.get_default(ipConfiguration, "requireSsl", false)
-	requireSsl == false
+	# Check if KMS is enabled
+	kmsKeyName == "NOTFOUND"
 
-	message := sprintf("%v does not require SSL", [asset.name])
+	message := sprintf("%v does not have the client managed encryption key setup.", [asset.name])
 	metadata := {"resource": asset.name}
 }

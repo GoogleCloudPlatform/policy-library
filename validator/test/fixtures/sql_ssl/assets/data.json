@@ -1,16 +1,92 @@
 [{
-  "name": "//cloudsql.googleapis.com/projects/noble-history-87417/instances/not-require-sql-ssl",
+  "name": "//cloudsql.googleapis.com/projects/test-project/instances/sql-instance-with-ssl",
   "asset_type": "sqladmin.googleapis.com/Instance",
   "resource": {
+    "version": "v1beta4",
+    "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/sqladmin/v1beta4/rest",
+    "discovery_name": "DatabaseInstance",
+    "parent": "//cloudresourcemanager.googleapis.com/projects/111",
+    "data": {
+      "backendType": "SECOND_GEN",
+      "connectionName": "test-project:us-central1:sql-instance-with-ssl",
+      "databaseVersion": "MYSQL_5_7",
+      "gceZone": "us-central1-f",
+      "instanceType": "CLOUD_SQL_INSTANCE",
+      "ipAddresses": [
+        {
+          "ipAddress": "35.238.155.204",
+          "type": "PRIMARY"
+        }
+      ],
+      "kind": "sql#instance",
+      "name": "sql-instance-with-ssl",
+      "project": "test-project",
+      "region": "us-central1",
+      "serviceAccountEmailAddress": "p111@gcp-sa-cloud-sql.iam.gserviceaccount.com",
       "settings": {
         "activationPolicy": "ALWAYS",
         "backupConfiguration": {
           "binaryLogEnabled": true,
           "enabled": true,
           "kind": "sql#backupConfiguration",
-          "startTime": "08:00"
+          "startTime": "06:00"
         },
-        "dataDiskSizeGb": "50",
+        "dataDiskSizeGb": "25",
+        "dataDiskType": "PD_SSD",
+        "ipConfiguration": {
+          "ipv4Enabled": true,
+          "requireSsl": true
+        },
+        "kind": "sql#settings",
+        "locationPreference": {
+          "kind": "sql#locationPreference",
+          "zone": "us-central1-f"
+        },
+        "pricingPlan": "PER_USE",
+        "replicationType": "SYNCHRONOUS",
+        "settingsVersion": "1",
+        "storageAutoResize": true,
+        "storageAutoResizeLimit": "0",
+        "tier": "db-n1-standard-1"
+      },
+      "state": "RUNNABLE"
+    }
+  }
+},
+{
+  "name": "//cloudsql.googleapis.com/projects/test-project/instances/sql-instance-without-ssl",
+  "asset_type": "sqladmin.googleapis.com/Instance",
+  "resource": {
+    "version": "v1beta4",
+    "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/sqladmin/v1beta4/rest",
+    "discovery_name": "DatabaseInstance",
+    "parent": "//cloudresourcemanager.googleapis.com/projects/111",
+    "data": {
+      "backendType": "SECOND_GEN",
+      "connectionName": "test-project:us-central1:sql-instance-without-ssl",
+      "databaseVersion": "MYSQL_5_7",
+      "gceZone": "us-central1-f",
+      "instanceType": "CLOUD_SQL_INSTANCE",
+      "ipAddresses": [
+        {
+          "ipAddress": "35.238.155.204",
+          "type": "PRIMARY"
+        }
+      ],
+      "kind": "sql#instance",
+      "name": "sql-instance-without-ssl",
+      "project": "test-project",
+      "region": "us-central1",
+      "serviceAccountEmailAddress": "p111@gcp-sa-cloud-sql.iam.gserviceaccount.com",
+      "settings": {
+        "activationPolicy": "ALWAYS",
+        "backupConfiguration": {
+          "binaryLogEnabled": true,
+          "enabled": true,
+          "kind": "sql#backupConfiguration",
+          "startTime": "06:00"
+        },
+        "dataDiskSizeGb": "25",
         "dataDiskType": "PD_SSD",
         "ipConfiguration": {
           "ipv4Enabled": true,
@@ -19,79 +95,68 @@
         "kind": "sql#settings",
         "locationPreference": {
           "kind": "sql#locationPreference",
-          "zone": "us-central1-b"
-        },
-        "maintenanceWindow": {
-          "day": 6,
-          "hour": 10,
-          "kind": "sql#maintenanceWindow"
+          "zone": "us-central1-f"
         },
         "pricingPlan": "PER_USE",
         "replicationType": "SYNCHRONOUS",
-        "settingsVersion": "36",
+        "settingsVersion": "1",
         "storageAutoResize": true,
         "storageAutoResizeLimit": "0",
         "tier": "db-n1-standard-1"
       },
       "state": "RUNNABLE"
     }
+  }
 },
 {
-  "name": "//cloudsql.googleapis.com/projects/noble-history-87417/instances/require-sql-ssl",
+  "name": "//cloudsql.googleapis.com/projects/test-project/instances/sql-instance-without-ipconfig",
   "asset_type": "sqladmin.googleapis.com/Instance",
   "resource": {
+    "version": "v1beta4",
+    "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/sqladmin/v1beta4/rest",
+    "discovery_name": "DatabaseInstance",
+    "parent": "//cloudresourcemanager.googleapis.com/projects/111",
+    "data": {
+      "backendType": "SECOND_GEN",
+      "connectionName": "test-project:us-central1:sql-instance-without-ipconfig",
+      "databaseVersion": "MYSQL_5_7",
+      "gceZone": "us-central1-f",
+      "instanceType": "CLOUD_SQL_INSTANCE",
+      "ipAddresses": [
+        {
+          "ipAddress": "35.238.155.204",
+          "type": "PRIMARY"
+        }
+      ],
+      "kind": "sql#instance",
+      "name": "sql-instance-without-ipconfig",
+      "project": "test-project",
+      "region": "us-central1",
+      "serviceAccountEmailAddress": "p111@gcp-sa-cloud-sql.iam.gserviceaccount.com",
       "settings": {
         "activationPolicy": "ALWAYS",
         "backupConfiguration": {
           "binaryLogEnabled": true,
           "enabled": true,
           "kind": "sql#backupConfiguration",
-          "startTime": "04:39"
+          "startTime": "06:00"
         },
-        "dataDiskSizeGb": "10",
-        "dataDiskType": "PD_HDD",
-        "databaseFlags": [
-          {
-            "name": "slow_query_log",
-            "value": "on"
-          },
-          {
-            "name": "general_log",
-            "value": "on"
-          },
-          {
-            "name": "log_output",
-            "value": "FILE"
-          }
-        ],
-        "ipConfiguration": {
-          "authorizedNetworks": [
-            {
-              "expirationTime": "1970-01-01T00:00:00Z",
-              "kind": "sql#aclEntry",
-              "value": "35.187.118.181"
-            }
-          ],
-          "ipv4Enabled": true,
-          "requireSsl": true
-        },
+        "dataDiskSizeGb": "25",
+        "dataDiskType": "PD_SSD",
         "kind": "sql#settings",
         "locationPreference": {
           "kind": "sql#locationPreference",
-          "zone": "europe-west1-b"
+          "zone": "us-central1-f"
         },
-        "maintenanceWindow": {
-          "day": 0,
-          "hour": 0,
-          "kind": "sql#maintenanceWindow"
-        },
-        "pricingPlan": "PACKAGE",
+        "pricingPlan": "PER_USE",
         "replicationType": "SYNCHRONOUS",
-        "settingsVersion": "69",
+        "settingsVersion": "1",
         "storageAutoResize": true,
         "storageAutoResizeLimit": "0",
-        "tier": "db-g1-small"
+        "tier": "db-n1-standard-1"
       },
       "state": "RUNNABLE"
     }
-}]
+  }
+}
+]
