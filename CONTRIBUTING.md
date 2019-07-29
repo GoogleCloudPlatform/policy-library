@@ -15,6 +15,10 @@ You generally only need to submit a CLA once, so if you've already submitted one
 (even if it was for a different project), you probably don't need to do it
 again.
 
+In addition to a CLA, you will need to fork this repository and then perform a Pull 
+Request from there. Direct Pull Requests from this repository are not supported at 
+this time.
+
 ## Code reviews
 
 All submissions, including submissions by project members, require review. We
