@@ -1,5 +1,5 @@
 #
-# Copyright 2019 Google LLC
+# Copyright 2018 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,23 +14,17 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPSQLSSLConstraintV1
+package templates.gcp.GCPBigQueryCMEKEncryptionConstraintV1
 
-import data.validator.gcp.lib as lib
+all_violations[violation] {
+	resource := data.test.fixtures.bigquery_cmek.assets[_]
+	constraint := data.test.fixtures.bigquery_cmek.constraints
+	issues := deny with input.asset as resource
+	violation := issues[_]
+}
 
-deny[{
-	"msg": message,
-	"details": metadata,
-}] {
-	asset := input.asset
-	asset.asset_type == "sqladmin.googleapis.com/Instance"
-
-	settings := asset.resource.data.settings
-
-	ipConfiguration := lib.get_default(settings, "ipConfiguration", {})
-	requireSsl := lib.get_default(ipConfiguration, "requireSsl", false)
-	requireSsl == false
-
-	message := sprintf("%v does not require SSL", [asset.name])
-	metadata := {"resource": asset.name}
+test_bigquery_cmek_logic {
+	violation := all_violations[_]
+	count(all_violations) == 1
+	violation.details.resource == "//bigquery.googleapis.com/projects/anand-spanner/datasets/anand_bq_test_3/tables/test_google_encryption_key"
 }
