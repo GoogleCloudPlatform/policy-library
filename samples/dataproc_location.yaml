@@ -1,0 +1,11 @@
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: GCPDataprocLocationConstraintV1
+metadata:
+  name: allow_dataproc_clusters_in_asia
+spec:
+  severity: high
+  match:
+    target: ["organization/*"]
+  parameters: 
+    locations:
+      - "asia*"
