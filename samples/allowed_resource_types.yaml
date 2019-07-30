@@ -1,7 +1,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPAllowedResourceTypesConstraintV1
 metadata:
-  name: allow_all_resource_types
+  name: deny_some_resource_types
 spec:
   severity: high
   match:
