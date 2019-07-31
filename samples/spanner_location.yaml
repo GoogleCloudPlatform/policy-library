@@ -1,0 +1,12 @@
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: GCPSpannerLocationConstraintV1
+metadata:
+  name: allow_spanner_clusters_in_europe_and_amer
+spec:
+  severity: high
+  match:
+    target: ["organization/*"]
+  parameters: 
+    locations:
+      - "asia*"
+      - "eur*"
