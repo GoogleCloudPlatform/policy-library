@@ -44,7 +44,7 @@ instance_violations[violation] {
 
 test_spanner_location_violations {
 	violations := instance_violations
-	trace(sprintf("%s", [violations]))
+
 	count(violations) == 2
 
 	resource_names := {x | x = violations[_].details.resource}
