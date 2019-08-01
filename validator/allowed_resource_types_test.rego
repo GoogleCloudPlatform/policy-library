@@ -73,7 +73,7 @@ test_allowed_resource_types_basic_blacklist_violations {
 
 test_allowed_resource_types_whitelist_violations {
 	violations := whitelist_violations
-	trace(sprintf("%s", [violations]))
+
 	count(violations) == 3
 
 	resource_names := {x | x = violations[_].details.resource}
