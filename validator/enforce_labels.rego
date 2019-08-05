@@ -43,9 +43,10 @@ deny[{
 		"sqladmin.googleapis.com/Instance",
 		"dataproc.googleapis.com/Job",
 		"dataproc.googleapis.com/Cluster",
+		"container.googleapis.com/Cluster",
 	}
 
-	non_standard_types := {"sqladmin.googleapis.com/Instance"}
+	non_standard_types := {"sqladmin.googleapis.com/Instance", "container.googleapis.com/Cluster"}
 
 	resource_types_to_scan := lib.get_default(params, "resource_types_to_scan", default_resource_types)
 
@@ -77,6 +78,15 @@ get_labels(asset, non_standard_types) = resource_labels {
 	asset.asset_type == "sqladmin.googleapis.com/Instance"
 	resource := asset.resource.data.settings
 	resource_labels := lib.get_default(resource, "userLabels", {})
+}
+
+# get_labels for gke cluster
+get_labels(asset, non_standard_types) = resource_labels {
+	# check if we have a non-standard type 
+	asset.asset_type == non_standard_types[_]
+	asset.asset_type == "container.googleapis.com/Cluster"
+	resource := asset.resource.data
+	resource_labels := lib.get_default(resource, "resourceLabels", {})
 }
 
 # get_labels for most resources (not non-standard resources)
