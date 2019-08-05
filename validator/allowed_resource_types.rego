@@ -55,7 +55,7 @@ resource_type_is_valid(mode, asset, resource_type_list) {
 	# Retrieve the asset type
 	asset_type := asset.asset_type
 
-	#the asset is valid if it's in the resource_type_list
+	# the asset is valid if it's in the resource_type_list
 	asset_type == resource_type_list[_]
 }
 
@@ -66,6 +66,6 @@ resource_type_is_valid(mode, asset, resource_type_list) {
 	# Retrieve the asset type
 	asset_type := asset.asset_type
 
-	#the asset is valid only if it's not in the resource_type_list
+	# the asset is valid only if it's not in the resource_type_list
 not 	resource_type_list[asset_type]
 }
