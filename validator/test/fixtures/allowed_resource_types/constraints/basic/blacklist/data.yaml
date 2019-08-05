@@ -8,7 +8,7 @@ spec:
     target: ["organization/*"]
   parameters: 
     mode: "blacklist"
-    resource_types_list:
+    resource_type_list:
       - sqladmin.googleapis.com/Instance
       - compute.googleapis.com/Instance
       - dataproc.googleapis.com/Job
