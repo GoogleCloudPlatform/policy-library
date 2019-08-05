@@ -31,7 +31,7 @@ deny[{
 	mode := lower(lib.get_default(params, "mode", "whitelist"))
 
 	# Retrieve the resource types list - default to empty set
-	ressource_types_list := cast_set(lib.get_default(params, "resource_types_list", {}))
+	ressource_types_list := cast_set(lib.get_default(params, "resource_type_list", {}))
 
 	# The asset raises a violation if resource_type_is_valid is evaluated to false (both of them)
 not resource_type_is_valid(	mode, asset, ressource_types_list)
@@ -40,7 +40,7 @@ not resource_type_is_valid(	mode, asset, ressource_types_list)
 	metadata := {
 		"resource": asset.name,
 		"mode": mode,
-		"resource_types_list": ressource_types_list,
+		"resource_type_list": ressource_types_list,
 	}
 }
 
@@ -48,7 +48,7 @@ not resource_type_is_valid(	mode, asset, ressource_types_list)
 # Rule Utilities
 ###########################
 
-resource_type_is_valid(mode, asset, resource_types_list) {
+resource_type_is_valid(mode, asset, resource_type_list) {
 	# anything other than blacklist is treated as "whitelist"
 	mode != "blacklist"
 
@@ -56,10 +56,10 @@ resource_type_is_valid(mode, asset, resource_types_list) {
 	asset_type := asset.asset_type
 
 	#the asset is valid if it's in the resource_type_list
-	asset_type == resource_types_list[_]
+	asset_type == resource_type_list[_]
 }
 
-resource_type_is_valid(mode, asset, resource_types_list) {
+resource_type_is_valid(mode, asset, resource_type_list) {
 	# "if we are in a blacklist mode"
 	mode == "blacklist"
 
@@ -67,5 +67,5 @@ resource_type_is_valid(mode, asset, resource_types_list) {
 	asset_type := asset.asset_type
 
 	#the asset is valid only if it's not in the resource_type_list
-not 	resource_types_list[asset_type]
+not 	resource_type_list[asset_type]
 }
