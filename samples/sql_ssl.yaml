@@ -13,12 +13,10 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPComputeExternalIpAccessConstraintV1
+kind: GCPSQLSSLConstraintV1
 metadata:
-  name: forbid_external_api_whitelist
+  name: require_sql_ssl
 spec:
   severity: high
-  parameters:
-    mode: "whitelist"
-    instances:
-      - //compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/vm-external-ip-two
+    
+  parameters: {}

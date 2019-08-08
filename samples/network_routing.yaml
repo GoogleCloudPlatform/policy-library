@@ -1,7 +1,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPBigQueryCMEKEncryptionConstraintV1
+kind: GCPNetworkRoutingConstraintV1
 metadata:
-  name: gcp-bq-cmek-encryption-v1
+  name: require_global_routing
 spec:
   severity: high
   match:

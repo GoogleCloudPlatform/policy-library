@@ -35,11 +35,15 @@ format: ## Format Rego rules
 	@opa fmt -w lib/ validator/
 
 .PHONY: build
-build: format build_templates ## Format and build
+build: format build_templates check_sample_files ## Format, build and verify each template has a sample associated 
 
 .PHONY: push_make_image
 push_make_image: ## Construct and push Docker image for Cloud Build CI to gcr.io/config-validator/make
 	@cd cloudbuild && gcloud builds submit --project=config-validator --tag gcr.io/config-validator/make .
+
+.PHONY: check_sample_files
+check_sample_files: ## Make sure each template in policies/templates has one sample file using it in samples/
+	@python3 scripts/check_samples.py
 
 help: ## Prints help for targets with comments
 	@grep -E '^[a-zA-Z._-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "make \033[36m%- 30s\033[0m %s\n", $$1, $$2}'

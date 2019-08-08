@@ -13,12 +13,13 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPComputeExternalIpAccessConstraintV1
+kind: GCPBigQueryDatasetLocationConstraintV1
 metadata:
-  name: forbid_external_api_whitelist
+  name: bq_dataset_location_allowlist_one
 spec:
   severity: high
   parameters:
-    mode: "whitelist"
-    instances:
-      - //compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/vm-external-ip-two
+    mode: "allowlist"
+    locations:
+    - us-west2
+    exemptions: []

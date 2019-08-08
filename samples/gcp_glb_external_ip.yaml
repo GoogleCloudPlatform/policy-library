@@ -13,12 +13,12 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPComputeExternalIpAccessConstraintV1
+kind: GCPGLBExternalIpAccessConstraintV1
 metadata:
-  name: forbid_external_api_whitelist
+  name: forbid_external_api_denylist
 spec:
   severity: high
   parameters:
-    mode: "whitelist"
+    mode: "denylist"
     instances:
-      - //compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/vm-external-ip-two
+      - //compute.googleapis.com/projects/test-project/global/forwardingRules/ext-ip2
