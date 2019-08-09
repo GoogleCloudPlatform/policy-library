@@ -19,8 +19,7 @@ metadata:
 spec:
   severity: high
   match:
-    gcp:
-      target: ["organization/*"]
+    target: ["organization/*"]
   parameters: 
     mandatory_labels: 
       - "label1": "^label1-value$"
