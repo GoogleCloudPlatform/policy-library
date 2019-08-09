@@ -15,10 +15,10 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPGLBExternalIpAccessConstraintV1
 metadata:
-  name: forbid_external_api_denylist
+  name: glb_external_ip_allowlist
 spec:
   severity: high
   parameters:
-    mode: "denylist"
+    mode: "allowlist"
     instances:
-      - //compute.googleapis.com/projects/test-project/global/forwardingRules/ext-ip2
+      - //compute.googleapis.com/projects/test-project/global/forwardingRules/ext-ip

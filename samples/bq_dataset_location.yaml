@@ -15,7 +15,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPBigQueryDatasetLocationConstraintV1
 metadata:
-  name: bq_dataset_location_allowlist_one
+  name: bq_dataset_allowed_locations
 spec:
   severity: high
   parameters:
