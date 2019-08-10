@@ -4,6 +4,7 @@ metadata:
   name: blacklist_public_users
   annotations:
     description: Prevent public users from having access to resources via IAM
+    bundles.validator.forsetisecurity.org/scorecard-v1: security
 spec:
   severity: high
   match:
