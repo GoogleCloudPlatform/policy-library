@@ -30,8 +30,8 @@ deny[{
 	# Applies to dataproc clusters only
 	asset.asset_type == "dataproc.googleapis.com/Cluster"
 
-	# Retrieve the list of allowed locations - default to empty set
-	locations := cast_set(lib.get_default(params, "locations", {}))
+	# Retrieve the list of allowed locations
+	locations := params.locations
 
 	# The asset raises a violation if location_is_valid is evaluated to false
 not location_is_valid(	asset, locations)
