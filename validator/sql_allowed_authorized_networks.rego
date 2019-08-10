@@ -31,12 +31,12 @@ deny[{
 	allowed_authorized_networks = lib.get_default(params, "authorized_networks", [])
 
 	# Check whether authorizedNetworks field exists, so that
-  # we can report violation when this field is not set
-  config_auth_networks = lib.get_default(asset.resource.data.settings.ipConfiguration, "authorizedNetworks", [{"value":"authorized network unspecified"}])
+	# we can report violation when this field is not set
+	config_auth_networks = lib.get_default(asset.resource.data.settings.ipConfiguration, "authorizedNetworks", [{"value": "authorized network unspecified"}])
 
-  configured_networks := {network |
-    network = config_auth_networks[_].value
-  }
+	configured_networks := {network |
+		network = config_auth_networks[_].value
+	}
 
 	matched_networks := {network |
 		network = configured_networks[_]
