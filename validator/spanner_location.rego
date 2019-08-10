@@ -30,8 +30,8 @@ deny[{
 	# Applies to spanner instances only
 	asset.asset_type == "spanner.googleapis.com/Instance"
 
-	# Retrieve the list of allowed locations - default to empty set
-	locations := cast_set(lib.get_default(params, "locations", {}))
+	# Retrieve the list of allowed locations
+	locations := params.locations
 
 	# The asset raises a violation if location_is_valid is evaluated to false
 not location_is_valid(	asset, locations)
