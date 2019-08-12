@@ -18,5 +18,4 @@ metadata:
   name: require_sql_ssl
 spec:
   severity: high
-    
   parameters: {}

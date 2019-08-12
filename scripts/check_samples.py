@@ -35,7 +35,7 @@ def check_template_sample(template_file_name):
             template_kind = template_object["spec"]["crd"]["spec"]["names"]["kind"]
             sample_found = False
 
-            # # check if one sample uses that template kind
+            # check if one sample uses that template kind
             for sample_file_name in glob.glob("samples/*.yaml"):
                 with open(sample_file_name, 'r') as sample_file:
                     try:
@@ -52,7 +52,8 @@ def check_template_sample(template_file_name):
             # if not, error out
             if not sample_found:
                 print("No sample found for template {} ({})".format(template_file_name, template_kind))
-                sys.exit(1)
+            
+            return sample_found
 
         except yaml.YAMLError as error:
             print("Error parsing template {}: {}".format(template_file_name, error))
@@ -60,12 +61,32 @@ def check_template_sample(template_file_name):
 
 def check_template_samples():
     """
-    check_template_samples runs check_template_sample on all templates in policies/templates
+    check_template_samples runs check_template_sample on all templates in policies/
     """
+    
+    # Default missing_sample to False
+    missing_sample = False
 
     print("Verifying sample files for all templates...")
-    for template_file_name in glob.glob("policies/templates/*.yaml"):
-        check_template_sample(template_file_name)
-    print("All templates have a sample associated in samples/")
+    # Reccurisvely look for templates in the policies/ folder
+    for template_file_name in glob.glob("policies/*/*.yaml"):
+        
+        # only run the check_template_sample function on actual template
+        with open(template_file_name, 'r') as template_file:
+            try:
+                template_object = yaml.safe_load(template_file)
+                
+                if template_object["kind"] == "ConstraintTemplate":
+                    check_template_sample(template_file_name)
+
+            except yaml.YAMLError as error:
+                print("Error parsing YAML file {}: {}".format(template_file_name, error))
+                sys.exit(1)       
+   
+    if not missing_sample:
+        print("All templates have a sample associated in samples/")
+    else:
+        # if one or more template has no sample associated then returns an exit code of 1
+        sys.exit(1) 
 
 check_template_samples()

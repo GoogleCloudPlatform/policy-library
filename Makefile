@@ -35,7 +35,7 @@ format: ## Format Rego rules
 	@opa fmt -w lib/ validator/
 
 .PHONY: build
-build: format build_templates ## Format ad build
+build: format build_templates ## Format and build
 
 .PHONY: push_make_image
 push_make_image: ## Construct and push Docker image for Cloud Build CI to gcr.io/config-validator/make
