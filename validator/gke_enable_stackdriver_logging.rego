@@ -38,5 +38,7 @@ deny[{
 ###########################
 stackdriver_logging_disabled(cluster) {
 	loggingService := lib.get_default(cluster, "loggingService", "none")
+	loggingService != ""
 	loggingService != "logging.googleapis.com"
+	loggingService != "logging.googleapis.com/kubernetes"
 }

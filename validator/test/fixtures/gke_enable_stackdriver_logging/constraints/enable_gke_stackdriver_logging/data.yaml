@@ -18,7 +18,6 @@ metadata:
   name: enable_gke_stackdriver_logging
   annotations:
     description: Ensure stackdriver logging is enabled on a GKE cluster
-    benchmark: CIS11_7.02
 spec:
   severity: high
   match:
