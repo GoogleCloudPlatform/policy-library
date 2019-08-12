@@ -42,40 +42,33 @@ def build_sample_set():
                 sys.exit(1)
     return sample_set
 
-def check_template_sample(template_file_name, sample_set):
+def check_template_sample(template_object, sample_set):
     """
     check_template_sample checks if a template has a sample associated in the samples/ folder
 
     Args:
-        template_file_name: the template file path to check
+        template_object: the template dict to check, which got parsed from the file content
         sample_set: set of sample kinds (string) built by build_sample_set 
     Raises:
         yaml.YAMLError if the input template or any sample file is not a valid YAML file
     Returns:
         Boolean - True if a sample was found for this template, False otherwise.
     """
-
+ 
     # retrieve the template kind
-    with open(template_file_name, 'r') as template_file:
-        try:
-            template_object = yaml.safe_load(template_file)
-            template_kind = template_object["spec"]["crd"]["spec"]["names"]["kind"]
-            sample_found = False
+    template_kind = template_object["spec"]["crd"]["spec"]["names"]["kind"]
+    sample_found = False
 
-            for sample_kind in sample_set:
-                if sample_kind == template_kind:
-                   sample_found = True
-                   break
+    for sample_kind in sample_set:
+        if sample_kind == template_kind:
+            sample_found = True
+            break
 
-            # if not, error out
-            if not sample_found:
-                print("No sample found for template {} ({})".format(template_file_name, template_kind))
-            
-            return sample_found
-
-        except yaml.YAMLError as error:
-            print("Error parsing template {}: {}".format(template_file_name, error))
-            sys.exit(1)
+    # if not, error out
+    if not sample_found:
+        print("No sample found for template {}".format(template_kind))
+    
+    return sample_found
 
 def check_template_samples(sample_set):
     """
@@ -102,7 +95,7 @@ def check_template_samples(sample_set):
                     template_object = yaml.safe_load(template_file)
                     
                     if template_object["kind"] == "ConstraintTemplate":
-                        check_template_sample(template_file_name, sample_set)
+                        check_template_sample(template_object, sample_set)
 
                 except yaml.YAMLError as error:
                     print("Error parsing YAML file {}: {}".format(template_file_name, error))
