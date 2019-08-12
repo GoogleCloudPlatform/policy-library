@@ -73,6 +73,8 @@ The Policy Library repository contains the following directories:
     *   `constraints`: This is initially empty. You should place your constraint
         files here.
     *   `templates`: This directory contains pre-defined constraint templates.
+        For more details about each template, see the
+        [Constraint index](constraint_index.md).
 *   `validator`: This directory contains the `.rego` files and their associated
     unit tests. You do not need to touch this directory unless you intend to
     modify existing constraint templates or create new ones. Running `make
