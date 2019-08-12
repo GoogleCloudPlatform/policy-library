@@ -89,20 +89,24 @@ def check_template_samples(sample_set):
     missing_sample = False
 
     print("Verifying sample files for all templates...")
-    # Reccurisvely look for templates in the policies/ folder
-    for template_file_name in glob.glob("policies/*/*.yaml"):
-        
-        # only run the check_template_sample function on actual template
-        with open(template_file_name, 'r') as template_file:
-            try:
-                template_object = yaml.safe_load(template_file)
-                
-                if template_object["kind"] == "ConstraintTemplate":
-                    check_template_sample(template_file_name, sample_set)
 
-            except yaml.YAMLError as error:
-                print("Error parsing YAML file {}: {}".format(template_file_name, error))
-                sys.exit(1)       
+    # Reccurisvely look for templates in the policies/ folders
+    for template_file_name in glob.glob("policies/**/*.yaml", recursive=True):
+        
+        # excluding legacy templates
+        if not template_file_name.startswith("policies/templates/legacy"):
+
+            # only run the check_template_sample function on actual template
+            with open(template_file_name, 'r') as template_file:
+                try:
+                    template_object = yaml.safe_load(template_file)
+                    
+                    if template_object["kind"] == "ConstraintTemplate":
+                        check_template_sample(template_file_name, sample_set)
+
+                except yaml.YAMLError as error:
+                    print("Error parsing YAML file {}: {}".format(template_file_name, error))
+                    sys.exit(1)       
    
     if not missing_sample:
         print("All templates have a sample associated in samples/")
