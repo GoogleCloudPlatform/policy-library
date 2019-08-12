@@ -35,3 +35,4 @@ spec:
       - "sqladmin.googleapis.com/Instance"
       - "dataproc.googleapis.com/Job"
       - "dataproc.googleapis.com/Cluster"
+      - "container.googleapis.com/Cluster"
