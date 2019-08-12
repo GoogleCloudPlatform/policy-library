@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPSQLSSLConstraintV1
+package templates.gcp.GCPGKEEnableStackdriverMonitoringConstraintV1
 
 import data.validator.gcp.lib as lib
 
@@ -22,15 +22,21 @@ deny[{
 	"msg": message,
 	"details": metadata,
 }] {
+	constraint := input.constraint
 	asset := input.asset
-	asset.asset_type == "sqladmin.googleapis.com/Instance"
+	asset.asset_type == "container.googleapis.com/Cluster"
 
-	settings := asset.resource.data.settings
+	cluster := asset.resource.data
+	stackdriver_monitoring_disabled(cluster)
 
-	ipConfiguration := lib.get_default(settings, "ipConfiguration", {})
-	requireSsl := lib.get_default(ipConfiguration, "requireSsl", false)
-	requireSsl == false
-
-	message := sprintf("%v does not require SSL", [asset.name])
+	message := sprintf("Stackdriver monitoring is disabled in cluster %v.", [asset.name])
 	metadata := {"resource": asset.name}
+}
+
+###########################
+# Rule Utilities
+###########################
+stackdriver_monitoring_disabled(cluster) {
+	monitoringService := lib.get_default(cluster, "monitoringService", "none")
+	monitoringService != "monitoring.googleapis.com"
 }

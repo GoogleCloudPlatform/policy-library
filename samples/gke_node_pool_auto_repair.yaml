@@ -1,4 +1,3 @@
-#
 # Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,24 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-package templates.gcp.GCPSQLSSLConstraintV1
-
-import data.validator.gcp.lib as lib
-
-deny[{
-	"msg": message,
-	"details": metadata,
-}] {
-	asset := input.asset
-	asset.asset_type == "sqladmin.googleapis.com/Instance"
-
-	settings := asset.resource.data.settings
-
-	ipConfiguration := lib.get_default(settings, "ipConfiguration", {})
-	requireSsl := lib.get_default(ipConfiguration, "requireSsl", false)
-	requireSsl == false
-
-	message := sprintf("%v does not require SSL", [asset.name])
-	metadata := {"resource": asset.name}
-}
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: GCPGKENodeAutoRepairConstraintV1
+metadata:
+  name: enable_auto_repair
+  annotations:
+    description: Ensure automatic node repair is enabled on all node pools in a GKE cluster
+    # This constraint is not certified by CIS.
+    bundles.validator.forsetisecurity.org/cis-v1.1: 7.07
+spec:
+  severity: high
+    
+  parameters: {}

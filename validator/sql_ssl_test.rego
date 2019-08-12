@@ -1,5 +1,5 @@
 #
-# Copyright 2018 Google LLC
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPSQLSSLV1
+package templates.gcp.GCPSQLSSLConstraintV1
 
 all_violations[violation] {
 	resource := data.test.fixtures.sql_ssl.assets[_]
@@ -35,7 +35,7 @@ test_sql_ssl_violations_off {
 	violation.details.resource == "//cloudsql.googleapis.com/projects/test-project/instances/sql-instance-without-ssl"
 }
 
-test_sql_ssl_violations_missing{
+test_sql_ssl_violations_missing {
 	violation := all_violations[_]
 	violation.details.resource == "//cloudsql.googleapis.com/projects/test-project/instances/sql-instance-without-ipconfig"
 }
