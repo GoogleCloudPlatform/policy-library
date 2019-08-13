@@ -156,7 +156,7 @@
         }
       },
       {
-        "name": "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2",
+        "name": "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust3",
         "asset_type": "container.googleapis.com/Cluster",
         "resource": {
           "version": "v1",
@@ -234,7 +234,7 @@
         }
       },
       {
-        "name": "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2",
+        "name": "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust4",
         "asset_type": "container.googleapis.com/Cluster",
         "resource": {
           "version": "v1",
