@@ -31,7 +31,7 @@ deny[{
 	target_location := params.location
 	count({cluster_location} & cast_set(target_location)) == 0
 
-	message := sprintf("Cluster %v is not allowed in the specified region", [asset.name])
+	message := sprintf("Cluster %v is not allowed in the specified location", [asset.name])
 	metadata := {"resource": asset.name}
 }
 

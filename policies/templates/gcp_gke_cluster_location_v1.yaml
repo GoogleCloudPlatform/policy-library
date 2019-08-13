@@ -26,6 +26,13 @@ spec:
         openAPIV3Schema:
           properties:
             location:
+              description: "Whitelist of regions and/or zones in which GKE
+              clusters can be created, e.g. us-central1-a, us-east1. Multiple
+              locations can be specified. Regions and zones need to be specified
+              separately, as this allows for restricting clusters to be zonal or
+              regional, e.g. whitelisting us-central1 will allow regional
+              clusters to be created, but will not implicitly allow zonal
+              clusters in any us-central1 zone."
               type: array
               items: string
   targets:
@@ -65,7 +72,7 @@ spec:
            	target_location := params.location
            	count({cluster_location} & cast_set(target_location)) == 0
            
-           	message := sprintf("Cluster %v is not allowed in the specified region", [asset.name])
+           	message := sprintf("Cluster %v is not allowed in the specified location", [asset.name])
            	metadata := {"resource": asset.name}
            }
            
