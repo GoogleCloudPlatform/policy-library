@@ -28,6 +28,17 @@ all_violations[violation] {
 
 test_gke_cluster_location_violations_basic {
 	count(all_violations) == 2
+
+	resource_names := {x | x = all_violations[_].details.resource}
+
+	expected_resource_name := {
+		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust",
+		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2",
+	}
+
+	resource_names == expected_resource_name
+
 	violation := all_violations[_]
-	contains(violation.details.resource, "joe-clust")
+	is_string(violation.msg)
+	is_object(violation.details)
 }

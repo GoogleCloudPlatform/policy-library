@@ -18,6 +18,8 @@ metadata:
   name: gke_cluster_location
 spec:
   severity: high
+  match:
+    target: ["organization/*"]
   parameters:
     allowed_locations:
         - us-central1
