@@ -1,5 +1,5 @@
 #
-# Copyright 2018 Google LLC
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@
 package templates.gcp.GKEClusterLocationConstraintV1
 
 all_violations[violation] {
-	resource := data.test.fixtures.assets.gke[_]
-	constraint := data.test.fixtures.constraints.gke_cluster_location
+	resource := data.test.fixtures.gke_cluster_location.assets[_]
+	constraint := data.test.fixtures.gke_cluster_location.constraints
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
