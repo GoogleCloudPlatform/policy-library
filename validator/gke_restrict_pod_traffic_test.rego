@@ -14,13 +14,13 @@
 # limitations under the License.
 #
 
-package templates.gcp.GKERestrictPodTrafficConstraintV1
+package templates.gcp.GCPGKERestrictPodTrafficConstraintV1
 
 import data.validator.gcp.lib as lib
 
 all_violations[violation] {
-	resource := data.test.fixtures.assets.gke_restrict_pod_traffic[_]
-	constraint := data.test.fixtures.constraints.restrict_gke_pod_traffic
+	resource := data.test.fixtures.gke_restrict_pod_traffic.assets[_]
+	constraint := data.test.fixtures.gke_restrict_pod_traffic.constraints.restrict_gke_pod_traffic
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint

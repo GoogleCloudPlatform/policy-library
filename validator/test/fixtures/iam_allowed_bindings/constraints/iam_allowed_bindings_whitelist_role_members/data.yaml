@@ -1,0 +1,15 @@
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: GCPIAMAllowedBindingsConstraintV1
+metadata:
+  name: whitelist_owner_role_members
+  annotations:
+    description: Whitelisted all known members (no violations)
+spec:
+  severity: high
+  parameters:
+    mode: whitelist
+    role: roles/owner
+    members:
+    - "user:*@google.com"
+    - "group:*@google.com"
+    - "user:evil@notgoogle.com"

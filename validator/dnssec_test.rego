@@ -17,8 +17,8 @@
 package templates.gcp.GCPDNSSECConstraintV1
 
 all_violations[violation] {
-	resource := data.test.fixtures.assets.dnssec[_]
-	constraint := data.test.fixtures.constraints.require_dnssec
+	resource := data.test.fixtures.dnssec.assets[_]
+	constraint := data.test.fixtures.dnssec.constraints.require_dnssec
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint

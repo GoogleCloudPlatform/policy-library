@@ -23,14 +23,13 @@ spec:
     spec:
       names:
         kind: GCPGKERestrictPodTrafficConstraintV1
-        plural: GCPGKERestrictPodTrafficConstraintsV1
+        plural: gcpgkerestrictpodtrafficconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}
   targets:
     validation.gcp.forsetisecurity.org:
-      rego: |
-         #INLINE("validator/gke_restrict_pod_traffic.rego")
+      rego: | #INLINE("validator/gke_restrict_pod_traffic.rego")
          #
          # Copyright 2018 Google LLC
          #
@@ -47,7 +46,7 @@ spec:
          # limitations under the License.
          #
          
-         package templates.gcp.GKERestrictPodTrafficConstraintV1
+         package templates.gcp.GCPGKERestrictPodTrafficConstraintV1
          
          import data.validator.gcp.lib as lib
          

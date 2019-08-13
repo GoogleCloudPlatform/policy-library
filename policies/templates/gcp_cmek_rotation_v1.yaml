@@ -26,9 +26,8 @@ spec:
         openAPIV3Schema:
           properties: {}
   targets:
-   validation.gcp.forsetisecurity.org:
-      rego: |
-            #INLINE("validator/cmek_rotation.rego")
+    validation.gcp.forsetisecurity.org:
+      rego: | #INLINE("validator/cmek_rotation.rego")
            #
            # Copyright 2018 Google LLC
            #

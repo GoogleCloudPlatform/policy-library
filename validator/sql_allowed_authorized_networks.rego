@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPSQLAllowedAuthorizedNetworksV1
+package templates.gcp.GCPSQLAllowedAuthorizedNetworksConstraintV1
 
 import data.validator.gcp.lib as lib
 
@@ -35,7 +35,7 @@ deny[{
 
 	matched_networks := {network |
 		network = configured_networks[_]
-		net.cidr_contains(allowed_authorized_networks[_], network)
+		allowed_authorized_networks[_] == network
 	}
 
 	forbidden := configured_networks - matched_networks

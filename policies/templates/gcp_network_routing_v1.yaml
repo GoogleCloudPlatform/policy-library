@@ -29,8 +29,7 @@ spec:
             default: GLOBAL
   targets:
     validation.gcp.forsetisecurity.org:
-      rego: |
-            #INLINE("validator/network_routing.rego")
+      rego: | #INLINE("validator/network_routing.rego")
             #
             # Copyright 2018 Google LLC
             #

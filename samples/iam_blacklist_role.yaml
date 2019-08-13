@@ -4,7 +4,8 @@ metadata:
   name: blacklist_serviceaccount_user
   annotations:
     description: Ban any users from being granted Service Account User access
-    benchmark: CIS11_1.05
+    # This constraint is not certified by CIS.
+    bundles.validator.forsetisecurity.org/cis-v1.1: 1.05
 spec:
   severity: high
   match:
@@ -14,4 +15,4 @@ spec:
     mode: blacklist
     role: roles/iam.serviceAccountUser
     members:
-      - "*"
+    - "*"
