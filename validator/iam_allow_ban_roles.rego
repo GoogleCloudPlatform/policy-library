@@ -36,7 +36,7 @@ deny[{
 	target_match_count(mode, desired_count)
 	count(matches_found) != desired_count
 
-	message := sprintf("IAM policy for %v grants %v", [asset.name, role])
+	message := output_msg(desired_count, asset.name, role)
 
 	metadata := {
 		"resource": asset.name,
@@ -55,5 +55,14 @@ target_match_count(mode) = 0 {
 
 target_match_count(mode) = 1 {
 	mode == "allow"
+}
+
+# Output message based on type of violation
+output_msg(0, asset_name, role) = msg {
+  msg := sprintf("%v is in the banned list of IAM policy for %v", [role, asset_name])
+}
+
+output_msg(1, asset_name, role) = msg {
+  msg := sprintf("%v is NOT in the allowed list of IAM policy for %v", [role, asset_name])
 }
 #ENDINLINE
