@@ -33,7 +33,7 @@ deny[{
 
 	mode := lib.get_default(params, "mode", "allow")
 
-	target_match_count(mode, desired_count)
+	desired_count := target_match_count(mode)
 	count(matches_found) != desired_count
 
 	message := output_msg(desired_count, asset.name, role)
