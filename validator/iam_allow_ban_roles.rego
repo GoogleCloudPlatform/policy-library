@@ -59,10 +59,11 @@ target_match_count(mode) = 1 {
 
 # Output message based on type of violation
 output_msg(0, asset_name, role) = msg {
-  msg := sprintf("%v is in the banned list of IAM policy for %v", [role, asset_name])
+	msg := sprintf("%v is in the banned list of IAM policy for %v", [role, asset_name])
 }
 
 output_msg(1, asset_name, role) = msg {
-  msg := sprintf("%v is NOT in the allowed list of IAM policy for %v", [role, asset_name])
+	msg := sprintf("%v is NOT in the allowed list of IAM policy for %v", [role, asset_name])
 }
+
 #ENDINLINE

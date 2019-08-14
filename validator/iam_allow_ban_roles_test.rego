@@ -32,7 +32,6 @@ find_violations[violation] {
 	violation := issues[_]
 }
 
-
 allow_all_roles_non_wildcard_violations[violation] {
 	constraints := [fixture_constraints.iam_allow_ban_roles_allow_all_roles_non_wildcard]
 
@@ -44,7 +43,6 @@ allow_all_roles_non_wildcard_violations[violation] {
 test_allow_all_roles_non_wildcard_violations {
 	count(allow_all_roles_non_wildcard_violations) == 0
 }
-
 
 allow_all_roles_wildcard_violations[violation] {
 	constraints := [fixture_constraints.iam_allow_ban_roles_allow_all_roles_wildcard]
@@ -58,7 +56,6 @@ test_allow_all_roles_wildcard_violations {
 	count(allow_all_roles_wildcard_violations) == 0
 }
 
-
 allow_one_role_violations[violation] {
 	constraints := [fixture_constraints.iam_allow_ban_roles_allow_one_role]
 
@@ -70,7 +67,6 @@ allow_one_role_violations[violation] {
 test_allow_one_role_violations {
 	count(allow_one_role_violations) == 2
 }
-
 
 ban_all_roles_non_wildcard_violations[violation] {
 	constraints := [fixture_constraints.iam_allow_ban_roles_ban_all_roles_non_wildcard]
@@ -84,7 +80,6 @@ test_ban_all_roles_non_wildcard_violations {
 	count(ban_all_roles_non_wildcard_violations) == 3
 }
 
-
 ban_all_roles_wildcard_violations[violation] {
 	constraints := [fixture_constraints.iam_allow_ban_roles_ban_all_roles_wildcard]
 
@@ -96,7 +91,6 @@ ban_all_roles_wildcard_violations[violation] {
 test_ban_all_roles_wildcard_violations {
 	count(ban_all_roles_wildcard_violations) == 3
 }
-
 
 ban_one_role_violations[violation] {
 	constraints := [fixture_constraints.iam_allow_ban_roles_ban_one_role]
