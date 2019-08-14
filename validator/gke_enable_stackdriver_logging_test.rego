@@ -34,13 +34,13 @@ test_stackdriver_logging_enabled {
 	not resource_names["//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust"]
 }
 
-test_stackdriver_logging_enabled {
+test_stackdriver_logging_enabled_kubernetes {
 	violation := all_violations[_]
 	resource_names := {x | x = all_violations[_].details.resource}
 	not resource_names["//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2"]
 }
 
-test_stackdriver_logging_enabled {
+test_stackdriver_logging_enabled_empty_string {
 	violation := all_violations[_]
 	resource_names := {x | x = all_violations[_].details.resource}
 	not resource_names["//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust3"]
