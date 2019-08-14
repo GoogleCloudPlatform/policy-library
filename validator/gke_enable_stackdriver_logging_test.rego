@@ -34,7 +34,19 @@ test_stackdriver_logging_enabled {
 	not resource_names["//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust"]
 }
 
+test_stackdriver_logging_enabled {
+	violation := all_violations[_]
+	resource_names := {x | x = all_violations[_].details.resource}
+	not resource_names["//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2"]
+}
+
+test_stackdriver_logging_enabled {
+	violation := all_violations[_]
+	resource_names := {x | x = all_violations[_].details.resource}
+	not resource_names["//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust3"]
+}
+
 test_stackdriver_logging_disabled {
 	violation := all_violations[_]
-	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2"
+	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust4"
 }
