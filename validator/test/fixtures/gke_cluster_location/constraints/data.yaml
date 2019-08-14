@@ -13,12 +13,12 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPComputeExternalIpAccessConstraintV1
+kind: GKEClusterLocationConstraintV1
 metadata:
-  name: forbid_external_api_whitelist
+  name: gke_cluster_location
 spec:
   severity: high
   parameters:
-    mode: "whitelist"
-    instances:
-      - //compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/vm-external-ip-two
+    allowed_locations:
+        - us-central1
+        - us-east1-b

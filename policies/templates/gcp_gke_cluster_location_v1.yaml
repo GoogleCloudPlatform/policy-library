@@ -15,29 +15,31 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-glb-external-ip-access-constraint-v1
-  annotations:
-    description: "Constraint to restrict the creation of external load balancers."
+  name: gcp-gke-cluster-location-v1
 spec:
   crd:
     spec:
       names:
-        kind: GCPGLBExternalIpAccessConstraintV1
-        plural: gcpglbexternalipaccessconstraintv1
+        kind: GKEClusterLocationConstraintV1
+        plural: gkeclusterlocationconstraintsv1
       validation:
         openAPIV3Schema:
           properties:
-            mode:
-              type: string
-              enum: [denylist, allowlist]
-            instances:
+            allowed_locations:
+              description: "Whitelist of regions and/or zones in which GKE
+              clusters can be created, e.g. us-central1-a, us-east1. Multiple
+              locations can be specified. Regions and zones need to be specified
+              separately, as this allows for restricting clusters to be zonal or
+              regional, e.g. whitelisting us-central1 will allow regional
+              clusters to be created, but will not implicitly allow zonal
+              clusters in any us-central1 zone."
               type: array
               items: string
   targets:
     validation.gcp.forsetisecurity.org:
-      rego: | #INLINE("validator/gcp_glb_external_ip.rego")
+      rego: | #INLINE("validator/gke_cluster_location.rego")
            #
-           # Copyright 2018 Google LLC
+           # Copyright 2019 Google LLC
            #
            # Licensed under the Apache License, Version 2.0 (the "License");
            # you may not use this file except in compliance with the License.
@@ -52,13 +54,10 @@ spec:
            # limitations under the License.
            #
            
-           package templates.gcp.GCPGLBExternalIpAccessConstraintV1
+           package templates.gcp.GKEClusterLocationConstraintV1
            
            import data.validator.gcp.lib as lib
            
-           ###########################
-           # Find allowlist Violations
-           ###########################
            deny[{
            	"msg": message,
            	"details": metadata,
@@ -66,33 +65,17 @@ spec:
            	constraint := input.constraint
            	lib.get_constraint_params(constraint, params)
            	asset := input.asset
-           	asset.asset_type == "compute.googleapis.com/GlobalForwardingRule"
+           	asset.asset_type == "container.googleapis.com/Cluster"
            
-           	# Find GLBs config block w/ external IP
-           	instance := asset.resource.data
-           	external_ip := instance.ipAddress
+           	cluster_location := asset.resource.data.location
+           	target_location := params.allowed_locations
+           	count({cluster_location} & cast_set(target_location)) == 0
            
-           	# Check if instance is in denylist/allowlist
-           	target_instances := params.instances
-           	matches := {asset.name} & cast_set(target_instances)
-           	target_instance_match_count(params.mode, desired_count)
-           	count(matches) == desired_count
-           
-           	message := sprintf("%v is not allowed, policy prohibits all GLBs due to public IP.", [asset.name])
-           	metadata := {"external_ip": external_ip}
+           	message := sprintf("Cluster %v is not allowed in the specified location", [asset.name])
+           	metadata := {"resource": asset.name}
            }
            
            ###########################
            # Rule Utilities
            ###########################
-           
-           # Determine the overlap between instances under test and constraint
-           # By default (allowlist), we violate if there isn't overlap
-           target_instance_match_count(mode) = 0 {
-           	mode != "denylist"
-           }
-           
-           target_instance_match_count(mode) = 1 {
-           	mode == "denylist"
-           }
            #ENDINLINE

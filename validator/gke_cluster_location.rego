@@ -1,5 +1,5 @@
 #
-# Copyright 2018 Google LLC
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPSQLAllowedAuthorizedNetworksConstraintV1
+package templates.gcp.GKEClusterLocationConstraintV1
 
 import data.validator.gcp.lib as lib
 
@@ -24,23 +24,17 @@ deny[{
 }] {
 	constraint := input.constraint
 	lib.get_constraint_params(constraint, params)
-
 	asset := input.asset
-	asset.asset_type == "sqladmin.googleapis.com/Instance"
+	asset.asset_type == "container.googleapis.com/Cluster"
 
-	allowed_authorized_networks = lib.get_default(params, "authorized_networks", [])
-	configured_networks := {network |
-		network = asset.resource.settings.ipConfiguration.authorizedNetworks[_].value
-	}
+	cluster_location := asset.resource.data.location
+	target_location := params.allowed_locations
+	count({cluster_location} & cast_set(target_location)) == 0
 
-	matched_networks := {network |
-		network = configured_networks[_]
-		allowed_authorized_networks[_] == network
-	}
-
-	forbidden := configured_networks - matched_networks
-	count(forbidden) > 0
-
-	message := sprintf("%v has authorized networks that are not allowed: %v", [asset.name, forbidden])
+	message := sprintf("Cluster %v is not allowed in the specified location", [asset.name])
 	metadata := {"resource": asset.name}
 }
+
+###########################
+# Rule Utilities
+###########################
