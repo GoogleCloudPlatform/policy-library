@@ -20,8 +20,8 @@ spec:
   severity: high
   match:
     target: ["organization/*"]
-  parameters: 
-    mandatory_labels: 
+  parameters:
+    mandatory_labels:
       - "label1": "^label1-value$"
       - "label2": "^label2-value.*$"
     resource_types_to_scan:
@@ -31,7 +31,7 @@ spec:
       - "compute.googleapis.com/Image"
       - "compute.googleapis.com/Disk"
       - "compute.googleapis.com/Snapshot"
-      - "google.bigtable.Instance"
+      - "bigtableadmin.googleapis.com/Instance"
       - "sqladmin.googleapis.com/Instance"
       - "dataproc.googleapis.com/Job"
       - "dataproc.googleapis.com/Cluster"

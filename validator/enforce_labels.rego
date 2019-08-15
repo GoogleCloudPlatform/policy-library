@@ -39,7 +39,7 @@ deny[{
 		"compute.googleapis.com/Image",
 		"compute.googleapis.com/Disk",
 		"compute.googleapis.com/Snapshot",
-		"google.bigtable.Instance",
+		"bigtableadmin.googleapis.com/Instance",
 		"sqladmin.googleapis.com/Instance",
 		"dataproc.googleapis.com/Job",
 		"dataproc.googleapis.com/Cluster",
@@ -67,13 +67,13 @@ label_is_valid(label_key, label_value_pattern, asset, non_standard_types) {
 	# test if label exists in asset
 	resource_labels[label_key]
 
-	# test if label value matches pattern passed as a parameter 
+	# test if label value matches pattern passed as a parameter
 re_match(	label_value_pattern, resource_labels[label_key])
 }
 
 # get_labels for cloudsql instances
 get_labels(asset, non_standard_types) = resource_labels {
-	# check if we have a non-standard type 
+	# check if we have a non-standard type
 	asset.asset_type == non_standard_types[_]
 	asset.asset_type == "sqladmin.googleapis.com/Instance"
 	resource := asset.resource.data.settings
@@ -82,7 +82,7 @@ get_labels(asset, non_standard_types) = resource_labels {
 
 # get_labels for gke cluster
 get_labels(asset, non_standard_types) = resource_labels {
-	# check if we have a non-standard type 
+	# check if we have a non-standard type
 	asset.asset_type == non_standard_types[_]
 	asset.asset_type == "container.googleapis.com/Cluster"
 	resource := asset.resource.data
