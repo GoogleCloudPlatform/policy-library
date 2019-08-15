@@ -17,7 +17,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPRestrictedFirewallRulesConstraintV1
 eetadata:
-  name: restrict-firewall-rule-allow-ingress-any-protocol-port-range-5000-6000
+  name: restrict-firewall-rule-allow-ingress-egress
 spec:
   severity: high
   match:
@@ -25,10 +25,3 @@ spec:
   parameters:
     direction: "any"
     rule_type: "allowed"
-    port: "100-120"
-    protocol: "any"
-    source_ranges:
-      - "0.0.0.0/0"
-      - "192.168.1.1/32"
-    target_service_accounts:
-      - "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"

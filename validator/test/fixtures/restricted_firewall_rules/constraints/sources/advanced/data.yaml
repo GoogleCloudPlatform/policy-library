@@ -23,9 +23,6 @@ spec:
   match:
     target: ["organization/*"]
   parameters:
-    source_ranges:
-      - "0.0.0.0/0"
-      - "192.168.1.1/32"
     source_service_accounts:
       - "*"
     source_tags:

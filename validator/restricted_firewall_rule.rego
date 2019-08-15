@@ -34,11 +34,10 @@ deny[{
     fw_rule = asset.resource.data
 
     fw_rule_is_restricted(fw_rule, updated_params)
-
     message := sprintf("%s Firewall rule is prohibited.", [asset.name])
     metadata := {
         "resource": asset.name,
-        # "restricted_rules": updated_params
+        "restricted_rules": updated_params
     }
 }
 
@@ -50,80 +49,71 @@ deny[{
 # All parameters are optional. update_params set all missing parameters to "any"
 update_params(params) = updated_params {
 
-    parameters := {
-        "direction",
-        "rule_type",
-        "port",
-        "protocol",
-        "source_ranges",
-        "target_ranges",
-        "source_tags",
-        "target_tags",
-        "source_service_accounts",
-        "target_service_accounts"
+	updated_params := {
+        "direction": lib.get_default(params, "direction", "any"),
+        "rule_type": lib.get_default(params, "rule_type", "any"),
+        "port": lib.get_default(params, "port", "any"),
+        "protocol": lib.get_default(params, "protocol", "any"),
+        "source_ranges": lib.get_default(params, "source_ranges", ["any"]),
+        "target_ranges": lib.get_default(params, "target_ranges", ["any"]),
+        "source_tags": lib.get_default(params, "source_tags", ["any"]),
+        "target_tags": lib.get_default(params, "target_tags", ["any"]),
+        "source_service_accounts": lib.get_default(params, "source_service_accounts", ["any"]),
+        "target_service_accounts": lib.get_default(params, "target_service_accounts", ["any"]),
+		"disabled": lib.get_default(params, "disabled", "any")
     }
-
-    # set all default parameters to "any"
-    updated_params := { parameter_name: parameter_value |
-                            parameter_name := parameters[i]
-                            parameter_value := lib.get_default(params, parameters[i], "any")}
-    # trace(sprintf("%s", [updated_params]))
+	# trace(sprintf("%v", [updated_params]))
 }
 
 # fw_rule_is_restricted for Ingress rules
 fw_rule_is_restricted(fw_rule, params) {
 
     # check direction
-    out1 = fw_rule_check_direction(fw_rule, params)
-    trace(sprintf("out1 %s", [out1]))
+    fw_rule_check_direction(fw_rule, params.direction)
 
     # check rule type
-    out2 = fw_rule_check_rule_type(fw_rule, params)
-    trace(sprintf("out2 %s", [out2]))
+    fw_rule_check_rule_type(fw_rule, params.rule_type)
 
-    # trace(sprintf("%s", [ip_configs]))
-    trace(    sprintf("asset: %s", [fw_rule.name]))
     ip_configs := fw_rule_get_ip_configs(fw_rule, params.rule_type)
-    trace(sprintf("out3 true - ip_configs = %s", [ip_configs]))
 
     # check protocol and port
-    out4 = fw_rule_check_protocol_and_port(ip_configs, params.protocol, params.port)
-    trace(sprintf("out4 %s", [out4]))
+    fw_rule_check_protocol_and_port(ip_configs, params.protocol, params.port)
 
     # Check sources (ip ranges and/or tags and/or service accounts)
-    # out5 =     fw_rule_check_all_sources(fw_rule, params)
-    # trace(sprintf("out5 %s", [out5]))
+    fw_rule_check_all_sources(fw_rule, params)
 
     # Check targets
     # fw_rule_check_all_targets(fw_rule, params)
+
+	fw_rule_check_disabled(fw_rule, params.disabled)
 }
 
 #### Check direction functions
 
 # fw_rule_check_direction when direction is set to any
-fw_rule_check_direction(fw_rule, params){
-    params.direction == "any"
+fw_rule_check_direction(fw_rule, direction){
+    direction == "any"
 }
 
 # fw_rule_check_direction when direction is not set to any
-fw_rule_check_direction(fw_rule, params){
-    params.direction != "any"
-    lower(params.direction) ==  lower(fw_rule.direction)
+fw_rule_check_direction(fw_rule, direction){
+    direction != "any"
+    lower(direction) ==  lower(fw_rule.direction)
 }
 
 #### Check Type functions
 
 # fw_rule_check_type when rule_type is set to any
-fw_rule_check_rule_type(fw_rule, params){
-    params.rule_type == "any"
+fw_rule_check_rule_type(fw_rule, rule_type){
+    rule_type == "any"
 }
 
 # fw_rule_check_direction when direction is not set to any
-fw_rule_check_rule_type(fw_rule, params){
-    params.rule_type != "any"
+fw_rule_check_rule_type(fw_rule, rule_type){
+    rule_type != "any"
 
     # test that the key exists in the fw_rule (allowed or denied)
-    fw_rule[lower(params.rule_type)]
+    fw_rule[lower(rule_type)]
 }
 
 ##### Get IP Config from rule
@@ -152,52 +142,44 @@ fw_rule_get_ip_configs(fw_rule, rule_type) = ip_configs{
 
 # fw_rule_check_protocol when one ip_configs is set to "all"
 fw_rule_check_protocol_and_port(ip_configs, protocol, port) {
-    trace("fw_rule_check_protocol_and_port all 1")
+
     ip_configs[_].ipProtocol == "all"
-    trace("fw_rule_check_protocol_and_port all 2")
+
 }
 
 # fw_rule_check_protocol when protocol is set to any
 fw_rule_check_protocol_and_port(ip_configs, protocol, port) {
     protocol == "any"
-    trace("protocol = any ")
-    out = fw_rule_check_port(ip_configs[_], port)
-    trace(sprintf("ouput: %s", [out]))
+	fw_rule_check_port(ip_configs[_], port)
 }
 
 # fw_rule_check_protocol when protocol is not set to any
 fw_rule_check_protocol_and_port(ip_configs, protocol, port) {
-    trace("protocol != any ")
     protocol != "any"
-    trace("protocol != any 2")
+
     # Check if the protocol is in the rule
     ip_configs[i].ipProtocol == protocol
-    trace("protocol != any 3")
 
     # Check if the associated port is also a match
     fw_rule_check_port(    ip_configs[i], port)
 
-    trace("protocol != any 4")
 }
 
 # fw_rule_check_port when protocol is set to any
 fw_rule_check_port(ip_configs, port) {
     port == "any"
-    trace("fw_rule_check_port any")
 }
 
 # fw_rule_check_port when protocol is tcp, udp or all AND port is not set (i.e all ports match)
 fw_rule_check_port(ip_config, port) {
     protocol_with_ports := {"tcp", "udp", "all"}
-    trace("fw_rule_check_port for all")
+
     # only for protocol with ports or "all" - since it includes tcp and udp
     ip_config.ipProtocol == protocol_with_ports[_]
 
-    trace("fw_rule_check_port for all 2")
     # if port is not set in ip_config, any port passed as a param matches
-not     ip_config.port
+	not ip_config.port
 
-    trace("fw_rule_check_port for all 3")
 }
 
 # fw_rule_check_port when port is a single number
@@ -217,17 +199,15 @@ fw_rule_check_port(ip_config, port) {
     port != "any"
     re_match("-", port)
 
-    trace("port is a range")
-
     # check if the port range is included in the fw_rule port
     rule_ports := ip_config.port
-    trace(sprintf("almost %s", [rule_ports]))
+
 	rule_port := rule_ports[_]
 
     # check if port range is included in one of rule_ports values
 	# Note: if rule_port is not a range, range_match will return False
-   	out = range_match(port, rule_port)
-	trace(sprintf("all done out = %s for: %s", [out ,port]))
+   	range_match(port, rule_port)
+
 }
 
 # port_is_in_values if rule_port is not a range
@@ -243,7 +223,7 @@ port_is_in_values(port, rule_port) {
 # port_is_in_values if rule_port is a range
 # Note: only called when port is not a range
 port_is_in_values(port, rule_port) {
-	trace(sprintf("ports_is_in_values, rule_port = %s port = %s", [rule_port, port]))
+
     # check if rule_port is a range
     re_match("-", rule_port)
 
@@ -282,70 +262,105 @@ range_match(test_range, target_range) {
     test_high_bound <= target_high_bound
 }
 
-#### Check source functions
+#### Check sources functions
 
 # fw_rule_check_sources returns true if all sources matches based on parameters
 # checks for source ranges, tags and service accounts
 fw_rule_check_all_sources(fw_rule, params) {
-    fw_rule_check_source_ranges(fw_rule, params)
-    fw_rule_check_source_tags(fw_rule, params)
-    # fw_rule_check_source_sas(fw_rule, params)
+	# Check that source ranges AND source tags AND source service accounts match
+    fw_rule_check_source_range(fw_rule, params.source_ranges[_])
+    fw_rule_check_source_tag(fw_rule, params.source_tags[_])
+    fw_rule_check_source_sas(fw_rule, params.source_service_accounts[_])
+
 }
 
 # fw_rule_check_source when source range is passed
-fw_rule_check_source_ranges(fw_rule, params) {
-    # Check if the source ranges are set in the params
-    input_source_ranges := params.source_ranges
+fw_rule_check_source_range(fw_rule, source_range) {
 
     # test if sourceRange exists in the rule
     fw_rule.sourceRange
 
     # check that source ranges are set
-    source_ranges = fw_rule.sourceRange
+    fw_rule_ranges = fw_rule.sourceRange
 
     # check if any range matches
     # no CIDR matching logic at this time
-    input_source_ranges[_] == source_ranges[_]
+    source_range == fw_rule_ranges[_]
 }
 
-# fw_rule_check_source_ranges if no source range is passed
-# any fw source range matches
-fw_rule_check_source_ranges(fw_rule, params) {
-    not params.source_ranges
+# fw_rule_check_source_range if source_ranges is set to "*"
+fw_rule_check_source_range(fw_rule, source_range) {
+    source_range == "*"
+	# Check that at least a source range is set
+	fw_rule.sourceRange
 }
 
-# fw_rule_check_source when source tag is passed
-fw_rule_check_source_tags(fw_rule, params) {
-    # Check if the source tags are set in the params
-    input_source_tags := params.source_tags
-
-    # check that source tags are set
-    source_tags := fw_rule.sourceTag
-
-    # check if any tag matches
-	re_match(input_source_tags[_], source_tags[_])
+# fw_rule_check_source_range if source_ranges is set to any (default)
+fw_rule_check_source_range(fw_rule, source_range) {
+    source_range == "any"
 }
 
-# fw_rule_check_source_tags if no source tag is passed
-# any fw rule source tag matches
-fw_rule_check_source_tags(fw_rule, params) {
-    not params.source_tags
+
+# fw_rule_check_source when source tag is passed and is not "*"
+fw_rule_check_source_tag(fw_rule, source_tag) {
+
+	source_tag != "*"
+
+    # check that the rule source tags are set
+    fw_rule_source_tags := fw_rule.sourceTag
+
+    # check if the input tag matches any tag in the rule
+	re_match(source_tag, fw_rule_source_tags[_])
 }
 
-# fw_rule_check_source when source service account is passed
-fw_rule_check_source_sas(fw_rule, params) {
-    # Check if the source service account is set in the params
-    input_source_sas := params.source_service_accounts
+# fw_rule_check_source_tag if source tag is set to "*"
+fw_rule_check_source_tag(fw_rule, source_tag) {
+    source_tag == "*"
+	# Verify that we have a source tag set, regardless of its value
+	fw_rule.sourceTag
+}
+
+# fw_rule_check_source_tag if source tag is set to any (default)
+fw_rule_check_source_tag(fw_rule, source_tag) {
+    source_tag == "any"
+}
+
+
+# fw_rule_check_source when source service account is passed and is not "*"
+fw_rule_check_source_sas(fw_rule, source_service_account) {
+
+	source_service_account != "*"
 
     # check that source service accounts are set
-    source_sas = fw_rule.sourceServiceAccount
+    fw_rule_source_sas = fw_rule.sourceServiceAccount
 
-    # check if any service account matches
-	re_match(input_source_sas[_], source_sas[_])
+    # check if the rule service account matches
+	re_match(source_service_account, fw_rule_source_sas[_])
 }
 
-# fw_rule_check_source_sas if no source service account is passed
-# any fw rule source service account matches
-fw_rule_check_source_sas(fw_rule, params) {
-    not params.source_service_accounts
+# fw_rule_check_source_sas if source service account is set to "*"
+fw_rule_check_source_sas(fw_rule, source_service_account) {
+
+	source_service_account == "*"
+
+	# Verify that we have a source tag set, regardless of its value
+	fw_rule.sourceServiceAccount
+}
+
+# fw_rule_check_source_sas if source service account is set to any
+fw_rule_check_source_sas(fw_rule, source_service_account) {
+    source_service_account == "any"
+}
+
+#### Check disabled functions
+
+# fw_rule_check_disabled when disabled is set to any
+fw_rule_check_disabled(fw_rule, disabled){
+    disabled == "any"
+}
+
+# fw_rule_check_disabled when disabled is not set to any
+fw_rule_check_disabled(fw_rule, disabled){
+    disabled != "any"
+    lower(disabled) ==  lower(fw_rule.disabled)
 }
