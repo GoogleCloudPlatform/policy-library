@@ -1,5 +1,5 @@
 #
-# Copyright 2018 Google LLC
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -35,6 +35,15 @@ test_nodepool_limited_service_account {
 }
 
 test_nodepool_default_service_account {
+	count(all_violations) == 1
+
+	resource_names := {x | x = all_violations[_].details.resource}
+
+	expected_resource_name := {"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust"}
+
+	resource_names == expected_resource_name
+
 	violation := all_violations[_]
-	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust"
+	is_string(violation.msg)
+	is_object(violation.details)
 }
