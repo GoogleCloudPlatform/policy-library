@@ -223,7 +223,7 @@
                 "creationTimestamp": "2019-08-01T15:32:41.698-07:00",
                 "description": "",
                 "direction": "INGRESS",
-                "disabled": true,
+                "disabled": false,
                 "id": "4881368052243813990",
                 "logConfig": {
                     "enable": false

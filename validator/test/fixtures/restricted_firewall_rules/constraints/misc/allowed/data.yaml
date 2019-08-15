@@ -25,3 +25,4 @@ spec:
   parameters:
     direction: "any"
     rule_type: "allowed"
+    enabled: true

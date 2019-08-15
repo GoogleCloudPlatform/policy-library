@@ -37,7 +37,7 @@ deny[{
     message := sprintf("%s Firewall rule is prohibited.", [asset.name])
     metadata := {
         "resource": asset.name,
-        "restricted_rules": updated_params
+        # "restricted_rules": updated_params
     }
 }
 
@@ -60,7 +60,7 @@ update_params(params) = updated_params {
         "target_tags": lib.get_default(params, "target_tags", ["any"]),
         "source_service_accounts": lib.get_default(params, "source_service_accounts", ["any"]),
         "target_service_accounts": lib.get_default(params, "target_service_accounts", ["any"]),
-		"disabled": lib.get_default(params, "disabled", "any")
+		"enabled": lib.get_default(params, "enabled", "any")
     }
 	# trace(sprintf("%v", [updated_params]))
 }
@@ -85,7 +85,7 @@ fw_rule_is_restricted(fw_rule, params) {
     # Check targets
     # fw_rule_check_all_targets(fw_rule, params)
 
-	fw_rule_check_disabled(fw_rule, params.disabled)
+	fw_rule_check_enabled(fw_rule, params.enabled)
 }
 
 #### Check direction functions
@@ -352,15 +352,38 @@ fw_rule_check_source_sas(fw_rule, source_service_account) {
     source_service_account == "any"
 }
 
-#### Check disabled functions
+#### Check enabled functions
 
-# fw_rule_check_disabled when disabled is set to any
-fw_rule_check_disabled(fw_rule, disabled){
-    disabled == "any"
+# fw_rule_check_enabled when enabled is set to any
+fw_rule_check_enabled(fw_rule, enabled){
+	trace("enabled == any")
+    enabled == "any"
 }
 
-# fw_rule_check_disabled when disabled is not set to any
-fw_rule_check_disabled(fw_rule, disabled){
-    disabled != "any"
-    lower(disabled) ==  lower(fw_rule.disabled)
+# fw_rule_check_enabled when enabled is not set to any
+fw_rule_check_enabled(fw_rule, enabled){
+    enabled != "any"
+	# the following test only works when enabled is a boolean too
+	is_boolean(enabled)
+	enabled != fw_rule.disabled
+}
+
+# fw_rule_check_enabled when enabled is not set to "true" (string)
+# This function is just for convenience when the enabled parameter is a string instead of a boolean
+fw_rule_check_enabled(fw_rule, enabled){
+	enabled != "any"
+	is_string(enabled)
+	# this is necessary as cast_boolean does not work on strings...
+	lower(enabled) == "true"
+	not fw_rule.disabled
+}
+
+# fw_rule_check_enabled when enabled is not set to "false" (string)
+# This function is just for convenience when the enabled parameter is a string instead of a boolean
+fw_rule_check_enabled(fw_rule, enabled){
+	enabled != "any"
+	is_string(enabled)
+	# this is necessary as cast_boolean does not work on strings...
+	lower(enabled) == "false"
+	fw_rule.disabled
 }

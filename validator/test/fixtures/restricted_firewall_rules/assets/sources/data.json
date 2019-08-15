@@ -89,7 +89,7 @@
                 ],
                 "description": "",
                 "direction": "INGRESS",
-                "disabled": true,
+                "disabled": false,
                 "id": "258211949990281313",
                 "logConfig": {
                     "enable": false
@@ -124,7 +124,7 @@
                 ],
                 "description": "",
                 "direction": "INGRESS",
-                "disabled": true,
+                "disabled": false,
                 "id": "7741139668001783850",
                 "logConfig": {
                     "enable": false
@@ -417,7 +417,7 @@
                     "10.0.0.0/24"
                 ],
                 "direction": "EGRESS",
-                "disabled": true,
+                "disabled": false,
                 "id": "5472371619647108866",
                 "logConfig": {
                     "enable": false
@@ -433,43 +433,3 @@
         }
     }
 ]
-
-
-{
-    "name": "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/test-no-source-ip-fw",
-    "asset_type": "compute.googleapis.com/Firewall",
-    "resource": {
-        "version": "v1",
-        "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
-        "discovery_name": "Firewall",
-        "parent": "//cloudresourcemanager.googleapis.com/projects/402901960755",
-        "data": {
-            "allowed": [
-                {
-                    "ipProtocol": "tcp",
-                    "port": [
-                        "123"
-                    ]
-                }
-            ],
-            "creationTimestamp": "2019-08-09T12:53:34.847-07:00",
-            "description": "",
-            "direction": "INGRESS",
-            "disabled": true,
-            "id": "12407153413353937",
-            "logConfig": {
-                "enable": false
-            },
-            "name": "test-no-source-ip-fw",
-            "network": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/networks/default",
-            "priority": 1000,
-            "selfLink": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/firewalls/test-no-source-ip-fw",
-            "sourceTag": [
-                "source-tag"
-            ],
-            "targetTag": [
-                "target-tag"
-            ]
-        }
-    }
-}
