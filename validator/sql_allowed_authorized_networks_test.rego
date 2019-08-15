@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPSQLAllowedAuthorizedNetworksV1
+package templates.gcp.GCPSQLAllowedAuthorizedNetworksConstraintV1
 
 import data.test.fixtures.sql_allowed_authorized_networks.constraints as fixture_constraints
 
