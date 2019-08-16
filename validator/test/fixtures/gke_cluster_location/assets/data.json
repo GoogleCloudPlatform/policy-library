@@ -235,7 +235,7 @@
         "servicesIpv4Cidr": "10.47.240.0/20",
         "status": "RUNNING",
         "subnetwork": "default",
-        "zone": "us-west1-b"
+        "zone": "us-central1-c"
       }
     }
   }
