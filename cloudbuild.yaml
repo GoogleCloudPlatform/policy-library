@@ -1,7 +1,7 @@
 steps:
-- name: 'gcr.io/cf-gcp-forseti-project/opa-latest'
+- name: 'gcr.io/config-validator/make'
   args: ['test']
-- name: 'gcr.io/cf-gcp-forseti-project/opa-latest'
+- name: 'gcr.io/config-validator/make'
   args: ['check_sample_files']
-- name: 'gcr.io/cf-gcp-forseti-project/opa-latest'
+- name: 'gcr.io/config-validator/make'
   args: ['check_format']
