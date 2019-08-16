@@ -1,3 +1,7 @@
 steps:
 - name: 'gcr.io/cf-gcp-forseti-project/opa-latest'
   args: ['test']
+- name: 'gcr.io/cf-gcp-forseti-project/opa-latest'
+  args: ['check_sample_files']
+- name: 'gcr.io/cf-gcp-forseti-project/opa-latest'
+  args: ['check_format']

@@ -45,5 +45,9 @@ push_make_image: ## Construct and push Docker image for Cloud Build CI to gcr.io
 check_sample_files: ## Make sure each template in policies/templates has one sample file using it in samples/
 	@python3 scripts/check_samples.py
 
+.PHONY: check_format
+check_format: ## Check that files have been formatted using opa fmt
+	@ test $(opa fmt -l validator/ lib/ policies/ samples/ | wc -l) -eq 0
+
 help: ## Prints help for targets with comments
 	@grep -E '^[a-zA-Z._-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "make \033[36m%- 30s\033[0m %s\n", $$1, $$2}'
