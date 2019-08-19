@@ -29,8 +29,8 @@ import data.test.fixtures.enforce_labels.assets.compute.instances as fixture_com
 import data.test.fixtures.enforce_labels.assets.compute.snapshots as fixture_compute_snapshots
 import data.test.fixtures.enforce_labels.assets.dataproc.clusters as fixture_dataproc_clusters
 import data.test.fixtures.enforce_labels.assets.dataproc.jobs as fixture_dataproc_jobs
-import data.test.fixtures.enforce_labels.assets.projects as fixture_projects
 import data.test.fixtures.enforce_labels.assets.gke as fixture_gke
+import data.test.fixtures.enforce_labels.assets.projects as fixture_projects
 
 # Importing the test constraint
 import data.test.fixtures.enforce_labels.constraints as fixture_constraints
