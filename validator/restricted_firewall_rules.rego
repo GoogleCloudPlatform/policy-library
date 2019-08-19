@@ -35,10 +35,9 @@ deny[{
 
 	fw_rule_is_restricted(fw_rule, updated_params)
 	message := sprintf("%s Firewall rule is prohibited.", [asset.name])
-	metadata := {
-		"resource": asset.name,
-		"restricted_rules": updated_params,
-	}
+	metadata := {"resource": asset.name}
+	# "restricted_rules": updated_params,
+
 }
 
 ###########################

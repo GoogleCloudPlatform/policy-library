@@ -18,7 +18,7 @@
 # All firewall rules matching the passed parameters will be flagged as violations.
 # All parameters are optional.
 #
-# NOTE: A firewall rule will trigger a violation ONLY IF it matches ALL the passed parameters.
+# A firewall rule will trigger a violation ONLY IF it matches ALL the passed parameters.
 
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
@@ -45,51 +45,55 @@ spec:
               default: "any"
             port:
               description: |
-                "Port of the rules to restrict. This parameter is tighly coupled with the protocol paramter:
-                 The rule will be marked as in violation if the parameter protocol:port pair matches one of its
+                "Port of the rules to restrict. This parameter is tighly coupled with the
+                 protocol paramter: the rule will be marked as in violation if the parameter
+                protocol:port pair matches one of its
                  protocol:port listed.
                  Valid values are:
                     * single number
-                    * ranges (e.g 22-25)
-                    * 'any' - when set to any, the ports of the rule will NOT be a factor to determine
-                              if the FW rule is restricted
+                    * ranges (e.g 22-25) - Note: only FW rules with a range greater or equal
+                       to this passed range would match
+                    * 'any' - when set to any, the ports of the rule will NOT be a factor to
+                              determine if the FW rule is restricted
                     * 'all' (if the rule matches all ports for a given protocol)"
               type: array
               items: string
               default: "['any']"
             protocol:
               description: |
-                "Protocol of the rules to restrict. This parameter is tighly coupled with the port paramter:
-                 The rule will be marked as in violation if the parameter protocol:port pair matches one of its
-                 protocol:port listed.
+                "Protocol of the rules to restrict. This parameter is tighly coupled with
+                 the port paramter: the rule will be marked as in violation if the parameter
+                 protocol:port pair matches one of its protocol:port listed.
                  Valid values are:
                     * single protocol (e.g 'tcp', 'icmp' etc.)
-                    * 'any' - when set to any, the protocol of the rule will NOT be a factor to determine
-                              if the FW rule is restricted
+                    * 'any' - when set to any, the protocol of the rule will NOT be a factor
+                              to determine if the FW rule is restricted
                     * 'all' (if the rule matches all protocols)"
               type: array
               items: string
               default: "['any']"
             source_ranges:
               description: |
-                "Source ranges of the rules to restrict. A fw rule only matches if ONE of its source CIDR ranges
-                 is an exact match of ANY of the CIDR blocks passed in this parameter.
+                "Source ranges of the rules to restrict. A fw rule only matches if ONE of its
+                 source CIDR ranges is an exact match of ANY of the CIDR blocks passed in this
+                 parameter.
                 Valid values are:
                     * 'X.X.X.X/XX' - i.e valid CIDR blocks
-                    * 'any' - when set to any, the source ranges of the rule will NOT be a factor to determine
-                              if the FW rule is restricted
-                    * '*' - all CIDR blocks match: this only checks that a source range exists in the restricted FW rule"
+                    * 'any' - when set to any, the source ranges of the rule will NOT be a factor
+                              to determine if the FW rule is restricted
+                    * '*' - all CIDR blocks match: this only checks that a source range exists
+                            in the restricted FW rule"
               type: array
               items: string
               default: "['any']"
             source_tags:
               description: |
-                "Source tags of the rules to restrict. A fw rule only matches if ONE of its source tags
-                 is a match of ANY of the tag patterns (regex) passed in this parameter.
+                "Source tags of the rules to restrict. A fw rule only matches if ONE of its source
+                 tags is a match of ANY of the tag patterns (regex) passed in this parameter.
                  Valid values are:
                     * 'mytag-*' - valid regex patterns for source tags
-                    * 'any' - when set to any, the source tags of the rule will NOT be a factor to determine
-                              if the FW rule is restricted
+                    * 'any' - when set to any, the source tags of the rule will NOT be a factor
+                              to determine if the FW rule is restricted
                     * '*' - all source tags match: this only checks that a source tag exists
                             in the restricted FW rule"
               type: array
@@ -97,39 +101,40 @@ spec:
               default: "['any']"
             source_service_accounts:
               description: |
-                "Source service accounts of the rules to restrict. A fw rule only matches if ONE of its source service
-                 accounts is a match of ANY of the service account patterns (regex) passed in this parameter.
+                "Source service accounts of the rules to restrict. A fw rule only matches if ONE of
+                 its source service accounts is a match of ANY of the service account
+                 patterns (regex) passed in this parameter.
                  Valid values are:
                     * 'mytag-*' - valid regex patterns for source tags
-                    * 'any' - when set to any, the source tags of the rule will NOT be a factor to determine
-                              if the FW rule is restricted
-                    * '*' - all source service accounts match: this only checks that a source service account exists
-                            in the restricted FW rule"
-
+                    * 'any' - when set to any, the source tags of the rule will NOT be a factor
+                              to determine if the FW rule is restricted
+                    * '*' - all source service accounts match: this only checks that a source
+                            service account existsin the restricted FW rule"
               type: array
               items: string
               default: "['any']"
             target_ranges:
               description: |
-                "Target (or destination) ranges of the rules to restrict. A fw rule only matches if ONE of its destination
-                 CIDR ranges is an exact match of ANY of the CIDR blocks passed in this parameter.
+                "Target (or destination) ranges of the rules to restrict. A fw rule only matches
+                 if ONE of its destination CIDR ranges is an exact match of ANY of the CIDR blocks
+                passed in this parameter.
                 Valid values are:
                     * 'X.X.X.X/XX' - i.e valid CIDR blocks
-                    * 'any' - when set to any, the target ranges of the rule will NOT be a factor to determine
-                              if the FW rule is restricted
-                    * '*' - all CIDR blocks match: this only checks that a target / destination range exists
-                            in the restricted FW rule"
+                    * 'any' - when set to any, the target ranges of the rule will NOT be a factor
+                              to determine if the FW rule is restricted
+                    * '*' - all CIDR blocks match: this only checks that a target / destination
+                            range exists in the restricted FW rule"
               type: array
               items: string
               default: "['any']"
             target_tags:
               description: |
-                "Target tags of the rules to restrict. A fw rule only matches if ONE of its target tags
-                 is a match of ANY of the tag patterns (regex) passed in this parameter.
+                "Target tags of the rules to restrict. A fw rule only matches if ONE of its target
+                 tags is a match of ANY of the tag patterns (regex) passed in this parameter.
                  Valid values are:
                     * 'mytag-*' - valid regex patterns for target tags
-                    * 'any' - when set to any, the target tags of the rule will NOT be a factor to determine
-                              if the FW rule is restricted
+                    * 'any' - when set to any, the target tags of the rule will NOT be a factor
+                              to determine if the FW rule is restricted
                     * '*' - all target tags match: this only checks that a target tag range exists
                             in the restricted FW rule"
               type: array
@@ -137,14 +142,15 @@ spec:
               default: "['any']"
             target_service_accounts:
               description: |
-                "Target service accounts of the rules to restrict. A fw rule only matches if ONE of its target service
-                 accounts is a match of ANY of the service account patterns (regex) passed in this parameter.
+                "Target service accounts of the rules to restrict. A fw rule only matches if ONE of
+                  its target service accounts is a match of ANY of the service account
+                  patterns (regex) passed in this parameter.
                  Valid values are:
                     * 'mytag-*' - valid regex patterns for target tags
-                    * 'any' - when set to any, the target tags of the rule will NOT be a factor to determine
-                              if the FW rule is restricted
-                    * '*' - all target service account match: this only checks that a target service account exists
-                            in the restricted FW rule"
+                    * 'any' - when set to any, the target tags of the rule will NOT be a factor
+                              to determine if the FW rule is restricted
+                    * '*' - all target service account match: this only checks that a target
+                            service account exists in the restricted FW rule"
               type: array
               items: string
               default: "['any']"
@@ -193,10 +199,9 @@ spec:
         
         	fw_rule_is_restricted(fw_rule, updated_params)
         	message := sprintf("%s Firewall rule is prohibited.", [asset.name])
-        	metadata := {
-        		"resource": asset.name,
-        		"restricted_rules": updated_params,
-        	}
+        	metadata := {"resource": asset.name}
+        	# "restricted_rules": updated_params,
+        
         }
         
         ###########################

@@ -302,6 +302,15 @@ test_restricted_firewall_rule_misc_violations {
 
 # Tests "all" constraint on "all" test data
 test_restricted_firewall_rule_all_violations {
-	# test "ingress all" constraint violations
+	# test "all" constraint violations
 	violations := fw_violations_all
+	count(violations) == 2
+
+	resource_names_all := {x | x = violations[_].details.resource}
+	expected_resource_name_all := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-0",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-4",
+	}
+
+	resource_names_all == expected_resource_name_all
 }

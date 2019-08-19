@@ -24,14 +24,12 @@ spec:
     target: ["organization/*"]
   parameters:
     direction: "INGRESS"
-    rule_type: "allowed"
-    protocol: "all"
+    rule_type: "any"
+    protocol: "tcp"
     source_tags:
-      - "second-source-tag"
+      - "source-tag*"
     source_ranges:
       - "192.168.1.1/32"
       - "0.0.0.0/0"
-    target_tags:
-      - "target-tag"
-    source_service_accounts:
+    target_service_accounts:
       - "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
