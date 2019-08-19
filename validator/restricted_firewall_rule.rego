@@ -37,7 +37,7 @@ deny[{
     message := sprintf("%s Firewall rule is prohibited.", [asset.name])
     metadata := {
         "resource": asset.name,
-        # "restricted_rules": updated_params
+        "restricted_rules": updated_params
     }
 }
 
@@ -62,7 +62,6 @@ update_params(params) = updated_params {
         "target_service_accounts": lib.get_default(params, "target_service_accounts", ["any"]),
 		"enabled": lib.get_default(params, "enabled", "any")
     }
-	# trace(sprintf("%v", [updated_params]))
 }
 
 # fw_rule_is_restricted for Ingress rules
@@ -83,7 +82,7 @@ fw_rule_is_restricted(fw_rule, params) {
     fw_rule_check_all_sources(fw_rule, params)
 
     # Check targets
-    # fw_rule_check_all_targets(fw_rule, params)
+    fw_rule_check_all_targets(fw_rule, params)
 
 	fw_rule_check_enabled(fw_rule, params.enabled)
 }
@@ -237,7 +236,6 @@ port_is_in_values(port, rule_port) {
 # range_match tests if test_range is included in target_range
 # returns true if test_range is equal to, or included in target_range
 range_match(test_range, target_range) {
-    # trace(sprintf("target range: %s vs test range: %s ", [target_range, test_range]))
 
     # check if target_range is a range
 	re_match("-", target_range)
@@ -343,7 +341,7 @@ fw_rule_check_source_sas(fw_rule, source_service_account) {
 
 	source_service_account == "*"
 
-	# Verify that we have a source tag set, regardless of its value
+	# Verify that we have a source service account set, regardless of its value
 	fw_rule.sourceServiceAccount
 }
 
@@ -352,11 +350,100 @@ fw_rule_check_source_sas(fw_rule, source_service_account) {
     source_service_account == "any"
 }
 
+#### Check targets functions
+
+# fw_rule_check_targets returns true if all targets match based on parameters
+# checks for target ranges, tags and service accounts
+fw_rule_check_all_targets(fw_rule, params) {
+	# Check that target ranges AND target tags AND target service accounts match
+    fw_rule_check_target_range(fw_rule, params.target_ranges[_])
+    fw_rule_check_target_tag(fw_rule, params.target_tags[_])
+    fw_rule_check_target_sas(fw_rule, params.target_service_accounts[_])
+
+}
+
+# fw_rule_check_target when target range is passed
+fw_rule_check_target_range(fw_rule, target_range) {
+
+    # test if destinationRange exists in the rule
+    fw_rule.destinationRange
+
+    # check that target ranges are set
+    fw_rule_ranges = fw_rule.destinationRange
+
+    # check if any range matches
+    # no CIDR matching logic at this time
+    target_range == fw_rule_ranges[_]
+}
+
+# fw_rule_check_target_range if target_ranges is set to "*"
+fw_rule_check_target_range(fw_rule, target_range) {
+    target_range == "*"
+	# Check that at least a target range is set
+	fw_rule.destinationRange
+}
+
+# fw_rule_check_target_range if target_ranges is set to any (default)
+fw_rule_check_target_range(fw_rule, target_range) {
+    target_range == "any"
+}
+
+
+# fw_rule_check_target when target tag is passed and is not "*"
+fw_rule_check_target_tag(fw_rule, target_tag) {
+
+	target_tag != "*"
+
+    # check that the rule target tags are set
+    fw_rule_target_tags := fw_rule.targetTag
+
+    # check if the input tag matches any tag in the rule
+	re_match(target_tag, fw_rule_target_tags[_])
+}
+
+# fw_rule_check_target_tag if target tag is set to "*"
+fw_rule_check_target_tag(fw_rule, target_tag) {
+    target_tag == "*"
+	# Verify that we have a target tag set, regardless of its value
+	fw_rule.targetTag
+}
+
+# fw_rule_check_target_tag if target tag is set to any (default)
+fw_rule_check_target_tag(fw_rule, target_tag) {
+    target_tag == "any"
+}
+
+
+# fw_rule_check_target when target service account is passed and is not "*"
+fw_rule_check_target_sas(fw_rule, target_service_account) {
+
+	target_service_account != "*"
+
+    # check that target service accounts are set
+    fw_rule_target_sas = fw_rule.targetServiceAccount
+
+    # check if the rule service account matches
+	re_match(target_service_account, fw_rule_target_sas[_])
+}
+
+# fw_rule_check_target_sas if target service account is set to "*"
+fw_rule_check_target_sas(fw_rule, target_service_account) {
+
+	target_service_account == "*"
+
+	# Verify that we have a target service account set, regardless of its value
+	fw_rule.targetServiceAccount
+}
+
+# fw_rule_check_target_sas if target service account is set to any
+fw_rule_check_target_sas(fw_rule, target_service_account) {
+    target_service_account == "any"
+}
+
 #### Check enabled functions
 
 # fw_rule_check_enabled when enabled is set to any
 fw_rule_check_enabled(fw_rule, enabled){
-	trace("enabled == any")
     enabled == "any"
 }
 

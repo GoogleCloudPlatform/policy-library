@@ -26,7 +26,8 @@ import data.test.fixtures.restricted_firewall_rules.constraints.protocol_and_por
 import data.test.fixtures.restricted_firewall_rules.constraints.protocol_and_port.advanced as protocol_and_port_advanced_fixture_constraint
 import data.test.fixtures.restricted_firewall_rules.constraints.sources.basic as sources_basic_fixture_constraint
 import data.test.fixtures.restricted_firewall_rules.constraints.sources.advanced as sources_advanced_fixture_constraint
-import data.test.fixtures.restricted_firewall_rules.constraints.target as targets_fixture_constraint
+import data.test.fixtures.restricted_firewall_rules.constraints.targets.basic as targets_basic_fixture_constraint
+import data.test.fixtures.restricted_firewall_rules.constraints.targets.advanced as targets_advanced_fixture_constraint
 import data.test.fixtures.restricted_firewall_rules.constraints.misc.allowed as misc_allowed_fixture_constraint
 import data.test.fixtures.restricted_firewall_rules.constraints.misc.denied as misc_denied_fixture_constraint
 import data.test.fixtures.restricted_firewall_rules.constraints.all as all_fixture_constraint
@@ -85,8 +86,18 @@ fw_violations_sources_advanced[violation] {
   violation := violations[_]
 }
 
-fw_violations_targets[violation] {
-  constraints := [targets_fixture_constraint]
+fw_violations_targets_basic[violation] {
+  constraints := [targets_basic_fixture_constraint]
+  resources := [targets_fixture_assets]
+  violations := find_all_violations
+                  with data.test_resources as resources
+                  with data.test_constraints as constraints
+
+  violation := violations[_]
+}
+
+fw_violations_targets_advanced[violation] {
+  constraints := [targets_advanced_fixture_constraint]
   resources := [targets_fixture_assets]
 
   violations := find_all_violations
@@ -146,7 +157,7 @@ test_restricted_firewall_rule_protocol_and_port_violations {
 
   # Basic constraint violations
   basic_violations := fw_violations_protocol_and_port_basic
-  trace(sprintf("%s", [basic_violations]))
+
   count(basic_violations) == 5
 
   resource_names_protocol_and_port_basic := {x | x = basic_violations[_].details.resource}
@@ -162,7 +173,7 @@ test_restricted_firewall_rule_protocol_and_port_violations {
 
   # Advanced constraint violations
   advanced_violations := fw_violations_protocol_and_port_advanced
-  trace(sprintf("%v", [advanced_violations]))
+
   count(advanced_violations) == 4
 
   resource_names_protocol_and_port_advanced := {x | x = advanced_violations[_].details.resource}
@@ -188,8 +199,6 @@ test_restricted_firewall_rule_sources_violations {
   # Basic constraint violations
   basic_violations := fw_violations_sources_basic
 
-  trace(sprintf("%s", [basic_violations]))
-
   count(basic_violations) == 6
 
   resource_names_sources_basic := {x | x = basic_violations[_].details.resource}
@@ -207,7 +216,6 @@ test_restricted_firewall_rule_sources_violations {
   # Advanced constraint violations
   advanced_violations := fw_violations_sources_advanced
 
-trace(sprintf("%s", [advanced_violations]))
   count(advanced_violations) == 1
 
   resource_names_sources_advanced := {x | x = advanced_violations[_].details.resource}
@@ -226,7 +234,40 @@ trace(sprintf("%s", [advanced_violations]))
 # Test targets constraint on targets test data
 test_restricted_firewall_rule_targets_violations {
 
-  violations := fw_violations_targets
+  basic_violations := fw_violations_targets_basic
+
+  count(basic_violations) == 9
+
+  resource_names_target_basic_allowed := {x | x = basic_violations[_].details.resource}
+  expected_resource_name_targets__allowed := {
+    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-0",
+    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-1",
+    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-2",
+    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-3",
+    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-4",
+    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-5",
+    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-6",
+    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-7",
+    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-11",
+  }
+
+  resource_names_target_basic_allowed == expected_resource_name_targets__allowed
+
+  advanced_violations := fw_violations_targets_advanced
+
+  count(advanced_violations) == 1
+
+  resource_names_targets_advanced := {x | x = advanced_violations[_].details.resource}
+  expected_resource_name_targets_advanced := {
+    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-9",
+  }
+
+  resource_names_targets_advanced == expected_resource_name_targets_advanced
+
+  violations := [basic_violations, advanced_violations]
+  violation := violations[_][_]
+  is_string(violation.msg)
+  is_object(violation.details)
 
 }
 
@@ -234,38 +275,40 @@ test_restricted_firewall_rule_targets_violations {
 test_restricted_firewall_rule_misc_violations {
 
   allowed_violations := fw_violations_misc_allowed
-  trace(sprintf("%v", [allowed_violations]))
-  count(allowed_violations) == 9
+
+  count(allowed_violations) == 15
 
   resource_names_misc_allowed := {x | x = allowed_violations[_].details.resource}
   expected_resource_name_misc_allowed := {
     "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-0",
-    # "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-1",
-    # "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-2",
-    # "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-4",
     "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-5",
     "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-6",
-    # "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-7",
     "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-0",
-    # "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-1",
     "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-2",
     "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-3",
-    # "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-5",
     "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-6",
     "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-8",
     "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-11",
+    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-0",
+    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-2",
+    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-3",
+    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-6",
+    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-8",
+    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-11",
   }
 
   resource_names_misc_allowed == expected_resource_name_misc_allowed
 
   denied_violations := fw_violations_misc_denied
-  trace(sprintf("%s", [denied_violations]))
-  count(denied_violations) == 2
+
+  count(denied_violations) == 4
 
   resource_names_misc_denied := {x | x = denied_violations[_].details.resource}
   expected_resource_name_misc_denied := {
     "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-9",
-    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-10"
+    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-10",
+    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-9",
+    "//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-10"
   }
 
   resource_names_misc_denied == expected_resource_name_misc_denied
