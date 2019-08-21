@@ -35,7 +35,7 @@ spec:
               items: string
   targets:
     validation.gcp.forsetisecurity.org:
-      rego: |#INLINE("validator/gcp_glb_external_ip.rego")
+      rego: | #INLINE("validator/gcp_glb_external_ip.rego")
            #
            # Copyright 2018 Google LLC
            #
