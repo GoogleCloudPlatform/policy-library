@@ -1,7 +1,7 @@
 [
     {
         "name": "//bigtable.googleapis.com/projects/my-test-project/instances/test-bigtable-id-valid-labels",
-        "asset_type": "google.bigtable.Instance",
+        "asset_type": "bigtableadmin.googleapis.com/Instance",
         "resource": {
             "version": "v2",
             "discovery_document_uri": "https://bigtableadmin.googleapis.com/$discovery/rest",
@@ -20,7 +20,7 @@
     },
     {
         "name": "//bigtable.googleapis.com/projects/my-test-project/instances/test-bigtable-invalid-missing-labels",
-        "asset_type": "google.bigtable.Instance",
+        "asset_type": "bigtableadmin.googleapis.com/Instance",
         "resource": {
             "version": "v2",
             "discovery_document_uri": "https://bigtableadmin.googleapis.com/$discovery/rest",
@@ -35,7 +35,7 @@
     },
     {
         "name": "//bigtable.googleapis.com/projects/my-test-project/instances/test-bigtable-invalid-missing-label1",
-        "asset_type": "google.bigtable.Instance",
+        "asset_type": "bigtableadmin.googleapis.com/Instance",
         "resource": {
             "version": "v2",
             "discovery_document_uri": "https://bigtableadmin.googleapis.com/$discovery/rest",
@@ -53,7 +53,7 @@
     },
     {
         "name": "//bigtable.googleapis.com/projects/my-test-project/instances/test-bigtable-invalid-missing-label2",
-        "asset_type": "google.bigtable.Instance",
+        "asset_type": "bigtableadmin.googleapis.com/Instance",
         "resource": {
             "version": "v2",
             "discovery_document_uri": "https://bigtableadmin.googleapis.com/$discovery/rest",
@@ -71,7 +71,7 @@
     },
     {
         "name": "//bigtable.googleapis.com/projects/my-test-project/instances/test-bigtable-invalid-label1-and-label2-bad-values",
-        "asset_type": "google.bigtable.Instance",
+        "asset_type": "bigtableadmin.googleapis.com/Instance",
         "resource": {
             "version": "v2",
             "discovery_document_uri": "https://bigtableadmin.googleapis.com/$discovery/rest",
