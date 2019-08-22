@@ -13,13 +13,13 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPGKEEnableStackdriverMonitoringConstraintV1
+kind: GCPGKEEnableAliasIPRangesConstraintV1
 metadata:
-  name: enable_gke_stackdriver_monitoring
+  name: enable_alias_ip_ranges
   annotations:
-    description: Ensure stackdriver monitoring is enabled on a GKE cluster
+    description: Ensure Kubernetes Cluster is created with Alias IP ranges enabled
     # This constraint is not certified by CIS.
-    bundles.validator.forsetisecurity.org/cis-v1.1: 7.02
+    bundles.validator.forsetisecurity.org/cis-v1.1: 7.13
 spec:
   severity: high
   match:
