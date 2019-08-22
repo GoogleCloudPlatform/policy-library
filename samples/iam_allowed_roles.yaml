@@ -1,4 +1,4 @@
-# Copyright 2019 Google LLC
+# Copyright 2019 Google Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,18 +11,22 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
+
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPGKEEnableStackdriverMonitoringConstraintV1
+kind: GCPIAMAllowBanRolesConstraintV1
 metadata:
-  name: enable_gke_stackdriver_monitoring
+  name: iam_allow_roles
   annotations:
-    description: Ensure stackdriver monitoring is enabled on a GKE cluster
-    # This constraint is not certified by CIS.
-    bundles.validator.forsetisecurity.org/cis-v1.1: 7.02
+    description: Only the roles in this list are allowed. All other roles trigger violation.
 spec:
   severity: high
   match:
-    gcp:
-      target: ["organization/*"]
-  parameters: {}
+    target: ["organization/*"]
+    exclude: [] # optional, default is no exclusions
+  parameters:
+    mode: "allow"
+    roles:
+      - "roles/appengine.appViewer"
+      - "roles/logging.viewer"
+      # allow all roles, use with caution
+      # - "roles/*"

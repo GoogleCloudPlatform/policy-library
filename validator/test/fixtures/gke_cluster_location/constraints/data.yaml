@@ -13,16 +13,12 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPGKEEnableStackdriverMonitoringConstraintV1
+kind: GKEClusterLocationConstraintV1
 metadata:
-  name: enable_gke_stackdriver_monitoring
-  annotations:
-    description: Ensure stackdriver monitoring is enabled on a GKE cluster
-    # This constraint is not certified by CIS.
-    bundles.validator.forsetisecurity.org/cis-v1.1: 7.02
+  name: gke_cluster_location
 spec:
   severity: high
-  match:
-    gcp:
-      target: ["organization/*"]
-  parameters: {}
+  parameters:
+    allowed_locations:
+        - us-central1
+        - us-east1-b
