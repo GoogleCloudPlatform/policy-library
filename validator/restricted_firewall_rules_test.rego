@@ -313,4 +313,8 @@ test_restricted_firewall_rule_all_violations {
 	}
 
 	resource_names_all == expected_resource_name_all
+
+	violation := violations[_]
+	is_string(violation.msg)
+	is_object(violation.details)
 }
