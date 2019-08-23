@@ -4,8 +4,9 @@
 
 FROM debian
 
-RUN apt-get update && apt-get install -y build-essential curl
-RUN curl -L -o /usr/local/bin/opa https://github.com/open-policy-agent/opa/releases/download/v0.10.7/opa_linux_amd64 && \
+RUN apt-get update && apt-get install -y build-essential curl python3 python3-pip
+RUN pip3 install pyyaml
+RUN curl -L -o /usr/local/bin/opa https://github.com/open-policy-agent/opa/releases/download/v0.13.2/opa_linux_amd64 && \
   chmod 755 /usr/local/bin/opa
 
 ENTRYPOINT ["make"]
