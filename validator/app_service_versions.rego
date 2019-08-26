@@ -1,5 +1,5 @@
 #
-# Copyright 2018 Google LLC
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -35,5 +35,8 @@ deny[{
 	version_count > max_versions
 
 	message := sprintf("%v has more than %v versions (%v).", [asset.name, max_versions, version_count])
-	metadata := {"constraint": params}
+	metadata := {
+		"constraint": params,
+		"resource": asset.name
+	}
 }

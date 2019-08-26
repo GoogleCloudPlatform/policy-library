@@ -57,3 +57,15 @@ test_violations_with_custom_constraint {
 
 	count(found_violations) == 2
 }
+
+test_violation_3_versions {
+	violation := violations_with_custom_constraint[_]
+
+	violation.details.resource = "//appengine.googleapis.com/apps/test-ae-example/services/three-versions"
+}
+
+test_violation_2_versions {
+	violation := violations_with_custom_constraint[_]
+
+	violation.details.resource = "//appengine.googleapis.com/apps/test-ae-example/services/two-versions"
+}
