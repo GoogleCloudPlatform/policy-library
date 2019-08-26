@@ -24,12 +24,17 @@ spec:
         plural: gcpappengineserviceversionsconstraintsv1
       validation:
         openAPIV3Schema:
-          properties: {}
+          properties:
+            max_versions:
+              type: integer
+              description: "The maxinum number of simultaneous versions
+               Defaults to 2"
+              default: 2
   targets:
    validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/app_service_versions.rego")
            #
-           # Copyright 2018 Google LLC
+           # Copyright 2019 Google LLC
            #
            # Licensed under the Apache License, Version 2.0 (the "License");
            # you may not use this file except in compliance with the License.
@@ -65,6 +70,9 @@ spec:
            	version_count > max_versions
            
            	message := sprintf("%v has more than %v versions (%v).", [asset.name, max_versions, version_count])
-           	metadata := {"constraint": params}
+           	metadata := {
+           		"constraint": params,
+           		"resource": asset.name,
+           	}
            }
            #ENDINLINE

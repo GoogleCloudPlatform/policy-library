@@ -37,6 +37,6 @@ deny[{
 	message := sprintf("%v has more than %v versions (%v).", [asset.name, max_versions, version_count])
 	metadata := {
 		"constraint": params,
-		"resource": asset.name
+		"resource": asset.name,
 	}
 }
