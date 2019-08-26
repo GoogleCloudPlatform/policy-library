@@ -67,4 +67,5 @@ spec:
         
         	message := sprintf("%v missing maintenance window.", [asset.name])
         	metadata := {"resource": asset.name}
-        }        #ENDINLINE
+        }
+        #ENDINLINE
