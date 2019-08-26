@@ -1,5 +1,5 @@
 #
-# Copyright 2018 Google LLC
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,9 +22,11 @@ deny[{
 	"msg": message,
 	"details": metadata,
 }] {
-	# Verify that resource is Cloud SQL instance
+	# Verify that resource is Cloud SQL instance and is not a first gen
+	# Maintenance window is supported only on 2nd generation instances
 	asset := input.asset
 	asset.asset_type == "sqladmin.googleapis.com/Instance"
+	asset.resource.data.backendType != "FIRST_GEN"
 
 	# get the day object
 	maintenance_window := lib.get_default(asset.resource.data.settings, "maintenanceWindow", {})

@@ -1,5 +1,5 @@
 #
-# Copyright 2018 Google LLC
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,10 +27,12 @@ all_violations[violation] {
 
 # Confirm total violations count
 test_sql_maintenance_window_violations_count {
-	count(all_violations) == 1
+	count(all_violations) == 2
 }
 
 test_sql_maintenance_window_violations_basic {
-	violation := all_violations[_]
-	violation.details.resource == "//cloudsql.googleapis.com/projects/test-project/instances/maintenance-sql-b"
+	found_violations := all_violations
+
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv2-nomaintenance"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-db-test/instances/postgres-nomaintenance"
 }
