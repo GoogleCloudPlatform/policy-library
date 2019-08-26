@@ -1,110 +1,318 @@
 [  
-   {  
-      "name":"//cloudsql.googleapis.com/projects/test-project/instances/public-maintenance-sql-a",
-      "asset_type":"sqladmin.googleapis.com/Instance",
-      "resource":{  
-         "version":"v1beta4",
-         "discovery_document_uri":"https://www.googleapis.com/discovery/v1/apis/sqladmin/v1beta4/rest",
-         "discovery_name":"DatabaseInstance",
-         "data":{  
-            "backendType":"SECOND_GEN",
-            "connectionName":"test-project:us-central1:public-maintenance-sql-a",
-            "databaseVersion":"POSTGRES_9_6",
-            "gceZone":"us-central1-a",
-            "instanceType":"CLOUD_SQL_INSTANCE",
-            "kind":"sql#instance",
-            "name":"public-maintenance-sql-a",
-            "project":"test-project",
-            "region":"us-central1",
-            "selfLink":"https://www.googleapis.com/sql/v1beta4/projects/test-project/instances/public-maintenance-sql-a",
-            "settings":{  
-               "activationPolicy":"ALWAYS",
-               "availabilityType":"ZONAL",
-               "backupConfiguration":{  
-                  "enabled":true,
-                  "kind":"sql#backupConfiguration",
-                  "replicationLogArchivingEnabled":false,
-                  "startTime":"04:00"
-               },
-               "dataDiskSizeGb":"10",
-               "dataDiskType":"PD_SSD",
-               "ipConfiguration":{  
-                  "ipv4Enabled":true,
-                  "privateNetwork":"projects/test-project/global/networks/default"
-               },
-               "kind":"sql#settings",
-               "locationPreference":{  
-                  "kind":"sql#locationPreference",
-                  "zone":"us-central1-a"
-               },
-               "maintenanceWindow":{  
-                  "day":1,
-                  "hour":0,
-                  "kind":"sql#maintenanceWindow"
-               },
-               "pricingPlan":"PER_USE",
-               "replicationType":"SYNCHRONOUS",
-               "settingsVersion":"0",
-               "storageAutoResize":true,
-               "storageAutoResizeLimit":"0",
-               "tier":"db-custom-1-3840"
+   {
+      "name": "//cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv1-nomaintenance",
+      "asset_type": "sqladmin.googleapis.com/Instance",
+      "resource": {
+        "version": "v1beta4",
+        "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/sqladmin/v1beta4/rest",
+        "discovery_name": "DatabaseInstance",
+        "parent": "//cloudresourcemanager.googleapis.com/projects/801948786423",
+        "data": {
+          "backendType": "FIRST_GEN",
+          "connectionName": "brunore-db-test:mysqlv1-nomaintenance",
+          "databaseVersion": "MYSQL_5_6",
+          "instanceType": "CLOUD_SQL_INSTANCE",
+          "ipv6Address": "2001:4860:4864:1:1ccc:8163:6bf:5422",
+          "kind": "sql#instance",
+          "maxDiskSize": "268435456000",
+          "name": "mysqlv1-nomaintenance",
+          "project": "brunore-db-test",
+          "region": "europe-west1",
+          "selfLink": "https://www.googleapis.com/sql/v1beta4/projects/brunore-db-test/instances/mysqlv1-nomaintenance",
+          "serverCaCert": {
+            "cert": "-----BEGIN CERTIFICATE-----\nMIIDfzCCAmegAwIBAgIBADANBgkqhkiG9w0BAQsFADB3MS0wKwYDVQQuEyRiMzFi\nNDYwZC1iZmUxLTQ0MGUtOTRjZC04YTFlNWQ3NjJhZDYxIzAhBgNVBAMTGkdvb2ds\nZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUsIEluYzELMAkG\nA1UEBhMCVVMwHhcNMTkwODE5MTAwMjI5WhcNMjkwODE2MTAwMzI5WjB3MS0wKwYD\nVQQuEyRiMzFiNDYwZC1iZmUxLTQ0MGUtOTRjZC04YTFlNWQ3NjJhZDYxIzAhBgNV\nBAMTGkdvb2dsZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUs\nIEluYzELMAkGA1UEBhMCVVMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB\nAQCAaCkXC4gD5KuM8GcxAqg8petFLf5lsop5G+6Z8EMtHCdxt683GhnldMYDE2mG\nNaHIOphWL+Y8M6LEQVz2pFAprt01XQzfCguy1vDgRuDZzoSNhmt1fjQBEVTMmaRl\nzpoVooRME5VSHgX5AsEfu4oTJJgzztNPOQKQ0hu/fevS8rfGnIQ1nb90sR9dl8qG\nTcl18ji77IFZVNOx0j9FQeIFgvg4q5g5XL5b9oDWNZJkeAyZleohk3aCsknvauF1\nUED7yKFWlhcEXnVVoFbdHGbLH4uYFqAV+6/0MWH2wJIZrJ3SJHtOs8OhjDOMc3cz\nJWYMseqKKOP7qsGoBfHlfqcPAgMBAAGjFjAUMBIGA1UdEwEB/wQIMAYBAf8CAQAw\nDQYJKoZIhvcNAQELBQADggEBAGCCE+OdQRGHRbJGqBLl23To5sOm8AuFoABS7Q75\nNSeG++UpiNkM+pAD+kAWjY0KT2mAo+6nt6xjFd6L8W6Qk+nsmyinhrSCION7f7KD\n/TsVJ2DX762CXB9p4K8m+fDktzeV4XKugiwE8CDhxiOYWxUwtYtJp71F2QZsMtzg\nbyPNcMDmbOR66Rk+gbt3/dlTcFpKGn3GRm9xtYwVtKbAa8P8/XLoXZv723RIGRzM\nn+ezMEhmx9zARpV6V6Yj4EH+4FSfElC5X61IdpWiF4EjwYVl3daStX/s4UpDCSfl\nAWtl3vdROYAdGt0J9IuYkAZ1TII8Ih72w0JoNBRk+AakMQM=\n-----END CERTIFICATE-----",
+            "certSerialNumber": "0",
+            "commonName": "C=US,O=Google\\, Inc,CN=Google Cloud SQL Server CA,dnQualifier=b31b460d-bfe1-440e-94cd-8a1e5d762ad6",
+            "createTime": "2019-08-19T10:02:29.114Z",
+            "expirationTime": "2029-08-16T10:03:29.114Z",
+            "instance": "mysqlv1-nomaintenance",
+            "kind": "sql#sslCert",
+            "sha1Fingerprint": "6c0f6793a8c5e785be1c01a359dd84ff34478db3"
+          },
+          "settings": {
+            "activationPolicy": "ON_DEMAND",
+            "backupConfiguration": {
+              "enabled": false,
+              "kind": "sql#backupConfiguration",
+              "startTime": "14:00"
             },
-            "state":"PENDING_CREATE"
-         }
-      }
-   },
-   {  
-      "name":"//cloudsql.googleapis.com/projects/test-project/instances/maintenance-sql-b",
-      "asset_type":"sqladmin.googleapis.com/Instance",
-      "resource":{  
-         "version":"v1beta4",
-         "discovery_document_uri":"https://www.googleapis.com/discovery/v1/apis/sqladmin/v1beta4/rest",
-         "discovery_name":"DatabaseInstance",
-         "data":{  
-            "backendType":"SECOND_GEN",
-            "connectionName":"test-project:us-central1:maintenance-sql-b",
-            "databaseVersion":"POSTGRES_9_6",
-            "gceZone":"us-central1-a",
-            "instanceType":"CLOUD_SQL_INSTANCE",
-            "kind":"sql#instance",
-            "name":"maintenance-sql-b",
-            "project":"test-project",
-            "region":"us-central1",
-            "selfLink":"https://www.googleapis.com/sql/v1beta4/projects/test-project/instances/maintenance-sql-b",
-            "settings":{  
-               "activationPolicy":"ALWAYS",
-               "availabilityType":"ZONAL",
-               "backupConfiguration":{  
-                  "enabled":true,
-                  "kind":"sql#backupConfiguration",
-                  "replicationLogArchivingEnabled":false,
-                  "startTime":"22:00"
-               },
-               "dataDiskSizeGb":"10",
-               "dataDiskType":"PD_SSD",
-               "ipConfiguration":{  
-                  "ipv4Enabled":false,
-                  "privateNetwork":"projects/test-project/global/networks/default"
-               },
-               "kind":"sql#settings",
-               "locationPreference":{  
-                  "kind":"sql#locationPreference",
-                  "zone":"us-central1-a"
-               },
-               "maintenanceWindow":{  
-                  "day":0,
-                  "hour":0,
-                  "kind":"sql#maintenanceWindow"
-               },
-               "pricingPlan":"PER_USE",
-               "replicationType":"SYNCHRONOUS",
-               "settingsVersion":"0",
-               "storageAutoResize":true,
-               "storageAutoResizeLimit":"0",
-               "tier":"db-custom-1-3840"
+            "ipConfiguration": {
+              "ipv4Enabled": false
             },
-            "state":"PENDING_CREATE"
-         }
+            "kind": "sql#settings",
+            "pricingPlan": "PER_USE",
+            "replicationType": "SYNCHRONOUS",
+            "settingsVersion": "1",
+            "tier": "D0"
+          },
+          "state": "RUNNABLE"
+        }
       }
-   }
+    },
+    {
+      "name": "//cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv2-nomaintenance",
+      "asset_type": "sqladmin.googleapis.com/Instance",
+      "resource": {
+        "version": "v1beta4",
+        "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/sqladmin/v1beta4/rest",
+        "discovery_name": "DatabaseInstance",
+        "parent": "//cloudresourcemanager.googleapis.com/projects/801948786423",
+        "data": {
+          "backendType": "SECOND_GEN",
+          "connectionName": "brunore-db-test:europe-west1:mysqlv2-nomaintenance",
+          "databaseVersion": "MYSQL_5_7",
+          "gceZone": "europe-west1-d",
+          "instanceType": "CLOUD_SQL_INSTANCE",
+          "ipAddresses": [
+            {
+              "ipAddress": "34.76.221.131",
+              "type": "PRIMARY"
+            }
+          ],
+          "kind": "sql#instance",
+          "name": "mysqlv2-nomaintenance",
+          "project": "brunore-db-test",
+          "region": "europe-west1",
+          "selfLink": "https://www.googleapis.com/sql/v1beta4/projects/brunore-db-test/instances/mysqlv2-nomaintenance",
+          "serverCaCert": {
+            "cert": "-----BEGIN CERTIFICATE-----\nMIIDfzCCAmegAwIBAgIBADANBgkqhkiG9w0BAQsFADB3MS0wKwYDVQQuEyQ1ZGNj\nNjJhNS04MjE0LTRiYTUtYTE5NS0yMzRjNTVhMjdmNWMxIzAhBgNVBAMTGkdvb2ds\nZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUsIEluYzELMAkG\nA1UEBhMCVVMwHhcNMTkwODE5MDkzMDE0WhcNMjkwODE2MDkzMTE0WjB3MS0wKwYD\nVQQuEyQ1ZGNjNjJhNS04MjE0LTRiYTUtYTE5NS0yMzRjNTVhMjdmNWMxIzAhBgNV\nBAMTGkdvb2dsZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUs\nIEluYzELMAkGA1UEBhMCVVMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB\nAQDYGUkrnoSFYs40iIbSMqMQGtKHU3cFjaMURu5b2ms2Se3owt9Bvl2gaSbNLfVl\nCvPNrMwX/fwS1zf9AkHIDdGsrxu7Eh2c/XOx0yGPNjrFx8at9eBHTcL3oiIEifjI\nehC7MA0ik7eMq79zN5co7NLpRwhXxxcX3RLC+qnlFCGEMq/I5tfS3a775ayq5BFN\ndzuUkK50ux9P0f9nOQlIdOdOtESdk9tTxiI7/MCgiVHEbvYO4qoSfDbA22SeWH4D\nMuObtGpCnlwjyvu25BszGoLzOLfcct5jOHJ1OGevdinptPwPkxfyphUZGVpg9T54\npGc82s/GKiENgWB03YXDPp3bAgMBAAGjFjAUMBIGA1UdEwEB/wQIMAYBAf8CAQAw\nDQYJKoZIhvcNAQELBQADggEBAHlAKFGJ3hKpHIRvm81fxhuBlBOF/lCQbXYQKgc/\nrmFQJ7+NaEMkcFnQCHzP5BvFTEi4Y4mBy6euMSGzRUCzfMVC58koqr3hBxuOmU+0\nSAGVT7hcABQrxXNMRAGfiQoPy5mSdYACjKOn/nXlfcNQ+7BPtCH48sNEfDNwd1rw\njDuQMVh46sH+vTHK/j4BOifB0TB/QGQVGjVRB9Qh9vQYFyqqANpBq5EbrQC5HKOv\nsFXu0QS+T4BmKxBj697IowJGvxJW/1tb5aaNv2TX4C47ol4CLBvtR3X7ZZZsCaiL\nx6hOVg4500vzcQiWN3WrPy9hved13XOPN0XYr1sJdxlHEnE=\n-----END CERTIFICATE-----",
+            "certSerialNumber": "0",
+            "commonName": "C=US,O=Google\\, Inc,CN=Google Cloud SQL Server CA,dnQualifier=5dcc62a5-8214-4ba5-a195-234c55a27f5c",
+            "createTime": "2019-08-19T09:30:14.971Z",
+            "expirationTime": "2029-08-16T09:31:14.971Z",
+            "instance": "mysqlv2-nomaintenance",
+            "kind": "sql#sslCert",
+            "sha1Fingerprint": "2266bbe7322da16c98461f695e8686e368433a4c"
+          },
+          "serviceAccountEmailAddress": "p801948786423-9ttrq3@gcp-sa-cloud-sql.iam.gserviceaccount.com",
+          "settings": {
+            "activationPolicy": "ALWAYS",
+            "backupConfiguration": {
+              "enabled": false,
+              "kind": "sql#backupConfiguration",
+              "startTime": "05:00"
+            },
+            "dataDiskSizeGb": "10",
+            "dataDiskType": "PD_SSD",
+            "ipConfiguration": {
+              "ipv4Enabled": true
+            },
+            "kind": "sql#settings",
+            "locationPreference": {
+              "kind": "sql#locationPreference",
+              "zone": "europe-west1-d"
+            },
+            "pricingPlan": "PER_USE",
+            "replicationType": "SYNCHRONOUS",
+            "settingsVersion": "1",
+            "storageAutoResize": true,
+            "storageAutoResizeLimit": "0",
+            "tier": "db-f1-micro"
+          },
+          "state": "RUNNABLE"
+        }
+      }
+    },
+    {
+      "name": "//cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv2-withmaintenance",
+      "asset_type": "sqladmin.googleapis.com/Instance",
+      "resource": {
+        "version": "v1beta4",
+        "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/sqladmin/v1beta4/rest",
+        "discovery_name": "DatabaseInstance",
+        "parent": "//cloudresourcemanager.googleapis.com/projects/801948786423",
+        "data": {
+          "backendType": "SECOND_GEN",
+          "connectionName": "brunore-db-test:europe-west1:mysqlv2-withmaintenance",
+          "databaseVersion": "MYSQL_5_7",
+          "gceZone": "europe-west1-d",
+          "instanceType": "CLOUD_SQL_INSTANCE",
+          "ipAddresses": [
+            {
+              "ipAddress": "35.205.174.81",
+              "type": "PRIMARY"
+            }
+          ],
+          "kind": "sql#instance",
+          "name": "mysqlv2-withmaintenance",
+          "project": "brunore-db-test",
+          "region": "europe-west1",
+          "selfLink": "https://www.googleapis.com/sql/v1beta4/projects/brunore-db-test/instances/mysqlv2-withmaintenance",
+          "serverCaCert": {
+            "cert": "-----BEGIN CERTIFICATE-----\nMIIDfzCCAmegAwIBAgIBADANBgkqhkiG9w0BAQsFADB3MS0wKwYDVQQuEyQ4YWZh\nMTQ0YS0xZTRhLTQyMjktOWJjZi04ZGJmN2I5MjUwYjgxIzAhBgNVBAMTGkdvb2ds\nZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUsIEluYzELMAkG\nA1UEBhMCVVMwHhcNMTkwODE5MDk0MDUxWhcNMjkwODE2MDk0MTUxWjB3MS0wKwYD\nVQQuEyQ4YWZhMTQ0YS0xZTRhLTQyMjktOWJjZi04ZGJmN2I5MjUwYjgxIzAhBgNV\nBAMTGkdvb2dsZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUs\nIEluYzELMAkGA1UEBhMCVVMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB\nAQCCruDylKSJ92rvewUO+p7IxOachOGxFZK8iWVoeg2L2+1jHUlZAFOAoFkq36tF\nlFUEZZYiLIONnsv3U3vBMuQ1XbMZWSQLJMSYV2w2sWU0RqU96hQPwMvxfYyyWROk\nWYm1Lje3fl6y2LNNyKxPpyy4pHn2pgQmsMzdXu14Vcm2ROvbPk/tbRtK9lJpE1k6\noWDGZG4H6qj88rm3PGmecicz2r7r8iuOwSRGSmOwQiCCuBz98it0jg35O9tutQSt\nqkjSZWyqW+FZMXwrWIfYxxlgyVT0BAbkLhZBUErqEZSYDhk2obRpjOFmMd7e5a4w\no9L9X4QCiPd2IkMML5C8OscrAgMBAAGjFjAUMBIGA1UdEwEB/wQIMAYBAf8CAQAw\nDQYJKoZIhvcNAQELBQADggEBAFdLnbSzv/AHT8hIBQ9SNnu0Ssw6meWRLRS8LzBT\n8Dn2vI6R1jaBz8U80VMueOlFh5hU17iI6TLZS9lIlM2Ymsc1HmnPsnTWZprQIYrl\nYpgIkgcrE9h5Zb1JJSYjDS5JHG11U++QkcUuGVEGZlxbiHvzB0e7mPWrkGlHSeof\n2qZHEHZXSUQ+ZsUC4OQDoj39vjs/kDy5g+mWSPedAwV0xEfEVqno2r8sAi9r4kcR\nXhaGyI1ArAoPvBSJOSatfUunhfpHZxTUsScLycLx42jXpyj5xIZ0V1Dy+NCctHqN\n/0DjsyqaFQXtMtKk0g+e1ox8cmD29kGMjkjFU5yHkVclsXs=\n-----END CERTIFICATE-----",
+            "certSerialNumber": "0",
+            "commonName": "C=US,O=Google\\, Inc,CN=Google Cloud SQL Server CA,dnQualifier=8afa144a-1e4a-4229-9bcf-8dbf7b9250b8",
+            "createTime": "2019-08-19T09:40:51.135Z",
+            "expirationTime": "2029-08-16T09:41:51.135Z",
+            "instance": "mysqlv2-withmaintenance",
+            "kind": "sql#sslCert",
+            "sha1Fingerprint": "700d68f321cca36c6722c994adf32f0492d74b1c"
+          },
+          "serviceAccountEmailAddress": "p801948786423-2c2xwc@gcp-sa-cloud-sql.iam.gserviceaccount.com",
+          "settings": {
+            "activationPolicy": "ALWAYS",
+            "backupConfiguration": {
+              "enabled": false,
+              "kind": "sql#backupConfiguration",
+              "startTime": "21:00"
+            },
+            "dataDiskSizeGb": "10",
+            "dataDiskType": "PD_SSD",
+            "ipConfiguration": {
+              "ipv4Enabled": true
+            },
+            "kind": "sql#settings",
+            "locationPreference": {
+              "kind": "sql#locationPreference",
+              "zone": "europe-west1-d"
+            },
+            "maintenanceWindow": {
+              "day": 2,
+              "hour": 22,
+              "kind": "sql#maintenanceWindow"
+            },
+            "pricingPlan": "PER_USE",
+            "replicationType": "SYNCHRONOUS",
+            "settingsVersion": "1",
+            "storageAutoResize": true,
+            "storageAutoResizeLimit": "0",
+            "tier": "db-f1-micro"
+          },
+          "state": "RUNNABLE"
+        }
+      }
+    },
+    {
+      "name": "//cloudsql.googleapis.com/projects/brunore-db-test/instances/postgres-nomaintenance",
+      "asset_type": "sqladmin.googleapis.com/Instance",
+      "resource": {
+        "version": "v1beta4",
+        "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/sqladmin/v1beta4/rest",
+        "discovery_name": "DatabaseInstance",
+        "parent": "//cloudresourcemanager.googleapis.com/projects/801948786423",
+        "data": {
+          "backendType": "SECOND_GEN",
+          "connectionName": "brunore-db-test:europe-west1:postgres-nomaintenance",
+          "databaseVersion": "POSTGRES_9_6",
+          "gceZone": "europe-west1-d",
+          "instanceType": "CLOUD_SQL_INSTANCE",
+          "ipAddresses": [
+            {
+              "ipAddress": "35.240.3.54",
+              "type": "PRIMARY"
+            }
+          ],
+          "kind": "sql#instance",
+          "name": "postgres-nomaintenance",
+          "project": "brunore-db-test",
+          "region": "europe-west1",
+          "selfLink": "https://www.googleapis.com/sql/v1beta4/projects/brunore-db-test/instances/postgres-nomaintenance",
+          "serverCaCert": {
+            "cert": "-----BEGIN CERTIFICATE-----\nMIIDfzCCAmegAwIBAgIBADANBgkqhkiG9w0BAQsFADB3MS0wKwYDVQQuEyQyNzk3\nYmEzZS1mOTM3LTQ5NTctYTY3Yy0yMmRkYzFiODVlNWYxIzAhBgNVBAMTGkdvb2ds\nZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUsIEluYzELMAkG\nA1UEBhMCVVMwHhcNMTkwODE5MDk1NDE0WhcNMjkwODE2MDk1NTE0WjB3MS0wKwYD\nVQQuEyQyNzk3YmEzZS1mOTM3LTQ5NTctYTY3Yy0yMmRkYzFiODVlNWYxIzAhBgNV\nBAMTGkdvb2dsZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUs\nIEluYzELMAkGA1UEBhMCVVMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB\nAQCiODjnastmn+66S+yxbYajGv4eBNhLzWQ5jmqRcWxYutVDnGy8ZZxYImN8hSQm\nnPQbDsUl+eS7M37fhjsDbOaCtsLEtBsPCpx8y5F0xHUPdRmRLIQBQWvTOJB3xpJh\n/PPoAAl54tPVXnPkdMD44nGadMbP1+Oktqj4z9DuDbYogBTsVsnLFjAkMzN1RRMV\nUdYPDb3ik9I7YxaD6K1ro2RHPpxK+kKFqMrPUb+6Kiu6wbYcw7YH5/LTAzxU179Q\npfct4t/6ifcIoFgiwqtVngA7pUmgMWVLKShtR75zNsyvpHcXdSL0KVvM3zKZQe2y\n35ASlK8CweyP5ey62HTAmy5LAgMBAAGjFjAUMBIGA1UdEwEB/wQIMAYBAf8CAQAw\nDQYJKoZIhvcNAQELBQADggEBAJu6ohoICr0P9FKsWlykNQZkMLp0+ZVdt5KPCl3N\njtrmWE+arwbFP5hKxsgmbn73dRohRvoxMc0yyYbXvGUtaZBrYDWTvsynOUPN+bny\n45JrR5bgqpgisiOWEq8zqeS3EsD3vPt5kpqHMIdwuPN9QLxFB6qZw/jpT/Mpyhbt\nczGmXpLLzInFIQzhQo941AJalEoJm4nN25kL6eieRQedhLaovJG3G2NOIp6p8iYR\noz+r+gF3gx1CNlFGmVvczyFLOjFGXiziNJ+tl6SnD6JKW9fFRIoQgfSBvlkic8OZ\nxxHgkg1FnEWzN3af4MAose8ADQ93SK+xsViPZ0xsVk8abks=\n-----END CERTIFICATE-----",
+            "certSerialNumber": "0",
+            "commonName": "C=US,O=Google\\, Inc,CN=Google Cloud SQL Server CA,dnQualifier=2797ba3e-f937-4957-a67c-22ddc1b85e5f",
+            "createTime": "2019-08-19T09:54:14.807Z",
+            "expirationTime": "2029-08-16T09:55:14.807Z",
+            "instance": "postgres-nomaintenance",
+            "kind": "sql#sslCert",
+            "sha1Fingerprint": "7fb1c70dbf3e32e1696799378e026cf3675aae3a"
+          },
+          "serviceAccountEmailAddress": "p801948786423-6ivn5e@gcp-sa-cloud-sql.iam.gserviceaccount.com",
+          "settings": {
+            "activationPolicy": "ALWAYS",
+            "backupConfiguration": {
+              "enabled": false,
+              "kind": "sql#backupConfiguration",
+              "startTime": "22:00"
+            },
+            "dataDiskSizeGb": "10",
+            "dataDiskType": "PD_SSD",
+            "ipConfiguration": {
+              "ipv4Enabled": true
+            },
+            "kind": "sql#settings",
+            "locationPreference": {
+              "kind": "sql#locationPreference",
+              "zone": "europe-west1-d"
+            },
+            "pricingPlan": "PER_USE",
+            "replicationType": "SYNCHRONOUS",
+            "settingsVersion": "1",
+            "storageAutoResize": true,
+            "storageAutoResizeLimit": "0",
+            "tier": "db-custom-1-3840"
+          },
+          "state": "RUNNABLE"
+        }
+      }
+    },
+    {
+      "name": "//cloudsql.googleapis.com/projects/brunore-db-test/instances/postgres-withmaintenance",
+      "asset_type": "sqladmin.googleapis.com/Instance",
+      "resource": {
+        "version": "v1beta4",
+        "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/sqladmin/v1beta4/rest",
+        "discovery_name": "DatabaseInstance",
+        "parent": "//cloudresourcemanager.googleapis.com/projects/801948786423",
+        "data": {
+          "backendType": "SECOND_GEN",
+          "connectionName": "brunore-db-test:europe-west1:postgres-withmaintenance",
+          "databaseVersion": "POSTGRES_9_6",
+          "gceZone": "europe-west1-d",
+          "instanceType": "CLOUD_SQL_INSTANCE",
+          "ipAddresses": [
+            {
+              "ipAddress": "35.205.22.182",
+              "type": "PRIMARY"
+            }
+          ],
+          "kind": "sql#instance",
+          "name": "postgres-withmaintenance",
+          "project": "brunore-db-test",
+          "region": "europe-west1",
+          "selfLink": "https://www.googleapis.com/sql/v1beta4/projects/brunore-db-test/instances/postgres-withmaintenance",
+          "serverCaCert": {
+            "cert": "-----BEGIN CERTIFICATE-----\nMIIDfzCCAmegAwIBAgIBADANBgkqhkiG9w0BAQsFADB3MS0wKwYDVQQuEyQ2NmQw\nMjc0My1kNmIyLTQ1ODYtOTYyOS1kODE4Mzg4ZGYzMTkxIzAhBgNVBAMTGkdvb2ds\nZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUsIEluYzELMAkG\nA1UEBhMCVVMwHhcNMTkwODE5MDk1OTQ3WhcNMjkwODE2MTAwMDQ3WjB3MS0wKwYD\nVQQuEyQ2NmQwMjc0My1kNmIyLTQ1ODYtOTYyOS1kODE4Mzg4ZGYzMTkxIzAhBgNV\nBAMTGkdvb2dsZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUs\nIEluYzELMAkGA1UEBhMCVVMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB\nAQCTHyy+FVRrg2RV/NkCfujhCfya3yCtsesPy8vsvwzgil8+ANmDVwg9xo8hlbMY\n8X2Z0HW0GLSoKhLGQnFr9+9WMa7/VyWkQd5a+WumUgJ7KVd6++bKaaHzTiTDK1Tw\nlI1uXxBeaDM5DE5U/rwhs28cE424kpDioF7qZs1W2fH8JtSvGxUxo2x+LJt0KaiA\nOgzySH38IcUaPxGsmjyI2Umg1psbXPRY8dQIVgxa2MIifN23jq1MkYcKqRTSiCiU\nLjRB3px8Xu6ZvO0cygrMMHF0W67XKmZWHnm6zjvK9FpJY4hgB6icMYNjhdy9UxMv\nfjGEtVxAt4LErsR0HKzhS9oJAgMBAAGjFjAUMBIGA1UdEwEB/wQIMAYBAf8CAQAw\nDQYJKoZIhvcNAQELBQADggEBADEJi2dgHvQYW5VAuJwtmHX5U9Zc7whjhzXh4YVE\nHl1IOyn2J16DHowzKuizoKOXVlNxvTP/wnc7uyYKOWKJbqY5YZMUH7Ksc8f+2Iaf\n5lSajG+3J441JMCxFFbO2gcLNRlc/I/oDw6yjwTIvusnXJ1+hMaaO37jcbV2kae+\nvzl+Ppi6c0dS1YTFAXHiXHlE5Tkw5NxQcSug3fYpe9a2MxsOMs58t/zRrH6wXt1T\n90+DzkMy0Z1qTqTbpYWonoYIpuFvmyWe0Q/7O2eKEQrXOXGWl0fE2GX9YiUu4jHx\ni+dYysLG+P3ksA3smB+jrfwQ+8KC65Ajt3TbeB/pVUu7ZWQ=\n-----END CERTIFICATE-----",
+            "certSerialNumber": "0",
+            "commonName": "C=US,O=Google\\, Inc,CN=Google Cloud SQL Server CA,dnQualifier=66d02743-d6b2-4586-9629-d818388df319",
+            "createTime": "2019-08-19T09:59:47.176Z",
+            "expirationTime": "2029-08-16T10:00:47.176Z",
+            "instance": "postgres-withmaintenance",
+            "kind": "sql#sslCert",
+            "sha1Fingerprint": "23789f36f76a24fa6a74843529137ce288ea5c4b"
+          },
+          "serviceAccountEmailAddress": "p801948786423-bu22h4@gcp-sa-cloud-sql.iam.gserviceaccount.com",
+          "settings": {
+            "activationPolicy": "ALWAYS",
+            "backupConfiguration": {
+              "enabled": false,
+              "kind": "sql#backupConfiguration",
+              "startTime": "01:00"
+            },
+            "dataDiskSizeGb": "10",
+            "dataDiskType": "PD_SSD",
+            "ipConfiguration": {
+              "ipv4Enabled": true
+            },
+            "kind": "sql#settings",
+            "locationPreference": {
+              "kind": "sql#locationPreference",
+              "zone": "europe-west1-d"
+            },
+            "maintenanceWindow": {
+              "day": 3,
+              "hour": 21,
+              "kind": "sql#maintenanceWindow"
+            },
+            "pricingPlan": "PER_USE",
+            "replicationType": "SYNCHRONOUS",
+            "settingsVersion": "1",
+            "storageAutoResize": true,
+            "storageAutoResizeLimit": "0",
+            "tier": "db-custom-1-3840"
+          },
+          "state": "RUNNABLE"
+        }
+      }
+    }
 ]
