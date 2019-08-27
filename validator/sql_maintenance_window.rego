@@ -30,9 +30,9 @@ deny[{
 
 	# get the maintenance window object
 	maintenance_window := lib.get_default(asset.resource.data.settings, "maintenanceWindow", {})
+
 	# non compliant when not found
 	maintenance_window == {}
-
 
 	message := sprintf("%v missing maintenance window.", [asset.name])
 	metadata := {"resource": asset.name}
