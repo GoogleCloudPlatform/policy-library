@@ -28,12 +28,11 @@ deny[{
 	asset.asset_type == "sqladmin.googleapis.com/Instance"
 	asset.resource.data.backendType != "FIRST_GEN"
 
-	# get the day object
+	# get the maintenance window object
 	maintenance_window := lib.get_default(asset.resource.data.settings, "maintenanceWindow", {})
-	day := lib.get_default(maintenance_window, "day", 0)
+	# non compliant when not found
+	maintenance_window == {}
 
-	# Verify day is zero to trigger a non compliance
-	day == 0
 
 	message := sprintf("%v missing maintenance window.", [asset.name])
 	metadata := {"resource": asset.name}
