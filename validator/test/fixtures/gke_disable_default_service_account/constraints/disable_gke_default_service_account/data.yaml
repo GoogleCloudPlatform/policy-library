@@ -13,15 +13,16 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPStorageBucketWorldReadableConstraintV1
+kind: GCPGKEDisableDefaultServiceAccountConstraintV1
 metadata:
-  name: blacklist_public_users
+  name: disable_gke_default_service_account
   annotations:
-    description: Prevent public users from having access to resources via IAM
-    bundles.validator.forsetisecurity.org/scorecard-v1: security
+    description: Ensure default Service account is not used for Project access in Kubernetes Clusters
+    # This constraint is not certified by CIS.
+    bundles.validator.forsetisecurity.org/cis-v1.1: 7.17
 spec:
   severity: high
   match:
-    target: ["organization/*"]
-    exclude: [] # optional, default is no exclusions
+    gcp:
+      target: ["organization/*"]
   parameters: {}
