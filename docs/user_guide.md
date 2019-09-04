@@ -395,6 +395,9 @@ To get the generated SSH key from Terraform run this command:
 terraform output forseti-server-git-public-key-openssh
 ```
 
+You can view any logs related to this process from Stackdriver Logging by
+searching for `git-sync`.
+
 ### Copy over policy library repository (DEPRECATED)
 
 **NOTE:** This feature has been deprecated and will be removed in a future
