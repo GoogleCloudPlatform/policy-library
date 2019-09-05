@@ -6,3 +6,4 @@ spec:
   parameters:
     services: [cloudasset.googleapis.com, sqladmin.googleapis.com]
     log_types: [DATA_READ, DATA_WRITE]
+    allowed_exemptions: ['user:user1@org.com']
