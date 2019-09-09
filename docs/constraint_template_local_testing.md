@@ -1,14 +1,14 @@
 # Test config-validator constraints and templates locally without Forseti
 
-**DISCLAIMER**: the file `data.json` used here containts all organization's assets metadata. Do NOT publish this information on a public repo. Use
+**DISCLAIMER**: the file `data.json` used here containts all organization's assets metadata. Do NOT publish this information on a public repo. Use `.gitignore` to avoid publication.
 
-This document is for users who wish to test constraint and
-template on their organization metadata, from their system, before deploying to forseti. It both apply to existing templates and custom templates.
+This document is for users who wish to test constraints and
+templates on their organization metadata, from their local environment, before deploying to Forseti. The steps described below work with existing templates and custom templates.
 
 **Benefits**:
 
-- Save time
-- Reduce test complexity
+- Save time for testing new templates / constraints, or debugging existing ones
+- Reduce test complexity to run tests (no need to deploy Forseti-Security)
 
 **Acronyms**:
 
@@ -34,15 +34,15 @@ OPA - [Open Policy Agent](https://www.openpolicyagent.org/docs/latest)
   - Depending on permissions available on the organization:
     - Donwload the 2 dumps files from Forseti CAI bucket
     - or use [CAI directly](https://cloud.google.com/resource-manager/docs/cloud-asset-inventory/quickstart-cloud-asset-inventory) to export dumps
-      - Key point: Ensure consistency by having the two dumps exported at the same time
+      - Key point: `resource` dump and `iam_dump` must be exported at the same time to ensure they consistently describe the same set of assets
 - Run the python script `dump2json.py`
-  - E.g. `python3 scripts/dump2json.py ----dump-folder-path dumpsFolderName --output-folder-path test/assets`
+  - E.g. `python3 scripts/dump2json.py ----dump-folder-path /path/to/dumps/folder --output-folder-path test/assets`
   - Check the script's messages
   - `data.json` file is delivered in the dumps folder
   - `data.json` is an array of all organization's objects. Each object is a GCP asset. Each asset object contains a resource object and if applicable a iam_policy object too.
   - `ancestry_path` used in Forseti to specify where the constraint is to be applied has but computed and added.
   
-Example  
+data.json structure:  
 
 ```json
 [  
@@ -61,16 +61,16 @@ Example
 ## Setup the test folder
 
 ```bash
-.                         # your config-validator repo root
-├─ test                   # test folder, may be named differently
-│  ├─ assets              # this folder is OPA's data.assets
-│  │  └─ data.json        # the one json file from previous step
-│  ├─ audit               # folder for rego files supporting test
-│  │  └─ audit.rego       # policy module similar to forseti audit.go  
-│  └─ constraints         # this folder is OPA's data.constraints
-│     ├─ constraintname   # folder for the constraint to be tested
-│     │   └─ anyname.yaml # constraint ymal file
-│     └─ ...              # additional constraint folders if needed
+.                            # your config-validator repo root
+├─ test                      # test folder, may be named differently
+│  ├─ assets                 # this folder is OPA's data.assets
+│  │  └─ data.json           # the one json file from previous step
+│  ├─ audit                  # folder for rego files supporting test
+│  │  └─ audit.rego          # policy module similar to forseti audit.go  
+│  └─ constraints            # this folder is OPA's data.constraints
+│     ├─ constraintname      # folder for the constraint to be tested
+│     │   └─ <ANY_NAME>.yaml # constraint ymal file
+│     └─ ...                 # additional constraint folders if needed
 └─ ...
 ```
 
@@ -91,7 +91,7 @@ To test multiple constraints at the same time, have multiple subfolders in `test
 - From OPA command line
   - `package validator.gcp.lib` this should produce no output
   - `audit` this execute the audit rego rule and outputs found non compliances
-  - Execution time depens on assets number and constraints complexity
+  - Execution time depends on number of assets and constraints complexity
 
 **Test output example**:
 
