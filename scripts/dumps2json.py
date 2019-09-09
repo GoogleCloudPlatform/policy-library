@@ -48,9 +48,7 @@ def main(dumpFolderPath, outputFolderPath):
             numberOfAssets = sum(1 for _ in caiDumpFile)
             print(f'number of asset: {numberOfAssets} in {dumpFilename}')
         with open(dumpFilename, 'r') as caiDumpFile:
-            i = 0
-            for line in caiDumpFile:
-                i += 1
+            for i, line in enumerate(caiDumpFile):
                 metadata = json.loads(line)
                 assetName = metadata['name']
                 if assetName not in assetsDict:
@@ -94,7 +92,7 @@ def get_ancestry_path(assets):
                 print(
                     f"warning: resource object is missing, ancestry_path set to org_path for {asset['name']}")
 
-        # Thrid flush, compute the ancestry path when possible
+        # Third flush, compute the ancestry path when possible
         for _, asset in assets.items():
             if not 'ancestry_path' in asset:
                 asset['ancestry_path'] = build_path(
