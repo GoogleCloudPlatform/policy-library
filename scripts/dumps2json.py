@@ -25,6 +25,9 @@ import os
 import glob
 import json
 
+outputFileName = 'data.json'
+dataKeysToRemove = ['oauth2ClientId']
+dataKeysToRedact = ['serverCaCert']
 replaceInfoWith = '*****'
 
 
@@ -32,10 +35,12 @@ def parse_args(argv):
     parser = argparse.ArgumentParser()
     parser.add_argument('--dump-folder-path', required=True, dest='dumpFolderPath',
                         help='path to the folder containing the cai dump files one for resources, one for iam policies')
+    parser.add_argument('--output-folder-path', required=True, dest='outputFolderPath',
+                        help='path to the folder containing the cai dump files one for resources, one for iam policies')
     return parser.parse_args(argv)
 
 
-def main(dumpFolderPath):
+def main(dumpFolderPath, outputFolderPath):
     assetsDict = {}
     assetsList = []
     for dumpFilename in glob.glob(os.path.join(dumpFolderPath, '*.dump')):
@@ -67,7 +72,7 @@ def main(dumpFolderPath):
         if asset['ancestry_path'] == "":
             print(f"Warning: missing ancestry path {asset['name']}")
 
-    localJSONFile = open(dumpFolderPath + '/data.json', 'w')
+    localJSONFile = open(outputFolderPath + '/' + outputFileName, 'w')
     localJSONFile.write(json.dumps(assetsList, indent=2))
     localJSONFile.close()
 
@@ -148,14 +153,24 @@ def build_path(name, assets):
 
 def remove_data(assets):
     for _, asset in assets.items():
-        if asset['asset_type'] == "sqladmin.googleapis.com/Instance":
-            if 'resource' in asset:
-                if 'data' in asset['resource']:
-                    if 'serverCaCert' in asset['resource']['data']:
-                        asset['resource']['data']['serverCaCert'] = replaceInfoWith
+        clean_data(asset)
     return assets
+
+
+def clean_data(dic):
+    for keyName in dataKeysToRedact:
+        if keyName in dic:
+            dic[keyName] = replaceInfoWith
+    for keyName in dataKeysToRemove:
+        if keyName in dic:
+            del dic[keyName] 
+    for _, value in dic.items():
+        if isinstance(value, dict):
+            clean_data(value)
+    return dic
 
 
 if __name__ == '__main__':
     args = parse_args(sys.argv[1:])
-    main(args.dumpFolderPath)
+    main(dumpFolderPath=args.dumpFolderPath,
+         outputFolderPath=args.outputFolderPath)

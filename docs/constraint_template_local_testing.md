@@ -36,7 +36,7 @@ OPA - [Open Policy Agent](https://www.openpolicyagent.org/docs/latest)
     - or use [CAI directly](https://cloud.google.com/resource-manager/docs/cloud-asset-inventory/quickstart-cloud-asset-inventory) to export dumps
       - Key point: Ensure consistency by having the two dumps exported at the same time
 - Run the python script `dump2json.py`
-  - E.g. `python3 scripts/dump2json.py ----dump-folder-path dumpsFolderName`
+  - E.g. `python3 scripts/dump2json.py ----dump-folder-path dumpsFolderName --output-folder-path test/assets`
   - Check the script's messages
   - `data.json` file is delivered in the dumps folder
   - `data.json` is an array of all organization's objects. Each object is a GCP asset. Each asset object contains a resource object and if applicable a iam_policy object too.
