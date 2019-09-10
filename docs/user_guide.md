@@ -353,8 +353,6 @@ module to install Forseti. Here is a sample main.tf file modeled mostly from the
 ```
 module "forseti" {
       source  = "terraform-google-modules/forseti/google"
-      version = "~> 1.4"
-
 
       domain             = "yourdomain.com"
       project_id         = "your-forseti-project-id-here"
