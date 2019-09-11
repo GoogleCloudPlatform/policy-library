@@ -16,23 +16,66 @@
 
 package templates.gcp.GCPSQLMaintenanceWindowConstraintV1
 
-all_violations[violation] {
-	resource := data.test.fixtures.sql_maintenance_window.assets[_]
-	constraint := data.test.fixtures.sql_maintenance_window.constraints
+import data.test.fixtures.sql_maintenance_window.assets as fixture_assets
+import data.test.fixtures.sql_maintenance_window.constraints as fixture_constraints
 
-	issues := deny with input.asset as resource
-
+find_violations[violation] {
+	asset := data.test_assets[_]
+	constraint := data.test_constraints[_]
+	issues := deny with input.asset as asset with input.constraint as constraint
 	violation := issues[_]
 }
 
-# Confirm total violations count
-test_sql_maintenance_window_violations_count {
-	count(all_violations) == 2
+# without parameters the constraint should still detect sql instances without maintenance window
+no_parameter[violation] {
+	constraints := [fixture_constraints.no_parameter]
+	found_violations := find_violations with data.test_assets as fixture_assets
+		 with data.test_constraints as constraints
+	violation := found_violations[_]
 }
 
-test_sql_maintenance_window_violations_basic {
-	found_violations := all_violations
+test_no_parameter_count {
+	count(no_parameter) == 2
+}
 
+test_no_parameter_list {
+	found_violations := no_parameter
 	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv2-nomaintenance"
 	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-db-test/instances/postgres-nomaintenance"
+}
+
+# with an empty hours field the constraint should detect sql insta nceswithout maintenance window
+no_hour[violation] {
+	constraints := [fixture_constraints.no_hour]
+	found_violations := find_violations with data.test_assets as fixture_assets
+		 with data.test_constraints as constraints
+	violation := found_violations[_]
+}
+
+test_no_hour_count {
+	count(no_hour) == 2
+}
+
+test_no_hour_list {
+	found_violations := no_hour
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv2-nomaintenance"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-db-test/instances/postgres-nomaintenance"
+}
+
+specific_hours[violation] {
+	constraints := [fixture_constraints.specific_hours]
+	found_violations := find_violations with data.test_assets as fixture_assets
+		 with data.test_constraints as constraints
+	violation := found_violations[_]
+}
+
+test_specific_hours_count {
+	count(specific_hours) == 3
+}
+
+test_specific_hours_list {
+	found_violations := specific_hours
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv2-nomaintenance"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-db-test/instances/postgres-nomaintenance"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-cai-test/instances/brunore-mon-3pm"
 }
