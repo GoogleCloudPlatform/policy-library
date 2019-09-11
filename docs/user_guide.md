@@ -14,7 +14,8 @@
   * [For Production Environments](#for-production-environments)
 * [How to Use Forseti Config Validator](#how-to-use-forseti-config-validator)
   * [Install Forseti](#install-forseti)
-  * [Copy over policy library repository](#copy-over-policy-library-repository)
+  * [Policy Library Sync](#policy-library-sync)
+  * [Copy over policy library repository](#copy-over-policy-library-repository-deprecated)
   * [How to change the run frequency of Forseti](#how-to-change-the-run-frequency-of-forseti)
   * [How to handle scaling for large resource sets](#how-to-handle-scaling-for-large-resource-sets)
   * [How to connect violation results with Cloud Security Command Center (CSCC)](#how-to-connect-violation-results-with-cloud-security-command-center-cscc)
@@ -80,28 +81,52 @@ The Policy Library repository contains the following directories:
     files.
 
 Google provides a sample repository with a set of pre-defined constraint
-templates. You will first clone the repository:
+templates. You can duplicate this repository into a private repository. First
+you should create a new **private** git repository. For example, if you use
+GitHub then you can use the [GitHub UI](https://github.com/new). Then follow the
+steps below to get everything setup. If you are planning on using the [Policy
+Library Sync feature of Forseti](#policy-library-sync), then you should also add
+a read-only user to the private repository which will be used by Forseti.
+
+#### Duplicate Public Repository
 
 ```
-git clone https://github.com/forseti-security/policy-library.git
+export GIT_REPO_ADDR="git@github.com:${YOUR_GITHUB_USERNAME}/policy-library.git"
+git clone --bare https://github.com/forseti-security/policy-library.git
+cd policy-library.git
+git push --mirror ${GIT_REPO_ADDR}
+cd ..
+rm -rf policy-library.git
+git clone ${GIT_REPO_ADDR}
 ```
+
+#### Setup Constraints
 
 Then you need to examine the available constraint templates inside the
 `templates` directory. Pick the constraint templates that you wish to use,
 create constraint YAML files correspondings to those templates, and place them
 under `policies/constraints`. Commit the newly created constraint files to
-**your** Git repository. For example, assuming you have created Git repository
+**your** Git repository. For example, assuming you have created a Git repository
 named "policy-library" under your GitHub account, you can use the following
 commands to perform the initial commit:
 
 ```
-export GIT_REPO_ADDR="git@github.com:${YOUR_GITHUB_USERNAME}/policy-library.git"
 cd policy-library
 # Add new constraints...
-git add .
-git commit -m "Initial commit of policy library"
-git remote add policy-library "${GIT_REPO_ADDR}"
-git push -u policy-library master
+git add --all
+git commit -m "Initial commit of policy library constraints"
+git push -u origin master
+```
+
+#### Pull in latest changes from Public Repository
+
+Periodically you should pull any changes from the public repository, which might
+contain new templates and Rego files.
+
+```
+git remote add public https://github.com/forseti-security/policy-library.git
+git pull public master
+git push origin master
 ```
 
 ### Instantiate constraints
@@ -250,6 +275,7 @@ chmod 755 terraform-validator-linux-amd64
 
 ### For local development environments
 
+Currently only Terraform v0.11 is supported.
 These instructions assume you have forked a branch and is working locally.
 
 Generate a Terraform plan for the current environment by running:
@@ -327,21 +353,53 @@ module to install Forseti. Here is a sample main.tf file modeled mostly from the
 ```
 module "forseti" {
       source  = "terraform-google-modules/forseti/google"
-      version = "~> 1.4"
-
 
       domain             = "yourdomain.com"
       project_id         = "your-forseti-project-id-here"
       org_id             = "your-org-id-here"
       …
-      config_validator_enabled = true
+      config_validator_enabled      = true
+      policy_library_sync_enabled   = true
+      policy_library_repository_url = "git@github.com:forseti-security/policy-library"
     }
 ```
 
-The one important additions is the `config_validator_enabled` field. It is not
-enabled by default; therefore you need to explicitly enable it.
+The important additions are the `config_validator_enabled` and
+`policy_library_sync_enabled` fields. They are not enabled by default; therefore
+you need to explicitly enable them. It is recommended to use the [Policy Library Sync](#policy-library-sync) feature, but not required. If you are using the
+sync, then set `policy_library_repository_url` to the Git URL of your private
+repo.
 
-### Copy over policy library repository
+### Policy Library Sync
+
+Forseti has the ability to clone your private policy library repo and keep it in
+sync (using [git-sync](https://github.com/kubernetes/git-sync)), so that config
+validator will always use the latest policies while scanning. Optionally, you
+can provide the SSH known hosts to use when Forseti clones/pulls the repo. To
+provide the known hosts, run the command below and use the output as the value
+for the `policy_library_sync_ssh_known_hosts` field within the main.tf:
+
+```
+ssh-keyscan ${YOUR_GIT_HOST}
+```
+
+After applying the Terraform configuration, you will need to add the generated
+SSH key to the read-only user's account. The SSH key will be provided as an
+output from Terraform. If your private repo is hosted on GitHub, you can
+[follow these steps to add the SSH key to your account](https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account).
+To get the generated SSH key from Terraform run this command:
+
+```
+terraform output forseti-server-git-public-key-openssh
+```
+
+You can view any logs related to this process from Stackdriver Logging by
+searching for `git-sync`.
+
+### Copy over policy library repository (DEPRECATED)
+
+**NOTE:** This feature has been deprecated and will be removed in a future
+version. Please migrate to the Policy Library Sync feature.
 
 Your policy library repository specifies the constraints to be enforced. In
 order for Forseti server to access it, you need to copy it over to Forseti

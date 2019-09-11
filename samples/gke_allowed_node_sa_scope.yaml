@@ -21,8 +21,7 @@ metadata:
 spec:
   severity: high
   match:
-    gcp:
-      target: ["organization/*"]
+    target: ["organization/*"]
   # By default, the scopes listed here is being used:
   # https://cloud.google.com/kubernetes-engine/docs/how-to/hardening-your-cluster#reduce_node_sa_scopes
-  parameters: {} 
+  parameters: {}

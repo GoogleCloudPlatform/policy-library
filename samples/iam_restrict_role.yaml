@@ -3,7 +3,7 @@ kind: GCPIAMAllowedBindingsConstraintV1
 metadata:
   name: whitelist_owner_role
   annotations:
-    description: All projects must have owner from my domain
+    description: Only my domain members are allowed to have the Owner role on projects
 spec:
   severity: high
   match:

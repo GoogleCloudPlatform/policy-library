@@ -21,6 +21,7 @@ resources_in_violation[resource] {
 	constraint := data.test.fixtures.storage_bucket_policy_only.constraints.require_bucket_policy_only
 	issues := deny with input.asset as asset
 		 with input.constraint as constraint
+
 	resource := issues[_].details.resource
 }
 

@@ -6,9 +6,6 @@ metadata:
     description: Only allow the compute API to be enabled
 spec:
   severity: high
-  match:
-    target: ["organization/*"]
-    exclude: [] # optional, default is no exclusions
   parameters:
     mode: allow
     services:

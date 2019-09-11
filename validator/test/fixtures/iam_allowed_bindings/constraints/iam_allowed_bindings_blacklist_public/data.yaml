@@ -6,9 +6,6 @@ metadata:
     description: Prevent public users from having access to resources via IAM
 spec:
   severity: high
-  match:
-    target: ["organization/*"]
-    exclude: [] # optional, default is no exclusions
   parameters:
     mode: blacklist
     role: "roles/*"

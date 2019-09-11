@@ -18,8 +18,6 @@ metadata:
   name: storage_location_denylist_all
 spec:
   severity: high
-  match:
-    target: ["organization/*"]
   parameters:
     mode: "denylist"
     locations:

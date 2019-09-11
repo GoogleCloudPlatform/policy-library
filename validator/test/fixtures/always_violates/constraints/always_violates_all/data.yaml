@@ -18,7 +18,4 @@ metadata:
   name: always_violates_all
 spec:
   severity: high
-  match:
-    gcp:
-      target: ["organization/*"]
   parameters: {}

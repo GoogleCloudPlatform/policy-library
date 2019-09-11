@@ -28,7 +28,7 @@ deny[{
 
 	bucket := asset.resource.data
 	bucket_policy_enabled(bucket) != true
-	
+
 	message := sprintf("%v does not have bucket policy only enabled.", [asset.name])
 	metadata := {"resource": asset.name}
 }
