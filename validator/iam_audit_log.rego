@@ -36,6 +36,18 @@ deny[{
 	metadata := {"resource": input.asset.name}
 }
 
+evaluate_allowed_exemptions(params, exempted_members) = result {
+	not params.allowed_exemptions
+	result = true
+}
+
+evaluate_allowed_exemptions(params, exempted_members) = result {
+	got_exemptions := {e | e = exempted_members[_]}
+	want_exemptions := {e | e = params.allowed_exemptions[_]}
+	unexpected_exemptions := got_exemptions - want_exemptions
+	result = count(unexpected_exemptions) == 0
+}
+
 expected_audit_configs[config] {
 	configs := lib.get_default(input.asset.iam_policy, "audit_configs", {})
 	config := configs[_]
@@ -50,5 +62,7 @@ expected_audit_configs[config] {
 	got_log_types := {t | t = config.audit_log_configs[_].log_type}
 	want_log_types := {t | t = log_type_map[params.log_types[_]]}
 	missing_log_types := want_log_types - got_log_types
+
 	count(missing_log_types) == 0
+	evaluate_allowed_exemptions(params, config.audit_log_configs[_].exempted_members)
 }
