@@ -19,8 +19,7 @@ metadata:
 spec:
   severity: high
   match:
-    gcp:
-      target: ["organization/*"]
+    target: ["organization/*"]
   parameters: 
     # required parameter: list of label objects that resources should have.
     # A label object is composed of a key value pair like: 
