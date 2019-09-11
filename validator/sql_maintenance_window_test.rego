@@ -31,6 +31,7 @@ no_parameter[violation] {
 	constraints := [fixture_constraints.no_parameter]
 	found_violations := find_violations with data.test_assets as fixture_assets
 		 with data.test_constraints as constraints
+
 	violation := found_violations[_]
 }
 
@@ -49,6 +50,7 @@ no_hour[violation] {
 	constraints := [fixture_constraints.no_hour]
 	found_violations := find_violations with data.test_assets as fixture_assets
 		 with data.test_constraints as constraints
+
 	violation := found_violations[_]
 }
 
@@ -66,6 +68,7 @@ specific_hours[violation] {
 	constraints := [fixture_constraints.specific_hours]
 	found_violations := find_violations with data.test_assets as fixture_assets
 		 with data.test_constraints as constraints
+
 	violation := found_violations[_]
 }
 
@@ -78,4 +81,21 @@ test_specific_hours_list {
 	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv2-nomaintenance"
 	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-db-test/instances/postgres-nomaintenance"
 	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-cai-test/instances/brunore-mon-3pm"
+}
+
+exemption[violation] {
+	constraints := [fixture_constraints.exemption]
+	found_violations := find_violations with data.test_assets as fixture_assets
+		 with data.test_constraints as constraints
+
+	violation := found_violations[_]
+}
+
+test_exemption_count {
+	count(exemption) == 1
+}
+
+test_exemption_list {
+	found_violations := exemption
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-db-test/instances/postgres-nomaintenance"
 }
