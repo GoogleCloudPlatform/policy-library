@@ -24,5 +24,5 @@ spec:
     target: ["organization/*"]
   parameters:
     exemptions:
-      - //cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv1-nomaintenance
+      - //cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv2-nomaintenance
     

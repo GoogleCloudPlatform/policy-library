@@ -35,14 +35,15 @@ no_parameter[violation] {
 }
 
 test_no_parameter_count {
-	count(no_parameter) == 3
+	count(no_parameter) == 4
 }
 
 test_no_parameter_list {
 	found_violations := no_parameter
-	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv1-nomaintenance"
-	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv2-withmaintenance"
-	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv2-withmaintenance"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv2-nomaintenance"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-db-test/instances/postgres-nomaintenance"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-cai-test/instances/brunore-mon-3pm"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-cai-test/instances/brunore-sun-3am"
 }
 
 exemption[violation] {
@@ -54,11 +55,12 @@ exemption[violation] {
 }
 
 test_exemption_count {
-	count(exemption) == 2
+	count(exemption) == 3
 }
 
 test_exemption_list {
 	found_violations := exemption
-	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv2-withmaintenance"
-	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv2-withmaintenance"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-db-test/instances/postgres-nomaintenance"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-cai-test/instances/brunore-mon-3pm"
+	found_violations[_].details.resource == "//cloudsql.googleapis.com/projects/brunore-cai-test/instances/brunore-sun-3am"
 }

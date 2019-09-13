@@ -71,7 +71,7 @@ spec:
         	instance_backupConfiguration_enabled := lib.get_default(instance_backupConfiguration, "enabled", "")
         
         	# check compliance
-        	instance_backupConfiguration_enabled == true
+        	instance_backupConfiguration_enabled != true
         
         	message := sprintf("%v backup not enabled'", [asset.name])
         	metadata := {"resource": asset.name}
