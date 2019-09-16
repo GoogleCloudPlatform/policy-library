@@ -24,22 +24,22 @@ spec:
         plural: gcpenforcelabelconstraintsv1
       validation:
         openAPIV3Schema:
-          properties: 
+          properties:
             mandatory_labels:
-              description: | 
-                "List of mandatory label objects to check for on all supported resources. 
+              description: |
+                "List of mandatory label objects to check for on all supported resources.
                 Label objects should be as follow:
-                label_key: label_value_regex_to_match 
+                label_key: label_value_regex_to_match
                 Each missing label will result in a violation for scanned resources.
                 Each mismatching label will result in a violation for scanned resources.
                 "
               type: array
               items: objects
             resource_types_to_scan:
-              description: | 
+              description: |
                 "Optional parameter: list of resource types to scan for labels.
                 Any resource that is not of these types will not raise any violation.
-      
+
                 If not passed, all tested resource types will be scanned for violations:
 
                 - cloudresourcemanager.googleapis.com/Project
@@ -48,10 +48,11 @@ spec:
                 - compute.googleapis.com/Image
                 - compute.googleapis.com/Disk
                 - compute.googleapis.com/Snapshot
-                - google.bigtable.Instance
+                - bigtableadmin.googleapis.com/Instance
                 - sqladmin.googleapis.com/Instance
                 - "dataproc.googleapis.com/Job"
                 - "dataproc.googleapis.com/Cluster"
+                - container.googleapis.com/Cluster
 
                 If a resource type passed is not part of this list, the labels will be
                 looked for in the data.labels key of the resource object.
@@ -63,7 +64,7 @@ spec:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/enforce_labels.rego")
        #
-       # Copyright 2018 Google LLC
+       # Copyright 2019 Google LLC
        #
        # Licensed under the Apache License, Version 2.0 (the "License");
        # you may not use this file except in compliance with the License.
@@ -103,13 +104,14 @@ spec:
        		"compute.googleapis.com/Image",
        		"compute.googleapis.com/Disk",
        		"compute.googleapis.com/Snapshot",
-       		"google.bigtable.Instance",
+       		"bigtableadmin.googleapis.com/Instance",
        		"sqladmin.googleapis.com/Instance",
        		"dataproc.googleapis.com/Job",
        		"dataproc.googleapis.com/Cluster",
+       		"container.googleapis.com/Cluster",
        	}
        
-       	non_standard_types := {"sqladmin.googleapis.com/Instance"}
+       	non_standard_types := {"sqladmin.googleapis.com/Instance", "container.googleapis.com/Cluster"}
        
        	resource_types_to_scan := lib.get_default(params, "resource_types_to_scan", default_resource_types)
        
@@ -118,7 +120,7 @@ spec:
        
        	not label_is_valid(label_key, label_value_pattern, asset, non_standard_types)
        
-       	message := sprintf("%v's label is in violation.", [asset.name])
+       	message := sprintf("%v's label '%v' is in violation.", [asset.name, label_key])
        	metadata := {"resource": asset.name, "label_in_violation": label_key}
        }
        
@@ -130,17 +132,26 @@ spec:
        	# test if label exists in asset
        	resource_labels[label_key]
        
-       	# test if label value matches pattern passed as a parameter 
+       	# test if label value matches pattern passed as a parameter
        re_match(	label_value_pattern, resource_labels[label_key])
        }
        
        # get_labels for cloudsql instances
        get_labels(asset, non_standard_types) = resource_labels {
-       	# check if we have a non-standard type 
+       	# check if we have a non-standard type
        	asset.asset_type == non_standard_types[_]
        	asset.asset_type == "sqladmin.googleapis.com/Instance"
        	resource := asset.resource.data.settings
        	resource_labels := lib.get_default(resource, "userLabels", {})
+       }
+       
+       # get_labels for gke cluster
+       get_labels(asset, non_standard_types) = resource_labels {
+       	# check if we have a non-standard type
+       	asset.asset_type == non_standard_types[_]
+       	asset.asset_type == "container.googleapis.com/Cluster"
+       	resource := asset.resource.data
+       	resource_labels := lib.get_default(resource, "resourceLabels", {})
        }
        
        # get_labels for most resources (not non-standard resources)

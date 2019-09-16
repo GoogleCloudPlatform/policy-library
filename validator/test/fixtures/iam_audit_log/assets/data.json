@@ -13,7 +13,8 @@
                             "log_type": 2
                         },
                         {
-                            "log_type": 3
+                            "log_type": 3,
+                            "exempted_members": ["user:user1@org.com"]
                         }
                     ]
                 },
@@ -43,6 +44,28 @@
                     "audit_log_configs": [
                         {
                             "log_type": 2
+                        },
+                        {
+                            "log_type": 3
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "name": "//cloudresourcemanager.googleapis.com/projects/unexpected-exemption",
+        "asset_type": "cloudresourcemanager.googleapis.com/Project",
+        "iam_policy": {
+            "version": 1,
+            "etag": "BwWKImhngxs=",
+            "audit_configs": [
+                {
+                    "service": "cloudasset.googleapis.com",
+                    "audit_log_configs": [
+                        {
+                            "log_type": 2,
+                            "exempted_members": ["user:user2@org.com"]
                         },
                         {
                             "log_type": 3

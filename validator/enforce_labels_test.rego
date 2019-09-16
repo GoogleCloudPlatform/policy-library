@@ -1,5 +1,5 @@
 #
-# Copyright 2018 Google LLC
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import data.test.fixtures.enforce_labels.assets.compute.instances as fixture_com
 import data.test.fixtures.enforce_labels.assets.compute.snapshots as fixture_compute_snapshots
 import data.test.fixtures.enforce_labels.assets.dataproc.clusters as fixture_dataproc_clusters
 import data.test.fixtures.enforce_labels.assets.dataproc.jobs as fixture_dataproc_jobs
+import data.test.fixtures.enforce_labels.assets.gke as fixture_gke
 import data.test.fixtures.enforce_labels.assets.projects as fixture_projects
 
 # Importing the test constraint
@@ -103,6 +104,14 @@ bigtable_violations[violation] {
 cloudsql_violations[violation] {
 	constraints := [fixture_constraints]
 	violations := find_all_violations with data.resources as fixture_cloudsql
+		 with data.test_constraints as constraints
+
+	violation := violations[_]
+}
+
+gke_violations[violation] {
+	constraints := [fixture_constraints]
+	violations := find_all_violations with data.resources as fixture_gke
 		 with data.test_constraints as constraints
 
 	violation := violations[_]
@@ -308,6 +317,29 @@ test_enforce_label_cloudsql_violations {
 		"//cloudsql.googleapis.com/projects/my-test-project/instances/cloudsql-instance-1-invalid-missing-label1",
 		"//cloudsql.googleapis.com/projects/my-test-project/instances/cloudsql-instance-1-invalid-missing-label2",
 		"//cloudsql.googleapis.com/projects/my-test-project/instances/cloudsql-instance-1-invalid-label1-and-label2-bad-values",
+	}
+
+	resource_names == expected_resource_name
+
+	violation := violations[_]
+	is_string(violation.msg)
+	is_object(violation.details)
+}
+
+#### Testing for GKE clusters
+# Confirm exactly 6 GKE violations were found
+# 4 GKE clusters have violations - 2 of which have 2 violations (one has 2 labels missing, the other has 2 labels with invalid values)
+# confirm which 4 GKE clusters are in violation
+test_enforce_label_gke_violations {
+	violations := gke_violations
+	count(violations) == 6
+
+	resource_names := {x | x = violations[_].details.resource}
+	expected_resource_name := {
+		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust1-invalid-missing-labels",
+		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2-invalid-missing-label1",
+		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust3-invalid-missing-label2",
+		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust4-invalid-label1-and-label2-bad-values",
 	}
 
 	resource_names == expected_resource_name

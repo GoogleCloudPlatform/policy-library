@@ -1,5 +1,5 @@
 #
-# Copyright 2018 Google LLC
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -39,13 +39,14 @@ deny[{
 		"compute.googleapis.com/Image",
 		"compute.googleapis.com/Disk",
 		"compute.googleapis.com/Snapshot",
-		"google.bigtable.Instance",
+		"bigtableadmin.googleapis.com/Instance",
 		"sqladmin.googleapis.com/Instance",
 		"dataproc.googleapis.com/Job",
 		"dataproc.googleapis.com/Cluster",
+		"container.googleapis.com/Cluster",
 	}
 
-	non_standard_types := {"sqladmin.googleapis.com/Instance"}
+	non_standard_types := {"sqladmin.googleapis.com/Instance", "container.googleapis.com/Cluster"}
 
 	resource_types_to_scan := lib.get_default(params, "resource_types_to_scan", default_resource_types)
 
@@ -54,7 +55,7 @@ deny[{
 
 	not label_is_valid(label_key, label_value_pattern, asset, non_standard_types)
 
-	message := sprintf("%v's label is in violation.", [asset.name])
+	message := sprintf("%v's label '%v' is in violation.", [asset.name, label_key])
 	metadata := {"resource": asset.name, "label_in_violation": label_key}
 }
 
@@ -66,17 +67,26 @@ label_is_valid(label_key, label_value_pattern, asset, non_standard_types) {
 	# test if label exists in asset
 	resource_labels[label_key]
 
-	# test if label value matches pattern passed as a parameter 
+	# test if label value matches pattern passed as a parameter
 re_match(	label_value_pattern, resource_labels[label_key])
 }
 
 # get_labels for cloudsql instances
 get_labels(asset, non_standard_types) = resource_labels {
-	# check if we have a non-standard type 
+	# check if we have a non-standard type
 	asset.asset_type == non_standard_types[_]
 	asset.asset_type == "sqladmin.googleapis.com/Instance"
 	resource := asset.resource.data.settings
 	resource_labels := lib.get_default(resource, "userLabels", {})
+}
+
+# get_labels for gke cluster
+get_labels(asset, non_standard_types) = resource_labels {
+	# check if we have a non-standard type
+	asset.asset_type == non_standard_types[_]
+	asset.asset_type == "container.googleapis.com/Cluster"
+	resource := asset.resource.data
+	resource_labels := lib.get_default(resource, "resourceLabels", {})
 }
 
 # get_labels for most resources (not non-standard resources)

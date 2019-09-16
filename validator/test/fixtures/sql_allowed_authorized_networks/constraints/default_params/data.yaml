@@ -18,7 +18,6 @@ metadata:
   name: sql_allowed_authorized_networks_default
 spec:
   severity: high
-    
    # No allowed authorized networks indicates that no authorized networks can
    # be configured on the resource.
   parameters: {}
