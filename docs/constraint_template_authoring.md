@@ -95,9 +95,9 @@ assigned to the VM.
       "parent": "//cloudresourcemanager.googleapis.com/projects/68478495408",
       "data": {
         "name": "vm-external-ip",
-        "networkInterface": [
+        "networkInterfaces": [
           {
-            "accessConfig": [
+            "accessConfigs": [
               {
                 "externalIp": "35.196.151.107",
                 "name": "external-nat",
