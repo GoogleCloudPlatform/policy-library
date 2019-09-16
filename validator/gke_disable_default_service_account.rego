@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPGKEDisableLegacyEndpointsConstraintV1
+package templates.gcp.GCPGKEDisableDefaultServiceAccountConstraintV1
 
 import data.validator.gcp.lib as lib
 
@@ -29,18 +29,17 @@ deny[{
 	cluster := asset.resource.data
 	node_pools := lib.get_default(cluster, "nodePools", [])
 	node_pool := node_pools[_]
-	legacy_endpoints_enabled(node_pool)
+	default_service_account(node_pool)
 
-	message := sprintf("Cluster %v has node pool %v with legacy endpoints enabled.", [asset.name, node_pool.name])
+	message := sprintf("Cluster %v has node pool %v with default service account.", [asset.name, node_pool.name])
 	metadata := {"resource": asset.name}
 }
 
 ###########################
 # Rule Utilities
 ###########################
-legacy_endpoints_enabled(node_pool) {
+default_service_account(node_pool) {
 	nodeConfig := lib.get_default(node_pool, "config", {})
-	metadata := lib.get_default(nodeConfig, "metadata", {})
-	legacy_endpoints_enabled := lib.get_default(metadata, "disable-legacy-endpoints", "false")
-	legacy_endpoints_enabled == "false"
+	serviceAccount := lib.get_default(nodeConfig, "serviceAccount", "default")
+	serviceAccount == "default"
 }

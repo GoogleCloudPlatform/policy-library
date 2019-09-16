@@ -15,21 +15,26 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-cmek-rotation-v1
+  name: gcp-app-service-versions-v1
 spec:
   crd:
     spec:
       names:
-        kind: GCPCMEKRotationConstraintV1
-        plural: gcpcmekrotationconstraintsv1
+        kind: GCPAppEngineServiceVersionsConstraintV1
+        plural: gcpappengineserviceversionsconstraintsv1
       validation:
         openAPIV3Schema:
-          properties: {}
+          properties:
+            max_versions:
+              type: integer
+              description: "The maxinum number of simultaneous versions
+               Defaults to 2"
+              default: 2
   targets:
-    validation.gcp.forsetisecurity.org:
-      rego: | #INLINE("validator/cmek_rotation.rego")
+   validation.gcp.forsetisecurity.org:
+      rego: | #INLINE("validator/app_service_versions.rego")
            #
-           # Copyright 2018 Google LLC
+           # Copyright 2019 Google LLC
            #
            # Licensed under the Apache License, Version 2.0 (the "License");
            # you may not use this file except in compliance with the License.
@@ -43,7 +48,8 @@ spec:
            # See the License for the specific language governing permissions and
            # limitations under the License.
            #
-           package templates.gcp.GCPCMEKRotationConstraintV1
+           
+           package templates.gcp.GCPAppEngineServiceVersionsConstraintV1
            
            import data.validator.gcp.lib as lib
            
@@ -52,27 +58,21 @@ spec:
            	"details": metadata,
            }] {
            	constraint := input.constraint
-           	lib.get_constraint_params(constraint, params)
-           	exempt_list := lib.get_default(params, "exemptions", [])
+           	params := lib.get_constraint_params(constraint)
+           
+           	# Restrict to App Engine services
            	asset := input.asset
-           	asset.asset_type == "cloudkms.googleapis.com/CryptoKey"
+           	asset.asset_type == "appengine.googleapis.com/Service"
            
-           	# Check if resource is in exempt list
-           	matches := {asset.name} & cast_set(exempt_list)
-           	count(matches) == 0
+           	# Check version count
+           	max_versions := lib.get_default(params, "max_versions", 2)
+           	version_count := count(asset.resource.data.split.allocations)
+           	version_count > max_versions
            
-           	# The rotation period for a key may be "never".  This results
-           	# in the rotationPeriod attribute to be omitted from response
-           	# from the CAI.  The default is 99999999s.  This is 
-           	# sufficiently high enough to cause fail
-           	rotation_period_string := lib.get_default(asset.resource.data, "rotationPeriod", "99999999s")
-           	rotation_period := time.parse_duration_ns(rotation_period_string)
-           
-           	period_string := lib.get_default(params, "period", "31536000s")
-           	period_to_test := time.parse_duration_ns(period_string)
-           
-           	rotation_period > period_to_test
-           	message := sprintf("%v: CMEK Rotation Period must be at most %v.", [asset.name, period_string])
-           	metadata := {"resource": asset.name}
+           	message := sprintf("%v has more than %v versions (%v).", [asset.name, max_versions, version_count])
+           	metadata := {
+           		"constraint": params,
+           		"resource": asset.name,
+           	}
            }
            #ENDINLINE

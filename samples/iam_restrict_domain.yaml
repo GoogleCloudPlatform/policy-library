@@ -13,15 +13,16 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPStorageBucketWorldReadableConstraintV1
+kind: GCPIAMAllowedPolicyMemberDomainsConstraintV1
 metadata:
-  name: blacklist_public_users
+  name: only_my_domain
   annotations:
-    description: Prevent public users from having access to resources via IAM
-    bundles.validator.forsetisecurity.org/scorecard-v1: security
+    description: Only allow members from my domain to added to IAM roles
 spec:
   severity: high
   match:
     target: ["organization/*"]
-    exclude: [] # optional, default is no exclusions
-  parameters: {}
+  parameters:
+    domains:
+    - example.com
+    - gserviceaccount.com # also allow service accounts
