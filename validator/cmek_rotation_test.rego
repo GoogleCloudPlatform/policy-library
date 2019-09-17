@@ -36,6 +36,16 @@ all_violations_no_params[violation] {
 	violation := issues[_]
 }
 
+all_violations_exemptions[violation] {
+	resource := data.test.fixtures.cmek_rotation.assets[_]
+	constraint := data.test.fixtures.cmek_rotation.constraints.exemptions
+
+	issues := deny with input.asset as resource
+		 with input.constraint as constraint
+
+	violation := issues[_]
+}
+
 # Confirm total violations count
 test_cmek_rotation_violations_count {
 	count(all_violations) == 2
@@ -48,4 +58,8 @@ test_cmek_rotation_violations_no_params_count {
 test_cmek_violations_basic {
 	violation := all_violations[_]
 	violation.details.resource == "//cloudkms.googleapis.com/projects/test-project/locations/us-central1/keyRings/test-key-ring/cryptoKeys/rotation-never"
+}
+
+test_cmek_rotation_violations_exemptions_count {
+	count(all_violations_exemptions) == 1
 }
