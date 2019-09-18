@@ -24,7 +24,17 @@ spec:
         plural: gcpsqlmaintenancewindowconstraintsv1
       validation:
         openAPIV3Schema:
-          properties: {}
+          properties:
+            hours:
+              type: array
+              items: number
+              description: "Array of UTC hours when the maintenance window is authorised. Example night hours
+              Optional, when not specified any hour is authorized from 0 to 23"
+            exemptions:
+              type: array
+              items: string
+              description: "Array of Cloud SQL instances to exempt from maintenance window restriction. String values in the array
+              should correspond to the full name values of exempted Cloud SQL instances. Optional"
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/sql_maintenance_window.rego")
