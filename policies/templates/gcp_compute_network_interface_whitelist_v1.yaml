@@ -11,6 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+# Checks network interfaces on a compute instance against a provided whitelist of networks
 
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
@@ -25,7 +27,7 @@ spec:
       validation:
         openAPIV3Schema:
             whitelist:
-              description: "The full obejct URI of the networks allowed"
+              description: "A list of full object URIs of the networks allowed, for example: ['https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/global/networks/default1']"
               type: array
               items: string
   targets:
