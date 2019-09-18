@@ -17,7 +17,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPSQLMaintenanceWindowConstraintV1
 metadata:
-  name: gcp-sql-maintenance-window-v1
+  name: sql-maintenance-window-test-missing-parameters-object # this ensure no breaking change with the previous version
 spec:
   severity: high
   match:
