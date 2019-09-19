@@ -52,7 +52,7 @@ check_format: ## Check that files have been formatted using opa fmt
 .PHONY: audit
 audit:
 	@echo "Running config-validator audit ..."
-	@sh scripts/cft.sh -p ${PROJECT_ID} -o ${ORG_ID} -b ${CAI_BUCKET_NAME} -e ${EXPORT}
+	@sh scripts/cft.sh -l $(PWD) -p ${PROJECT_ID} -b ${BUCKET_NAME} -e ${EXPORT}
 
 help: ## Prints help for targets with comments
 	@grep -E '^[a-zA-Z._-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "make \033[36m%- 30s\033[0m %s\n", $$1, $$2}'
