@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 r=`tput setaf 1`
 g=`tput setaf 2`
@@ -19,6 +19,11 @@ case $key in
     ;;
     -o|--organization)
     organization_id="$2"
+    shift
+    shift
+    ;;
+    -f|--folder)
+    folder_id="$2"
     shift
     shift
     ;;
