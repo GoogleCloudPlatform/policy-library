@@ -50,7 +50,7 @@ check_format: ## Check that files have been formatted using opa fmt
 	@test $$(opa fmt -l lib/ validator/ | wc -l) -eq '0'
 
 .PHONY: audit
-audit: ## Runs audit against real CAI dump data
+audit: ## Run audit against real CAI dump data
 	@echo "Running config-validator audit ..."
 	@bash scripts/cft.sh -o "$(ORG_ID)" -f "$(FOLDER_ID)" -p "$(PROJECT_ID)" -b "$(BUCKET_NAME)" -e "$(EXPORT)"
 
