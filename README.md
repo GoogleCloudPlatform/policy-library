@@ -12,6 +12,7 @@ using the [Constraint Template Authoring Guide](./docs/constraint_template_autho
 ### Available Commands
 
 ```
+make audit                          Run audit against real CAI dump data
 make build                          Format and build
 make build_templates                Inline Rego rules into constraint templates
 make debug                          Show debugging output from OPA
