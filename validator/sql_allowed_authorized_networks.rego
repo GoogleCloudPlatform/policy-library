@@ -28,9 +28,33 @@ deny[{
 	asset := input.asset
 	asset.asset_type == "sqladmin.googleapis.com/Instance"
 
+	check_ssl(params, asset.resource.settings.ipConfiguration) == false
+
+	message := sprintf("%v has networks with SSL settings in violation of policy", [asset.name])
+	metadata := {"resource": asset.name}
+}
+
+deny[{
+	"msg": message,
+	"details": metadata,
+}] {
+	constraint := input.constraint
+	lib.get_constraint_params(constraint, params)
+
+	asset := input.asset
+	asset.asset_type == "sqladmin.googleapis.com/Instance"
+
+	forbidden := forbidden_networks(params, asset.resource.settings.ipConfiguration)
+	count(forbidden) > 0
+
+	message := sprintf("%v has authorized networks that are not allowed: %v", [asset.name, forbidden])
+	metadata := {"resource": asset.name}
+}
+
+forbidden_networks(params, ipConfiguration) = forbidden {
 	allowed_authorized_networks = lib.get_default(params, "authorized_networks", [])
 	configured_networks := {network |
-		network = asset.resource.settings.ipConfiguration.authorizedNetworks[_].value
+		network = ipConfiguration.authorizedNetworks[_].value
 	}
 
 	matched_networks := {network |
@@ -39,8 +63,14 @@ deny[{
 	}
 
 	forbidden := configured_networks - matched_networks
-	count(forbidden) > 0
+}
 
-	message := sprintf("%v has authorized networks that are not allowed: %v", [asset.name, forbidden])
-	metadata := {"resource": asset.name}
+check_ssl(params, ipConfiguration) = result {
+	lib.has_field(params, "ssl_enabled") == false
+	result = true
+}
+
+check_ssl(params, ipConfiguration) = result {
+	requireSsl := lib.get_default(ipConfiguration, "requireSsl", false)
+	result = requireSsl == params.ssl_enabled
 }
