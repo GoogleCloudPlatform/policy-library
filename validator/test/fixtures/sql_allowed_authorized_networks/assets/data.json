@@ -14,7 +14,7 @@
         "dataDiskType": "PD_SSD",
         "ipConfiguration": {
           "ipv4Enabled": true,
-          "requireSsl": false
+          "requireSsl": true
         },
         "kind": "sql#settings",
         "locationPreference": {
@@ -74,7 +74,7 @@
             }
           ],
           "ipv4Enabled": true,
-          "requireSsl": true
+          "requireSsl": false
         },
         "kind": "sql#settings",
         "locationPreference": {
