@@ -53,7 +53,6 @@ spec:
            }] {
            	constraint := input.constraint
            	lib.get_constraint_params(constraint, params)
-           	exempt_list := lib.get_default(params, "exemptions", [])
            	asset := input.asset
            	asset.asset_type == "cloudkms.googleapis.com/CryptoKey"
            

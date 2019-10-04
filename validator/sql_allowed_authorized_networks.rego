@@ -28,7 +28,7 @@ deny[{
 	asset := input.asset
 	asset.asset_type == "sqladmin.googleapis.com/Instance"
 
-	check_ssl(params, asset.resource.settings.ipConfiguration) == false
+	check_ssl(params, asset.resource.data.settings.ipConfiguration) == false
 
 	message := sprintf("%v has networks with SSL settings in violation of policy", [asset.name])
 	metadata := {"resource": asset.name}
@@ -44,7 +44,7 @@ deny[{
 	asset := input.asset
 	asset.asset_type == "sqladmin.googleapis.com/Instance"
 
-	forbidden := forbidden_networks(params, asset.resource.settings.ipConfiguration)
+	forbidden := forbidden_networks(params, asset.resource.data.settings.ipConfiguration)
 	count(forbidden) > 0
 
 	message := sprintf("%v has authorized networks that are not allowed: %v", [asset.name, forbidden])

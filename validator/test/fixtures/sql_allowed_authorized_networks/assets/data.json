@@ -2,6 +2,7 @@
   "name": "//cloudsql.googleapis.com/projects/noble-history-87417/instances/no-authorized-networks",
   "asset_type": "sqladmin.googleapis.com/Instance",
   "resource": {
+    "data": {
       "settings": {
         "activationPolicy": "ALWAYS",
         "backupConfiguration": {
@@ -35,11 +36,13 @@
       },
       "state": "RUNNABLE"
     }
+  }
 },
 {
   "name": "//cloudsql.googleapis.com/projects/noble-history-87417/instances/authorized-networks-35",
   "asset_type": "sqladmin.googleapis.com/Instance",
   "resource": {
+    "data":{
       "settings": {
         "activationPolicy": "ALWAYS",
         "backupConfiguration": {
@@ -94,4 +97,5 @@
       },
       "state": "RUNNABLE"
     }
+  }
 }]
