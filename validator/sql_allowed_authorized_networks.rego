@@ -53,13 +53,8 @@ deny[{
 
 forbidden_networks(params, ipConfiguration) = forbidden {
 	allowed_authorized_networks = lib.get_default(params, "authorized_networks", [])
-
-	# Check whether authorizedNetworks field exists, so that
-	# we can report violation when this field is not set
-	config_auth_networks = lib.get_default(ipConfiguration, "authorizedNetworks", [{"value": "authorized network unspecified"}])
-
 	configured_networks := {network |
-		network = config_auth_networks[_].value
+		network = ipConfiguration.authorizedNetworks[_].value
 	}
 
 	matched_networks := {network |
