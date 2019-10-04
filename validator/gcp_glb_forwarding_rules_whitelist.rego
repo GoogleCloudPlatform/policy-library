@@ -29,7 +29,7 @@ deny[{
 	lib.get_constraint_params(constraint, params)
 	asset := input.asset
 
-	asset.asset_type == "compute.googleapis.com/ForwardingRule"
+	is_forwarding_rule(asset.asset_type)
 
 	instance := asset.resource.data
 
@@ -45,6 +45,14 @@ deny[{
 ###########################
 # Rule Utilities
 ###########################
+
+is_forwarding_rule(asset_type) {
+	asset_type == "compute.googleapis.com/ForwardingRule"
+}
+
+is_forwarding_rule(asset_type) {
+	asset_type == "compute.googleapis.com/GlobalForwardingRule"
+}
 
 get_whitelist_entry(whitelist, target) = output {
 	rule := whitelist[_]
