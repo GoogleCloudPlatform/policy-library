@@ -136,7 +136,7 @@ fw_rule_get_ip_configs(fw_rule, rule_type) = ip_configs {
 
 # fw_rule_check_protocol when one ip_configs is set to "all"
 fw_rule_check_protocol_and_port(ip_configs, protocol, port) {
-	ip_configs[_].ipProtocol == "all"
+	ip_configs[_].IPProtocol == "all"
 }
 
 # fw_rule_check_protocol when protocol is set to any
@@ -150,7 +150,7 @@ fw_rule_check_protocol_and_port(ip_configs, protocol, port) {
 	protocol != "any"
 
 	# Check if the protocol is in the rule
-	ip_configs[i].ipProtocol == protocol
+	ip_configs[i].IPProtocol == protocol
 
 	# Check if the associated port is also a match
 fw_rule_check_port(	ip_configs[i], port)
@@ -166,10 +166,10 @@ fw_rule_check_port(ip_config, port) {
 	protocol_with_ports := {"tcp", "udp", "all"}
 
 	# only for protocol with ports or "all" - since it includes tcp and udp
-	ip_config.ipProtocol == protocol_with_ports[_]
+	ip_config.IPProtocol == protocol_with_ports[_]
 
 	# if port is not set in ip_config, any port passed as a param matches
-not 	ip_config.port
+not 	ip_config.ports
 }
 
 # fw_rule_check_port when port is a single number
@@ -178,7 +178,7 @@ fw_rule_check_port(ip_config, port) {
 	not re_match("-", port)
 
 	# check if the port matches
-	rule_ports := ip_config.port
+	rule_ports := ip_config.ports
 
 	# check if port is in one of rule_ports values
 port_is_in_values(	port, rule_ports[_])
@@ -190,7 +190,7 @@ fw_rule_check_port(ip_config, port) {
 	re_match("-", port)
 
 	# check if the port range is included in the fw_rule port
-	rule_ports := ip_config.port
+	rule_ports := ip_config.ports
 
 	rule_port := rule_ports[_]
 
@@ -260,11 +260,11 @@ fw_rule_check_all_sources(fw_rule, params) {
 
 # fw_rule_check_source when source range is passed
 fw_rule_check_source_range(fw_rule, source_range) {
-	# test if sourceRange exists in the rule
-	fw_rule.sourceRange
+	# test if sourceRanges exists in the rule
+	fw_rule.sourceRanges
 
 	# check that source ranges are set
-	fw_rule_ranges = fw_rule.sourceRange
+	fw_rule_ranges = fw_rule.sourceRanges
 
 	# check if any range matches
 	# no CIDR matching logic at this time
@@ -276,7 +276,7 @@ fw_rule_check_source_range(fw_rule, source_range) {
 	source_range == "*"
 
 	# Check that at least a source range is set
-	fw_rule.sourceRange
+	fw_rule.sourceRanges
 }
 
 # fw_rule_check_source_range if source_ranges is set to any (default)
@@ -289,7 +289,7 @@ fw_rule_check_source_tag(fw_rule, source_tag) {
 	source_tag != "*"
 
 	# check that the rule source tags are set
-	fw_rule_source_tags := fw_rule.sourceTag
+	fw_rule_source_tags := fw_rule.sourceTags
 
 	# check if the input tag matches any tag in the rule
 re_match(	source_tag, fw_rule_source_tags[_])
@@ -300,7 +300,7 @@ fw_rule_check_source_tag(fw_rule, source_tag) {
 	source_tag == "*"
 
 	# Verify that we have a source tag set, regardless of its value
-	fw_rule.sourceTag
+	fw_rule.sourceTags
 }
 
 # fw_rule_check_source_tag if source tag is set to any (default)
@@ -313,7 +313,7 @@ fw_rule_check_source_sas(fw_rule, source_service_account) {
 	source_service_account != "*"
 
 	# check that source service accounts are set
-	fw_rule_source_sas = fw_rule.sourceServiceAccount
+	fw_rule_source_sas = fw_rule.sourceServiceAccounts
 
 	# check if the rule service account matches
 re_match(	source_service_account, fw_rule_source_sas[_])
@@ -324,7 +324,7 @@ fw_rule_check_source_sas(fw_rule, source_service_account) {
 	source_service_account == "*"
 
 	# Verify that we have a source service account set, regardless of its value
-	fw_rule.sourceServiceAccount
+	fw_rule.sourceServiceAccounts
 }
 
 # fw_rule_check_source_sas if source service account is set to any
@@ -345,11 +345,11 @@ fw_rule_check_all_targets(fw_rule, params) {
 
 # fw_rule_check_target when target range is passed
 fw_rule_check_target_range(fw_rule, target_range) {
-	# test if destinationRange exists in the rule
-	fw_rule.destinationRange
+	# test if destinationRanges exists in the rule
+	fw_rule.destinationRanges
 
 	# check that target ranges are set
-	fw_rule_ranges = fw_rule.destinationRange
+	fw_rule_ranges = fw_rule.destinationRanges
 
 	# check if any range matches
 	# no CIDR matching logic at this time
@@ -361,7 +361,7 @@ fw_rule_check_target_range(fw_rule, target_range) {
 	target_range == "*"
 
 	# Check that at least a target range is set
-	fw_rule.destinationRange
+	fw_rule.destinationRanges
 }
 
 # fw_rule_check_target_range if target_ranges is set to any (default)
@@ -374,7 +374,7 @@ fw_rule_check_target_tag(fw_rule, target_tag) {
 	target_tag != "*"
 
 	# check that the rule target tags are set
-	fw_rule_target_tags := fw_rule.targetTag
+	fw_rule_target_tags := fw_rule.targetTags
 
 	# check if the input tag matches any tag in the rule
 re_match(	target_tag, fw_rule_target_tags[_])
@@ -385,7 +385,7 @@ fw_rule_check_target_tag(fw_rule, target_tag) {
 	target_tag == "*"
 
 	# Verify that we have a target tag set, regardless of its value
-	fw_rule.targetTag
+	fw_rule.targetTags
 }
 
 # fw_rule_check_target_tag if target tag is set to any (default)
@@ -398,7 +398,7 @@ fw_rule_check_target_sas(fw_rule, target_service_account) {
 	target_service_account != "*"
 
 	# check that target service accounts are set
-	fw_rule_target_sas = fw_rule.targetServiceAccount
+	fw_rule_target_sas = fw_rule.targetServiceAccounts
 
 	# check if the rule service account matches
 re_match(	target_service_account, fw_rule_target_sas[_])
@@ -409,7 +409,7 @@ fw_rule_check_target_sas(fw_rule, target_service_account) {
 	target_service_account == "*"
 
 	# Verify that we have a target service account set, regardless of its value
-	fw_rule.targetServiceAccount
+	fw_rule.targetServiceAccounts
 }
 
 # fw_rule_check_target_sas if target service account is set to any

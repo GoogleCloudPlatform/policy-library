@@ -10,17 +10,17 @@
             "data": {
                 "allowed": [
                     {
-                        "ipProtocol": "icmp"
+                        "IPProtocol": "icmp"
                     },
                     {
-                        "ipProtocol": "tcp",
-                        "port": [
+                        "IPProtocol": "tcp",
+                        "ports": [
                             "123"
                         ]
                     },
                     {
-                        "ipProtocol": "udp",
-                        "port": [
+                        "IPProtocol": "udp",
+                        "ports": [
                             "1000-7000"
                         ]
                     }
@@ -37,10 +37,10 @@
                 "network": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/networks/default",
                 "priority": 65534,
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/firewalls/default-allow-rdp",
-                "sourceRange": [
+                "sourceRanges": [
                     "0.0.0.0/0"
                 ],
-                "targetServiceAccount": [
+                "targetServiceAccounts": [
                     "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
                 ]
             }
@@ -57,18 +57,18 @@
             "data": {
                 "allowed": [
                     {
-                        "ipProtocol": "tcp",
-                        "port": [
+                        "IPProtocol": "tcp",
+                        "ports": [
                             "20",
                             "50-160",
                             "3000-3010"
                         ]
                     },
                     {
-                        "ipProtocol": "icmp"
+                        "IPProtocol": "icmp"
                     },
                     {
-                        "ipProtocol": "sctp"
+                        "IPProtocol": "sctp"
                     }
                 ],
                 "creationTimestamp": "2019-08-01T12:29:43.984-07:00",
@@ -83,10 +83,10 @@
                 "network": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/networks/default",
                 "priority": 1000,
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-1",
-                "sourceRange": [
+                "sourceRanges": [
                     "0.0.0.0/0"
                 ],
-                "targetServiceAccount": [
+                "targetServiceAccounts": [
                     "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
                 ]
             }
@@ -104,7 +104,7 @@
                 "creationTimestamp": "2019-08-01T12:33:34.710-07:00",
                 "allowed": [
                     {
-                        "ipProtocol": "all"
+                        "IPProtocol": "all"
                     }
                 ],
                 "description": "",
@@ -118,10 +118,10 @@
                 "network": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/networks/default",
                 "priority": 1000,
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-2",
-                "sourceRange": [
+                "sourceRanges": [
                     "0.0.0.0/0"
                 ],
-                "targetServiceAccount": [
+                "targetServiceAccounts": [
                     "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
                 ]
             }
@@ -139,7 +139,7 @@
                 "creationTimestamp": "2019-08-01T12:34:29.409-07:00",
                 "denied": [
                     {
-                        "ipProtocol": "all"
+                        "IPProtocol": "all"
                     }
                 ],
                 "description": "",
@@ -153,10 +153,10 @@
                 "network": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/networks/default",
                 "priority": 1000,
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-3",
-                "sourceRange": [
+                "sourceRanges": [
                     "0.0.0.0/0"
                 ],
-                "targetServiceAccount": [
+                "targetServiceAccounts": [
                     "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
                 ]
             }
@@ -173,14 +173,14 @@
             "data": {
                 "allowed": [
                     {
-                        "ipProtocol": "udp",
-                        "port": [
+                        "IPProtocol": "udp",
+                        "ports": [
                             "234"
                         ]
                     },
                     {
-                        "ipProtocol": "tcp",
-                        "port": [
+                        "IPProtocol": "tcp",
+                        "ports": [
                             "22", "100-300", "2000-6100"
                         ]
                     }
@@ -197,10 +197,10 @@
                 "network": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/networks/default",
                 "priority": 1000,
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-4",
-                "sourceRange": [
+                "sourceRanges": [
                     "0.0.0.0/0"
                 ],
-                "targetServiceAccount": [
+                "targetServiceAccounts": [
                     "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
                 ]
             }
@@ -217,7 +217,7 @@
             "data": {
                 "allowed": [
                     {
-                        "ipProtocol": "all"
+                        "IPProtocol": "all"
                     }
                 ],
                 "creationTimestamp": "2019-08-01T15:32:41.698-07:00",
@@ -232,10 +232,10 @@
                 "network": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/networks/default",
                 "priority": 1000,
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-5",
-                "sourceRange": [
+                "sourceRanges": [
                     "0.0.0.0/0"
                 ],
-                "targetServiceAccount": [
+                "targetServiceAccounts": [
                     "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
                 ]
             }
@@ -252,22 +252,22 @@
             "data": {
                 "allowed": [
                     {
-                        "ipProtocol": "tcp"
+                        "IPProtocol": "tcp"
                     },
                     {
-                        "ipProtocol": "udp",
-                        "port": [
+                        "IPProtocol": "udp",
+                        "ports": [
                             "5200"
                         ]
                     },
                     {
-                        "ipProtocol": "ah"
+                        "IPProtocol": "ah"
                     },
                     {
-                        "ipProtocol": "sctp"
+                        "IPProtocol": "sctp"
                     },
                     {
-                        "ipProtocol": "icmp"
+                        "IPProtocol": "icmp"
                     }
                 ],
                 "creationTimestamp": "2019-08-09T09:28:30.215-07:00",
@@ -282,10 +282,10 @@
                 "network": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/networks/default",
                 "priority": 1000,
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-6",
-                "sourceRange": [
+                "sourceRanges": [
                     "0.0.0.0/0"
                 ],
-                "targetServiceAccount": [
+                "targetServiceAccounts": [
                     "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
                 ]
             }
@@ -302,8 +302,8 @@
             "data": {
                 "allowed": [
                     {
-                        "ipProtocol": "tcp",
-                        "port": [
+                        "IPProtocol": "tcp",
+                        "ports": [
                             "234"
                         ]
                     }
@@ -320,14 +320,13 @@
                 "network": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/networks/default",
                 "priority": 1000,
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-7",
-                "sourceRange": [
+                "sourceRanges": [
                     "0.0.0.0/0"
                 ],
-                "targetServiceAccount": [
+                "targetServiceAccounts": [
                     "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
                 ]
             }
         }
     }
 ]
-

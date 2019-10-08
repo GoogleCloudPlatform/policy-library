@@ -10,7 +10,7 @@
             "data": {
                 "allowed": [
                     {
-                        "ipProtocol": "all"
+                        "IPProtocol": "all"
                     }
                 ],
                 "creationTimestamp": "2019-01-03T18:17:04.307-08:00",
@@ -25,10 +25,10 @@
                 "network": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/networks/default",
                 "priority": 65534,
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/firewalls/default-allow-rdp",
-                "sourceRange": [
+                "sourceRanges": [
                     "0.0.0.0/0"
                 ],
-                "targetServiceAccount": [
+                "targetServiceAccounts": [
                     "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
                 ]
             }
@@ -45,7 +45,7 @@
             "data": {
                 "allowed": [
                     {
-                        "ipProtocol": "all"
+                        "IPProtocol": "all"
                     }
                 ],
                 "creationTimestamp": "2019-08-01T12:29:43.984-07:00",
@@ -60,10 +60,10 @@
                 "network": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/networks/default",
                 "priority": 1000,
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-1",
-                "sourceRange": [
+                "sourceRanges": [
                     "0.0.0.0/0"
                 ],
-                "targetServiceAccount": [
+                "targetServiceAccounts": [
                     "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
                 ]
             }
@@ -81,7 +81,7 @@
                 "creationTimestamp": "2019-08-01T12:33:34.710-07:00",
                 "allowed": [
                     {
-                        "ipProtocol": "all"
+                        "IPProtocol": "all"
                     }
                 ],
                 "description": "",
@@ -95,10 +95,10 @@
                 "network": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/networks/default",
                 "priority": 1000,
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-2",
-                "sourceRange": [
+                "sourceRanges": [
                     "0.0.0.0/0"
                 ],
-                "targetServiceAccount": [
+                "targetServiceAccounts": [
                     "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
                 ]
             }
@@ -116,7 +116,7 @@
                 "creationTimestamp": "2019-08-01T12:34:29.409-07:00",
                 "allowed": [
                     {
-                        "ipProtocol": "all"
+                        "IPProtocol": "all"
                     }
                 ],
                 "description": "",
@@ -130,13 +130,13 @@
                 "network": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/networks/default",
                 "priority": 1000,
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-3",
-                "sourceRange": [
+                "sourceRanges": [
                     "0.0.0.0/0"
                 ],
-                "sourceTag": [
+                "sourceTags": [
                     "bad-tag"
                 ],
-                "targetServiceAccount": [
+                "targetServiceAccounts": [
                     "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
                 ]
             }
@@ -153,7 +153,7 @@
             "data": {
                 "denied": [
                     {
-                        "ipProtocol": "all"
+                        "IPProtocol": "all"
                     }
                 ],
                 "creationTimestamp": "2019-08-01T12:52:26.839-07:00",
@@ -168,10 +168,10 @@
                 "network": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/networks/default",
                 "priority": 1000,
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-4",
-                "sourceRange": [
+                "sourceRanges": [
                     "0.0.0.0/0"
                 ],
-                "targetServiceAccount": [
+                "targetServiceAccounts": [
                     "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
                 ]
             }
@@ -188,7 +188,7 @@
             "data": {
                 "allowed": [
                     {
-                        "ipProtocol": "all"
+                        "IPProtocol": "all"
                     }
                 ],
                 "creationTimestamp": "2019-08-01T15:32:41.698-07:00",
@@ -203,10 +203,10 @@
                 "network": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/networks/default",
                 "priority": 1000,
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-5",
-                "sourceRange": [
+                "sourceRanges": [
                     "0.0.0.0/0"
                 ],
-                "targetServiceAccount": [
+                "targetServiceAccounts": [
                     "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
                 ]
             }
@@ -223,7 +223,7 @@
             "data": {
                 "allowed": [
                     {
-                        "ipProtocol": "all"
+                        "IPProtocol": "all"
                     }
                 ],
                 "creationTimestamp": "2019-08-09T09:28:30.215-07:00",
@@ -238,10 +238,10 @@
                 "network": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/networks/default",
                 "priority": 1000,
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-6",
-                "sourceRange": [
+                "sourceRanges": [
                     "0.0.0.0/0"
                 ],
-                "targetServiceAccount": [
+                "targetServiceAccounts": [
                     "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
                 ]
             }
@@ -258,7 +258,7 @@
             "data": {
                 "denied": [
                     {
-                        "ipProtocol": "all"
+                        "IPProtocol": "all"
                     }
                 ],
                 "creationTimestamp": "2019-08-09T12:53:34.847-07:00",
@@ -273,10 +273,10 @@
                 "network": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/networks/default",
                 "priority": 1000,
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-7",
-                "sourceRange": [
+                "sourceRanges": [
                     "0.0.0.0/0"
                 ],
-                "targetServiceAccount": [
+                "targetServiceAccounts": [
                     "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
                 ]
             }
@@ -293,12 +293,12 @@
             "data": {
                 "allowed": [
                     {
-                        "ipProtocol": "all"
+                        "IPProtocol": "all"
                     }
                 ],
                 "creationTimestamp": "2018-12-05T08:17:39.527-08:00",
                 "description": "",
-                "destinationRange": [
+                "destinationRanges": [
                     "0.0.0.0/0"
                 ],
                 "direction": "EGRESS",
@@ -326,11 +326,11 @@
                 "creationTimestamp": "2019-08-13T12:04:05.918-07:00",
                 "denied": [
                     {
-                        "ipProtocol": "all"
+                        "IPProtocol": "all"
                     }
                 ],
                 "description": "",
-                "destinationRange": [
+                "destinationRanges": [
                     "10.0.0.0/24"
                 ],
                 "direction": "EGRESS",
@@ -343,7 +343,7 @@
                 "network": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/networks/default",
                 "priority": 1000,
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-9",
-                "targetTag": [
+                "targetTags": [
                     "target-tag"
                 ]
             }
@@ -360,12 +360,12 @@
             "data": {
                 "denied": [
                     {
-                        "ipProtocol": "all"
+                        "IPProtocol": "all"
                     }
                 ],
                 "creationTimestamp": "2019-08-13T12:04:38.423-07:00",
                 "description": "",
-                "destinationRange": [
+                "destinationRanges": [
                     "10.0.0.0/24"
                 ],
                 "direction": "EGRESS",
@@ -392,12 +392,12 @@
             "data": {
                 "allowed": [
                     {
-                        "ipProtocol": "all"
+                        "IPProtocol": "all"
                     }
                 ],
                 "creationTimestamp": "2019-08-13T12:05:17.297-07:00",
                 "description": "",
-                "destinationRange": [
+                "destinationRanges": [
                     "10.0.0.0/24"
                 ],
                 "direction": "EGRESS",
@@ -410,7 +410,7 @@
                 "network": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/networks/default",
                 "priority": 1000,
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-11",
-                "targetServiceAccount": [
+                "targetServiceAccounts": [
                     "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
                 ]
             }
