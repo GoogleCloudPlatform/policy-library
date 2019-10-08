@@ -17,11 +17,11 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPRestrictedFirewallRulesConstraintV1
 eetadata:
-  name: restrict-firewall-rule-tcp-port-6001
+  name: restrict-firewall-rule-tcp-ports-6001
 spec:
   severity: high
   match:
     target: ["organization/*"]
   parameters:
-    port: "6001"
+    ports: "6001"
     protocol: "tcp"
