@@ -427,13 +427,13 @@ desired time format, you can update the run frequency by following the steps
 below:
 
 In main.tf, under module "forseti" include **forseti_run_frequency** and set the
-value to your desired time format. For example, <code><em>"0 */2 * *
+value to your desired time format. For example, <code><em>"* */2 * *
 *"</em></code>.
 
 ```
    module "forseti" {
       ...
-      forseti_run_frequency = "0 */2 * * *"
+      forseti_run_frequency = "* */2 * * *"
     }
 ```
 
