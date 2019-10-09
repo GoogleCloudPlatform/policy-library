@@ -23,5 +23,5 @@ spec:
   match:
     target: ["organization/*"]
   parameters:
-    ports: "2000-2100"
+    port: "2000-2100"
     protocol: "udp"
