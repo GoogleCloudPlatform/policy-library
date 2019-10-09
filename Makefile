@@ -49,5 +49,10 @@ check_sample_files: ## Make sure each template in policies/templates has one sam
 check_format: ## Check that files have been formatted using opa fmt
 	@test $$(opa fmt -l lib/ validator/ | wc -l) -eq '0'
 
+.PHONY: audit
+audit: ## Run audit against real CAI dump data
+	@echo "Running config-validator audit ..."
+	@bash scripts/cft.sh -o "$(ORG_ID)" -f "$(FOLDER_ID)" -p "$(PROJECT_ID)" -b "$(BUCKET_NAME)" -e "$(EXPORT)"
+
 help: ## Prints help for targets with comments
 	@grep -E '^[a-zA-Z._-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "make \033[36m%- 30s\033[0m %s\n", $$1, $$2}'

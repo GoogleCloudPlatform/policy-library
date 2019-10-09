@@ -23,8 +23,13 @@ deny[{
 }] {
 	constraint := input.constraint
 	lib.get_constraint_params(constraint, params)
+	exempt_list := lib.get_default(params, "exemptions", [])
 	asset := input.asset
 	asset.asset_type == "cloudkms.googleapis.com/CryptoKey"
+
+	# Check if resource is in exempt list
+	matches := {asset.name} & cast_set(exempt_list)
+	count(matches) == 0
 
 	# The rotation period for a key may be "never".  This results
 	# in the rotationPeriod attribute to be omitted from response

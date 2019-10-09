@@ -12,33 +12,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# Checks network interfaces on a compute instance against a provided whitelist of networks
+
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-compute-external-ip-access-v1
-  annotations:
-    # Example of tying a template to a CIS benchmark
-    benchmark: CIS11_5.03
+  name: gcp-compute-network-interface-whitelist-v1
 spec:
   crd:
     spec:
       names:
-        kind: GCPComputeExternalIpAccessConstraintV1
-        plural: gcpcomputeexternalipaccessconstraintsv1
+        kind: GCPComputeNetworkInterfaceWhitelistConstraintV1
+        plural: gcpcomputenetworkinterfacewhitelistconstraintsV1
       validation:
         openAPIV3Schema:
-          properties:
-            mode:
-              type: string
-              enum: [blacklist, whitelist]
-            instances:
+            whitelist:
+              description: "A list of full object URIs of the networks allowed, for example: ['https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/global/networks/default1']"
               type: array
               items: string
   targets:
-   validation.gcp.forsetisecurity.org:
-      rego: | #INLINE("validator/vm_external_ip.rego")
+    validation.gcp.forsetisecurity.org:
+      rego: | #INLINE("validator/compute_network_interface_whitelist.rego")
             #
-            # Copyright 2018 Google LLC
+            # Copyright 2019 Google LLC
             #
             # Licensed under the Apache License, Version 2.0 (the "License");
             # you may not use this file except in compliance with the License.
@@ -53,48 +49,38 @@ spec:
             # limitations under the License.
             #
             
-            package templates.gcp.GCPComputeExternalIpAccessConstraintV1
+            package templates.gcp.GCPComputeNetworkInterfaceWhitelistConstraintV1
             
             import data.validator.gcp.lib as lib
             
-            ###########################
-            # Find Whitelist Violations
-            ###########################
             deny[{
             	"msg": message,
             	"details": metadata,
             }] {
             	constraint := input.constraint
-            	lib.get_constraint_params(constraint, params)
             	asset := input.asset
             	asset.asset_type == "compute.googleapis.com/Instance"
             
-            	# Find network access config block w/ external IP
+            	lib.get_constraint_params(input.constraint, params)
+            
             	instance := asset.resource.data
-            	access_config := instance.networkInterfaces[_].accessConfigs
-            	count(access_config) > 0
             
-            	# Check if instance is in blacklist/whitelist
-            	target_instances := params.instances
-            	matches := {asset.name} & cast_set(target_instances)
-            	target_instance_match_count(params.mode, desired_count)
-            	count(matches) == desired_count
+            	interfaces := lib.get_default(instance, "networkInterface", [])
+            	interface := interfaces[_]
+            	full_network_uri := interface.network
             
-            	message := sprintf("%v is not allowed to have an external IP.", [asset.name])
-            	metadata := {"access_config": access_config}
-            }
+            	whitelist := lib.get_default(params, "whitelist", [])
+            	allowed_networks := {n | n = whitelist[_]}
             
-            ###########################
-            # Rule Utilities
-            ###########################
+            	access_configs := lib.get_default(interface, "accessConfig", [])
             
-            # Determine the overlap between instances under test and constraint
-            # By default (whitelist), we violate if there isn't overlap
-            target_instance_match_count(mode) = 0 {
-            	mode != "blacklist"
-            }
+            	is_external_network := count(access_configs) > 0
+            	is_network_whitelisted := count({full_network_uri} - allowed_networks) == 0
             
-            target_instance_match_count(mode) = 1 {
-            	mode == "blacklist"
+            	is_external_network == true
+            	is_network_whitelisted == false
+            
+            	message := sprintf("Compute instance %v has interface %v with invalid access configuration.", [asset.name, interface.name])
+            	metadata := {"resource": asset.name}
             }
             #ENDINLINE

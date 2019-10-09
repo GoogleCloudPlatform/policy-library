@@ -35,7 +35,7 @@
         "labelFingerprint": "42WmSpB8rSM=",
         "machineType": "https://www.googleapis.com/compute/v1/projects/test-project/zones/us-east1-c/machineTypes/g1-small",
         "name": "vm-no-ip",
-        "networkInterface": [
+        "networkInterfaces": [
           {
             "fingerprint": "+QCnSman4bQ=",
             "ipAddress": "10.1.0.2",
@@ -105,9 +105,9 @@
         "labelFingerprint": "42WmSpB8rSM=",
         "machineType": "https://www.googleapis.com/compute/v1/projects/test-project/zones/us-east1-b/machineTypes/n1-standard-1",
         "name": "vm-external-ip",
-        "networkInterface": [
+        "networkInterfaces": [
           {
-            "accessConfig": [
+            "accessConfigs": [
               {
                 "externalIp": "35.196.151.107",
                 "name": "external-nat",
@@ -183,9 +183,9 @@
         "labelFingerprint": "42WmSpB8rSM=",
         "machineType": "https://www.googleapis.com/compute/v1/projects/test-project/zones/us-east1-b/machineTypes/n1-standard-1",
         "name": "vm-external-ip",
-        "networkInterface": [
+        "networkInterfaces": [
           {
-            "accessConfig": [
+            "accessConfigs": [
               {
                 "externalIp": "35.196.151.110",
                 "name": "external-nat",
@@ -261,7 +261,7 @@
             "labelFingerprint": "42WmSpB8rSM=",
             "machineType": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-west1-b/machineTypes/n1-standard-1",
             "name": "instance-west1-b",
-            "networkInterface": [
+            "networkInterfaces": [
                 {
                     "fingerprint": "DmucjcL5aT8=",
                     "ipAddress": "10.138.0.2",
@@ -336,7 +336,7 @@
             "labelFingerprint": "42WmSpB8rSM=",
             "machineType": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b/machineTypes/n1-standard-2",
             "name": "instance-1",
-            "networkInterface": [
+            "networkInterfaces": [
                 {
                     "fingerprint": "txRPD69rSyo=",
                     "ipAddress": "10.142.0.2",
@@ -406,7 +406,7 @@
             "labelFingerprint": "42WmSpB8rSM=",
             "machineType": "https://www.googleapis.com/compute/v1/projects/sandbox2/zones/us-east1-b/machineTypes/n1-standard-1",
             "name": "instance-east1-b",
-            "networkInterface": [
+            "networkInterfaces": [
                 {
                     "fingerprint": "WeM4FEq7/I0=",
                     "ipAddress": "10.142.0.3",
