@@ -25,3 +25,7 @@ test_audit_log_missing_service {
 test_audit_log_missing_log_types {
 	resources_in_violation["//cloudresourcemanager.googleapis.com/projects/wrong-log-type"]
 }
+
+test_audit_log_unexpected_exemption {
+	resources_in_violation["//cloudresourcemanager.googleapis.com/projects/unexpected-exemption"]
+}

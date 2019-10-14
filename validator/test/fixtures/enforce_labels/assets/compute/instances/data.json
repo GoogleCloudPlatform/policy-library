@@ -39,9 +39,9 @@
                 },
                 "machineType": "https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/zones/us-central1-b/machineTypes/n1-standard-4",
                 "name": "valid-instance-8hz5",
-                "networkInterface": [
+                "networkInterfaces": [
                     {
-                        "accessConfig": [
+                        "accessConfigs": [
                             {
                                 "externalIp": "35.226.29.59",
                                 "name": "EXTERNAL NAT",
@@ -126,9 +126,9 @@
                 "labelFingerprint": "C1H1XlV7n1k=",
                 "machineType": "https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/zones/us-central1-b/machineTypes/n1-standard-4",
                 "name": "invalid-instance-missing-labels-8hz5",
-                "networkInterface": [
+                "networkInterfaces": [
                     {
-                        "accessConfig": [
+                        "accessConfigs": [
                             {
                                 "externalIp": "35.226.29.59",
                                 "name": "EXTERNAL NAT",
@@ -218,9 +218,9 @@
                 },
                 "machineType": "https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/zones/us-central1-b/machineTypes/n1-standard-4",
                 "name": "invalid-instance-missing-label1-8hz5",
-                "networkInterface": [
+                "networkInterfaces": [
                     {
-                        "accessConfig": [
+                        "accessConfigs": [
                             {
                                 "externalIp": "35.226.29.59",
                                 "name": "EXTERNAL NAT",
@@ -310,9 +310,9 @@
                 },
                 "machineType": "https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/zones/us-central1-b/machineTypes/n1-standard-4",
                 "name": "invalid-instance-missing-label2-8hz5",
-                "networkInterface": [
+                "networkInterfaces": [
                     {
-                        "accessConfig": [
+                        "accessConfigs": [
                             {
                                 "externalIp": "35.226.29.59",
                                 "name": "EXTERNAL NAT",
@@ -403,9 +403,9 @@
                 },
                 "machineType": "https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/zones/us-central1-b/machineTypes/n1-standard-4",
                 "name": "invalid-instance-missing-label1-and-label2-bad-values",
-                "networkInterface": [
+                "networkInterfaces": [
                     {
-                        "accessConfig": [
+                        "accessConfigs": [
                             {
                                 "externalIp": "35.226.29.59",
                                 "name": "EXTERNAL NAT",

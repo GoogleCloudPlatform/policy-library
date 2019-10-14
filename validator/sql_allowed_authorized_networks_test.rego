@@ -37,9 +37,17 @@ test_sql_allowed_authorized_networks_default {
 	violation.details.resource == "//cloudsql.googleapis.com/projects/noble-history-87417/instances/authorized-networks-35"
 }
 
+test_sql_allowed_authorized_networks_ssl_enabled {
+	constraints := [fixture_constraints.ssl_enabled]
+	violations := find_violations with data.test_constraints as constraints
+	count(violations) == 1
+
+	violation := violations[_]
+	violation.details.resource == "//cloudsql.googleapis.com/projects/noble-history-87417/instances/authorized-networks-35"
+}
+
 test_sql_allowed_authorized_networks_whitelist {
 	constraints := [fixture_constraints.whitelist]
 	violations := find_violations with data.test_constraints as constraints
-
 	count(violations) == 0
 }

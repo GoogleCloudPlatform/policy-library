@@ -55,7 +55,7 @@ deny[{
 
 	not label_is_valid(label_key, label_value_pattern, asset, non_standard_types)
 
-	message := sprintf("%v's label is in violation.", [asset.name])
+	message := sprintf("%v's label '%v' is in violation.", [asset.name, label_key])
 	metadata := {"resource": asset.name, "label_in_violation": label_key}
 }
 
