@@ -13,9 +13,9 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPGLBForwardingRuleWhitelistConstraintV1
+kind: GCPLBForwardingRuleWhitelistConstraintV1
 metadata:
-  name: gcp_glb_forwarding_rule_whitelist
+  name: gcp_lb_forwarding_rule_whitelist
 spec:
   severity: high
   parameters:

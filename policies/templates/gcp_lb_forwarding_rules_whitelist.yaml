@@ -15,15 +15,15 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-glb-forwarding-rule-whitelist-v1
+  name: gcp-lb-forwarding-rule-whitelist-v1
   annotations:
     description: "Constraint to restrict forwarding rules based on a whitelist"
 spec:
   crd:
     spec:
       names:
-        kind: GCPGLBForwardingRuleWhitelistConstraintV1
-        plural: gcpglbforwardingrulewhitelistconstraintsv1
+        kind: GCPLBForwardingRuleWhitelistConstraintV1
+        plural: gcplbforwardingrulewhitelistconstraintsv1
       validation:
         openAPIV3Schema:
           whitelist:
@@ -46,7 +46,7 @@ spec:
                   - target
   targets:
     validation.gcp.forsetisecurity.org:
-      rego: | #INLINE("validator/gcp_glb_forwarding_rules_whitelist.rego")
+      rego: | #INLINE("validator/gcp_lb_forwarding_rules_whitelist.rego")
            #
            # Copyright 2018 Google LLC
            #
@@ -63,7 +63,7 @@ spec:
            # limitations under the License.
            #
            
-           package templates.gcp.GCPGLBForwardingRulesWhitelistConstraintV1
+           package templates.gcp.GCPLBForwardingRulesWhitelistConstraintV1
            
            import data.validator.gcp.lib as lib
            

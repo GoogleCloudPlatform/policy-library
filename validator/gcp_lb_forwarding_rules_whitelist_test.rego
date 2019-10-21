@@ -14,12 +14,12 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPGLBForwardingRulesWhitelistConstraintV1
+package templates.gcp.GCPLBForwardingRulesWhitelistConstraintV1
 
 # Find all violations on our test cases
 all_violations[violation] {
-	resource := data.test.fixtures.gcp_glb_forwarding_rules_whitelist.assets[_]
-	constraint := data.test.fixtures.gcp_glb_forwarding_rules_whitelist.constraints
+	resource := data.test.fixtures.gcp_lb_forwarding_rules_whitelist.assets[_]
+	constraint := data.test.fixtures.gcp_lb_forwarding_rules_whitelist.constraints
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
