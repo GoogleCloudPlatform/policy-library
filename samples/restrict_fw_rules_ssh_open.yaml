@@ -23,8 +23,9 @@ spec:
   match:
     target: ["organization/*"]
   parameters:
-    direction: "any"
-    port:
-      - "22"
-    protocol: "tcp"
-    enabled: true
+    rules:
+      - direction: "any"
+        port:
+          - "22"
+        protocol: "tcp"
+        enabled: true

@@ -23,5 +23,6 @@ spec:
   match:
     target: ["organization/*"]
   parameters:
-    port: "6001"
-    protocol: "tcp"
+    rules:
+      - port: "6001"
+        protocol: "tcp"

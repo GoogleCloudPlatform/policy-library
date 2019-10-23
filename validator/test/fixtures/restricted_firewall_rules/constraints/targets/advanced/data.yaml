@@ -23,7 +23,10 @@ spec:
   match:
     target: ["organization/*"]
   parameters:
-    target_ranges:
-      - "10.0.0.0/24"
-    target_tags:
-      - "target-tag*"
+    rules:
+      - target_ranges:
+          - "10.0.0.0/24"
+        target_tags:
+          - "target-tag*"
+      - target_service_accounts:
+          - "cf-gcp-challenge-dev-sa-lone@cf-gcp-challenge-dev.iam.gserviceaccount.com"

@@ -23,5 +23,6 @@ spec:
   match:
     target: ["organization/*"]
   parameters:
-    direction: "EGRESS"
-    rule_type: "denied"
+    rules:
+      - direction: "EGRESS"
+        rule_type: "denied"

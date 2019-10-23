@@ -23,13 +23,16 @@ spec:
   match:
     target: ["organization/*"]
   parameters:
-    direction: "INGRESS"
-    rule_type: "any"
-    protocol: "tcp"
-    source_tags:
-      - "source-tag*"
-    source_ranges:
-      - "192.168.1.1/32"
-      - "0.0.0.0/0"
-    target_service_accounts:
-      - "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
+    rules:
+      - direction: "INGRESS"
+        rule_type: "any"
+        protocol: "tcp"
+        source_tags:
+          - "source-tag*"
+        source_ranges:
+          - "192.168.1.1/32"
+          - "0.0.0.0/0"
+        target_service_accounts:
+          - "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
+      - direction: "EGRESS"
+        protocol: "udp"

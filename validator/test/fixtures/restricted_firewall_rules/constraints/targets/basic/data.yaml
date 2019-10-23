@@ -23,5 +23,6 @@ spec:
   match:
     target: ["organization/*"]
   parameters:
-    target_service_accounts:
-      - "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
+    rules:
+      - target_service_accounts:
+          - "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"

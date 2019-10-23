@@ -17,12 +17,15 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPRestrictedFirewallRulesConstraintV1
 eetadata:
-  name: restrict-firewall-rule-allow-ingress-egress
+  name: restrict-firewall-rule-advanced-ingress-egress
 spec:
   severity: high
   match:
     target: ["organization/*"]
   parameters:
-    direction: "any"
-    rule_type: "allowed"
-    enabled: true
+    rules:
+      - direction: "any"
+        rule_type: "denied"
+        enabled: true
+      - direction: "EGRESS"
+        rule_type: "allowed"

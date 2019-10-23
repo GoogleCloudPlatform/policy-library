@@ -277,7 +277,7 @@
                     "0.0.0.0/0"
                 ],
                 "targetServiceAccounts": [
-                    "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
+                    "cf-gcp-challenge-dev-sa-lone@cf-gcp-challenge-dev.iam.gserviceaccount.com"
                 ]
             }
         }
