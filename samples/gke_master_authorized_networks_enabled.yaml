@@ -18,6 +18,7 @@ metadata:
   name: enable_gke_master_authorized_networks
   annotations:
     description: Ensure Master authorized networks is set to Enabled on Kubernetes Engine Clusters
+    # This constraint has not been validated by the formal CIS certification process.
     bundles.validator.forsetisecurity.org/cis-v1.1: 7.04
     bundles.validator.forsetisecurity.org/gke-hardening-v2019.11.11: ENABLED_MASTER_AUTHORIZED_NETWORK
 spec:
