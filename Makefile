@@ -20,7 +20,7 @@ SHELL := /usr/bin/env bash
 .PHONY: test
 test: ## Test constraint templates via OPA
 	@echo "Running OPA tests..."
-	@opa test -v lib/ validator/ --explain=notes
+	@opa test --timeout 30s -v lib/ validator/ --explain=notes
 
 .PHONY: debug
 debug: ## Show debugging output from OPA
