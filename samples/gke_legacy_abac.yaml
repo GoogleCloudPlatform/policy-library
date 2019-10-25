@@ -18,6 +18,7 @@ metadata:
   name: disable_gke_legacy_abac
   annotations:
     description: Ensure Legacy Authorization is set to Disabled on Kubernetes Engine Clusters
+    # This constraint has not been validated by the formal CIS certification process.
     bundles.validator.forsetisecurity.org/cis-v1.1: 7.03
     bundles.validator.forsetisecurity.org/gke-hardening-v2019.11.11: DISABLED_LEGACY_AUTHORIZATION
 spec:
