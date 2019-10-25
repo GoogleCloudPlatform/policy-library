@@ -18,7 +18,7 @@ metadata:
   name: enable_gke_stackdriver_logging
   annotations:
     description: Ensure stackdriver logging is enabled on a GKE cluster
-    bundles.validator.forsetisecurity.org/cis-v1.1: 7.01
+    bundles.validator.forsetisecurity.org/cis-v1.0: 7.01
 spec:
   severity: high
   match:
