@@ -15,6 +15,7 @@
 Create a new rule with proper CRD naming. The default rule is based on vm-external-ip
 """
 
+import shutil
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import os
 import sys
@@ -93,6 +94,7 @@ render_and_write(
 log.info("%s has been created under the policies/templates directory. In this file you define the parameters for your rego rule.", template_filename)
 
 
+# create sample file
 sample_filename = ("gcp_{}_{}.yaml".format(
     resource.lower(), feature.lower())).replace("-", "_")
 render_and_write(
@@ -106,3 +108,43 @@ render_and_write(
     }
 )
 log.info("%s has been created under the samples directory. You should copy this file under policies/constraints and provide parameters.", sample_filename)
+
+# create test rego
+test_rego_filename = ("gcp_{}_{}_test.rego".format(resource.lower(),
+                                                   feature.lower())).replace("-", "_")
+test_fixture_directory_basename = ("gcp_{}_{}".format(
+    resource.lower(), feature.lower())).replace("-", "_")
+render_and_write(
+    template_file_name="validator_test.rego.jinja2",
+    write_path_and_filename=os.path.join(
+        root_path, "..", "validator", test_rego_filename),
+    parameters={"year": year, "crd_kind": crd_kind,
+                "test_fixture_directory": test_fixture_directory_basename}
+)
+log.info("%s has been created under the validator directory. In this file you define the rego rule.", rego_filename)
+
+# create fixtures
+test_fixture_directory_full_path = os.path.join(
+    root_path, "..", "validator", "test", "fixtures", test_fixture_directory_basename)
+try:
+    os.mkdir(test_fixture_directory_full_path)
+    os.mkdir(os.path.join(test_fixture_directory_full_path, "assets"))
+    os.mkdir(os.path.join(test_fixture_directory_full_path, "constraints"))
+except(FileExistsError):
+    log.warning("%s already exists", test_fixture_directory_full_path)
+
+# create constraints
+render_and_write(
+    template_file_name="sample.yaml.jinja2",
+    write_path_and_filename=os.path.join(
+        test_fixture_directory_full_path, "constraints", "data.yaml"),
+    parameters={
+        "year": year,
+        "crd_kind": crd_kind,
+        "human_readable_name": human_readable_name
+    }
+)
+
+# create example assets
+shutil.copy(os.path.join(root_path, "rule_jinja_templates", "fixture_assets.json"),
+            os.path.join(test_fixture_directory_full_path, "assets", "data.json"))
