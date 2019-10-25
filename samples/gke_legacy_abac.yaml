@@ -19,8 +19,7 @@ metadata:
   annotations:
     description: Ensure Legacy Authorization is set to Disabled on Kubernetes Engine Clusters
     bundles.validator.forsetisecurity.org/cis-v1.1: 7.03
-    bundles.validator.forsetisecurity.org/gke-hardening-v2019.11.11: DISABLE_ABAC
-    
+    bundles.validator.forsetisecurity.org/gke-hardening-v2019.11.11: DISABLED_LEGACY_AUTHORIZATION
 spec:
   severity: high
   match:
