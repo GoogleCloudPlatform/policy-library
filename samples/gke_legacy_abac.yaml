@@ -17,7 +17,10 @@ kind: GCPGKELegacyAbacConstraintV1
 metadata:
   name: disable_gke_legacy_abac
   annotations:
-    benchmark: GKE_HARDENING_GUIDELINE
+    description: Ensure Legacy Authorization is set to Disabled on Kubernetes Engine Clusters
+    bundles.validator.forsetisecurity.org/cis-v1.1: 7.03
+    bundles.validator.forsetisecurity.org/gke-hardening-v2019.11.11: DISABLE_ABAC
+    
 spec:
   severity: high
   match:
