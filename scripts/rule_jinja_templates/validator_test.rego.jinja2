@@ -22,7 +22,7 @@ import data.test.fixtures.{{ test_fixture_directory }}.constraints as fixture_co
 # Find all violations on our test cases
 find_violations[violation] {
 	asset := data.assets[_]
-	constraint := data.test_constraints[_]
+	constraint := data.test_constraints
 
 	issues := deny with input.asset as asset
 		 with input.constraint as constraint
