@@ -17,7 +17,9 @@ kind: GCPGKEMasterAuthorizedNetworksEnabledConstraintV1
 metadata:
   name: enable_gke_master_authorized_networks
   annotations:
-    benchmark: GKE_HARDENING_GUIDELINE
+    description: Ensure Master authorized networks is set to Enabled on Kubernetes Engine Clusters
+    bundles.validator.forsetisecurity.org/cis-v1.1: 7.04
+    bundles.validator.forsetisecurity.org/gke-hardening-v2019.11.11: ENABLED_MASTER_AUTHORIZED_NETWORK
 spec:
   severity: high
   parameters: {}
