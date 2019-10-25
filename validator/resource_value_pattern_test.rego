@@ -25,68 +25,51 @@ resource_names[name] {
 	# playground and they work fine, so I am not sure the problem here.
 	a := cast_array(data.violations)
 	i := a[_]
-	trace(sprintf("Violations %v", [i]))
+
 	name := i.details.resource
 }
 
 test_resource_value_pattern_optional_on_multiple_resources {
-	# Arrange
 	expected_count := 2
 	expected_resources := {
 		"//compute.googleapis.com/projects/test-project/zones/us-east1-c/instances/vm-no-ip",
 		"//cloudresourcemanager.googleapis.com/projects/15100256534",
 	}
 
-	# Act
 	found_violations := find_violations with data.assets as fixture_assets
 		 with data.test_constraints as lookup_constraint.optional_billing_id_on_multiple_assets
 
 	found_resources := resource_names with data.violations as found_violations
 
-	# Assert
-	# opa eval -d=lib/ -d=validator/ --format=pretty -explain full "data.templates.gcp.GCPResourceValuePatternConstraintV1.test_resource_value_pattern_optional_on_multiple_resources"
-trace(	sprintf("Found violations count should be %v and got %v", [count(expected_resources), count(found_violations)]))
 	found_resources == expected_resources
 }
 
 test_resource_value_pattern_required_field_with_pattern {
-	# Arrange
 	expected_count := 2
 	expected_resources := {
 		"//cloudresourcemanager.googleapis.com/projects/1510025653",
 		"//cloudresourcemanager.googleapis.com/projects/15100256534",
 	}
 
-	# Act
 	found_violations := find_violations with data.assets as fixture_assets
 		 with data.test_constraints as lookup_constraint.required_billing_id_on_project
 
 	found_resources := resource_names with data.violations as found_violations
 
-	# Assert
-	# opa eval -d=lib/ -d=validator/ --format=pretty -explain full "data.templates.gcp.GCPResourceValuePatternConstraintV1.test_resource_value_pattern_required_field_with_pattern"
-trace(	sprintf("Found violations count should be %v and got %v", [count(expected_resources), count(found_violations)]))
 	found_resources == expected_resources
 }
 
 test_resource_value_pattern_no_pattern_violations {
-	# Arrange
 	expected_count := 1
 	expected_resources := {"//cloudresourcemanager.googleapis.com/projects/1510025653"}
 
-	# Act
 	found_violations := find_violations with data.assets as fixture_assets
 		 with data.test_constraints as lookup_constraint.required_billing_id_no_pattern
 
 	found_resources := resource_names with data.violations as found_violations
 
-	# Assert
-	# opa eval -d=lib/ -d=validator/ --format=pretty -explain full "data.templates.gcp.GCPResourceValuePatternConstraintV1.test_resource_value_pattern_no_pattern_violations"
-trace(	sprintf("Found violations count should be %v and got %v", [count(expected_resources), count(found_violations)]))
 	found_resources == expected_resources
 }
-
-#v.details.resource = "//cloudresourcemanager.googleapis.com/projects/1510025653"
 
 # Boolean truth table is 16 rows, 2^4 (2 states, 4 variables)
 # Test all permutations to ensure we have full coverage, no multiple outputs
@@ -162,6 +145,7 @@ test_has_field_by_path {
 	not has_field_by_path(doc, "labels.tf_foo.unknown")
 }
 
+# Verifying default behavior
 test_get_default_by_path {
 	doc := {
 		"labels": {
