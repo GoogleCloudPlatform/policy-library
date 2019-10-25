@@ -17,7 +17,10 @@ kind: GCPGKENodeAutoUpgradeConstraintV1
 metadata:
   name: enable_auto_upgrade
   annotations:
-    benchmark: GKE_HARDENING_GUIDELINE
+    description: Ensure Automatic node upgrades is enabled on Kubernetes Engine Clusters nodes
+    bundles.validator.forsetisecurity.org/cis-v1.0: 7.08
+    bundles.validator.forsetisecurity.org/cis-v1.1: 7.08
+    bundles.validator.forsetisecurity.org/gke-hardening-v2019.11.11: ENABLED_NODE_AUTO_UPGRADE
 spec:
   severity: high
   match:
