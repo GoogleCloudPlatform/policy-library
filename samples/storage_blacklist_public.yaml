@@ -19,6 +19,8 @@ metadata:
   annotations:
     description: Prevent public users from having access to resources via IAM
     bundles.validator.forsetisecurity.org/scorecard-v1: security
+    # This constraint is not certified by CIS.
+    bundles.validator.forsetisecurity.org/cis-v1.1: 5.01
 spec:
   severity: high
   match:
