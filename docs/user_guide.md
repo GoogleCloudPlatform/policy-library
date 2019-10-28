@@ -90,6 +90,11 @@ a read-only user to the private repository which will be used by Forseti.
 
 #### Duplicate Public Repository
 
+To run the follwoing commands, you will need to configure git to connect
+securely. It is recommended to connect with SSH. [Here is a helpful resource](https://help.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh) for learning about how
+this works, including steps to set this up for GitHub repositories; other
+providers offer this feature as well.
+
 ```
 export GIT_REPO_ADDR="git@github.com:${YOUR_GITHUB_USERNAME}/policy-library.git"
 git clone --bare https://github.com/forseti-security/policy-library.git
@@ -104,7 +109,7 @@ git clone ${GIT_REPO_ADDR}
 
 Then you need to examine the available constraint templates inside the
 `templates` directory. Pick the constraint templates that you wish to use,
-create constraint YAML files correspondings to those templates, and place them
+create constraint YAML files corresponding to those templates, and place them
 under `policies/constraints`. Commit the newly created constraint files to
 **your** Git repository. For example, assuming you have created a Git repository
 named "policy-library" under your GitHub account, you can use the following
@@ -335,59 +340,57 @@ found. Therefore, you should configure your CI to only proceed to the next step
 
 ## How to Use Forseti Config Validator
 
-### Install Forseti
+### Deploy Forseti
 
-Follow the standard installation process. This guide assumes Terraform is used
-to install Forseti, and Forseti can be installed via its own
-[installer](https://forsetisecurity.org/docs/v2.2/setup/install.html) or
-[Cloud Foundation Toolkit](https://github.com/terraform-google-modules/terraform-google-forseti)
-as well.
+Follow the [documentation on the Forseti Security website](https://forsetisecurity.org/docs/latest/setup/install.html)
+to deploy Forseti. As part of the Terraform configuration, you will need to enable
+Config Validator and choose how to provide policies to Forseti Server.
 
-If you haven't already, the first step is to
-[Install](https://learn.hashicorp.com/terraform/getting-started/install.html)
-Terraform. Then use the
-[terraform-google-forseti](https://github.com/terraform-google-modules/terraform-google-forseti)
-module to install Forseti. Here is a sample main.tf file modeled mostly from the
-"[simple example](https://github.com/terraform-google-modules/terraform-google-forseti/tree/master/examples/simple_example)":
+To enable Config Validator in the Forseti Terraform configuration, set the
+`config_validator_enabled` variable to `true`.
 
-```
-module "forseti" {
-      source  = "terraform-google-modules/forseti/google"
+#### Provide Policies to Forseti Server
 
-      domain             = "yourdomain.com"
-      project_id         = "your-forseti-project-id-here"
-      org_id             = "your-org-id-here"
-      …
-      config_validator_enabled      = true
-      policy_library_sync_enabled   = true
-      policy_library_repository_url = "git@github.com:forseti-security/policy-library"
-    }
-```
+The recommended practice is to store the Policy Library in a VCS such as GitHub
+or other git repository. This supports the idea of policy as code and requires
+work to setup the repository and connect it with Forseti. Once the repository is
+setup, then Forseti will automatically
+[sync](https://github.com/kubernetes/git-sync) policy updates to the Forseti
+Server to be used by future scans.
 
-The important additions are the `config_validator_enabled` and
-`policy_library_sync_enabled` fields. They are not enabled by default; therefore
-you need to explicitly enable them. It is recommended to use the [Policy Library Sync](#policy-library-sync) feature, but not required. If you are using the
-sync, then set `policy_library_repository_url` to the Git URL of your private
-repo.
+The default behavior of Forseti is to sync the Policy Library from the Forseti
+Server GCS bucket. This requires little setup, but involves manual work to
+create the folder and copy the policies to GCS.
 
-### Policy Library Sync
 
-Forseti has the ability to clone your private policy library repo and keep it in
-sync (using [git-sync](https://github.com/kubernetes/git-sync)), so that config
-validator will always use the latest policies while scanning. Optionally, you
-can provide the SSH known hosts to use when Forseti clones/pulls the repo. To
-provide the known hosts, run the command below and use the output as the value
-for the `policy_library_sync_ssh_known_hosts` field within the main.tf:
+### Policy Library Sync from Git Repository
+
+As part of the Terraform configuration, you will need to include a few
+additional variables to enable the git-sync feature. Here are some details
+about these options which can be supplied in your main.tf:
+
+- `policy_library_sync_enabled`: Set to `true` to enable git-sync
+- `policy_library_repository_url`: Provide the URL for your Policy Library
+repository; git protocol is recommended. Example: `git@github.com:forseti-security/policy-library`
+- (OPTIONAL) `policy_library_sync_ssh_known_hosts`: Provide the [known host keys](https://www.ssh.com/ssh/host-key)
+for the git repository. This can be obtained by running `ssh-keyscan ${YOUR_GIT_HOST}`.
+
+You should also setup an outputs.tf configuration file for Terraform to obtain
+the auto-generated public SSH key.
 
 ```
-ssh-keyscan ${YOUR_GIT_HOST}
+output "forseti-server-git-public-key-openssh" {
+  description = "The public OpenSSH key generated to allow the Forseti Server to clone the policy library repository."
+  value       = module.server.forseti-server-git-public-key-openssh
+}
 ```
 
-After applying the Terraform configuration, you will need to add the generated
-SSH key to the read-only user's account. The SSH key will be provided as an
-output from Terraform. If your private repo is hosted on GitHub, you can
-[follow these steps to add the SSH key to your account](https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account).
-To get the generated SSH key from Terraform run this command:
+__IMPORTANT:__ After applying the Terraform configuration, you will need to add the generated
+SSH key to the git user account. The SSH key will be provided as an
+output from Terraform. If the Policy Library repository is hosted on GitHub, you
+can [follow these steps to add the SSH key to your account](https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account).
+
+To obtain the generated SSH key from Terraform run this command:
 
 ```
 terraform output forseti-server-git-public-key-openssh
@@ -396,18 +399,22 @@ terraform output forseti-server-git-public-key-openssh
 You can view any logs related to this process from Stackdriver Logging by
 searching for `git-sync`.
 
-### Copy over policy library repository (DEPRECATED)
+### Policy Library Sync from GCS
 
-**NOTE:** This feature has been deprecated and will be removed in a future
-version. Please migrate to the Policy Library Sync feature.
+To sync policies from GCS to the Forseti server, you will need to
+create the GCS folder.
 
-Your policy library repository specifies the constraints to be enforced. In
-order for Forseti server to access it, you need to copy it over to Forseti
-server's GCS bucket. Assuming you already have a local copy of your policy
-library repository:
+Open the Forseti project in the [Google Cloud Console](https://console.cloud.google.com)
+and go to Storage in the menu. The Forseti Server bucket will be named
+`forseti-server-{SUFFIX}` where `{SUFFIX}` is a random 8 character suffix setup
+at the time Forseti is deployed. Create a folder with the name `policy-library`
+inside the Forseti Server bucket and make note of the suffix.
+
+Assuming you have a local copy of your policy library repository, you can follow
+these steps to copy them to GCS (replace `{SUFFIX}` with the suffix noted above):
 
 ```
-export FORSETI_BUCKET=`terraform output -module=forseti forseti-server-storage-bucket`
+export FORSETI_BUCKET=`gs://forseti-server-{SUFFIX}`
 export POLICY_LIBRARY_PATH=path/to/local/policy-library
 gsutil -m rsync -d -r ${POLICY_LIBRARY_PATH}/policies gs://${FORSETI_BUCKET}/policy-library/policies
 gsutil -m rsync -d -r ${POLICY_LIBRARY_PATH}/lib gs://${FORSETI_BUCKET}/policy-library/lib
