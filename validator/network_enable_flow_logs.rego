@@ -1,3 +1,4 @@
+#
 # Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,11 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPCMEKSettingsConstraintV1
-metadata:
-  name: cmek_rotation_no_params
-spec:
-  severity: high
-  parameters: {}
 
+package templates.gcp.GCPNetworkEnableFlowLogsConstraintV1
+
+import data.validator.gcp.lib as lib
+
+deny[{
+	"msg": message,
+	"details": metadata,
+}] {
+	constraint := input.constraint
+	asset := input.asset
+	asset.asset_type == "compute.googleapis.com/Subnetwork"
+
+	network := asset.resource.data
+	network.enableFlowLogs == false
+
+	message := sprintf("Flow logs are disabled in subnetwork %v.", [asset.name])
+	metadata := {"resource": asset.name}
+}
