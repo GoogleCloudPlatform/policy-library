@@ -13,11 +13,9 @@
   * [For local development environments](#for-local-development-environments)
   * [For Production Environments](#for-production-environments)
 * [How to Use Forseti Config Validator](#how-to-use-forseti-config-validator)
-  * [Install Forseti](#install-forseti)
-  * [Policy Library Sync](#policy-library-sync)
-  * [Copy over policy library repository](#copy-over-policy-library-repository-deprecated)
-  * [How to change the run frequency of Forseti](#how-to-change-the-run-frequency-of-forseti)
-  * [How to handle scaling for large resource sets](#how-to-handle-scaling-for-large-resource-sets)
+  * [Deploy Forseti](#deploy-forseti)
+  * [Policy Library Sync from Git Repository](#policy-library-sync-from-git-repository)
+  * [Policy Library Sync from GCS](#policy-library-sync-from-gcs)
   * [How to connect violation results with Cloud Security Command Center (CSCC)](#how-to-connect-violation-results-with-cloud-security-command-center-cscc)
 * [End to end workflow with sample constraint](#end-to-end-workflow-with-sample-constraint)
 * [Contact Info](#contact-info)
@@ -424,42 +422,6 @@ Example result: ![GCS Bucket Content](user_guide_bucket.png)
 
 After this is done, Forseti will pick up the new policy library content in the
 next scanner run.
-
-### How to change the run frequency of Forseti
-
-The Forseti inventory and scanning processes is scheduled to run by a cron job.
-To update the run frequency of this cron job, you need to understand
-[the time format of a cron job](https://crontab.guru/). After you have your
-desired time format, you can update the run frequency by following the steps
-below:
-
-In main.tf, under module "forseti" include **forseti_run_frequency** and set the
-value to your desired time format. For example, <code><em>"0 */2 * *
-*"</em></code>.
-
-```
-   module "forseti" {
-      ...
-      forseti_run_frequency = "0 */2 * * *"
-    }
-```
-
-Run _terraform plan_ command to see the change and _terraform apply_ command to
-apply the change.
-
-### How to handle scaling for large resource sets
-
-If you want to scale for large resource sets, you need to add more RAM to your
-server**.** Upgrading the Forseti server VM to n1-standard-4 (15GB of RAM)
-should be able to handle most use cases. Depending on the state and size of your
-data, this may trigger a large number of violations. Currently GRPC has a
-payload size limitation of 4MB. If a scanner run results in > 4MB of violation
-data to be generated, that will result in an error.
-
-In the future, we will consider the following changes:
-
-*   Use streaming GRPC or paging the violation results.
-*   Split the dataset into multiple chunks and process them separately.
 
 ### How to connect violation results with Cloud Security Command Center (CSCC)
 
