@@ -86,9 +86,13 @@ steps below to get everything setup. If you are planning on using the [Policy
 Library Sync feature of Forseti](#policy-library-sync), then you should also add
 a read-only user to the private repository which will be used by Forseti.
 
-#### Duplicate Public Repository
+This policy library can also be made public, but it is not recommended. By
+making your policy library public, it would be allowing others to see what you
+are and __ARE NOT__ scanning for.
 
-To run the follwoing commands, you will need to configure git to connect
+#### Duplicate Policy Library Repository
+
+To run the following commands, you will need to configure git to connect
 securely. It is recommended to connect with SSH. [Here is a helpful resource](https://help.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh) for learning about how
 this works, including steps to set this up for GitHub repositories; other
 providers offer this feature as well.
