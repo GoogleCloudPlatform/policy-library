@@ -1,0 +1,72 @@
+[
+{
+  "name": "//compute.googleapis.com/projects/test-project/global/firewalls/default-allow-ssh",
+  "asset_type": "compute.googleapis.com/Firewall",
+  "resource": {
+    "version": "v1",
+    "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+    "discovery_name": "Firewall",
+    "parent": "//cloudresourcemanager.googleapis.com/projects/179891054368",
+    "data": {
+      "allowed": [
+        {
+          "ipProtocol": "tcp",
+          "ports": [
+            "22"
+          ]
+        }
+      ],
+      "creationTimestamp": "2019-09-13T14:05:09.664-07:00",
+      "description": "Allow ssh from anywhere",
+      "direction": "INGRESS",
+      "disabled": false,
+      "id": "6414427220908030570",
+      "logConfig": {
+        "enable": false
+      },
+      "name": "default-allow-ssh",
+      "network": "https://www.googleapis.com/compute/v1/projects/test-project/global/networks/default",
+      "priority": 65534,
+      "selfLink": "https://www.googleapis.com/compute/v1/projects/test-project/global/firewalls/default-allow-ssh",
+      "sourceRanges": [
+        "0.0.0.0/0"
+      ]
+    }
+  }
+},
+{
+  "name": "//compute.googleapis.com/projects/test-project/global/firewalls/narrow-allow-ssh",
+  "asset_type": "compute.googleapis.com/Firewall",
+  "resource": {
+    "version": "v1",
+    "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+    "discovery_name": "Firewall",
+    "parent": "//cloudresourcemanager.googleapis.com/projects/179891054368",
+    "data": {
+      "allowed": [
+        {
+          "ipProtocol": "tcp",
+          "ports": [
+            "22"
+          ]
+        }
+      ],
+      "creationTimestamp": "2019-09-13T14:05:09.664-07:00",
+      "description": "Allow ssh from local network",
+      "direction": "INGRESS",
+      "disabled": false,
+      "id": "6414427220908030571",
+      "logConfig": {
+        "enable": false
+      },
+      "name": "narrow-allow-ssh",
+      "network": "https://www.googleapis.com/compute/v1/projects/test-project/global/networks/default",
+      "priority": 65534,
+      "selfLink": "https://www.googleapis.com/compute/v1/projects/test-project/global/firewalls/default-allow-ssh",
+      "sourceRanges": [
+        "10.10.10.0/24"
+      ]
+    }
+  }
+}
+]
