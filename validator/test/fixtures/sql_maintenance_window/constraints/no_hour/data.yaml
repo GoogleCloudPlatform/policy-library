@@ -17,8 +17,12 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPSQLMaintenanceWindowConstraintV1
 metadata:
-  name: gcp-sql-maintenance-window-v1
+  name: sql-maintenance-window-test-empty-hour-parameter
 spec:
   severity: high
   match:
     target: ["organization/*"]
+  parameters:
+    hours: []
+    exemptions: []
+    
