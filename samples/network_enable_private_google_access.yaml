@@ -13,13 +13,13 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPGKEEnableStackdriverLoggingConstraintV1
+kind: GCPNetworkEnablePrivateGoogleAccessConstraintV1
 metadata:
-  name: enable_gke_stackdriver_logging
+  name: enable_network_private_google_access
   annotations:
-    description: Ensure stackdriver logging is enabled on a GKE cluster
-    # This constraint has not been validated by the formal CIS certification process.
-    bundles.validator.forsetisecurity.org/cis-v1.0: 7.01
+    description: Ensure Private Google Access is enabled for all subnetworks in VPC
+    # This constraint is not certified by CIS.
+    bundles.validator.forsetisecurity.org/cis-v1.1: 3.08
 spec:
   severity: high
   match:

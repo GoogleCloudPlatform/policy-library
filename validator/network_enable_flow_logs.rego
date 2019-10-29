@@ -1,3 +1,4 @@
+#
 # Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,17 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPGKEEnableStackdriverLoggingConstraintV1
-metadata:
-  name: enable_gke_stackdriver_logging
-  annotations:
-    description: Ensure stackdriver logging is enabled on a GKE cluster
-    # This constraint has not been validated by the formal CIS certification process.
-    bundles.validator.forsetisecurity.org/cis-v1.0: 7.01
-spec:
-  severity: high
-  match:
-    gcp:
-      target: ["organization/*"]
-  parameters: {}
+
+package templates.gcp.GCPNetworkEnableFlowLogsConstraintV1
+
+import data.validator.gcp.lib as lib
+
+deny[{
+	"msg": message,
+	"details": metadata,
+}] {
+	constraint := input.constraint
+	asset := input.asset
+	asset.asset_type == "compute.googleapis.com/Subnetwork"
+
+	network := asset.resource.data
+	network.enableFlowLogs == false
+
+	message := sprintf("Flow logs are disabled in subnetwork %v.", [asset.name])
+	metadata := {"resource": asset.name}
+}

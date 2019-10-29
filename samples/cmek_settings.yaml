@@ -13,16 +13,19 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPGKEEnableStackdriverLoggingConstraintV1
+kind: GCPCMEKSettingsConstraintV1
 metadata:
-  name: enable_gke_stackdriver_logging
-  annotations:
-    description: Ensure stackdriver logging is enabled on a GKE cluster
-    # This constraint has not been validated by the formal CIS certification process.
-    bundles.validator.forsetisecurity.org/cis-v1.0: 7.01
+  name: cmek_rotation
 spec:
   severity: high
   match:
-    gcp:
-      target: ["organization/*"]
-  parameters: {}
+    target: ["organization/*"]
+  parameters:
+    # Optionaly specify the required key rotation period.  Default is 365 days
+    # Valid time units are  "ns", "us" (or "µs"), "ms", "s", "m", "h"
+    # This is 365 days
+    rotation_period: 8760h
+    algorithm: GOOGLE_SYMMETRIC_ENCRYPTION
+    purpose: ENCRYPT_DECRYPT
+    protection_level: SOFTWARE
+

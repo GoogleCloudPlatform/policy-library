@@ -13,16 +13,14 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPGKEEnableStackdriverLoggingConstraintV1
+kind: GCPComputeNetworkInterfaceWhitelistConstraintV1
 metadata:
-  name: enable_gke_stackdriver_logging
-  annotations:
-    description: Ensure stackdriver logging is enabled on a GKE cluster
-    # This constraint has not been validated by the formal CIS certification process.
-    bundles.validator.forsetisecurity.org/cis-v1.0: 7.01
+  name: whitelist
 spec:
   severity: high
   match:
     gcp:
       target: ["organization/*"]
-  parameters: {}
+  parameters:
+      whitelist:
+          - https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/global/networks/default1
