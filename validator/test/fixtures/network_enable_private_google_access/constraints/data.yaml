@@ -13,10 +13,16 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPCMEKSettingsConstraintV1
+kind: GCPNetworkEnablePrivateGoogleAccessConstraintV1
 metadata:
-  name: cmek_rotation_no_params
+  name: enable_network_private_google_access
+  annotations:
+    description: Ensure Private Google Access is enabled for all subnetworks in VPC
+    # This constraint is not certified by CIS.
+    bundles.validator.forsetisecurity.org/cis-v1.1: 3.08
 spec:
   severity: high
+  match:
+    gcp:
+      target: ["organization/*"]
   parameters: {}
-
