@@ -89,7 +89,7 @@ spec:
                                   in the restricted FW rule"
                     type: array
                     items: string
-                    default: "['any']"
+                    default: ['any']
                   source_tags:
                     description: |
                       "Source tags of the rules to restrict. A fw rule only matches if ONE of its source
@@ -102,7 +102,7 @@ spec:
                                   in the restricted FW rule"
                     type: array
                     items: string
-                    default: "['any']"
+                    default: ['any']
                   source_service_accounts:
                     description: |
                       "Source service accounts of the rules to restrict. A fw rule only matches if ONE of
@@ -116,7 +116,7 @@ spec:
                                   service account existsin the restricted FW rule"
                     type: array
                     items: string
-                    default: "['any']"
+                    default: ['any']
                   target_ranges:
                     description: |
                       "Target (or destination) ranges of the rules to restrict. A fw rule only matches
@@ -130,7 +130,7 @@ spec:
                                   range exists in the restricted FW rule"
                     type: array
                     items: string
-                    default: "['any']"
+                    default: ['any']
                   target_tags:
                     description: |
                       "Target tags of the rules to restrict. A fw rule only matches if ONE of its target
@@ -143,7 +143,7 @@ spec:
                                   in the restricted FW rule"
                     type: array
                     items: string
-                    default: "['any']"
+                    default: ['any']
                   target_service_accounts:
                     description: |
                       "Target service accounts of the rules to restrict. A fw rule only matches if ONE of
@@ -157,7 +157,7 @@ spec:
                                   service account exists in the restricted FW rule"
                     type: array
                     items: string
-                    default: "['any']"
+                    default: ['any']
                   enabled:
                     description: "Status of the rules to restrict (enabled vs disabled)."
                     type: boolean or string
