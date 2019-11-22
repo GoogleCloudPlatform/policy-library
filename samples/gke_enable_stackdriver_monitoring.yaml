@@ -18,7 +18,7 @@ metadata:
   name: enable_gke_stackdriver_monitoring
   annotations:
     description: Ensure stackdriver monitoring is enabled on a GKE cluster
-    # This constraint is not certified by CIS.
+    # This constraint has not been validated by the formal CIS certification process.
     bundles.validator.forsetisecurity.org/cis-v1.0: 7.02
 spec:
   severity: high

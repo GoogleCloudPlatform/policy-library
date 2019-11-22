@@ -19,7 +19,7 @@ package templates.gcp.GCPComputeExternalIpAccessConstraintV1
 import data.validator.gcp.lib as lib
 
 ###########################
-# Find Whitelist Violations
+# Find Whitelist/Blacklist Violations
 ###########################
 deny[{
 	"msg": message,
@@ -36,10 +36,11 @@ deny[{
 	count(access_config) > 0
 
 	# Check if instance is in blacklist/whitelist
+	match_mode := lib.get_default(params, "match_mode", "exact")
 	target_instances := params.instances
-	matches := {asset.name} & cast_set(target_instances)
-	target_instance_match_count(params.mode, desired_count)
-	count(matches) == desired_count
+	trace(sprintf("asset name:%v, target_instances: %v, mode: %v, match_mode: %v", [asset.name, target_instances, params.mode, match_mode]))
+
+	instance_name_targeted(asset.name, target_instances, params.mode, match_mode)
 
 	message := sprintf("%v is not allowed to have an external IP.", [asset.name])
 	metadata := {"access_config": access_config}
@@ -48,13 +49,32 @@ deny[{
 ###########################
 # Rule Utilities
 ###########################
-
-# Determine the overlap between instances under test and constraint
-# By default (whitelist), we violate if there isn't overlap
-target_instance_match_count(mode) = 0 {
-	mode != "blacklist"
+instance_name_targeted(asset_name, instance_filters, mode, match_mode) {
+	mode == "whitelist"
+	match_mode == "exact"
+	matches := {asset_name} & cast_set(instance_filters)
+	count(matches) == 0
 }
 
-target_instance_match_count(mode) = 1 {
+instance_name_targeted(asset_name, instance_filters, mode, match_mode) {
 	mode == "blacklist"
+	match_mode == "exact"
+	matches := {asset_name} & cast_set(instance_filters)
+	count(matches) > 0
+}
+
+instance_name_targeted(asset_name, instance_filters, mode, match_mode) {
+	mode == "whitelist"
+	match_mode == "regex"
+	not re_match_name(asset_name, instance_filters)
+}
+
+instance_name_targeted(asset_name, instance_filters, mode, match_mode) {
+	mode == "blacklist"
+	match_mode == "regex"
+	re_match_name(asset_name, instance_filters)
+}
+
+re_match_name(name, filters) {
+	re_match(filters[_], name)
 }
