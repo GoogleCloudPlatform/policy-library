@@ -16,6 +16,8 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPStorageBucketPolicyOnlyConstraintV1
 metadata:
   name: require_bucket_policy_only
+  # This constraint is not certified by CIS.
+  bundles.validator.forsetisecurity.org/cis-v1.1: 5.02
 spec:
   severity: high
   match:
