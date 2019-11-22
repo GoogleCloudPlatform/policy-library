@@ -1,4 +1,5 @@
-# Copyright 2019 Google LLC
+#
+# Copyright 2018 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,14 +13,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPStorageBucketPolicyOnlyConstraintV1
-metadata:
-  name: require_bucket_policy_only
-  # This constraint is not certified by CIS.
-  bundles.validator.forsetisecurity.org/cis-v1.1: 5.02
-spec:
-  severity: high
-  match:
-    target: ["organization/*"]
-  parameters: {}
+
+package templates.gcp.GCPBigQueryDatasetWorldReadableConstraintV1
+
+deny[{
+	"msg": message,
+	"details": metadata,
+}] {
+	constraint := input.constraint
+	asset := input.asset
+	asset.asset_type == "bigquery.googleapis.com/Dataset"
+
+	asset.iam_policy.bindings[_].members[_] == "allAuthenticatedUsers"
+
+	message := sprintf("%v is publicly accessable", [asset.name])
+	metadata := {"resource": asset.name}
+}

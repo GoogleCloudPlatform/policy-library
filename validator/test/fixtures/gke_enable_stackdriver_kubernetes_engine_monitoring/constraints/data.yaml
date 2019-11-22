@@ -13,19 +13,16 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPComputeExternalIpAccessConstraintV1
+kind: GCPGKEEnableStackdriverKubernetesEngineMonitoringConstraintV1
 metadata:
-  name: forbid_external_ip_whitelist
+  name: enable_gke_stackdriver_kubernetes_engine_monitoring
+  annotations:
+    description: Ensure Stackdriver Kubernetes Engine Monitoring is enabled
+    # This constraint is not certified by CIS.
+    bundles.validator.forsetisecurity.org/cis-v1.1: 7.01
 spec:
   severity: high
-  parameters:
-    # modes can be [whitelist, blacklist]
-    mode: whitelist
-    # match_mode can be [exact, regex], default is exact.
-    match_mode: regex
-    instances:
-      # regex example:
-      - //compute.googleapis.com/projects/test-project2/.*
-      # exact match example:
-      - //compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/vm-external-ip
-
+  match:
+    gcp:
+      target: ["organization/*"]
+  parameters: {}
