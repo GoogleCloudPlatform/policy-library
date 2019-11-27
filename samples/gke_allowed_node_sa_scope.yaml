@@ -18,6 +18,7 @@ metadata:
   name: gke_allowed_node_service_account_scope_default
   annotations:
     benchmark: GKE_HARDENING_GUIDELINE
+    bundles.validator.forsetisecurity.org/scorecard-v1: security
 spec:
   severity: high
   match:
