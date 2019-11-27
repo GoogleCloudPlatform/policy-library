@@ -16,8 +16,10 @@
 
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPRestrictedFirewallRulesConstraintV1
-eetadata:
+metadata:
   name: restrict-firewall-rule-ssh-open
+  annotations:
+    bundles.validator.forsetisecurity.org/scorecard-v1: security
 spec:
   severity: high
   match:
