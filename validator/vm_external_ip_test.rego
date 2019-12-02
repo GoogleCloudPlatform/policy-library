@@ -32,17 +32,6 @@ find_violations[violation] {
 	violation := issues[_]
 }
 
-# Test logic for whitelisting/blacklisting
-test_target_instance_match_count_whitelist {
-	target_instance_match_count("whitelist", match_count)
-	match_count = 0
-}
-
-test_target_instance_match_count_blacklist {
-	target_instance_match_count("blacklist", match_count)
-	match_count = 1
-}
-
 # Confim no violations with no instances
 test_external_ip_no_instances {
 	found_violations := find_violations with data.instances as []
@@ -141,4 +130,37 @@ test_external_ip_blacklist_all {
 	found_violations := two_blacklist_violations
 
 	count(found_violations) = 2
+}
+
+test_blacklist_violations_regex {
+	constraints := [fixture_constraints.forbid_external_ip_regex_blacklist_all]
+
+	found_violations := find_violations with data.instances as fixture_instances
+		 with data.test_constraints as constraints
+
+	count(found_violations) == 2
+}
+
+test_whitelist_violations_regex {
+	constraints := [fixture_constraints.forbid_external_ip_regex_whitelist_all]
+
+	found_violations := find_violations with data.instances as fixture_instances
+		 with data.test_constraints as constraints
+
+	count(found_violations) == 0
+}
+
+test_instance_name_targeted_whitelist {
+	not instance_name_targeted("//compute/vm1", ["//compute/vm.*", "//compute/nomatch"], "whitelist", "regex")
+	not instance_name_targeted("//compute/vm1", ["//compute/vm1", "//compute/nomatch"], "whitelist", "exact")
+}
+
+test_instance_name_targeted_whitelist_nomatch {
+	instance_name_targeted("//compute/vm1", ["//compute/nomatch1", "//compute/nomatch2"], "whitelist", "regex")
+	instance_name_targeted("//compute/vm1", ["//compute/nomatch1", "//compute/nomatch2"], "whitelist", "exact")
+}
+
+test_instance_name_targeted_blacklist {
+	instance_name_targeted("//compute/vm1", ["//compute/vm.*", "//compute/nomatch"], "blacklist", "regex")
+	instance_name_targeted("//compute/vm1", ["//compute/vm1", "//compute/nomatch"], "blacklist", "exact")
 }
