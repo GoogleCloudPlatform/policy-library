@@ -44,6 +44,8 @@ deny[{
 		"dataproc.googleapis.com/Job",
 		"dataproc.googleapis.com/Cluster",
 		"container.googleapis.com/Cluster",
+		"bigquery.googleapis.com/Dataset",
+		"bigquery.googleapis.com/Table",
 	}
 
 	non_standard_types := {"sqladmin.googleapis.com/Instance", "container.googleapis.com/Cluster"}

@@ -50,9 +50,13 @@ spec:
                 - compute.googleapis.com/Snapshot
                 - bigtableadmin.googleapis.com/Instance
                 - sqladmin.googleapis.com/Instance
-                - "dataproc.googleapis.com/Job"
-                - "dataproc.googleapis.com/Cluster"
+                - dataproc.googleapis.com/Job
+                - dataproc.googleapis.com/Cluster
                 - container.googleapis.com/Cluster
+                - bigquery.googleapis.com/Dataset
+                - bigquery.googleapis.com/Table
+
+                Note: bigQuery Views have actually the bigquery.googleapis.com/Table resource type.
 
                 If a resource type passed is not part of this list, the labels will be
                 looked for in the data.labels key of the resource object.
@@ -109,6 +113,8 @@ spec:
        		"dataproc.googleapis.com/Job",
        		"dataproc.googleapis.com/Cluster",
        		"container.googleapis.com/Cluster",
+       		"bigquery.googleapis.com/Dataset",
+       		"bigquery.googleapis.com/Table",
        	}
        
        	non_standard_types := {"sqladmin.googleapis.com/Instance", "container.googleapis.com/Cluster"}

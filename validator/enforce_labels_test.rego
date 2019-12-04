@@ -18,9 +18,10 @@ package templates.gcp.GCPEnforceLabelConstraintV1
 
 import data.validator.gcp.lib as lib
 
-# Importing the test data 
+# Importing the test data
 
 import data.test.fixtures.enforce_labels.assets.bigtable as fixture_bigtable
+import data.test.fixtures.enforce_labels.assets.bq as fixture_bq
 import data.test.fixtures.enforce_labels.assets.buckets as fixture_buckets
 import data.test.fixtures.enforce_labels.assets.cloudsql as fixture_cloudsql
 import data.test.fixtures.enforce_labels.assets.compute.disks as fixture_compute_disks
@@ -43,6 +44,14 @@ find_all_violations[violation] {
 		 with input.constraint as constraint
 
 	violation := issues[_]
+}
+
+bq_violations[violation] {
+	constraints := [fixture_constraints]
+	violations := find_all_violations with data.resources as fixture_bq
+		 with data.test_constraints as constraints
+
+	violation := violations[_]
 }
 
 project_violations[violation] {
@@ -134,8 +143,8 @@ dataproc_violations[violation] {
 ##### Testing for projects
 
 # Confirm six violations were found for all projects
-# 4 projects have violations - 2 of which have 2 violations (one has 2 labels missing, 
-# the other has 2 labels with invalid values) 
+# 4 projects have violations - 2 of which have 2 violations (one has 2 labels missing,
+# the other has 2 labels with invalid values)
 # confirm which 4 projects are in violation
 test_enforce_label_projects_violations {
 	violations := project_violations
@@ -349,10 +358,10 @@ test_enforce_label_gke_violations {
 	is_object(violation.details)
 }
 
-#### Testing for Dataproc 
+#### Testing for Dataproc
 # Confirm exactly 12 dataproc violations were found
-# 4 dataproc jobs have violations - 2 of which have 2 violations (one has 2 labels missing, 
-# 4 dataproc clusters have violations - 2 of which have 2 violations (one has 2 labels missing, 
+# 4 dataproc jobs have violations - 2 of which have 2 violations (one has 2 labels missing,
+# 4 dataproc clusters have violations - 2 of which have 2 violations (one has 2 labels missing,
 # the other has 2 labels with invalid values)
 # confirm which 8 dataproc jobs are in violation
 test_enforce_label_dataproc_violations {
@@ -370,6 +379,34 @@ test_enforce_label_dataproc_violations {
 		"//dataproc.googleapis.com/projects/my-own-project/regions/global/clusters/cluster-a1b6-test-dataproc-missing-label1",
 		"//dataproc.googleapis.com/projects/my-own-project/regions/global/clusters/cluster-a1b6-test-dataproc-missing-label2",
 		"//dataproc.googleapis.com/projects/my-own-project/regions/global/clusters/cluster-a1b6-test-dataproc-bad-values",
+	}
+
+	resource_names == expected_resource_name
+
+	violation := violations[_]
+	is_string(violation.msg)
+	is_object(violation.details)
+}
+
+#### Testing for BQ resources (Datasets, Tables and Views)
+# Confirm exactly 12 violations were found
+# 2 datasets have violations -both of them have 2 violations (missing or wrong labels)
+# 2 tables have violations - both of them have 2 violations (missing or wrong labels)
+# 2 views have violations - both of them have 2 violations (missing or wrong labels)
+# confirm which BQ resources are in violation
+test_enforce_label_bq_violations {
+	violations := bq_violations
+	trace(sprintf("%s", [violations]))
+	count(violations) == 12
+
+	resource_names := {x | x = violations[_].details.resource}
+	expected_resource_name := {
+		"//bigquery.googleapis.com/projects/cf-test-project-aw/datasets/test_dataset_1_no_labels",
+		"//bigquery.googleapis.com/projects/cf-test-project-aw/datasets/test_dataset_2_wrong_labels",
+		"//bigquery.googleapis.com/projects/cf-test-project-aw/datasets/test_dataset_good_labels/tables/table_wrong_labels",
+		"//bigquery.googleapis.com/projects/cf-test-project-aw/datasets/test_dataset_good_labels/tables/table_no_labels",
+		"//bigquery.googleapis.com/projects/cf-test-project-aw/datasets/test_dataset_1_no_labels/tables/table_valid_labels_view_no_labels",
+		"//bigquery.googleapis.com/projects/cf-test-project-aw/datasets/test_dataset_2_wrong_labels/tables/table_valid_labels_view_wrong_labels",
 	}
 
 	resource_names == expected_resource_name
