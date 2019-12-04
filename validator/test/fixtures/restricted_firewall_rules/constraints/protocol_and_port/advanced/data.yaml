@@ -16,12 +16,15 @@
 
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPRestrictedFirewallRulesConstraintV1
-eetadata:
+metadata:
   name: restrict-firewall-rules-udp-ports-1000-to-6000
 spec:
   severity: high
   match:
     target: ["organization/*"]
   parameters:
-    ports: "2000-2100"
-    protocol: "udp"
+    rules:
+      - port: "2000-2100"
+        protocol: "tcp"
+      - port: "2000-2100"
+        protocol: "udp"

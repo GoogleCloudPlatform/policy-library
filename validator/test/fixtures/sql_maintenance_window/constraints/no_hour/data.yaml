@@ -15,13 +15,14 @@
 #
 
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPRestrictedFirewallRulesConstraintV1
-eetadata:
-  name: restrict-firewall-rule-deny-egress
+kind: GCPSQLMaintenanceWindowConstraintV1
+metadata:
+  name: sql-maintenance-window-test-empty-hour-parameter
 spec:
   severity: high
   match:
     target: ["organization/*"]
   parameters:
-    direction: "EGRESS"
-    rule_type: "denied"
+    hours: []
+    exemptions: []
+    

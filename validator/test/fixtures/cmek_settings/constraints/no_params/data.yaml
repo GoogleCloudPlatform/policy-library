@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPCMEKRotationConstraintV1
+kind: GCPCMEKSettingsConstraintV1
 metadata:
   name: cmek_rotation_no_params
 spec:

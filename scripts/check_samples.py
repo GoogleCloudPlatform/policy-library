@@ -91,7 +91,8 @@ def check_template_samples():
                     template_object = yaml.safe_load(template_file)
 
                     if template_object["kind"] == "ConstraintTemplate":
-                        check_template_sample(template_object, sample_set)
+                        if not check_template_sample(template_object, sample_set):
+                            missing_sample = True
 
                 except yaml.YAMLError as error:
                     print("Error parsing YAML file {}: {}".format(template_file_name, error))

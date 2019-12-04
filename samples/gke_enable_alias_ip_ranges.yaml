@@ -20,6 +20,7 @@ metadata:
     description: Ensure Kubernetes Cluster is created with Alias IP ranges enabled
     # This constraint is not certified by CIS.
     bundles.validator.forsetisecurity.org/cis-v1.1: 7.13
+    bundles.validator.forsetisecurity.org/scorecard-v1: security
 spec:
   severity: high
   match:

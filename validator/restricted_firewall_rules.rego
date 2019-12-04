@@ -26,18 +26,19 @@ deny[{
 	lib.get_constraint_params(constraint, params)
 
 	# Update params (set all missing params to their default value)
-	updated_params := update_params(params)
+	rules_params := update_params(params.rules[_])
 
 	asset := input.asset
 	asset.asset_type == "compute.googleapis.com/Firewall"
 
 	fw_rule = asset.resource.data
 
-	fw_rule_is_restricted(fw_rule, updated_params)
+	fw_rule_is_restricted(fw_rule, rules_params)
 	message := sprintf("%s Firewall rule is prohibited.", [asset.name])
-	metadata := {"resource": asset.name}
-	# "restricted_rules": updated_params,
-
+	metadata := {
+		"resource": asset.name,
+		"restricted_rules": rules_params,
+	}
 }
 
 ###########################

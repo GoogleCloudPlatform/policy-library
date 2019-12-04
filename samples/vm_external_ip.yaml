@@ -19,6 +19,13 @@ metadata:
 spec:
   severity: high
   parameters:
-    mode: "whitelist"
+    # modes can be [whitelist, blacklist]
+    mode: whitelist
+    # match_mode can be [exact, regex], default is exact.
+    match_mode: regex
     instances:
-      - //compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/vm-external-ip-two
+      # regex example:
+      - //compute.googleapis.com/projects/test-project2/.*
+      # exact match example:
+      - //compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/vm-external-ip
+

@@ -23,6 +23,7 @@ spec:
   match:
     target: ["organization/*"]
   parameters:
-    source_ranges:
-      - "10.1.0.0/24"
-      - "0.0.0.0/0"
+    rules:
+      - source_ranges:
+          - "10.1.0.0/24"
+          - "0.0.0.0/0"
