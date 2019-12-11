@@ -390,7 +390,7 @@ test_enforce_label_dataproc_violations {
 
 #### Testing for BQ resources (Datasets, Tables and Views)
 # Confirm exactly 12 violations were found
-# 2 datasets have violations -both of them have 2 violations (missing or wrong labels)
+# 2 datasets have violations - both of them have 2 violations (missing or wrong labels)
 # 2 tables have violations - both of them have 2 violations (missing or wrong labels)
 # 2 views have violations - both of them have 2 violations (missing or wrong labels)
 # confirm which BQ resources are in violation
