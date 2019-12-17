@@ -1,5 +1,5 @@
 #
-# Copyright 2018 Google LLC
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,14 +14,21 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPAlwaysViolatesConstraintV1
+package templates.gcp.GCPVPCSCWhitelistRegionsConstraintV1
 
 import data.validator.gcp.lib as lib
 
-deny[{
-	"msg": message,
-	"details": metadata,
-}] {
-	message := "violates on all resources."
-	metadata := {"asset": input.asset}
+all_violations[violation] {
+	resource := data.test.fixtures.vpc_sc_whitelist_regions.assets[_]
+	constraint := data.test.fixtures.vpc_sc_whitelist_regions.constraints
+
+	issues := deny with input.asset as resource
+		 with input.constraint as constraint
+
+	violation := issues[_]
+}
+
+test_violations_basic {
+	violation_resources := {r | r = all_violations[_].details.access_level_name}
+	violation_resources == {"accessPolicies/1008882730433/accessLevels/bad"}
 }

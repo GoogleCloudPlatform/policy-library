@@ -416,7 +416,7 @@ Assuming you have a local copy of your policy library repository, you can follow
 these steps to copy them to GCS (replace `{SUFFIX}` with the suffix noted above):
 
 ```
-export FORSETI_BUCKET=`gs://forseti-server-{SUFFIX}`
+export FORSETI_BUCKET=forseti-server-{SUFFIX}
 export POLICY_LIBRARY_PATH=path/to/local/policy-library
 gsutil -m rsync -d -r ${POLICY_LIBRARY_PATH}/policies gs://${FORSETI_BUCKET}/policy-library/policies
 gsutil -m rsync -d -r ${POLICY_LIBRARY_PATH}/lib gs://${FORSETI_BUCKET}/policy-library/lib
