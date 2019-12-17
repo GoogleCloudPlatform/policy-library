@@ -22,13 +22,6 @@ deny[{
 	"msg": message,
 	"details": metadata,
 }] {
-	constraint := input.constraint
-	lib.get_constraint_info(constraint, info)
-	asset := input.asset
-
-	message := sprintf("%v violates on all resources.", [info.name])
-	metadata := {
-		"constraint": info,
-		"asset": asset,
-	}
+	message := "violates on all resources."
+	metadata := {"asset": input.asset}
 }
