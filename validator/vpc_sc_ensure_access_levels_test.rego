@@ -18,9 +18,9 @@ package templates.gcp.GCPVPCSCEnsureAccessLevelsConstraintV1
 
 import data.validator.gcp.lib as lib
 
-all_violations[violation] {
+old_style_violations[violation] {
 	resource := data.test.fixtures.vpc_sc_ensure_access_levels.assets[_]
-	constraint := data.test.fixtures.vpc_sc_ensure_access_levels.constraints
+	constraint := data.test.fixtures.vpc_sc_ensure_access_levels.constraints.old
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
@@ -28,7 +28,52 @@ all_violations[violation] {
 	violation := issues[_]
 }
 
-test_violations_basic {
-	violation_resources := {r | r = all_violations[_].details.service_perimeter_name}
+require_violations[violation] {
+	resource := data.test.fixtures.vpc_sc_ensure_access_levels.assets[_]
+	constraint := data.test.fixtures.vpc_sc_ensure_access_levels.constraints.require
+
+	issues := deny with input.asset as resource
+		 with input.constraint as constraint
+
+	violation := issues[_]
+}
+
+whitelist_violations[violation] {
+	resource := data.test.fixtures.vpc_sc_ensure_access_levels.assets[_]
+	constraint := data.test.fixtures.vpc_sc_ensure_access_levels.constraints.whitelist
+
+	issues := deny with input.asset as resource
+		 with input.constraint as constraint
+
+	violation := issues[_]
+}
+
+blacklist_violations[violation] {
+	resource := data.test.fixtures.vpc_sc_ensure_access_levels.assets[_]
+	constraint := data.test.fixtures.vpc_sc_ensure_access_levels.constraints.blacklist
+
+	issues := deny with input.asset as resource
+		 with input.constraint as constraint
+
+	violation := issues[_]
+}
+
+test_violations_old_style {
+	violation_resources := {r | r = old_style_violations[_].details.service_perimeter_name}
 	violation_resources == {"accessPolicies/1008882730434/servicePerimeters/Test_Service_Perimeter_Bad"}
+}
+
+test_violations_require {
+	violation_resources := {r | r = require_violations[_].details.service_perimeter_name}
+	violation_resources == {"accessPolicies/1008882730434/servicePerimeters/Test_Service_Perimeter_Bad"}
+}
+
+test_violations_whitelist {
+	violation_resources := {r | r = whitelist_violations[_].details.service_perimeter_name}
+	violation_resources == {"accessPolicies/1008882730433/servicePerimeters/Test_Service_Perimeter_Good"}
+}
+
+test_violations_blacklist {
+	violation_resources := {r | r = blacklist_violations[_].details.service_perimeter_name}
+	violation_resources == {"accessPolicies/1008882730433/servicePerimeters/Test_Service_Perimeter_Good"}
 }

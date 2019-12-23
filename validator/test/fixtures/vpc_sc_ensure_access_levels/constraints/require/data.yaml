@@ -15,13 +15,14 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPVPCSCEnsureAccessLevelsConstraintV1
 metadata:
-  name: vpc_sc_ensure_access_levels
+  name: vpc_sc_ensure_access_levels_require
 spec:
   severity: high
   match:
     gcp:
       target: ["organization/*"]
   parameters:
-      required_access_levels:
+      mode: require
+      access_levels:
           - abcd
           - efgh
