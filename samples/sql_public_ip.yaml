@@ -19,6 +19,8 @@ metadata:
   annotations:
     description: Prevents a public IP from being assigned to a Cloud SQL instance.
     bundles.validator.forsetisecurity.org/scorecard-v1: security
+    # This constraint has not been validated by the formal CIS certification process.
+    bundles.validator.forsetisecurity.org/cis-v1.1: 6.05
 spec:
   severity: high
   match:
