@@ -16,6 +16,9 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPComputeExternalIpAccessConstraintV1
 metadata:
   name: forbid_external_ip_whitelist
+  annotations:
+    # This constraint is not certified by CIS.
+    bundles.validator.forsetisecurity.org/cis-v1.1: 4.08
 spec:
   severity: high
   parameters:
