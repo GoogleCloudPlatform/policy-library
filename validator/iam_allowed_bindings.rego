@@ -26,6 +26,8 @@ deny[{
 	lib.get_constraint_params(constraint, params)
 	asset := input.asset
 
+	check_asset_type(asset, params)
+
 	binding := asset.iam_policy.bindings[_]
 	member := binding.members[_]
 	role := binding.role
@@ -58,4 +60,13 @@ target_match_count(mode) = 0 {
 
 target_match_count(mode) = 1 {
 	mode == "whitelist"
+}
+
+check_asset_type(asset, params) {
+	lib.has_field(params, "assetType")
+	params.assetType == asset.asset_type
+}
+
+check_asset_type(asset, params) {
+	lib.has_field(params, "assetType") == false
 }
