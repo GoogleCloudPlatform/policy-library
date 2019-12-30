@@ -28,12 +28,17 @@ spec:
             mode:
               type: string
               enum: [blacklist, whitelist]
+              description: "If whitelist, IP forwarding will only be allowed on specified instances. If blacklist, IP forwarding will be allowed except on specified instances."
+              default: "whitelist"
             match_mode:
               type: string
               enum: [exact, regex]
+              default: "exact"
+              description: "Whether to use exact string matching or regular expressions against instance names"
             instances:
               type: array
               items: string
+              description: "The list of instances in your whitelist or blacklist"
   targets:
    validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/compute_ip_forward.rego")
