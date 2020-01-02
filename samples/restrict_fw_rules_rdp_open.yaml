@@ -1,3 +1,4 @@
+#
 # Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,17 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPSQLPublicIpConstraintV1
+kind: GCPRestrictedFirewallRulesConstraintV1
 metadata:
-  name: prevent-public-ip-cloudsql
+  name: restrict-firewall-rule-ssh-open
   annotations:
-    description: Prevents a public IP from being assigned to a Cloud SQL instance.
     bundles.validator.forsetisecurity.org/scorecard-v1: security
-    # This constraint has not been validated by the formal CIS certification process.
-    bundles.validator.forsetisecurity.org/cis-v1.1: 6.05
+    bundles.validator.forsetisecurity.org/cis-v1.1: 3.07
 spec:
   severity: high
   match:
     target: ["organization/*"]
-    exclude: [] # optional, default is no exclusions
+  parameters:
+    rules:
+      - direction: "any"
+        port:
+          - "3389"
+        protocol: "tcp"
+        enabled: true
