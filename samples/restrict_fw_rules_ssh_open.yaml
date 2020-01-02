@@ -27,8 +27,10 @@ spec:
     target: ["organization/*"]
   parameters:
     rules:
-      - direction: "any"
-        port:
-          - "22"
+      - direction: "INGRESS"
+        source_ranges:
+          - "0.0.0.0/0"
+        port: "22"
         protocol: "tcp"
         enabled: true
+        rule_type: "allowed"
