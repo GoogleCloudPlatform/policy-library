@@ -60,7 +60,8 @@ spec:
             	asset.asset_type == "compute.googleapis.com/Subnetwork"
             
             	network := asset.resource.data
-            	network.enableFlowLogs == false
+            	enable_flow_logs := lib.get_default(network, "enableFlowLogs", false)
+            	enable_flow_logs == false
             
             	message := sprintf("Flow logs are disabled in subnetwork %v.", [asset.name])
             	metadata := {"resource": asset.name}
