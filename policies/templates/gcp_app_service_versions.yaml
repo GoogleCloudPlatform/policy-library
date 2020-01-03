@@ -29,7 +29,6 @@ spec:
               type: integer
               description: "The maxinum number of simultaneous versions
                Defaults to 2"
-              default: 2
   targets:
    validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/app_service_versions.rego")
