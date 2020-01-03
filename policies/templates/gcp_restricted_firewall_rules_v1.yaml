@@ -22,7 +22,8 @@
 
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
-metadata: name: gcp-restricted-firewall-rules-v1
+metadata:
+  name: gcp-restricted-firewall-rules-v1
 spec:
   crd:
     spec:
