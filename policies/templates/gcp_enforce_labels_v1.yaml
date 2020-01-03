@@ -24,6 +24,7 @@ spec:
         plural: gcpenforcelabelconstraintsv1
       validation:
         openAPIV3Schema:
+          required: ["mandatory_labels"]
           properties:
             mandatory_labels:
               description: |
@@ -59,7 +60,6 @@ spec:
                 "
               type: array
               items: string
-            required: ["mandatory_labels"]
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/enforce_labels.rego")
