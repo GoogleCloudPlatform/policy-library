@@ -22,8 +22,7 @@
 
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
-metadata:
-  name: gcp-restricted-firewall-rules-v1
+metadata: name: gcp-restricted-firewall-rules-v1
 spec:
   crd:
     spec:
@@ -163,7 +162,7 @@ spec:
                     type: boolean or string
                     enum: [true, false, "any"]
                     default: "any"
-            required: [ "rules" ]
+          required: [ "rules" ]
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/restricted_firewall_rules.rego")
