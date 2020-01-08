@@ -14,20 +14,22 @@
 # limitations under the License.
 #
 
-apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPRestrictedFirewallRulesConstraintV1
-metadata:
-  name: restrict-firewall-rule-world-open
-  annotations:
-    bundles.validator.forsetisecurity.org/scorecard-v1: security
-spec:
-  severity: high
-  match:
-    target: ["organization/*"]
-  parameters:
-    rules:
-      - direction: "INGRESS"
-        source_ranges:
-        - "0.0.0.0/0"
-        enabled: true
-        rule_type: "allowed"
+package templates.gcp.GCPNetworkEnableFirewallLogsConstraintV1
+
+import data.validator.gcp.lib as lib
+
+deny[{
+	"msg": message,
+	"details": metadata,
+}] {
+	constraint := input.constraint
+	asset := input.asset
+	asset.asset_type == "compute.googleapis.com/Firewall"
+
+	log_config := lib.get_default(asset.resource.data, "logConfig", {})
+	is_enabled := lib.get_default(log_config, "enable", false)
+	is_enabled == false
+
+	message := sprintf("Firewall logs are disabled in firewall %v.", [asset.name])
+	metadata := {"resource": asset.name}
+}
