@@ -17,17 +17,20 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPRestrictedFirewallRulesConstraintV1
 metadata:
-  name: restrict-firewall-rule-ssh-open
+  name: restrict-firewall-rule-ssh-world-open
   annotations:
     bundles.validator.forsetisecurity.org/scorecard-v1: security
+    bundles.validator.forsetisecurity.org/cis-v1.1: 3.06
 spec:
   severity: high
   match:
     target: ["organization/*"]
   parameters:
     rules:
-      - direction: "any"
-        port:
-          - "22"
+      - direction: "INGRESS"
+        source_ranges:
+          - "0.0.0.0/0"
+        port: "22"
         protocol: "tcp"
         enabled: true
+        rule_type: "allowed"
