@@ -1,4 +1,3 @@
-#
 # Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,21 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPRestrictedFirewallRulesConstraintV1
+kind: GCPComputeIpForwardConstraintV1
 metadata:
-  name: restrict-firewall-rule-world-open
+  name: forbid_ip_forward
   annotations:
-    bundles.validator.forsetisecurity.org/scorecard-v1: security
+    # This constraint is not certified by CIS.
+    bundles.validator.forsetisecurity.org/cis-v1.1: 4.04
 spec:
   severity: high
-  match:
-    target: ["organization/*"]
   parameters:
-    rules:
-      - direction: "INGRESS"
-        source_ranges:
-        - "0.0.0.0/0"
-        enabled: true
-        rule_type: "allowed"
+    mode: whitelist
+    match_mode: regex
+    instances:
+      - ".*gkestandardcluster.*"

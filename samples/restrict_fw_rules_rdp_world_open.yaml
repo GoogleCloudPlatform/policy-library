@@ -17,9 +17,10 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPRestrictedFirewallRulesConstraintV1
 metadata:
-  name: restrict-firewall-rule-world-open
+  name: restrict-firewall-rule-rdp-world-open
   annotations:
     bundles.validator.forsetisecurity.org/scorecard-v1: security
+    bundles.validator.forsetisecurity.org/cis-v1.1: 3.07
 spec:
   severity: high
   match:
@@ -28,6 +29,8 @@ spec:
     rules:
       - direction: "INGRESS"
         source_ranges:
-        - "0.0.0.0/0"
+          - "0.0.0.0/0"
+        port: "3389"
+        protocol: "tcp"
         enabled: true
         rule_type: "allowed"
