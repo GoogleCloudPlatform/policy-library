@@ -15,7 +15,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPNetworkEnableFirewallLogsConstraintV1
 metadata:
-  name: enable_network_firewall_logs
+  name: enable-network-firewall-logs
   annotations:
     description: Ensure Firewall logs is enabled for every firewall in VPC Network
 spec:

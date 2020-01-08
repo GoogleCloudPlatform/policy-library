@@ -26,7 +26,9 @@ deny[{
 	asset := input.asset
 	asset.asset_type == "compute.googleapis.com/Firewall"
 
-	asset.resource.data.logConfig.enable == false
+	log_config := lib.get_default(asset.resource.data, "logConfig", {})
+	is_enabled := lib.get_default(log_config, "enable", false)
+	is_enabled == false
 
 	message := sprintf("Firewall logs are disabled in firewall %v.", [asset.name])
 	metadata := {"resource": asset.name}
