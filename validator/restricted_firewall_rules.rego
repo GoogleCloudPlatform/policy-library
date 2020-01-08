@@ -69,18 +69,18 @@ fw_rule_is_restricted(fw_rule, params) {
 	fw_rule_check_direction(fw_rule, params.direction)
 
 	# check rule type
-	fw_rule_check_rule_type(fw_rule, params.rule_type)
+fw_rule_check_rule_type(	fw_rule, params.rule_type)
 
 	ip_configs := fw_rule_get_ip_configs(fw_rule, params.rule_type)
 
 	# check protocol and port
-	fw_rule_check_protocol_and_port(ip_configs, params.protocol, params.port)
+fw_rule_check_protocol_and_port(	ip_configs, params.protocol, params.port)
 
 	# Check sources (ip ranges and/or tags and/or service accounts)
-	fw_rule_check_all_sources(fw_rule, params)
+fw_rule_check_all_sources(	fw_rule, params)
 
 	# Check targets
-	fw_rule_check_all_targets(fw_rule, params)
+fw_rule_check_all_targets(	fw_rule, params)
 
 	fw_rule_check_enabled(fw_rule, params.enabled)
 }
@@ -154,7 +154,7 @@ fw_rule_check_protocol_and_port(ip_configs, protocol, port) {
 	ip_configs[i].IPProtocol == protocol
 
 	# Check if the associated port is also a match
-	fw_rule_check_port(ip_configs[i], port)
+fw_rule_check_port(	ip_configs[i], port)
 }
 
 # fw_rule_check_port when protocol is set to any
@@ -170,7 +170,7 @@ fw_rule_check_port(ip_config, port) {
 	ip_config.IPProtocol == protocol_with_ports[_]
 
 	# if port is not set in ip_config, any port passed as a param matches
-	not ip_config.ports
+not 	ip_config.ports
 }
 
 # fw_rule_check_port when port is a single number
@@ -182,7 +182,7 @@ fw_rule_check_port(ip_config, port) {
 	rule_ports := ip_config.ports
 
 	# check if port is in one of rule_ports values
-	port_is_in_values(port, rule_ports[_])
+port_is_in_values(	port, rule_ports[_])
 }
 
 # fw_rule_check_port when port is a range (e.g 100-200)
@@ -197,7 +197,7 @@ fw_rule_check_port(ip_config, port) {
 
 	# check if port range is included in one of rule_ports values
 	# Note: if rule_port is not a range, range_match will return False
-	range_match(port, rule_port)
+range_match(	port, rule_port)
 }
 
 # port_is_in_values if rule_port is not a range
@@ -220,7 +220,7 @@ port_is_in_values(port, rule_port) {
 	port_range := sprintf("%s-%s", [port, port])
 
 	# Check if port is included in rule port
-	range_match(port_range, rule_port)
+range_match(	port_range, rule_port)
 }
 
 # range_match tests if test_range is included in target_range
@@ -230,7 +230,7 @@ range_match(test_range, target_range) {
 	re_match("-", target_range)
 
 	# check if test_range is a range
-	re_match("-", test_range)
+re_match(	"-", test_range)
 
 	# getting the target range bounds
 	target_range_bounds := split(target_range, "-")
@@ -293,7 +293,7 @@ fw_rule_check_source_tag(fw_rule, source_tag) {
 	fw_rule_source_tags := fw_rule.sourceTags
 
 	# check if the input tag matches any tag in the rule
-	re_match(source_tag, fw_rule_source_tags[_])
+re_match(	source_tag, fw_rule_source_tags[_])
 }
 
 # fw_rule_check_source_tag if source tag is set to "*"
@@ -317,7 +317,7 @@ fw_rule_check_source_sas(fw_rule, source_service_account) {
 	fw_rule_source_sas = fw_rule.sourceServiceAccounts
 
 	# check if the rule service account matches
-	re_match(source_service_account, fw_rule_source_sas[_])
+re_match(	source_service_account, fw_rule_source_sas[_])
 }
 
 # fw_rule_check_source_sas if source service account is set to "*"
@@ -378,7 +378,7 @@ fw_rule_check_target_tag(fw_rule, target_tag) {
 	fw_rule_target_tags := fw_rule.targetTags
 
 	# check if the input tag matches any tag in the rule
-	re_match(target_tag, fw_rule_target_tags[_])
+re_match(	target_tag, fw_rule_target_tags[_])
 }
 
 # fw_rule_check_target_tag if target tag is set to "*"
@@ -402,7 +402,7 @@ fw_rule_check_target_sas(fw_rule, target_service_account) {
 	fw_rule_target_sas = fw_rule.targetServiceAccounts
 
 	# check if the rule service account matches
-	re_match(target_service_account, fw_rule_target_sas[_])
+re_match(	target_service_account, fw_rule_target_sas[_])
 }
 
 # fw_rule_check_target_sas if target service account is set to "*"
@@ -430,7 +430,7 @@ fw_rule_check_enabled(fw_rule, enabled) {
 	enabled != "any"
 
 	# the following test only works when enabled is a boolean too
-	is_boolean(enabled)
+is_boolean(	enabled)
 	enabled != fw_rule.disabled
 }
 
