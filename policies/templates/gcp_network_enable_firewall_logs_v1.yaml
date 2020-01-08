@@ -18,19 +18,19 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-network-enable-flow-logs-v1
+  name: gcp-network-enable-firewall-logs-v1
 spec:
   crd:
     spec:
       names:
-        kind: GCPNetworkEnableFlowLogsConstraintV1
-        plural: gcpnetworkenableflowlogsconstraintsv1
+        kind: GCPNetworkEnableFirewallLogsConstraintV1
+        plural: gcpnetworkenablefirewalllogsconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}
   targets:
     validation.gcp.forsetisecurity.org:
-      rego: | #INLINE("validator/network_enable_flow_logs.rego")
+      rego: | #INLINE("validator/network_enable_firewall_logs.rego")
             #
             # Copyright 2019 Google LLC
             #
@@ -47,7 +47,7 @@ spec:
             # limitations under the License.
             #
             
-            package templates.gcp.GCPNetworkEnableFlowLogsConstraintV1
+            package templates.gcp.GCPNetworkEnableFirewallLogsConstraintV1
             
             import data.validator.gcp.lib as lib
             
@@ -57,13 +57,13 @@ spec:
             }] {
             	constraint := input.constraint
             	asset := input.asset
-            	asset.asset_type == "compute.googleapis.com/Subnetwork"
+            	asset.asset_type == "compute.googleapis.com/Firewall"
             
-            	network := asset.resource.data
-            	enable_flow_logs := lib.get_default(network, "enableFlowLogs", false)
-            	enable_flow_logs == false
+            	log_config := lib.get_default(asset.resource.data, "logConfig", {})
+            	is_enabled := lib.get_default(log_config, "enable", false)
+            	is_enabled == false
             
-            	message := sprintf("Flow logs are disabled in subnetwork %v.", [asset.name])
+            	message := sprintf("Firewall logs are disabled in firewall %v.", [asset.name])
             	metadata := {"resource": asset.name}
             }
             #ENDINLINE
