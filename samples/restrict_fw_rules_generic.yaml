@@ -17,7 +17,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPRestrictedFirewallRulesConstraintV1
 metadata:
-  name: restrict_firewall_rule_allow_ingress_demo
+  name: restrict-firewall-rule-allow-ingress-demo
 spec:
   severity: high
   match:
