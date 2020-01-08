@@ -17,7 +17,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPRestrictedFirewallRulesConstraintV1
 metadata:
-  name: restrict-firewall-rule-world_open
+  name: restrict-firewall-rule-world-open
   annotations:
     bundles.validator.forsetisecurity.org/scorecard-v1: security
 spec:
@@ -29,3 +29,5 @@ spec:
       - direction: "INGRESS"
         source_ranges:
         - "0.0.0.0/0"
+        enabled: true
+        rule_type: "allowed"
