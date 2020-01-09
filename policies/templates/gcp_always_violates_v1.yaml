@@ -52,12 +52,7 @@ spec:
            	"msg": message,
            	"details": metadata,
            }] {
-           	constraint := input.constraint
-           	asset := input.asset
-           
            	message := "violates on all resources."
-           	metadata := {
-           		"asset": asset,
-           	}
+           	metadata := {"asset": input.asset}
            }
            #ENDINLINE
