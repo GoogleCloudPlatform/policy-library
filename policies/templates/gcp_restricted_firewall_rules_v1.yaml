@@ -29,7 +29,6 @@ spec:
     spec:
       names:
         kind: GCPRestrictedFirewallRulesConstraintV1
-        plural: gcprestrictedfirewallrulesconstraintsv1
       validation:
         openAPIV3Schema:
           properties:

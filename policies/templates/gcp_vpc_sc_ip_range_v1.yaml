@@ -22,7 +22,6 @@ spec:
     spec:
       names:
         kind: GCPVPCSCIPRangeConstraintV1
-        plural: gcpvpcsciprangeconstraintsv1
       validation:
         openAPIV3Schema:
           properties:

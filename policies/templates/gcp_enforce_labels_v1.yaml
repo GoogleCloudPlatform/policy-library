@@ -21,7 +21,6 @@ spec:
     spec:
       names:
         kind: GCPEnforceLabelConstraintV1
-        plural: gcpenforcelabelconstraintsv1
       validation:
         openAPIV3Schema:
           properties:

@@ -26,7 +26,6 @@ spec:
     spec:
       names:
         kind: GCPSpannerLocationConstraintV1
-        plural: gcpspannerlocationconstraintv1
       validation:
         openAPIV3Schema:
           properties:
