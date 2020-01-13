@@ -21,7 +21,6 @@ spec:
     spec:
       names:
         kind: GCPEnforceNamingConstraintV1
-        plural: gcpenforcenamingconstraintsv1
       validation:
         openAPIV3Schema:
           properties:

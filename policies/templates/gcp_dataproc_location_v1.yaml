@@ -26,7 +26,6 @@ spec:
     spec:
       names:
         kind: GCPDataprocLocationConstraintV1
-        plural: gcpdataproclocationconstraintv1
       validation:
         openAPIV3Schema:
           properties:

@@ -24,7 +24,6 @@ spec:
     spec:
       names:
         kind: GCPNetworkEnableFlowLogsConstraintV1
-        plural: gcpnetworkenableflowlogsconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}

@@ -21,7 +21,6 @@ spec:
     spec:
       names:
         kind: GCPSQLMaintenanceWindowConstraintV1
-        plural: gcpsqlmaintenancewindowconstraintsv1
       validation:
         openAPIV3Schema:
           properties:

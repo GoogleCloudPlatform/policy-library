@@ -21,7 +21,6 @@ spec:
     spec:
       names:
         kind: GCPAlwaysViolatesConstraintV1
-        plural: gcpalwaysviolatesconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}

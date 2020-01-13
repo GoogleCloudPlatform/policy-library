@@ -23,7 +23,6 @@ spec:
     spec:
       names:
         kind: GCPGKELegacyAbacConstraintV1
-        plural: gcpgkelegacyabacconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}

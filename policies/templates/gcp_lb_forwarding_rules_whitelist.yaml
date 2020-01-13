@@ -23,7 +23,6 @@ spec:
     spec:
       names:
         kind: GCPLBForwardingRuleWhitelistConstraintV1
-        plural: gcplbforwardingrulewhitelistconstraintsv1
       validation:
         openAPIV3Schema:
           whitelist:

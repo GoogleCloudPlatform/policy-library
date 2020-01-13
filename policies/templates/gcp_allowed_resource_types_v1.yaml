@@ -27,7 +27,6 @@ spec:
     spec:
       names:
         kind: GCPAllowedResourceTypesConstraintV1
-        plural: gcpallowedresourcetypesconstraintsv1
       validation:
         openAPIV3Schema:
           properties:

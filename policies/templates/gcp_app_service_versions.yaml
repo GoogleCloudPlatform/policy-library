@@ -21,7 +21,6 @@ spec:
     spec:
       names:
         kind: GCPAppEngineServiceVersionsConstraintV1
-        plural: gcpappengineserviceversionsconstraintsv1
       validation:
         openAPIV3Schema:
           properties:

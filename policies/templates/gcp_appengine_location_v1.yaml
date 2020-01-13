@@ -26,7 +26,6 @@ spec:
     spec:
       names:
         kind: GCPAppengineLocationConstraintV1
-        plural: gcpappenginelocationconstraintv1
       validation:
         openAPIV3Schema:
           properties:

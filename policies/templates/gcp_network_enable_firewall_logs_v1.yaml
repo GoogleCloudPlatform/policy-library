@@ -24,7 +24,6 @@ spec:
     spec:
       names:
         kind: GCPNetworkEnableFirewallLogsConstraintV1
-        plural: gcpnetworkenablefirewalllogsconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}
