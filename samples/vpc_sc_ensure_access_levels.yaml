@@ -22,6 +22,7 @@ spec:
     gcp:
       target: ["organization/*"]
   parameters:
-      required_access_levels:
+      mode: require
+      access_levels:
           - abcd
           - efgh
