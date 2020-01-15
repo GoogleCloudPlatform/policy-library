@@ -42,12 +42,10 @@ spec:
                     description: "Direction of the rules to restrict."
                     type: string
                     enum: ["INGRESS", "EGRESS", "any"]
-                    default: "any"
                   rule_type:
                     description: "Type of the rules to restrict."
                     type: string
                     enum: ["allowed", "denied", "any"]
-                    default: "any"
                   port:
                     description: |
                       "Port of the rules to restrict. This parameter is tighly coupled with the
@@ -62,7 +60,6 @@ spec:
                                     determine if the FW rule is restricted
                           * 'all' (if the rule matches all ports for a given protocol)"
                     type: string
-                    default: "any"
                   protocol:
                     description: |
                       "Protocol of the rules to restrict. This parameter is tighly coupled with
@@ -74,7 +71,6 @@ spec:
                                     to determine if the FW rule is restricted
                           * 'all' (if the rule matches all protocols)"
                     type: string
-                    default: "any"
                   source_ranges:
                     description: |
                       "Source ranges of the rules to restrict. A fw rule only matches if ONE of its
@@ -88,7 +84,6 @@ spec:
                                   in the restricted FW rule"
                     type: array
                     items: string
-                    default: ['any']
                   source_tags:
                     description: |
                       "Source tags of the rules to restrict. A fw rule only matches if ONE of its source
@@ -101,7 +96,6 @@ spec:
                                   in the restricted FW rule"
                     type: array
                     items: string
-                    default: ['any']
                   source_service_accounts:
                     description: |
                       "Source service accounts of the rules to restrict. A fw rule only matches if ONE of
@@ -115,7 +109,6 @@ spec:
                                   service account existsin the restricted FW rule"
                     type: array
                     items: string
-                    default: ['any']
                   target_ranges:
                     description: |
                       "Target (or destination) ranges of the rules to restrict. A fw rule only matches
@@ -129,7 +122,6 @@ spec:
                                   range exists in the restricted FW rule"
                     type: array
                     items: string
-                    default: ['any']
                   target_tags:
                     description: |
                       "Target tags of the rules to restrict. A fw rule only matches if ONE of its target
@@ -142,7 +134,6 @@ spec:
                                   in the restricted FW rule"
                     type: array
                     items: string
-                    default: ['any']
                   target_service_accounts:
                     description: |
                       "Target service accounts of the rules to restrict. A fw rule only matches if ONE of
@@ -156,13 +147,11 @@ spec:
                                   service account exists in the restricted FW rule"
                     type: array
                     items: string
-                    default: ['any']
                   enabled:
                     description: "Status of the rules to restrict (enabled vs disabled)."
                     type: boolean or string
                     enum: [true, false, "any"]
-                    default: "any"
-            required: [ "rules" ]
+          required: [ "rules" ]
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/restricted_firewall_rules.rego")
