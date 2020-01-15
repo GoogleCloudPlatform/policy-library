@@ -151,7 +151,7 @@ spec:
                     description: "Status of the rules to restrict (enabled vs disabled)."
                     type: boolean or string
                     enum: [true, false, "any"]
-            required: [ "rules" ]
+          required: [ "rules" ]
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/restricted_firewall_rules.rego")
