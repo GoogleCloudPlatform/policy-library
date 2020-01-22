@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPVPCSCProjectPerimeterConstraintV1
+kind: GCPVPCSCProjectPerimeterConstraintV2
 metadata:
   name: vpc_sc_project_perimeter_whitelist
 spec:
@@ -23,6 +23,6 @@ spec:
       target: ["organization/*"]
   parameters:
     mode: whitelist
-    project_id: 179891054368
+    project_number: 179891054368
     service_perimeters:
       - Test Service Perimeter 1

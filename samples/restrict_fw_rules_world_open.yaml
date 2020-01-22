@@ -29,5 +29,5 @@ spec:
       - direction: "INGRESS"
         source_ranges:
         - "0.0.0.0/0"
-        enabled: true
+        enabled: "true"
         rule_type: "allowed"
