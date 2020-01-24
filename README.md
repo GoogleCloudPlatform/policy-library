@@ -42,3 +42,20 @@ Replaced:
 #contents of my_rule.rego
 #ENDINLINE
 ```
+
+### Linting Policies
+FCV provides a policy linter.  You can invoke it as:
+
+```
+go get github.com/forseti-security/config-validator/cmd/policy-tool
+policy-tool --policies ./policies --policies ./samples --libs ./lib
+```
+
+### Local CI
+You can run the cloudbuild CI locally as follows:
+
+```
+gcloud components install cloud-build-local
+cloud-build-local --config ./cloudbuild.yaml --dryrun=false .
+```
+
