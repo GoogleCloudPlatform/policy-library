@@ -39,8 +39,8 @@ spec:
               description: "Array of service perimeters that will be allowed/denied (based on mode)
               for this project."
             project_id:
-              type: string
-              description: "The project ID you are matching"
+              type: number
+              description: "The project number you are matching (eg 175918267)"
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/vpc_sc_project_perimeter.rego")

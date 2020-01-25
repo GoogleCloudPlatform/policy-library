@@ -36,7 +36,7 @@ spec:
               description: "List of rules to match in order to raise violations. Rule are object describing rules (see below)"
               type: array
               items:
-                type: objects
+                type: object
                 properties:
                   direction:
                     description: "Direction of the rules to restrict."
@@ -149,8 +149,8 @@ spec:
                     items: string
                   enabled:
                     description: "Status of the rules to restrict (enabled vs disabled)."
-                    type: boolean or string
-                    enum: [true, false, "any"]
+                    type: string
+                    enum: ["true", "false", "any"]
           required: [ "rules" ]
   targets:
     validation.gcp.forsetisecurity.org:
