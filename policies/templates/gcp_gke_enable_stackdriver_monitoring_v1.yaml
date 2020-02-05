@@ -24,7 +24,6 @@ spec:
     spec:
       names:
         kind: GCPGKEEnableStackdriverMonitoringConstraintV1
-        plural: gcpgkeenablestackdrivermonitoringconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}

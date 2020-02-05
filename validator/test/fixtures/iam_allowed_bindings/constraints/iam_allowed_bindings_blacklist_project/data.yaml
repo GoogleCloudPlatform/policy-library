@@ -1,0 +1,14 @@
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: GCPIAMAllowedBindingsConstraintV1
+metadata:
+  name: blacklist_in_project
+  annotations:
+    description: Restrict blacklist by asset type
+spec:
+  severity: high
+  parameters:
+    assetType: cloudresourcemanager.googleapis.com/Project
+    mode: blacklist
+    role: "roles/*"
+    members:
+    - "user:okay@google.com"

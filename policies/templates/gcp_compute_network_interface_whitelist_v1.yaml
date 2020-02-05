@@ -23,7 +23,6 @@ spec:
     spec:
       names:
         kind: GCPComputeNetworkInterfaceWhitelistConstraintV1
-        plural: gcpcomputenetworkinterfacewhitelistconstraintsV1
       validation:
         openAPIV3Schema:
             whitelist:
