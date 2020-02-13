@@ -38,7 +38,6 @@ deny[{
 	# Check if instance is in blacklist/whitelist
 	match_mode := lib.get_default(params, "match_mode", "exact")
 	target_instances := params.instances
-	trace(sprintf("asset name:%v, target_instances: %v, mode: %v, match_mode: %v", [asset.name, target_instances, params.mode, match_mode]))
 
 	instance_name_targeted(asset.name, target_instances, params.mode, match_mode)
 

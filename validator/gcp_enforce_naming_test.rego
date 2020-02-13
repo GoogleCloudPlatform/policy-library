@@ -56,7 +56,6 @@ test_get_only_asset_name {
 test_check_asset_and_return_its_rules {
 	lib.get_constraint_params(fixture_constraints.all_match, params)
 	naming_rules := lib.get_default(params, "naming_rules", [])
-	trace(sprintf("the naming rules %v", [naming_rules]))
 	patterns := check_asset_and_return_its_rules("compute.googleapis.com/SslCertificate", naming_rules)
 	is_array(patterns)
 	count(patterns) == 2

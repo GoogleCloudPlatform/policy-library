@@ -34,7 +34,6 @@ deny[{
 	patterns := check_asset_and_return_its_rules(asset.asset_type, naming_rules)
 	name := get_only_asset_name(asset.name)
 	no_name_match(name, patterns)
-	trace(sprintf("no match name:%v, patterns:%v", [name, patterns]))
 
 	message := sprintf("%v does not obey the naming convention. Full address: %v", [name, asset.name])
 	metadata := {
@@ -45,7 +44,7 @@ deny[{
 }
 
 get_only_asset_name(asset_full_name) = name {
-	# we are interested in the last part of the name, 
+	# we are interested in the last part of the name,
 	# the rest is resource address
 	split_name := split(asset_full_name, "/")
 	last_index := count(split_name) - 1

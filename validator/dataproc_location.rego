@@ -34,7 +34,7 @@ deny[{
 	locations := params.locations
 
 	# The asset raises a violation if location_is_valid is evaluated to false
-	not location_is_valid(asset, locations)
+not location_is_valid(	asset, locations)
 
 	message := sprintf("%v is in violation.", [asset.name])
 	metadata := {
@@ -58,5 +58,5 @@ location_is_valid(asset, locations) {
 	location := locations[_]
 
 	# the resource location is valid if it matches one of the passed locations
-	re_match(location, resouce_location)
+re_match(	location, resouce_location)
 }

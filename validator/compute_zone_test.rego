@@ -50,10 +50,7 @@ test_compute_zone_no_assets {
 
 # Test for no violations with no constraints
 test_compute_zone_no_constraints {
-	trace(sprintf("fixture_instances count: %v", [count(fixture_instances)]))
-	trace(sprintf("fixture_disks count: %v", [count(fixture_disks)]))
 	combined_assets := array.concat(fixture_instances, fixture_disks)
-	trace(sprintf("combined_assets count: %v", [count(combined_assets)]))
 	found_violations := find_violations with data.assets as combined_assets
 		 with data.constraints as []
 

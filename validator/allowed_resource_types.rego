@@ -34,7 +34,7 @@ deny[{
 	ressource_types_list := cast_set(lib.get_default(params, "resource_type_list", {}))
 
 	# The asset raises a violation if resource_type_is_valid is evaluated to false (both of them)
-	not resource_type_is_valid(mode, asset, ressource_types_list)
+not resource_type_is_valid(	mode, asset, ressource_types_list)
 
 	message := sprintf("%v is in violation.", [asset.name])
 	metadata := {
@@ -67,5 +67,5 @@ resource_type_is_valid(mode, asset, resource_type_list) {
 	asset_type := asset.asset_type
 
 	# the asset is valid only if it's not in the resource_type_list
-	not resource_type_list[asset_type]
+not 	resource_type_list[asset_type]
 }
