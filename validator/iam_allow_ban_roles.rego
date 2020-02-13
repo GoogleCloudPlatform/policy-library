@@ -16,54 +16,93 @@
 
 package templates.gcp.GCPIAMAllowBanRolesConstraintV1
 
-import data.validator.gcp.lib as lib
+import data.test.fixtures.iam_allow_ban_roles.assets as fixture_assets
+import data.test.fixtures.iam_allow_ban_roles.constraints as fixture_constraints
 
-deny[{
-	"msg": message,
-	"details": metadata,
-}] {
-	constraint := input.constraint
-	lib.get_constraint_params(constraint, params)
-	asset := input.asset
+# Find all violations on our test cases
+find_violations[violation] {
+	asset := fixture_assets[_]
+	constraint := data.test_constraints[_]
 
-	binding := asset.iam_policy.bindings[_]
-	role := binding.role
+	issues := deny with input.asset as asset
+		 with input.constraint as constraint
 
-	matches_found = {r | r := role; glob.match(params.roles[_], [], r)}
+	total_issues := count(issues)
 
-	mode := lib.get_default(params, "mode", "allow")
-
-	desired_count := target_match_count(mode)
-	count(matches_found) != desired_count
-
-	message := output_msg(desired_count, asset.name, role)
-
-	metadata := {
-		"resource": asset.name,
-		"role": role,
-	}
+	violation := issues[_]
 }
 
-###########################
-# Rule Utilities
-###########################
+allow_all_roles_non_wildcard_violations[violation] {
+	constraints := [fixture_constraints.iam_allow_ban_roles_allow_all_roles_non_wildcard]
 
-# Determine the overlap between matches under test and constraint
-target_match_count(mode) = 0 {
-	mode == "ban"
+	found_violations := find_violations with data.test_constraints as constraints
+
+	violation := found_violations[_]
 }
 
-target_match_count(mode) = 1 {
-	mode == "allow"
+test_allow_all_roles_non_wildcard_violations {
+	count(allow_all_roles_non_wildcard_violations) == 0
 }
 
-# Output message based on type of violation
-output_msg(0, asset_name, role) = msg {
-	msg := sprintf("%v is in the banned list of IAM policy for %v", [role, asset_name])
+allow_all_roles_wildcard_violations[violation] {
+	constraints := [fixture_constraints.iam_allow_ban_roles_allow_all_roles_wildcard]
+
+	found_violations := find_violations with data.test_constraints as constraints
+
+	violation := found_violations[_]
 }
 
-output_msg(1, asset_name, role) = msg {
-	msg := sprintf("%v is NOT in the allowed list of IAM policy for %v", [role, asset_name])
+test_allow_all_roles_wildcard_violations {
+	count(allow_all_roles_wildcard_violations) == 0
 }
 
-#ENDINLINE
+allow_one_role_violations[violation] {
+	constraints := [fixture_constraints.iam_allow_ban_roles_allow_one_role]
+
+	found_violations := find_violations with data.test_constraints as constraints
+
+	violation := found_violations[_]
+}
+
+test_allow_one_role_violations {
+	count(allow_one_role_violations) == 2
+}
+
+ban_all_roles_non_wildcard_violations[violation] {
+	constraints := [fixture_constraints.iam_allow_ban_roles_ban_all_roles_non_wildcard]
+
+	found_violations := find_violations with data.test_constraints as constraints
+
+	violation := found_violations[_]
+}
+
+test_ban_all_roles_non_wildcard_violations {
+	count(ban_all_roles_non_wildcard_violations) == 3
+}
+
+ban_all_roles_wildcard_violations[violation] {
+	constraints := [fixture_constraints.iam_allow_ban_roles_ban_all_roles_wildcard]
+
+	found_violations := find_violations with data.test_constraints as constraints
+
+	violation := found_violations[_]
+}
+
+test_ban_all_roles_wildcard_violations {
+	count(ban_all_roles_wildcard_violations) == 3
+}
+
+ban_one_role_violations[violation] {
+	constraints := [fixture_constraints.iam_allow_ban_roles_ban_one_role]
+
+	found_violations := find_violations with data.test_constraints as constraints
+
+	violation := found_violations[_]
+}
+
+test_ban_one_role_violations {
+	count(ban_one_role_violations) == 1
+	violation = ban_one_role_violations[_]
+	violation.details.role == "roles/owner"
+	violation.details.resource == "//cloudresourcemanager.googleapis.com/projects/12345"
+}
