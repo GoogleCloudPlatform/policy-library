@@ -84,13 +84,11 @@ spec:
             
             is_sql_instance_type_allowed(resource, mode, params) {
             	mode == "allow"
-            	sql_instance_type := params.sql_instance_types[_]
-            	re_match(sprintf("^%s.*$", [sql_instance_type]), resource.databaseVersion)
+            	any_match(params.sql_instance_types, resource.databaseVersion)
             }
             
             is_sql_instance_type_allowed(resource, mode, params) {
             	mode == "deny"
-            	sql_instance_type := params.sql_instance_types[_]
             	not any_match(params.sql_instance_types, resource.databaseVersion)
             }
             

@@ -22,11 +22,11 @@ import data.validator.gcp.lib as lib
 import data.test.fixtures.sql_instance_type.assets as fixture_assets
 
 # Importing the test constraints
-import data.test.fixtures.sql_instance_type.constraints.allow_all as fixture_constraint_allow_all
-import data.test.fixtures.sql_instance_type.constraints.deny_all as fixture_constraint_deny_all
-import data.test.fixtures.sql_instance_type.constraints.mysql as fixture_constraint_mysql
-import data.test.fixtures.sql_instance_type.constraints.postgres as fixture_constraint_postgres
-import data.test.fixtures.sql_instance_type.constraints.sql as fixture_constraint_sql
+import data.test.fixtures.sql_instance_type.constraints.allow_all as sql_type_allow_mysql_only
+import data.test.fixtures.sql_instance_type.constraints.deny_all as sql_type_deny_all
+import data.test.fixtures.sql_instance_type.constraints.mysql as sql_type_allow_mysql_only
+import data.test.fixtures.sql_instance_type.constraints.postgres as sql_type_deny_postgres
+import data.test.fixtures.sql_instance_type.constraints.sql as sql_type_deny_mysql_and_sql
 
 # Find all violations on our test cases
 find_all_violations[violation] {
@@ -39,7 +39,7 @@ find_all_violations[violation] {
 }
 
 postgres_violations[violation] {
-	constraints := [fixture_constraint_postgres]
+	constraints := [sql_type_deny_postgres]
 	violations := find_all_violations with data.resources as fixture_assets
 		 with data.test_constraints as constraints
 
@@ -47,7 +47,7 @@ postgres_violations[violation] {
 }
 
 sql_violations[violation] {
-	constraints := [fixture_constraint_sql]
+	constraints := [sql_type_deny_mysql_and_sql]
 	violations := find_all_violations with data.resources as fixture_assets
 		 with data.test_constraints as constraints
 
@@ -55,7 +55,7 @@ sql_violations[violation] {
 }
 
 mysql_violations[violation] {
-	constraints := [fixture_constraint_mysql]
+	constraints := [sql_type_allow_mysql_only]
 	violations := find_all_violations with data.resources as fixture_assets
 		 with data.test_constraints as constraints
 
@@ -63,7 +63,7 @@ mysql_violations[violation] {
 }
 
 allow_all_violations[violation] {
-	constraints := [fixture_constraint_allow_all]
+	constraints := [sql_type_allow_mysql_only]
 	violations := find_all_violations with data.resources as fixture_assets
 		 with data.test_constraints as constraints
 
@@ -71,7 +71,7 @@ allow_all_violations[violation] {
 }
 
 deny_all_violations[violation] {
-	constraints := [fixture_constraint_deny_all]
+	constraints := [sql_type_deny_all]
 	violations := find_all_violations with data.resources as fixture_assets
 		 with data.test_constraints as constraints
 

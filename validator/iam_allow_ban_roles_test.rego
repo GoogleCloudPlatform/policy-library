@@ -53,7 +53,6 @@ allow_all_roles_wildcard_violations[violation] {
 }
 
 test_allow_all_roles_wildcard_violations {
-	trace(sprintf("%s", [allow_all_roles_wildcard_violations]))
 	count(allow_all_roles_wildcard_violations) == 0
 }
 
