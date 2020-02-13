@@ -22,7 +22,7 @@ import data.validator.gcp.lib as lib
 import data.test.fixtures.sql_instance_type.assets as fixture_assets
 
 # Importing the test constraints
-import data.test.fixtures.sql_instance_type.constraints.allow_all as sql_type_allow_mysql_only
+import data.test.fixtures.sql_instance_type.constraints.allow_all as sql_type_allow_all_types
 import data.test.fixtures.sql_instance_type.constraints.deny_all as sql_type_deny_all
 import data.test.fixtures.sql_instance_type.constraints.mysql as sql_type_allow_mysql_only
 import data.test.fixtures.sql_instance_type.constraints.postgres as sql_type_deny_postgres
@@ -63,7 +63,7 @@ mysql_violations[violation] {
 }
 
 allow_all_violations[violation] {
-	constraints := [sql_type_allow_mysql_only]
+	constraints := [sql_type_allow_all_types]
 	violations := find_all_violations with data.resources as fixture_assets
 		 with data.test_constraints as constraints
 

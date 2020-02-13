@@ -15,7 +15,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPSQLInstanceTypeConstraintV1
 metadata:
-  name: sql_type_allow_mysql_only
+  name: sql_type_allow_all_types
 spec:
   severity: high
   parameters:
