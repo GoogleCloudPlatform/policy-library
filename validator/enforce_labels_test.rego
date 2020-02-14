@@ -396,7 +396,6 @@ test_enforce_label_dataproc_violations {
 # confirm which BQ resources are in violation
 test_enforce_label_bq_violations {
 	violations := bq_violations
-	trace(sprintf("%s", [violations]))
 	count(violations) == 12
 
 	resource_names := {x | x = violations[_].details.resource}
