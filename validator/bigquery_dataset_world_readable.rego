@@ -24,7 +24,10 @@ deny[{
 	asset := input.asset
 	asset.asset_type == "bigquery.googleapis.com/Dataset"
 
-	asset.iam_policy.bindings[_].members[_] == "allAuthenticatedUsers"
+	world_readable_checks := [
+		asset.iam_policy.bindings[_].members[_] == "allUsers",
+		asset.iam_policy.bindings[_].members[_] == "allAuthenticatedUsers",
+	]
 
 	message := sprintf("%v is publicly accessable", [asset.name])
 	metadata := {"resource": asset.name}
