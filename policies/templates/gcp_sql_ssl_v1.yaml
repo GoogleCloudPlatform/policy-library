@@ -21,7 +21,6 @@ spec:
     spec:
       names:
         kind: GCPSQLSSLConstraintV1
-        plural: gcpsqlsslconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}

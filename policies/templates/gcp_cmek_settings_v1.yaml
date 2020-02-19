@@ -21,7 +21,6 @@ spec:
     spec:
       names:
         kind: GCPCMEKSettingsConstraintV1
-        plural: gcpcmeksettingsconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}

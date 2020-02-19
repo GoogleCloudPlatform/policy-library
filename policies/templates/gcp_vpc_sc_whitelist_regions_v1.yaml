@@ -22,7 +22,6 @@ spec:
     spec:
       names:
         kind: GCPVPCSCWhitelistRegionsConstraintV1
-        plural: gcpvpcscwhitelistregionsconstraintsv1
       validation:
         openAPIV3Schema:
           properties:

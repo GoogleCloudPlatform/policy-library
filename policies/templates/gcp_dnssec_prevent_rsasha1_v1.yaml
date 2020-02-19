@@ -21,7 +21,6 @@ spec:
     spec:
       names:
         kind: GCPDNSSECPreventRSASHA1ConstraintV1
-        plural: gcpdnssecpreventrsasha1constraintsv1
       validation:
         openAPIV3Schema:
           properties:

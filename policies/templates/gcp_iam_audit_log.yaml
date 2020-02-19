@@ -24,7 +24,6 @@ spec:
     spec:
       names:
         kind: GCPIAMAuditLogConstraintV1
-        plural: gcpiamauditlogconstraintsv1
       validation:
         openAPIV3Schema:
           properties:
