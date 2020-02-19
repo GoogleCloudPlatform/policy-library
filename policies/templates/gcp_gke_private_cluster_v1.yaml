@@ -24,7 +24,6 @@ spec:
     spec:
       names:
         kind: GCPGKEPrivateClusterConstraintV1
-        plural: gcpgkeprivateclusterconstraintsv1        
       validation:
         openAPIV3Schema:
           properties: {}

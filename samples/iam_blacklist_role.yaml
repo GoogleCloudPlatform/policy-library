@@ -13,6 +13,7 @@ spec:
     exclude: [] # optional, default is no exclusions
   parameters:
     mode: blacklist
+    assetType: cloudresourcemanager.googleapis.com/Project
     role: roles/iam.serviceAccountUser
     members:
     - "*"

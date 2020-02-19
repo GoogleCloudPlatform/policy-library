@@ -22,15 +22,14 @@ spec:
     spec:
       names:
         kind: GCPVPCSCIPRangeConstraintV1
-        plural: gcpvpcsciprangeconstraintsv1
       validation:
         openAPIV3Schema:
           properties:
             maximum_cidr_size:
               type: integer
               description: "Maximum size in CIDR notation for an IP network"
-              minimum: 0
-              maximum: 32
+              #minimum: 0
+              #maximum: 32
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/vpc_sc_ip_range.rego")

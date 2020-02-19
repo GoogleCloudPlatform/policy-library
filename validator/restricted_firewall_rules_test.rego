@@ -147,9 +147,7 @@ fw_violations_all[violation] {
 test_restricted_firewall_rule_protocol_and_port_violations {
 	# Basic constraint violations
 	basic_violations := fw_violations_protocol_and_port_basic
-	trace("here")
 	count(basic_violations) == 5
-	trace("2")
 
 	resource_names_protocol_and_port_basic := {x | x = basic_violations[_].details.resource}
 	expected_resource_name_protocol_and_port_basic := {

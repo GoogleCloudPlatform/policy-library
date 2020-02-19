@@ -24,7 +24,6 @@ spec:
     spec:
       names:
         kind: GCPGKEMasterAuthorizedNetworksEnabledConstraintV1
-        plural: gcpgkemasterauthorizednetworksenabledconstraintv1        
       validation:
         openAPIV3Schema:
           properties: {}

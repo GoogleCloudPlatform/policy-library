@@ -28,9 +28,11 @@ all_violations[violation] {
 
 # Confirm total violations count
 test_bigquery_iam_violations_count {
-	count(all_violations) == 1
+	count(all_violations) == 4
 }
 
 test_bigquery_iam_violations {
-	all_violations[_].details.resource == "//bigquery.googleapis.com/projects/test-project/datasets/world-readable"
+	all_violations[_].details.resource == "//bigquery.googleapis.com/projects/test-project/datasets/world-readable-allUsers"
+	all_violations[_].details.resource == "//bigquery.googleapis.com/projects/test-project/datasets/world-readable-allAuthenticatedUsers"
+	all_violations[_].details.resource == "//bigquery.googleapis.com/projects/test-project/datasets/world-readable-both"
 }

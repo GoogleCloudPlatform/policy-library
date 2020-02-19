@@ -22,7 +22,6 @@ spec:
     spec:
       names:
         kind: GCPVPCSCEnsureAccessLevelsConstraintV1
-        plural: gcpvpcscensureaccesslevelsconstraintsv1
       validation:
         openAPIV3Schema:
           properties:
