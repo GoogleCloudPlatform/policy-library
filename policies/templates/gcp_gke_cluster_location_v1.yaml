@@ -21,7 +21,6 @@ spec:
     spec:
       names:
         kind: GKEClusterLocationConstraintV1
-        plural: gkeclusterlocationconstraintsv1
       validation:
         openAPIV3Schema:
           properties:

@@ -21,9 +21,9 @@ spec:
     spec:
       names:
         kind: GCPEnforceLabelConstraintV1
-        plural: gcpenforcelabelconstraintsv1
       validation:
         openAPIV3Schema:
+          required: ["mandatory_labels"]
           properties:
             mandatory_labels:
               description: |
@@ -50,16 +50,19 @@ spec:
                 - compute.googleapis.com/Snapshot
                 - bigtableadmin.googleapis.com/Instance
                 - sqladmin.googleapis.com/Instance
-                - "dataproc.googleapis.com/Job"
-                - "dataproc.googleapis.com/Cluster"
+                - dataproc.googleapis.com/Job
+                - dataproc.googleapis.com/Cluster
                 - container.googleapis.com/Cluster
+                - bigquery.googleapis.com/Dataset
+                - bigquery.googleapis.com/Table
+
+                Note: bigQuery Views have actually the bigquery.googleapis.com/Table resource type.
 
                 If a resource type passed is not part of this list, the labels will be
                 looked for in the data.labels key of the resource object.
                 "
               type: array
               items: string
-            required: ["mandatory_labels"]
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/enforce_labels.rego")
@@ -109,6 +112,8 @@ spec:
        		"dataproc.googleapis.com/Job",
        		"dataproc.googleapis.com/Cluster",
        		"container.googleapis.com/Cluster",
+       		"bigquery.googleapis.com/Dataset",
+       		"bigquery.googleapis.com/Table",
        	}
        
        	non_standard_types := {"sqladmin.googleapis.com/Instance", "container.googleapis.com/Cluster"}
@@ -133,7 +138,7 @@ spec:
        	resource_labels[label_key]
        
        	# test if label value matches pattern passed as a parameter
-       re_match(	label_value_pattern, resource_labels[label_key])
+       	re_match(label_value_pattern, resource_labels[label_key])
        }
        
        # get_labels for cloudsql instances

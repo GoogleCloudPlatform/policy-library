@@ -29,7 +29,7 @@ deny[{
 	binding := asset.iam_policy.bindings[_]
 	role := binding.role
 
-	matches_found = {r | r := role; glob.match(params.roles[_], [], r)}
+	matches_found = {r | r := role; glob.match(params.roles[_], ["/"], r)}
 
 	mode := lib.get_default(params, "mode", "allow")
 

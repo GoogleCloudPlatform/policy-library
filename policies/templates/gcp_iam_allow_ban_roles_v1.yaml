@@ -21,7 +21,6 @@ spec:
     spec:
       names:
         kind: GCPIAMAllowBanRolesConstraintV1
-        plural: gcpiamallowbanrolesconstraintsv1
       validation:
         openAPIV3Schema:
           properties:

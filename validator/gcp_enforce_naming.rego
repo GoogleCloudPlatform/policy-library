@@ -45,7 +45,7 @@ deny[{
 }
 
 get_only_asset_name(asset_full_name) = name {
-	# we are interested in the last part of the name, 
+	# we are interested in the last part of the name,
 	# the rest is resource address
 	split_name := split(asset_full_name, "/")
 	last_index := count(split_name) - 1

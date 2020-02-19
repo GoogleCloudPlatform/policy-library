@@ -30,7 +30,6 @@ spec:
     spec:
       names:
         kind: GCPStorageBucketPolicyOnlyConstraintV1
-        plural: gcpstoragebucketpolicyonlyconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}

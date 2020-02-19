@@ -24,7 +24,6 @@ spec:
     spec:
       names:
         kind: GCPGKEContainerOptimizedOSConstraintV1
-        plural: gcpgkecontaineroptimizedosconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}

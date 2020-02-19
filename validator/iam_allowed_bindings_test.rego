@@ -44,6 +44,18 @@ test_blacklist_role_violations {
 	count(blacklist_role_violations) = 2
 }
 
+blacklist_project_violations[violation] {
+	constraints := [fixture_constraints.iam_allowed_bindings_blacklist_project]
+
+	found_violations := find_violations with data.test_constraints as constraints
+
+	violation := found_violations[_]
+}
+
+test_blacklist_project_violations {
+	count(blacklist_project_violations) = 1
+}
+
 whitelist_role_domain_violations[violation] {
 	constraints := [fixture_constraints.iam_allowed_bindings_whitelist_role_domain]
 

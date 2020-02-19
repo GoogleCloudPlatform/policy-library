@@ -27,7 +27,6 @@ spec:
     spec:
       names:
         kind: GCPBigQueryDatasetLocationConstraintV1
-        plural: gcpbigquerydatasetlocationconstraintsv1
       validation:
         openAPIV3Schema:
           properties:

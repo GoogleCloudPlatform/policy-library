@@ -23,8 +23,7 @@ spec:
   crd:
     spec:
       names:
-        kind: GCPGKEEnableStackdriverKubernetesEngineMonitoringConstraintV1
-        plural: gcpgkeenablestackdriverkubernetesenginemonitoringconstraintsv1
+        kind: GCPGKEEnableStackdriverKubernetesEngineMonitoringV1
       validation:
         openAPIV3Schema:
           properties: {}
@@ -47,7 +46,7 @@ spec:
             # limitations under the License.
             #
             
-            package templates.gcp.GCPGKEEnableStackdriverKubernetesEngineMonitoringConstraintV1
+            package templates.gcp.GCPGKEEnableStackdriverKubernetesEngineMonitoringV1
             
             import data.validator.gcp.lib as lib
             
