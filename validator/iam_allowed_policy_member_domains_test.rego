@@ -88,3 +88,18 @@ test_reject_project_reference {
 	count(found_violations) = 1
 	found_violations[_].details.member == "projectViewer:my-project"
 }
+
+violations_reject_sub_domains[violation] {
+	constraints := [fixture_constraints.iam_allowed_policy_member_reject_sub_domains]
+
+	found_violations := find_violations with data.instances as fixture_assets
+		 with data.test_constraints as constraints
+
+	violation := found_violations[_]
+}
+
+test_reject_sub_domains {
+	found_violations := violations_reject_sub_domains
+	count(found_violations) = 1
+	found_violations[_].details.member == "user:example@sub.google.com"
+}

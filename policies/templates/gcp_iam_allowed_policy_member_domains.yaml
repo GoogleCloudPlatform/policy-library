@@ -21,6 +21,7 @@ spec:
     spec:
       names:
         kind: GCPIAMAllowedPolicyMemberDomainsConstraintV1
+        plural: gcpiamallowedpolicymemberdomainsconstraintsv1
       validation:
         openAPIV3Schema:
           properties:
@@ -37,14 +38,16 @@ spec:
               type: array
               items: string
             # Array of domains to whitelist.
-            # Both primary domains and subdomains are allowed.
-            # If a primary domain is whitelisted, all of its subdomains are
-            # whitelisted as well.
-            # For example, whitelisting "example.com" will cause IAM policy
-            # member "user@sub.example.com" to be accepted.
             domains:
               type: array
               items: string
+            # Whether or not to allow subdomains. If true, all subdomains of whitelisted
+            # domains are whitelisted as well.
+            # For example, whitelisting "example.com" will cause IAM policy
+            # member "user@sub.example.com" to be accepted.
+            allow_sub_domains:
+              type: boolean
+
   targets:
    validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/iam_allowed_policy_member_domains.rego")
@@ -68,7 +71,6 @@ spec:
             
             import data.validator.gcp.lib as lib
             
-            # If a primary domain is whitelisted, all of its sub domains are whitelisted as well.
             deny[{
             	"msg": message,
             	"details": metadata,
@@ -81,12 +83,24 @@ spec:
             
             	members_to_check := [m | m = unique_members[_]; not starts_with_whitelisted_type(member_type_whitelist, m)]
             	member := members_to_check[_]
-            	matched_domains := [m | m = member; re_match(sprintf("[:@.]%v$", [params.domains[_]]), member)]
-            	count(matched_domains) == 0
+            	allow_sub_domains := lib.get_default(params, "allow_sub_domains", true)
+            	no_match(allow_sub_domains, params, member)
             
             	message := sprintf("IAM policy for %v contains member from unexpected domain: %v", [asset.name, member])
             
             	metadata := {"resource": asset.name, "member": member}
+            }
+            
+            no_match(allow_sub_domains, params, member) {
+            	allow_sub_domains == true
+            	matched_domains := [m | m = member; re_match(sprintf("[:@.]%v$", [params.domains[_]]), member)]
+            	count(matched_domains) == 0
+            }
+            
+            no_match(allow_sub_domains, params, member) {
+            	allow_sub_domains == false
+            	matched_domains := [m | m = member; re_match(sprintf("[:@]%v$", [params.domains[_]]), member)]
+            	count(matched_domains) == 0
             }
             
             starts_with_whitelisted_type(whitelist, member) {
