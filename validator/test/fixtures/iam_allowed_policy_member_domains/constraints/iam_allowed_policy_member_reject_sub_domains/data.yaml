@@ -1,23 +1,18 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPIAMAllowedPolicyMemberDomainsConstraintV1
 metadata:
-  name: reject_project_reference
+  name: reject_sub_domains
 spec:
   severity: high
   parameters:
-    member_type_whitelist: []
     allow_sub_domains: false
     domains:
       - google.com
+      - notgoogle.com
       - gserviceaccount.com
       - gcp-sa-cloudasset.iam.gserviceaccount.com
       - noble-history-87417.iam.gserviceaccount.com
-      - noble-history-87417.iam.gserviceaccount.com
-      - noble-history-87417.iam.gserviceaccount.com
       - compute-system.iam.gserviceaccount.com
       - container-engine-robot.iam.gserviceaccount.com
-      - dataflow-service-producer-prod.iam.gserviceaccount.com
       - cloud-filer.iam.gserviceaccount.com
-      - gcp-sa-cloudasset.iam.gserviceaccount.com
       - notiam.gserviceaccount.com
-      - dataflow-service-producer-prod.iam.gserviceaccount.com

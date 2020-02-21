@@ -100,6 +100,11 @@ violations_reject_sub_domains[violation] {
 
 test_reject_sub_domains {
 	found_violations := violations_reject_sub_domains
-	count(found_violations) = 1
-	found_violations[_].details.member == "user:example@sub.google.com"
+	count(found_violations) = 3
+	projects_1 := [v | v = found_violations[_]; contains(v.msg, "//cloudresourcemanager.googleapis.com/projects/12345")]
+	count(projects_1) == 2
+	projects_2 := [v | v = found_violations[_]; contains(v.msg, "//cloudresourcemanager.googleapis.com/projects/186783260185")]
+	count(projects_2) == 1
+	members := {m | m = found_violations[_].details.member}
+	members == {"user:bad@sub.google.com", "serviceAccount:service-186783260185@dataflow-service-producer-prod.iam.gserviceaccount.com", "serviceAccount:service-12345@dataflow-service-producer-prod.iam.gserviceaccount.com"}
 }
