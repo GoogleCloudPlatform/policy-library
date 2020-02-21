@@ -31,22 +31,22 @@ deny[{
 	members_to_check := [m | m = unique_members[_]; not starts_with_whitelisted_type(member_type_whitelist, m)]
 	member := members_to_check[_]
 	allow_sub_domains := lib.get_default(params, "allow_sub_domains", true)
-	no_match(allow_sub_domains, params, member)
+	no_match(allow_sub_domains, params.domains, member)
 
 	message := sprintf("IAM policy for %v contains member from unexpected domain: %v", [asset.name, member])
 
 	metadata := {"resource": asset.name, "member": member}
 }
 
-no_match(allow_sub_domains, params, member) {
+no_match(allow_sub_domains, domains, member) {
 	allow_sub_domains == true
-	matched_domains := [m | m = member; re_match(sprintf("[:@.]%v$", [params.domains[_]]), member)]
+	matched_domains := [m | m = member; re_match(sprintf("[:@.]%v$", [domains[_]]), member)]
 	count(matched_domains) == 0
 }
 
-no_match(allow_sub_domains, params, member) {
+no_match(allow_sub_domains, domains, member) {
 	allow_sub_domains == false
-	matched_domains := [m | m = member; re_match(sprintf("[:@]%v$", [params.domains[_]]), member)]
+	matched_domains := [m | m = member; re_match(sprintf("[:@]%v$", [domains[_]]), member)]
 	count(matched_domains) == 0
 }
 
