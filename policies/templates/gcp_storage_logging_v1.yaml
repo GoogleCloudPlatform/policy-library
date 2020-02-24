@@ -21,7 +21,6 @@ spec:
     spec:
       names:
         kind: GCPStorageLoggingConstraintV1
-        plural: gcpstorageloggingconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}

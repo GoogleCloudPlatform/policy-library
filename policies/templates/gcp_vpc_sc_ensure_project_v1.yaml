@@ -22,7 +22,6 @@ spec:
     spec:
       names:
         kind: GCPVPCSCEnsureProjectConstraintV1
-        plural: gcpvpcscensureprojectconstraintsv1
       validation:
         openAPIV3Schema:
           properties:
