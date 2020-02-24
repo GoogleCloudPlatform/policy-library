@@ -26,15 +26,17 @@ deny[{
 	lib.get_constraint_params(constraint, params)
 	asset := input.asset
 
+	check_asset_type(asset, params)
+
 	binding := asset.iam_policy.bindings[_]
 	member := binding.members[_]
 	role := binding.role
 
-	glob.match(params.role, [], role)
+	glob.match(params.role, ["/"], role)
 
 	mode := lib.get_default(params, "mode", "whitelist")
 
-	matches_found = [m | m = params.members[_]; glob.match(m, [], member)]
+	matches_found = [m | m = config_pattern(params.members[_]); glob.match(m, [], member)]
 	target_match_count(mode, desired_count)
 	count(matches_found) != desired_count
 
@@ -58,4 +60,23 @@ target_match_count(mode) = 0 {
 
 target_match_count(mode) = 1 {
 	mode == "whitelist"
+}
+
+check_asset_type(asset, params) {
+	lib.has_field(params, "assetType")
+	params.assetType == asset.asset_type
+}
+
+check_asset_type(asset, params) {
+	lib.has_field(params, "assetType") == false
+}
+
+# If the member in constraint is written as a single "*", turn it into super
+# glob "**". Otherwise, we won't be able to match everything.
+config_pattern(old_pattern) = "**" {
+	old_pattern == "*"
+}
+
+config_pattern(old_pattern) = old_pattern {
+	old_pattern != "*"
 }

@@ -21,7 +21,6 @@ spec:
     spec:
       names:
         kind: GCPStorageBucketWorldReadableConstraintV1
-        plural: gcpstoragebucketworldreadableconstraintv1
       validation:
         openAPIV3Schema:
           properties: {}

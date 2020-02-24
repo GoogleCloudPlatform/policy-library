@@ -21,7 +21,6 @@ spec:
     spec:
       names:
         kind: GCPDNSSECConstraintV1
-        plural: gcpdnssecconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}
