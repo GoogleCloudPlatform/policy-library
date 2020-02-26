@@ -1,4 +1,4 @@
-# Copyright 2020 Google LLC
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,16 +13,14 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GKEClusterLocationConstraintV2
+kind: GKEClusterLocationConstraintV1
 metadata:
-  name: gke_cluster_v2_denied_locations
+  name: gke_cluster_location
 spec:
   severity: high
   match:
     target: ["organization/*"]
   parameters:
-    mode: "denylist"
-    locations:
+    allowed_locations:
         - us-central1
         - us-east1-b
-    exemptions: []
