@@ -13,16 +13,12 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GKEClusterLocationConstraintV2
+kind: GKEClusterLocationConstraintV12
 metadata:
-  name: gke-cluster-allowed-locations
+  name: gke_cluster_location_v2_denylist_none
 spec:
   severity: high
-  match:
-    target: ["organization/*"]
   parameters:
-    mode: "allowlist"
-    locations:
-        - us-central1
-        - us-east1-b
+    mode: "denylist"
+    locations: []
     exemptions: []
