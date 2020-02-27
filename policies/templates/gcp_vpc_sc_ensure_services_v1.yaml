@@ -72,8 +72,9 @@ spec:
              	missing_services = required_services - perimeter_services
              
              	count(missing_services) > 0
+             	ancestry_path = lib.get_default(asset, "ancestry_path", "")
              
              	message := sprintf("Required services %v missing from service perimeter: %v.", [concat(", ", missing_services), asset.service_perimeter.name])
-             	metadata := {"resource": asset.name, "service_perimeter_name": asset.service_perimeter.name, "missing_services": missing_services}
+             	metadata := {"resource": asset.name, "ancestry_path": ancestry_path, "service_perimeter_name": asset.service_perimeter.name, "missing_services": missing_services}
              }
              #ENDINLINE

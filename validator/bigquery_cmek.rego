@@ -31,7 +31,7 @@ deny[{
 
 	# Check if KMS is enabled
 	kmsKeyName == "NOTFOUND"
-
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 	message := sprintf("%v does not have the client managed encryption key setup.", [asset.name])
-	metadata := {"resource": asset.name}
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }

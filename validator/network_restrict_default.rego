@@ -26,5 +26,7 @@ deny[{
 	a.resource.data.name == "default"
 	name := a.name
 	message := sprintf("Default network in use: %v", [name])
-	metadata := {"resource": name}
+	ancestry_path = lib.get_default(input.asset, "ancestry_path", "")
+
+	metadata := {"resource": name, "ancestry_path": ancestry_path}
 }

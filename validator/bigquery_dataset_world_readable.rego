@@ -16,6 +16,8 @@
 
 package templates.gcp.GCPBigQueryDatasetWorldReadableConstraintV1
 
+import data.validator.gcp.lib as lib
+
 deny[{
 	"msg": message,
 	"details": metadata,
@@ -32,5 +34,6 @@ deny[{
 	world_readable_checks[_] == true
 
 	message := sprintf("%v is publicly accessable", [asset.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }

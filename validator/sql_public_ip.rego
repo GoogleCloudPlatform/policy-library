@@ -28,7 +28,8 @@ deny[{
 	ip_config := lib.get_default(asset.resource.data.settings, "ipConfiguration", {})
 	ipv4 := lib.get_default(ip_config, "ipv4Enabled", true)
 	ipv4 == true
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
 	message := sprintf("%v is not allowed to have a Public IP.", [asset.name])
-	metadata := {"resource": asset.name}
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }

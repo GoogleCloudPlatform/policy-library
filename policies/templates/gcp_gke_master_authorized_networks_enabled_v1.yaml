@@ -71,7 +71,8 @@ spec:
             	count(forbidden) > 0
             
             	message := sprintf("%v master is accessible from unauthorized networks: %v", [asset.name, forbidden])
-            	metadata := {"resource": asset.name}
+            	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+            	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
             }
             
             # Checks that master authorized network is enabled.

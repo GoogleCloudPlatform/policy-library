@@ -78,10 +78,13 @@ spec:
             	count(matches_found) != desired_count
             
             	message := sprintf("%v violates a service constraint", [asset.name])
+            	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+            
             	metadata := {
             		"resource": asset.name,
             		"mode": mode,
             		"service": service,
+            		"ancestry_path": ancestry_path,
             	}
             }
             

@@ -49,11 +49,11 @@ spec:
             # See the License for the specific language governing permissions and
             # limitations under the License.
             #
-
+            
             package templates.gcp.GCPComputeNetworkInterfaceWhitelistConstraintV1
-
+            
             import data.validator.gcp.lib as lib
-
+            
             deny[{
             	"msg": message,
             	"details": metadata,
@@ -61,27 +61,29 @@ spec:
             	constraint := input.constraint
             	asset := input.asset
             	asset.asset_type == "compute.googleapis.com/Instance"
-
+            
             	lib.get_constraint_params(input.constraint, params)
-
+            
             	instance := asset.resource.data
-
+            
             	interfaces := lib.get_default(instance, "networkInterfaces", [])
             	interface := interfaces[_]
             	full_network_uri := interface.network
-
+            
             	whitelist := lib.get_default(params, "whitelist", [])
             	allowed_networks := {n | n = whitelist[_]}
-
+            
             	access_configs := lib.get_default(interface, "accessConfigs", [])
-
+            
             	is_external_network := count(access_configs) > 0
             	is_network_whitelisted := count({full_network_uri} - allowed_networks) == 0
-
+            
             	is_external_network == true
             	is_network_whitelisted == false
-
+            
+            	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+            
             	message := sprintf("Compute instance %v has interface %v with invalid access configuration.", [asset.name, interface.name])
-            	metadata := {"resource": asset.name}
+            	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
             }
             #ENDINLINE

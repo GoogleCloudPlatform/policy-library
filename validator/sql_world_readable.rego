@@ -33,5 +33,7 @@ deny[{
 	network.value == "0.0.0.0/0"
 
 	message := sprintf("%v is world readable", [asset.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }

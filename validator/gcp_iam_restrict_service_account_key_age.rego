@@ -32,7 +32,9 @@ deny[{
 	check_key_age(key, params.max_age)
 
 	message := sprintf("%v: key should be rotated", [asset.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 check_key_not_expired(key) = check_key_not_expired {

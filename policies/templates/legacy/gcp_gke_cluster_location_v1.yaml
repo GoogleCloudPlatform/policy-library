@@ -70,9 +70,10 @@ spec:
            	cluster_location := asset.resource.data.location
            	target_location := params.allowed_locations
            	count({cluster_location} & cast_set(target_location)) == 0
+           	ancestry_path = lib.get_default(asset, "ancestry_path", "")
            
            	message := sprintf("Cluster %v is not allowed in the specified location", [asset.name])
-           	metadata := {"resource": asset.name}
+           	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
            }
            
            ###########################
