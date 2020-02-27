@@ -1,0 +1,9 @@
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: GCPReportSharedVPCHostProjectConstraintV1
+metadata:
+  name: report-shared-vpc-host-projects
+spec:
+  severity: high
+  match:
+    target: ["organization/*"]
+  parameters: {}

@@ -29,9 +29,10 @@ deny[{
 	container := asset.resource.data
 	enabled := legacy_abac_enabled(container)
 	enabled == true
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
 	message := sprintf("%v has legacy ABAC enabled.", [asset.name])
-	metadata := {"resource": asset.name}
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 ###########################

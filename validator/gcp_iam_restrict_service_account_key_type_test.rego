@@ -32,5 +32,5 @@ test_service_account_key_type_violations_count {
 
 test_service_account_key_type_violation_basic {
 	violation_resources := {r | r = all_violations[_].details.resource}
-	violation_resources == {"//iam.googleapis.com/projects/forseti-system-test/serviceAccounts/111111-compute@developer.gserviceaccount.com/keys/1234567890abcdef"}
+	violation_resources == {"//iam.googleapis.com/projects/forseti-system-test/serviceAccounts/1234567/keys/1234567890abcdef"}
 }

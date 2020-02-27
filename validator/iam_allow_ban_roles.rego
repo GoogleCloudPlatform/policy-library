@@ -37,10 +37,12 @@ deny[{
 	count(matches_found) != desired_count
 
 	message := output_msg(desired_count, asset.name, role)
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
 	metadata := {
 		"resource": asset.name,
 		"role": role,
+		"ancestry_path": ancestry_path,
 	}
 }
 

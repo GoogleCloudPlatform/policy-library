@@ -27,6 +27,8 @@ deny[{
 	service_account := asset.resource.data
 	service_account_email := service_account.email
 	endswith(service_account_email, "iam.gserviceaccount.com")
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+
 	message := sprintf("%v: should not exist by policy.", [asset.name])
-	metadata := {"resource": asset.name}
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }

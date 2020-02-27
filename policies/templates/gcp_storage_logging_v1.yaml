@@ -58,12 +58,10 @@ spec:
             	bucket := asset.resource.data
             	destination := destination_bucket(bucket)
             	destination == ""
+            	ancestry_path = lib.get_default(asset, "ancestry_path", "")
             
             	message := sprintf("%v does not have the required logging destination.", [asset.name])
-            	metadata := {
-            		"destination_bucket": destination,
-            		"resource": asset.name,
-            	}
+            	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
             }
             
             ###########################

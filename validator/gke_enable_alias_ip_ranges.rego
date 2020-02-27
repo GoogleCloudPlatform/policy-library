@@ -28,9 +28,10 @@ deny[{
 
 	cluster := asset.resource.data
 	alias_ip_ranges_disabled(cluster)
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
 	message := sprintf("Alias IP ranges are disabled in cluster %v.", [asset.name])
-	metadata := {"resource": asset.name}
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 ###########################

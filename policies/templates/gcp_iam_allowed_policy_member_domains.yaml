@@ -21,7 +21,6 @@ spec:
     spec:
       names:
         kind: GCPIAMAllowedPolicyMemberDomainsConstraintV1
-        plural: gcpiamallowedpolicymemberdomainsconstraintsv1
       validation:
         openAPIV3Schema:
           properties:
@@ -41,13 +40,12 @@ spec:
             domains:
               type: array
               items: string
-            # Whether or not to allow subdomains. If true, all subdomains of whitelisted
-            # domains are whitelisted as well.
-            # For example, whitelisting "example.com" will cause IAM policy
-            # member "user@sub.example.com" to be accepted.
-            allow_sub_domains:
+            # Whether or not to allow subdomains. If true, all subdomains of whitelisted	
+            # domains are whitelisted as well.	
+            # For example, whitelisting "example.com" will cause IAM policy	
+            # member "user@sub.example.com" to be accepted.	
+            allow_sub_domains:	
               type: boolean
-
   targets:
    validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/iam_allowed_policy_member_domains.rego")
@@ -87,8 +85,9 @@ spec:
             	no_match(allow_sub_domains, params.domains, member)
             
             	message := sprintf("IAM policy for %v contains member from unexpected domain: %v", [asset.name, member])
+            	ancestry_path = lib.get_default(asset, "ancestry_path", "")
             
-            	metadata := {"resource": asset.name, "member": member}
+            	metadata := {"resource": asset.name, "member": member, "ancestry_path": ancestry_path}
             }
             
             no_match(allow_sub_domains, domains, member) {
