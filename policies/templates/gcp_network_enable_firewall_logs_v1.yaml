@@ -61,8 +61,9 @@ spec:
             	log_config := lib.get_default(asset.resource.data, "logConfig", {})
             	is_enabled := lib.get_default(log_config, "enable", false)
             	is_enabled == false
+            	ancestry_path = lib.get_default(input.asset, "ancestry_path", "")
             
             	message := sprintf("Firewall logs are disabled in firewall %v.", [asset.name])
-            	metadata := {"resource": asset.name}
+            	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
             }
             #ENDINLINE

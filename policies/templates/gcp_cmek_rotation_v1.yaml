@@ -71,7 +71,10 @@ spec:
            	period_to_test := time.parse_duration_ns(period_string)
            
            	rotation_period > period_to_test
+           
+           	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+           
            	message := sprintf("%v: CMEK Rotation Period must be at most %v.", [asset.name, period_string])
-           	metadata := {"resource": asset.name}
+           	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
            }
            #ENDINLINE

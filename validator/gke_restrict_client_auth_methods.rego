@@ -30,9 +30,10 @@ deny[{
 	cluster_version := lib.get_default(cluster, "currentMasterVersion", "")
 
 	not check_all_disabled(master_auth, cluster_version)
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
 	message := sprintf("%v has client certificate or static password authentication enabled.", [asset.name])
-	metadata := {"resource": asset.name}
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 ###########################

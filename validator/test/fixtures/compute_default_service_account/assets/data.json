@@ -1,0 +1,289 @@
+[
+  {
+    "name": "//compute.googleapis.com/projects/test-project/zones/us-east1-c/instances/vm-default",
+    "asset_type": "compute.googleapis.com/Instance",
+    "resource": {
+      "version": "v1",
+      "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+      "discovery_name": "Instance",
+      "parent": "//cloudresourcemanager.googleapis.com/projects/68478495408",
+      "data": {
+        "canIpForward": false,
+        "cpuPlatform": "Intel Haswell",
+        "creationTimestamp": "2018-01-18T12:16:22.261-08:00",
+        "deletionProtection": false,
+        "disk": [
+          {
+            "autoDelete": true,
+            "boot": true,
+            "deviceName": "persistent-disk-0",
+            "guestOsFeature": [
+              {
+                "type": "VIRTIO_SCSI_MULTIQUEUE"
+              }
+            ],
+            "index": 0,
+            "interface": "SCSI",
+            "license": [
+              "https://www.googleapis.com/compute/v1/projects/debian-cloud/global/licenses/debian-9-stretch"
+            ],
+            "mode": "READ_WRITE",
+            "source": "https://www.googleapis.com/compute/v1/projects/test-project/zones/us-east1-c/disks/vm-no-ip",
+            "type": "PERSISTENT"
+          }
+        ],
+        "id": "8987947392482197114",
+        "labelFingerprint": "42WmSpB8rSM=",
+        "machineType": "https://www.googleapis.com/compute/v1/projects/test-project/zones/us-east1-c/machineTypes/g1-small",
+        "name": "vm-no-ip",
+        "networkInterfaces": [
+          {
+            "fingerprint": "+QCnSman4bQ=",
+            "ipAddress": "10.1.0.2",
+            "name": "nic0",
+            "network": "https://www.googleapis.com/compute/v1/projects/test-project/global/networks/default",
+            "subnetwork": "https://www.googleapis.com/compute/v1/projects/test-project/regions/us-east1/subnetworks/default-us-east1"
+          }
+        ],
+        "scheduling": {
+          "automaticRestart": true,
+          "onHostMaintenance": "MIGRATE",
+          "preemptible": false
+        },
+        "selfLink": "https://www.googleapis.com/compute/v1/projects/test-project/zones/us-east1-c/instances/vm-no-ip",
+        "serviceAccount": [
+          {
+            "email": "66666666666-compute@developer.gserviceaccount.com",
+            "scope": [
+              "https://www.googleapis.com/auth/cloud-platform"
+            ]
+          }
+        ],
+        "startRestricted": false,
+        "status": "RUNNING",
+        "tags": {
+          "fingerprint": "42WmSpB8rSM="
+        },
+        "zone": "https://www.googleapis.com/compute/v1/projects/test-project/zones/us-east1-c"
+      }
+    }
+  },
+  {
+    "ancestors": [
+      "projects/602971860157",
+      "organizations/1082147662149"
+    ],
+    "asset_type": "compute.googleapis.com/Instance",
+    "name": "//compute.googleapis.com/projects/keshi-gke-demo-2/zones/australia-southeast1-a/instances/apple-bastion",
+    "resource": {
+      "data": {
+        "canIpForward": false,
+        "cpuPlatform": "Intel Broadwell",
+        "creationTimestamp": "2019-09-30T19:14:34.628-07:00",
+        "deletionProtection": false,
+        "disk": [
+          {
+            "autoDelete": true,
+            "boot": true,
+            "deviceName": "persistent-disk-0",
+            "diskSizeGb": "10",
+            "guestOsFeature": [
+              {
+                "type": "VIRTIO_SCSI_MULTIQUEUE"
+              }
+            ],
+            "index": 0,
+            "interface": "SCSI",
+            "license": [
+              "https://www.googleapis.com/compute/v1/projects/debian-cloud/global/licenses/debian-9-stretch"
+            ],
+            "mode": "READ_WRITE",
+            "source": "https://www.googleapis.com/compute/v1/projects/keshi-gke-demo-2/zones/australia-southeast1-a/disks/apple-bastion",
+            "type": "PERSISTENT"
+          }
+        ],
+        "disks": [
+          {
+            "autoDelete": true,
+            "boot": true,
+            "deviceName": "persistent-disk-0",
+            "diskSizeGb": "10",
+            "guestOsFeatures": [
+              {
+                "type": "VIRTIO_SCSI_MULTIQUEUE"
+              }
+            ],
+            "index": 0,
+            "interface": "SCSI",
+            "licenses": [
+              "https://www.googleapis.com/compute/v1/projects/debian-cloud/global/licenses/debian-9-stretch"
+            ],
+            "mode": "READ_WRITE",
+            "source": "https://www.googleapis.com/compute/v1/projects/keshi-gke-demo-2/zones/australia-southeast1-a/disks/apple-bastion",
+            "type": "PERSISTENT"
+          }
+        ],
+        "id": "5858294892404344934",
+        "labelFingerprint": "42WmSpB8rSM=",
+        "machineType": "https://www.googleapis.com/compute/v1/projects/keshi-gke-demo-2/zones/australia-southeast1-a/machineTypes/n1-standard-1",
+        "name": "apple-bastion",
+        "networkInterface": [
+          {
+            "accessConfig": [
+              {
+                "externalIp": "35.244.84.169",
+                "name": "external-nat",
+                "networkTier": "PREMIUM",
+                "type": "ONE_TO_ONE_NAT"
+              }
+            ],
+            "fingerprint": "5g1HJ1SQiko=",
+            "ipAddress": "192.168.0.13",
+            "name": "nic0",
+            "network": "https://www.googleapis.com/compute/v1/projects/keshi-gke-demo-2/global/networks/apple",
+            "subnetwork": "https://www.googleapis.com/compute/v1/projects/keshi-gke-demo-2/regions/australia-southeast1/subnetworks/apple-subnet"
+          }
+        ],
+        "networkInterfaces": [
+          {
+            "accessConfigs": [
+              {
+                "name": "external-nat",
+                "natIP": "35.244.84.169",
+                "networkTier": "PREMIUM",
+                "type": "ONE_TO_ONE_NAT"
+              }
+            ],
+            "fingerprint": "5g1HJ1SQiko=",
+            "name": "nic0",
+            "network": "https://www.googleapis.com/compute/v1/projects/keshi-gke-demo-2/global/networks/apple",
+            "networkIP": "192.168.0.13",
+            "subnetwork": "https://www.googleapis.com/compute/v1/projects/keshi-gke-demo-2/regions/australia-southeast1/subnetworks/apple-subnet"
+          }
+        ],
+        "scheduling": {
+          "automaticRestart": true,
+          "onHostMaintenance": "MIGRATE",
+          "preemptible": false
+        },
+        "selfLink": "https://www.googleapis.com/compute/v1/projects/keshi-gke-demo-2/zones/australia-southeast1-a/instances/apple-bastion",
+        "serviceAccount": [
+          {
+            "email": "602971860157-compute@developer.gserviceaccount.com",
+            "scope": [
+              "https://www.googleapis.com/auth/devstorage.read_only",
+              "https://www.googleapis.com/auth/logging.write",
+              "https://www.googleapis.com/auth/monitoring.write",
+              "https://www.googleapis.com/auth/pubsub",
+              "https://www.googleapis.com/auth/service.management.readonly",
+              "https://www.googleapis.com/auth/servicecontrol",
+              "https://www.googleapis.com/auth/trace.append"
+            ]
+          }
+        ],
+        "serviceAccounts": [
+          {
+            "email": "602971860157-compute@developer.gserviceaccount.com",
+            "scopes": [
+              "https://www.googleapis.com/auth/devstorage.read_only",
+              "https://www.googleapis.com/auth/logging.write",
+              "https://www.googleapis.com/auth/monitoring.write",
+              "https://www.googleapis.com/auth/pubsub",
+              "https://www.googleapis.com/auth/service.management.readonly",
+              "https://www.googleapis.com/auth/servicecontrol",
+              "https://www.googleapis.com/auth/trace.append"
+            ]
+          }
+        ],
+        "startRestricted": false,
+        "status": "RUNNING",
+        "tags": {
+          "fingerprint": "42WmSpB8rSM="
+        },
+        "zone": "https://www.googleapis.com/compute/v1/projects/keshi-gke-demo-2/zones/australia-southeast1-a"
+      },
+      "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+      "discovery_name": "Instance",
+      "parent": "//cloudresourcemanager.googleapis.com/projects/602971860157",
+      "version": "v1"
+    }
+  },
+  {
+    "name": "//compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/vm-nondefault",
+    "asset_type": "compute.googleapis.com/Instance",
+    "resource": {
+      "version": "v1",
+      "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+      "discovery_name": "Instance",
+      "parent": "//cloudresourcemanager.googleapis.com/projects/68478495408",
+      "data": {
+        "canIpForward": true,
+        "cpuPlatform": "Unknown CPU Platform",
+        "creationTimestamp": "2018-06-20T14:46:40.689-07:00",
+        "deletionProtection": false,
+        "description": "",
+        "disk": [
+          {
+            "autoDelete": true,
+            "boot": true,
+            "deviceName": "vm-shielded",
+            "guestOsFeature": [
+              {
+                "type": "VIRTIO_SCSI_MULTIQUEUE"
+              }
+            ],
+            "index": 0,
+            "interface": "SCSI",
+            "license": [
+              "https://www.googleapis.com/compute/v1/projects/debian-cloud/global/licenses/debian-9-stretch"
+            ],
+            "mode": "READ_WRITE",
+            "source": "https://www.googleapis.com/compute/v1/projects/test-project/zones/us-east1-b/disks/vm-shielded",
+            "type": "PERSISTENT"
+          }
+        ],
+        "id": "108591614595134928",
+        "labelFingerprint": "42WmSpB8rSM=",
+        "machineType": "https://www.googleapis.com/compute/v1/projects/test-project/zones/us-east1-b/machineTypes/n1-standard-1",
+        "name": "vm-shielded",
+        "networkInterfaces": [
+          {
+            "accessConfigs": [
+              {
+                "externalIp": "35.196.151.107",
+                "name": "external-nat",
+                "networkTier": "PREMIUM",
+                "type": "ONE_TO_ONE_NAT"
+              }
+            ],
+            "fingerprint": "FKYLBaTiCF0=",
+            "ipAddress": "10.142.0.2",
+            "name": "nic0",
+            "network": "https://www.googleapis.com/compute/v1/projects/test-project/global/networks/default",
+            "subnetwork": "https://www.googleapis.com/compute/v1/projects/test-project/regions/us-east1/subnetworks/default"
+          }
+        ],
+        "scheduling": {
+          "automaticRestart": true,
+          "onHostMaintenance": "MIGRATE",
+          "preemptible": false
+        },
+        "selfLink": "https://www.googleapis.com/compute/v1/projects/test-project/zones/us-east1-b/instances/vm-nondefault",
+        "serviceAccount": [
+          {
+            "email": "custom-sa@test-project.iam.gserviceaccount.com",
+            "scope": [
+              "https://www.googleapis.com/auth/cloud-platform"
+            ]
+          }
+        ],
+        "startRestricted": false,
+        "status": "TERMINATED",
+        "tags": {
+          "fingerprint": "42WmSpB8rSM="
+        },
+        "zone": "https://www.googleapis.com/compute/v1/projects/test-project/zones/us-east1-b"
+      }
+    }
+  }
+]

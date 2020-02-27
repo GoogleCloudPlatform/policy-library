@@ -28,9 +28,10 @@ deny[{
 
 	bucket := asset.resource.data
 	bucket_policy_enabled(bucket) != true
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
 	message := sprintf("%v does not have bucket policy only enabled.", [asset.name])
-	metadata := {"resource": asset.name}
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 ###########################

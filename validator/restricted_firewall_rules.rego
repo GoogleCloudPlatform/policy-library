@@ -35,9 +35,12 @@ deny[{
 
 	fw_rule_is_restricted(fw_rule, rules_params)
 	message := sprintf("%s Firewall rule is prohibited.", [asset.name])
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+
 	metadata := {
 		"resource": asset.name,
 		"restricted_rules": rules_params,
+		"ancestry_path": ancestry_path,
 	}
 }
 

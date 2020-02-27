@@ -88,9 +88,10 @@ spec:
         	# check compliance
         	hour_matches := {instance_maintenance_window_hour} & cast_set(desired_maintenance_window_hours)
         	count(hour_matches) == 0
+        	ancestry_path = lib.get_default(asset, "ancestry_path", "")
         
         	message := sprintf("%v missing or incorrect maintenance window. Hour: '%v'", [asset.name, instance_maintenance_window_hour])
-        	metadata := {"resource": asset.name}
+        	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
         }
         
         # Rule utilities

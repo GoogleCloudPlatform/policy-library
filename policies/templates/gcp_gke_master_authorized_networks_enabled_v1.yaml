@@ -60,9 +60,10 @@ spec:
             
             	cluster := asset.resource.data
             	master_auth_network_disabled(cluster)
+            	ancestry_path = lib.get_default(asset, "ancestry_path", "")
             
             	message := sprintf("Master authorized networks is not being used in cluster %v.", [asset.name])
-            	metadata := {"resource": asset.name}
+            	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
             }
             
             ###########################

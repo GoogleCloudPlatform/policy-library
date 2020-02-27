@@ -1,0 +1,99 @@
+[
+    {
+        "ancestors": [
+          "projects/823685285055",
+          "organizations/1082147661234"
+        ],
+        "asset_type": "compute.googleapis.com/Disk",
+        "name": "//compute.googleapis.com/projects/test-forseti-wizard/zones/australia-southeast1-c/disks/forseti-client-vm-fe789fe7",
+        "resource": {
+          "data": {
+            "creationTimestamp": "2019-08-29T01:49:22.960-07:00",
+            "guestOsFeature": [
+              {
+                "type": "VIRTIO_SCSI_MULTIQUEUE"
+              }
+            ],
+            "guestOsFeatures": [
+              {
+                "type": "VIRTIO_SCSI_MULTIQUEUE"
+              }
+            ],
+            "id": "907540859737223037",
+            "labelFingerprint": "42WmSpB8rSM=",
+            "lastAttachTimestamp": "2019-08-29T01:49:22.960-07:00",
+            "license": [
+              "https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/licenses/ubuntu-1804-lts"
+            ],
+            "licenseCode": [
+              "5926592092274602096"
+            ],
+            "licenseCodes": [
+              "5926592092274602096"
+            ],
+            "licenses": [
+              "https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/licenses/ubuntu-1804-lts"
+            ],
+            "name": "forseti-client-vm-fe789fe7",
+            "physicalBlockSizeBytes": "4096",
+            "selfLink": "https://www.googleapis.com/compute/v1/projects/test-forseti-wizard/zones/australia-southeast1-c/disks/forseti-client-vm-fe789fe7",
+            "sizeGb": "10",
+            "sourceImage": "https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-1804-bionic-v20190813a",
+            "sourceImageId": "701989261166681234",
+            "status": "READY",
+            "type": "https://www.googleapis.com/compute/v1/projects/test-forseti-wizard/zones/australia-southeast1-c/diskTypes/pd-standard",
+            "user": [
+              "https://www.googleapis.com/compute/v1/projects/test-forseti-wizard/zones/australia-southeast1-c/instances/forseti-client-vm-fe789fe7"
+            ],
+            "users": [
+              "https://www.googleapis.com/compute/v1/projects/test-forseti-wizard/zones/australia-southeast1-c/instances/forseti-client-vm-fe789fe7"
+            ],
+            "zone": "https://www.googleapis.com/compute/v1/projects/test-forseti-wizard/zones/australia-southeast1-c"
+          },
+          "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+          "discovery_name": "Disk",
+          "parent": "//cloudresourcemanager.googleapis.com/projects/823685285055",
+          "version": "v1"
+        }
+      },
+      { 
+        "ancestors": [
+          "projects/824178941234",
+          "organizations/1079611231234"
+        ],
+        "asset_type": "compute.googleapis.com/Disk",
+        "name": "//compute.googleapis.com/projects/test-1234/zones/asia-east1-a/disks/backup-server-boot-disk",
+        "resource": {
+          "data": {
+            "creationTimestamp": "2018-01-22T01:55:08.589-08:00",
+            "id": "8406698559097271234",
+            "labelFingerprint": "42WmSpB8rxx=",
+            "license": [
+              "https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/licenses/ubuntu-1404-trusty"
+            ],
+            "licenseCode": [
+              "1000010"
+            ],
+            "licenseCodes": [
+              "1000010"
+            ],
+            "licenses": [
+              "https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/licenses/ubuntu-1404-trusty"
+            ],
+            "name": "backup-server-boot-disk",
+            "physicalBlockSizeBytes": "4096",
+            "selfLink": "https://www.googleapis.com/compute/v1/projects/test-1234/zones/asia-east1-a/disks/backup-server-boot-disk",
+            "sizeGb": "50",
+            "sourceSnapshot": "https://www.googleapis.com/compute/v1/projects/test-1234/global/snapshots/backup-server-boot-disk",
+            "sourceSnapshotId": "4575138017924611234",
+            "status": "READY",
+            "type": "https://www.googleapis.com/compute/v1/projects/test-1234/zones/asia-east1-a/diskTypes/pd-standard",
+            "zone": "https://www.googleapis.com/compute/v1/projects/test-1234/zones/asia-east1-a"
+          },
+          "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+          "discovery_name": "Disk",
+          "parent": "//cloudresourcemanager.googleapis.com/projects/824178941234",
+          "version": "v1"
+        }
+      }
+]
