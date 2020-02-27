@@ -38,8 +38,10 @@ deny[{
 
 	invalid_forwarding_rule(rule, instance)
 
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+
 	message := sprintf("%v is not allowed, violates whitelist policy.", [asset.name])
-	metadata := {"resource": asset.name}
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 ###########################

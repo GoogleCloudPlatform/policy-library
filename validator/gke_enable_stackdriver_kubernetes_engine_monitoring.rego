@@ -31,9 +31,10 @@ deny[{
 	# Per CIS guidelines, check if EITHER of these settings are disabled
 	checks := [stackdriver_monitoring_disabled(cluster), stackdriver_logging_disabled(cluster)]
 	checks[_] == true
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
 	message := sprintf("Stackdriver Kubernetes Engine monitoring is disabled in cluster %v.", [asset.name])
-	metadata := {"resource": asset.name}
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 ###########################

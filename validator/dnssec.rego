@@ -27,7 +27,8 @@ deny[{
 	asset.asset_type == "dns.googleapis.com/ManagedZone"
 
 	asset.resource.data.dnssecConfig.state != "ON"
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
 	message := sprintf("%v: DNSSEC is not enabled.", [asset.name])
-	metadata := {"resource": asset.name}
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }

@@ -28,9 +28,10 @@ deny[{
 
 	cluster := asset.resource.data
 	stackdriver_logging_disabled(cluster)
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
 	message := sprintf("Stackdriver logging is disabled in cluster %v.", [asset.name])
-	metadata := {"resource": asset.name}
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 ###########################
