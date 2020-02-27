@@ -31,28 +31,5 @@
                 }
             ]
         }
-    },
-    {
-        "name": "//storage.googleapis.com/forseti-cai-export-23775711",
-        "asset_type": "storage.googleapis.com/Bucket",
-        "iam_policy": {
-            "version": 1,
-            "etag": "CdWC1qPLfdw=",
-            "bindings": [
-                {
-                    "role": "roles/owner",
-                    "members": [
-                        "user:powerful@google.com",
-                        "group:admins@google.com"
-                    ]
-                },
-                {
-                    "role": "roles/viewer",
-                    "members": [
-                        "user:okay@google.com"
-                    ]
-                }
-            ]
-        }
     }
 ]

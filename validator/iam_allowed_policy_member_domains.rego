@@ -34,8 +34,9 @@ deny[{
 	no_match(allow_sub_domains, params.domains, member)
 
 	message := sprintf("IAM policy for %v contains member from unexpected domain: %v", [asset.name, member])
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
-	metadata := {"resource": asset.name, "member": member}
+	metadata := {"resource": asset.name, "member": member, "ancestry_path": ancestry_path}
 }
 
 no_match(allow_sub_domains, domains, member) {

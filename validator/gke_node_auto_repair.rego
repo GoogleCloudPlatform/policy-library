@@ -30,10 +30,11 @@ deny[{
 	node_pools := lib.get_default(container, "nodePools", [])
 	node_pool := node_pools[_]
 	not auto_repair_enabled(node_pool)
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
 	message := sprintf("Auto repair is not enabled on node pool '%v'.", [node_pool.name])
 
-	metadata := {"resource": asset.name, "node_pool": node_pool.name}
+	metadata := {"resource": asset.name, "node_pool": node_pool.name, "ancestry_path": ancestry_path}
 }
 
 ###########################

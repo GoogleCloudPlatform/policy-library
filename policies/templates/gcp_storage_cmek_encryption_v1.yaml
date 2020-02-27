@@ -58,11 +58,13 @@ spec:
             	bucket := asset.resource.data
             	kms_key_name := default_kms_key_name(bucket)
             	kms_key_name == ""
+            	ancestry_path = lib.get_default(asset, "ancestry_path", "")
             
             	message := sprintf("%v does not have the required CMEK encryption configured.", [asset.name])
             	metadata := {
             		"default_kms_key_name": kms_key_name,
             		"resource": asset.name,
+            		"ancestry_path": ancestry_path,
             	}
             }
             

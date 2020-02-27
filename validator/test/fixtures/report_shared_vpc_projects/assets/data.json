@@ -1,0 +1,41 @@
+[
+    {
+        "asset_type": "compute.googleapis.com/Project",
+        "name": "//compute.googleapis.com/projects/gke-network-demo",
+        "resource": {
+          "data": {
+            "creationTimestamp": "2019-04-08T05:26:06.347-07:00",
+            "defaultNetworkTier": "PREMIUM",
+            "defaultServiceAccount": "104274582702-compute@developer.gserviceaccount.com",
+            "id": "820404253968728882",
+            "name": "gke-network-demo",
+            "selfLink": "https://www.googleapis.com/compute/v1/projects/gke-network-demo",
+            "xpnProjectStatus": "UNSPECIFIED_XPN_PROJECT_STATUS"
+          },
+          "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+          "discovery_name": "Project",
+          "parent": "//cloudresourcemanager.googleapis.com/projects/104274582702",
+          "version": "v1"
+        }
+      },
+      {
+        "asset_type": "compute.googleapis.com/Project",
+        "name": "//compute.googleapis.com/projects/shared-vpc-1",
+        "resource": {
+          "data": {
+            "creationTimestamp": "2019-02-17T21:26:04.649-08:00",
+            "defaultNetworkTier": "PREMIUM",
+            "defaultServiceAccount": "284040006522-compute@developer.gserviceaccount.com",
+            "id": "2501674553529859845",
+            "name": "shared-vpc-1",
+            "selfLink": "https://www.googleapis.com/compute/v1/projects/shared-vpc-1",
+            "xpnProjectStatus": "HOST"
+          },
+          "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+          "discovery_name": "Project",
+          "parent": "//cloudresourcemanager.googleapis.com/projects/284040006522",
+          "version": "v1"
+        }
+      }
+
+]

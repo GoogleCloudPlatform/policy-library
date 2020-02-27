@@ -29,9 +29,10 @@ deny[{
 	asset.asset_type == "sqladmin.googleapis.com/Instance"
 
 	check_ssl(params, asset.resource.data.settings.ipConfiguration) == false
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
 	message := sprintf("%v has networks with SSL settings in violation of policy", [asset.name])
-	metadata := {"resource": asset.name}
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 deny[{

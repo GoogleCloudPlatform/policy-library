@@ -39,9 +39,10 @@ deny[{
 	matches := {asset.name} & cast_set(target_instances)
 	target_instance_match_count(params.mode, desired_count)
 	count(matches) == desired_count
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
 	message := sprintf("%v is not allowed, policy prohibits all GLBs due to public IP.", [asset.name])
-	metadata := {"external_ip": external_ip}
+	metadata := {"external_ip": external_ip, "ancestry_path": ancestry_path}
 }
 
 ###########################

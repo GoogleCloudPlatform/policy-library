@@ -82,9 +82,10 @@ spec:
             	trace(sprintf("asset name:%v, target_instances: %v, mode: %v, match_mode: %v", [asset.name, target_instances, params.mode, match_mode]))
             
             	instance_name_targeted(asset.name, target_instances, params.mode, match_mode)
+            	ancestry_path = lib.get_default(asset, "ancestry_path", "")
             
             	message := sprintf("%v is not allowed to have an external IP.", [asset.name])
-            	metadata := {"access_config": access_config}
+            	metadata := {"access_config": access_config, "ancestry_path": ancestry_path}
             }
             
             ###########################
