@@ -56,9 +56,10 @@ deny[{
 	resource_types_to_scan[_] == asset.asset_type
 
 	not label_is_valid(label_key, label_value_pattern, asset, non_standard_types)
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
 	message := sprintf("%v's label '%v' is in violation.", [asset.name, label_key])
-	metadata := {"resource": asset.name, "label_in_violation": label_key}
+	metadata := {"resource": asset.name, "label_in_violation": label_key, "ancestry_path": ancestry_path}
 }
 
 # check if label exists and if its value matches the pattern passed as a parameter for all resources to scan

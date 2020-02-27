@@ -44,8 +44,9 @@ deny[{
 	target_location_match_count(params.mode, desired_count)
 	count(location_matches) == desired_count
 
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 	message := sprintf("%v is in a disallowed location.", [asset.name])
-	metadata := {"location": asset_location}
+	metadata := {"location": asset_location, "ancestry_path": ancestry_path}
 }
 
 #################

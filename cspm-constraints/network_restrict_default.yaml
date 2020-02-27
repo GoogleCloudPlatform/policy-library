@@ -1,0 +1,9 @@
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: GCPNetworkRestrictDefaultConstraintV1
+metadata:
+  name: network-restrict-default-networks
+spec:
+  severity: high
+  match:
+    target: ["organization/*"]
+  parameters: {}

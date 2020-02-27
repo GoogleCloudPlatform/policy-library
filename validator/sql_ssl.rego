@@ -30,7 +30,8 @@ deny[{
 	ipConfiguration := lib.get_default(settings, "ipConfiguration", {})
 	requireSsl := lib.get_default(ipConfiguration, "requireSsl", false)
 	requireSsl == false
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
 	message := sprintf("%v does not require SSL", [asset.name])
-	metadata := {"resource": asset.name}
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }

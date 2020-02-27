@@ -28,7 +28,8 @@ deny[{
 
 	network := asset.resource.data
 	network.privateIpGoogleAccess == false
+	ancestry_path = lib.get_default(input.asset, "ancestry_path", "")
 
 	message := sprintf("Private Google access is disabled in subnetwork %v.", [asset.name])
-	metadata := {"resource": asset.name}
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }

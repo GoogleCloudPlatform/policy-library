@@ -67,10 +67,12 @@ spec:
            	version_count := count(asset.resource.data.split.allocations)
            	version_count > max_versions
            
+           	ancestry_path = lib.get_default(asset, "ancestry_path", "")
            	message := sprintf("%v has more than %v versions (%v).", [asset.name, max_versions, version_count])
            	metadata := {
            		"constraint": params,
            		"resource": asset.name,
+           		"ancestry_path": ancestry_path,
            	}
            }
            #ENDINLINE

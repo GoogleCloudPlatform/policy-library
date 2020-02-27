@@ -74,11 +74,13 @@ spec:
         
         	# The asset raises a violation if location_is_valid is evaluated to false
         	not location_is_valid(asset, locations)
+        	ancestry_path = lib.get_default(asset, "ancestry_path", "")
         
         	message := sprintf("%v is in violation.", [asset.name])
         	metadata := {
         		"resource": asset.name,
         		"valid-locations": locations,
+        		"ancestry_path": ancestry_path,
         	}
         }
         

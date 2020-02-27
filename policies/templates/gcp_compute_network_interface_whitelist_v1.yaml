@@ -79,7 +79,9 @@ spec:
             	is_external_network == true
             	is_network_whitelisted == false
             
+            	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+            
             	message := sprintf("Compute instance %v has interface %v with invalid access configuration.", [asset.name, interface.name])
-            	metadata := {"resource": asset.name}
+            	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
             }
             #ENDINLINE

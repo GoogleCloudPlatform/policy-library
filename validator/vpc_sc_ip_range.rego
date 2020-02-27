@@ -41,7 +41,8 @@ deny[{
 	maximum_size := params.maximum_cidr_size
 
 	maximum_size > ip_network_size
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
 	message := sprintf("IP range %v too broad in acess level %v.", [ip_network, asset.access_level.name])
-	metadata := {"resource": asset.name, "access_level": asset.access_level.name}
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path, "access_level": asset.access_level.name}
 }
