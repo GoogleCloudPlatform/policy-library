@@ -1,5 +1,4 @@
-#
-# Copyright 2018 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,22 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-package templates.gcp.GCPBigQueryDatasetWorldReadableConstraintV1
-
-deny[{
-	"msg": message,
-	"details": metadata,
-}] {
-	constraint := input.constraint
-	asset := input.asset
-	asset.asset_type == "bigquery.googleapis.com/Dataset"
-
-	world_readable_checks := [
-		asset.iam_policy.bindings[_].members[_] == "allUsers",
-		asset.iam_policy.bindings[_].members[_] == "allAuthenticatedUsers",
-	]
-
-	message := sprintf("%v is publicly accessable", [asset.name])
-	metadata := {"resource": asset.name}
-}
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: GKEClusterLocationConstraintV2
+metadata:
+  name: gke_cluster_location_v2_allowlist_one
+spec:
+  severity: high
+  parameters:
+    mode: "allowlist"
+    locations:
+    - us-central1
+    exemptions: []
