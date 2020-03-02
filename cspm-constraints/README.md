@@ -1,1 +1,1 @@
-Copy files here to ../policies/constraints
+Copy .yaml files here to ../policies/constraints
