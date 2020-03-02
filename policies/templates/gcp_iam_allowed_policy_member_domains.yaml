@@ -44,11 +44,7 @@ spec:
             # domains are whitelisted as well.	
             # For example, whitelisting "example.com" will cause IAM policy	
             # member "user@sub.example.com" to be accepted.	
-<<<<<<< HEAD
             allow_sub_domains:
-=======
-            allow_sub_domains:	
->>>>>>> cspm changes (#277)
               type: boolean
   targets:
    validation.gcp.forsetisecurity.org:
