@@ -62,7 +62,6 @@ get_diff(asset, minimum_retention_days, maximum_retention_days) {
 # If expirationTime does not exist when looking at the maximum retention, generate a violation.
 get_diff(asset, minimum_retention_days, maximum_retention_days) {
 	maximum_retention_days != ""
-	creation_time := to_number(asset.resource.data.creationTime)
 	get_expiration_time := object.get(asset.resource.data, "expirationTime", "")
 	get_expiration_time == ""
 }
