@@ -36,10 +36,15 @@ deny[{
 	matches := {asset.name} & cast_set(exempt_list)
 	count(matches) == 0
 
-	get_diff(asset, min_retention_days, max_retention_days)
+	violation_msg := get_diff(asset, min_retention_days, max_retention_days)
+	is_string(violation_msg)
 
-	message := sprintf("BigQuery table %v has a retention policy violation.", [asset.name])
-	metadata := {"resource": asset.name}
+	message := sprintf("BigQuery table %v has a retention policy violation: %v", [asset.name, violation_msg])
+
+	metadata := {
+		"resource": asset.name,
+		"violation_type": violation_msg,
+	}
 }
 
 ###########################
@@ -47,7 +52,7 @@ deny[{
 ###########################
 
 # Generate a violation if the resource retention is greater than the maximum number of retention days allowed.
-get_diff(asset, minimum_retention_days, maximum_retention_days) {
+get_diff(asset, minimum_retention_days, maximum_retention_days) = "Greater than maximum_retention_days" {
 	maximum_retention_days != ""
 	creation_time := to_number(asset.resource.data.creationTime)
 	retention_days_ms := get_ms_of_retention_days(maximum_retention_days)
@@ -60,14 +65,14 @@ get_diff(asset, minimum_retention_days, maximum_retention_days) {
 }
 
 # If expirationTime does not exist when looking at the maximum retention, generate a violation.
-get_diff(asset, minimum_retention_days, maximum_retention_days) {
+get_diff(asset, minimum_retention_days, maximum_retention_days) = "ExpirationTime does not exist" {
 	maximum_retention_days != ""
 	get_expiration_time := object.get(asset.resource.data, "expirationTime", "")
 	get_expiration_time == ""
 }
 
 # Generate a violation if the resource retention is less than the minimum number of retention days allowed.
-get_diff(asset, minimum_retention_days, maximum_retention_days) {
+get_diff(asset, minimum_retention_days, maximum_retention_days) = "Less than minimum_retention_days" {
 	minimum_retention_days != ""
 	creation_time := to_number(asset.resource.data.creationTime)
 	retention_days_ms := get_ms_of_retention_days(minimum_retention_days)
