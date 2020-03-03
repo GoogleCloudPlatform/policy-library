@@ -21,8 +21,6 @@ spec:
   match:
     target: ["organization/*"]
   parameters:
-    retention_type: "maximum"
-    retention_days:
-      - 60
+    maximum_retention_days: 60
     exemptions:
       - //bigquery.googleapis.com/projects/forseti-ia/datasets/forseti/tables/forseti_fw_rules

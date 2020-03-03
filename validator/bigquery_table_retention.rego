@@ -25,8 +25,8 @@ deny[{
 	constraint := input.constraint
 	lib.get_constraint_params(constraint, params)
 
-	retention_type := params.retention_type
-	retention_days := params.retention_days
+	min_retention_days := lib.get_default(params, "minimum_retention_days", "")
+	max_retention_days := lib.get_default(params, "maximum_retention_days", "")
 
 	asset := input.asset
 	asset.asset_type == "bigquery.googleapis.com/Table"
@@ -36,10 +36,10 @@ deny[{
 	matches := {asset.name} & cast_set(exempt_list)
 	count(matches) == 0
 
-	get_diff(asset, retention_type, retention_days)
+	get_diff(asset, min_retention_days, max_retention_days)
 
-	message := sprintf("BigQuery table %v has a retention policy violation of retention_type: %v", [asset.name, retention_type])
-	metadata := {"resource": asset.name, "retention_type_violation": retention_type}
+	message := sprintf("BigQuery table %v has a retention policy violation.", [asset.name])
+	metadata := {"resource": asset.name}
 }
 
 ###########################
@@ -47,16 +47,10 @@ deny[{
 ###########################
 
 # Generate a violation if the resource retention is greater than the maximum number of retention days allowed.
-get_diff(asset, retention_type, retention_days) {
-	maximum_retention_types := {
-		"maximum",
-		"minimum_maximum",
-	}
-
-	retention_type == maximum_retention_types[_]
+get_diff(asset, minimum_retention_days, maximum_retention_days) {
+	maximum_retention_days != ""
 	creation_time := to_number(asset.resource.data.creationTime)
-	retention_days_max := max(retention_days)
-	retention_days_ms := get_ms_of_retention_days(retention_days_max)
+	retention_days_ms := get_ms_of_retention_days(maximum_retention_days)
 	get_expiration_time := object.get(asset.resource.data, "expirationTime", "")
 	get_expiration_time != ""
 	expiration_time := to_number(get_expiration_time)
@@ -66,29 +60,18 @@ get_diff(asset, retention_type, retention_days) {
 }
 
 # If expirationTime does not exist when looking at the maximum retention, generate a violation.
-get_diff(asset, retention_type, retention_days) {
-	maximum_retention_types := {
-		"maximum",
-		"minimum_maximum",
-	}
-
-	retention_type == maximum_retention_types[_]
+get_diff(asset, minimum_retention_days, maximum_retention_days) {
+	maximum_retention_days != ""
 	creation_time := to_number(asset.resource.data.creationTime)
 	get_expiration_time := object.get(asset.resource.data, "expirationTime", "")
 	get_expiration_time == ""
 }
 
 # Generate a violation if the resource retention is less than the minimum number of retention days allowed.
-get_diff(asset, retention_type, retention_days) {
-	minimum_retention_types := {
-		"minimum",
-		"minimum_maximum",
-	}
-
-	retention_type == minimum_retention_types[_]
+get_diff(asset, minimum_retention_days, maximum_retention_days) {
+	minimum_retention_days != ""
 	creation_time := to_number(asset.resource.data.creationTime)
-	retention_days_min := min(retention_days)
-	retention_days_ms := get_ms_of_retention_days(retention_days_min)
+	retention_days_ms := get_ms_of_retention_days(minimum_retention_days)
 	expiration_time := to_number(object.get(asset.resource.data, "expirationTime", retention_days_ms * creation_time))
 
 	diff := expiration_time - creation_time

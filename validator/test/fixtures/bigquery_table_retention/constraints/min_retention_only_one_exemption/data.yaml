@@ -21,8 +21,6 @@ spec:
   match:
     target: ["organization/*"]
   parameters:
-    retention_type: "minimum"
-    retention_days:
-      - 31
+    minimum_retention_days: 31
     exemptions:
       - //bigquery.googleapis.com/projects/forseti-test-110/datasets/my_bq_dataset/tables/my_bq_table
