@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: payments-prod
+  annotations:
+    env: prod
+  labels:
+    color: orange
+    hello: dev
+    found_env: prod
+    key: v1/Namespace//payments-prod
+    remove: 'yes'

@@ -1,0 +1,9 @@
+export CONFIGS=../policy
+
+kpt fn source $CONFIGS |
+node dist/label_namespace_run.js -d label_name=color -d label_value=orange |
+kpt fn sink $CONFIGS
+
+kpt fn source $CONFIGS |
+node dist/select_policies_run.js -d label_value=pink |
+kpt fn sink $CONFIGS

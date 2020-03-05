@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: payments-dev
+  annotations:
+    env: dev
+  labels:
+    color: orange
+    hello: dev
+    found_env: dev
+    key: v1/Namespace//payments-dev

@@ -1,0 +1,16 @@
+apiVersion: anthos.cft.dev/v1alpha1
+kind: Team
+metadata:
+  name: payments
+  labels:
+    remove: 'yes'
+spec:
+  roles:
+  - role: sre
+    users:
+    - jane@clearify.co
+  - groups:
+    - payments-developers@clearify.co
+    role: developer
+    users:
+    - basic@clearify.co
