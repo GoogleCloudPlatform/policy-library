@@ -26,7 +26,12 @@ spec:
         kind: GCPGKEContainerOptimizedOSConstraintV1
       validation:
         openAPIV3Schema:
-          properties: {}
+          properties:
+            cos_containerd_allowed:
+              type: boolean
+              description: "If true, the constraint allows COS_CONTAINERD
+                as an acceptable Container Optimized OS image."
+
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/gke_container_optimized_os.rego")
