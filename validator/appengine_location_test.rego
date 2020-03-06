@@ -24,26 +24,10 @@ import data.test.fixtures.appengine_location.assets as fixture_assets
 # Importing the test constraints
 import data.test.fixtures.appengine_location.constraints as fixture_constraint
 
-# Find all violations on our test cases
-find_all_violations[violation] {
-	resources := data.resources[_]
-	constraint := data.test_constraints[_]
-	issues := deny with input.asset as resources
-		 with input.constraint as constraint
-
-	violation := issues[_]
-}
-
-application_violations[violation] {
-	constraints := [fixture_constraint]
-	violations := find_all_violations with data.resources as fixture_assets
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
-}
-
 test_appengine_location_violations {
-	violations := application_violations
+	violations := [violation | violations := deny with input.asset as fixture_assets[_]
+		with input.constraint as fixture_constraint
+		violation := violations[_]]
 
 	count(violations) == 2
 
