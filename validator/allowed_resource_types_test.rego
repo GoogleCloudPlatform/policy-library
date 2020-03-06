@@ -16,7 +16,10 @@
 
 package templates.gcp.GCPAllowedResourceTypesConstraintV1
 
+template_name := "GCPAllowedResourceTypesConstraintV1"
+
 import data.validator.gcp.lib as lib
+import data.validator.test_utils as test_utils
 
 #Importing the test data
 import data.test.fixtures.allowed_resource_types.assets as fixture_assets
@@ -26,26 +29,11 @@ import data.test.fixtures.allowed_resource_types.constraints.basic.blacklist as 
 import data.test.fixtures.allowed_resource_types.constraints.basic.whitelist as fixture_constraint_basic_whitelist
 
 test_allowed_resource_types_whitelist_violations {
-	violations := [violation |
-		violations := deny with input.asset as fixture_assets[_]
-			 with input.constraint as fixture_constraint_basic_whitelist
-
-		violation := violations[_]
-	]
-
-	count(violations) == 3
-
-	resource_names := {x | x = violations[_].details.resource}
-
-	expected_resource_name := {
+	expected_resource_names := {
 		"//bigtable.googleapis.com/projects/my-test-project/instances/test-bigtable-id-valid-labels",
 		"//compute.googleapis.com/projects/my-test-project/zones/us-east1-b/disks/instance-1-valid-disk",
 		"//storage.googleapis.com/bucket-with-valid-labels",
 	}
 
-	resource_names == expected_resource_name
-
-	violation := violations[_]
-	is_string(violation.msg)
-	is_object(violation.details)
+	test_utils.check_test_violations(fixture_assets, [fixture_constraint_basic_whitelist], template_name, 3, expected_resource_names)
 }
