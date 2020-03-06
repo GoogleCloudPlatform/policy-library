@@ -21,6 +21,6 @@ spec:
   match:
     target: ["organization/*"]
   parameters:
-    minimum_retention_days: 110
-    maximum_retention_days: 200
+    minimum_retention_days: 25
+    maximum_retention_days: 60
     exemptions: []

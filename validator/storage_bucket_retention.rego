@@ -52,56 +52,58 @@ deny[{
 ###########################
 
 # Generate a violation if there is no bucket lifecycle Delete condition and maximum_retention_days is defined.
-get_diff(asset, minimum_retention_days, maximum_retention_days) = "Lifecycle delete action does not exist when maximum_retention_days is defined" {
+get_diff(asset, minimum_retention_days, maximum_retention_days) = output {
 	maximum_retention_days != ""
-	lifecycle_delete_not_exists := [is_not_delete | is_not_delete = asset.resource.data.lifecycle.rule[_].action.type != "Delete"]
-	all(lifecycle_delete_not_exists)
+	lifecycle_delete_exists := [is_delete | is_delete = asset.resource.data.lifecycle.rule[_].action.type == "Delete"; is_delete = true]
+	count(lifecycle_delete_exists) == 0
+	output := "Lifecycle delete action does not exist when maximum_retention_days is defined"
 }
 
 # Generate a violation if the bucket lifecycle Delete 'age' condition is greater than the maximum_retention_days defined.
-get_diff(asset, minimum_retention_days, maximum_retention_days) = "Lifecycle age is greater than maximum_retention_days" {
+else = output {
 	some i
 	maximum_retention_days != ""
 	asset.resource.data.lifecycle.rule[i].action.type == "Delete"
 	lifecycle_age := asset.resource.data.lifecycle.rule[i].condition.age
 	lifecycle_age > maximum_retention_days
+	output := "Lifecycle age is greater than maximum_retention_days"
 }
 
 # Generate a violation if the bucket lifecycle Delete 'age' condition does NOT exist and maximum_retention_days is defined.
-get_diff(asset, minimum_retention_days, maximum_retention_days) = "Lifecycle age is not set when maximum_retention_days is defined" {
+else = output {
 	some i
 	maximum_retention_days != ""
 	asset.resource.data.lifecycle.rule[i].action.type == "Delete"
 	lifecycle_age := lib.get_default(asset.resource.data.lifecycle.rule[i].condition, "age", "")
 	lifecycle_age == ""
+	output := "Lifecycle age is not set when maximum_retention_days is defined"
 }
 
-# Generate a violation if any of the following are true when minimum_retention_days is defined:
-# lifecycle Delete 'age' condition (i.e. retention days) is less than minimum_retention_days
+# Generate a violation if lifecycle Delete 'age' condition (i.e. retention days) is less than minimum_retention_days
+else = output {
+	some i
+	minimum_retention_days != ""
+	asset.resource.data.lifecycle.rule[i].action.type == "Delete"
+	rule_condition := asset.resource.data.lifecycle.rule[i].condition
+	output := get_min_retention_age_violation(rule_condition, minimum_retention_days)
+}
+
 # lifecycle Delete 'createdBefore' condition is less than minimum_retention_days
-# lifecycle Delete 'numNewerVersions' is 0 or does NOT exist
-get_diff(asset, minimum_retention_days, maximum_retention_days) = violations {
+else = output {
 	some i
 	minimum_retention_days != ""
 	asset.resource.data.lifecycle.rule[i].action.type == "Delete"
 	rule_condition := asset.resource.data.lifecycle.rule[i].condition
-	violations := get_min_retention_age_violation(rule_condition, minimum_retention_days)
+	output := get_min_retention_created_before_violation(rule_condition, minimum_retention_days)
 }
 
-else = violations {
+# lifecycle Delete 'numNewerVersions' is 0 or does NOT exist when minimum_retention_days is defined
+else = output {
 	some i
 	minimum_retention_days != ""
 	asset.resource.data.lifecycle.rule[i].action.type == "Delete"
 	rule_condition := asset.resource.data.lifecycle.rule[i].condition
-	violations := get_min_retention_created_before_violation(rule_condition, minimum_retention_days)
-}
-
-else = violations {
-	some i
-	minimum_retention_days != ""
-	asset.resource.data.lifecycle.rule[i].action.type == "Delete"
-	rule_condition := asset.resource.data.lifecycle.rule[i].condition
-	violations := get_min_retention_num_newer_versions_violation(rule_condition, minimum_retention_days)
+	output := get_min_retention_num_newer_versions_violation(rule_condition, minimum_retention_days)
 }
 
 # Generate a violation if the bucket lifecycle Delete 'age' condition is less than the minimum_retention_days defined.

@@ -23,4 +23,4 @@ spec:
   parameters:
     minimum_retention_days: 110
     exemptions:
-      - //storage.googleapis.com/forseti-client-c9e3dd73
+      - //storage.googleapis.com/forseti-cai-export-c9e3dd73-delete-action-no-age

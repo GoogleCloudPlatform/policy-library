@@ -23,4 +23,4 @@ spec:
   parameters:
     maximum_retention_days: 60
     exemptions:
-      - //storage.googleapis.com/forseti-server-612d6ab
+      - //storage.googleapis.com/forseti-cai-export-c9e3dd73-delete-action-no-age
