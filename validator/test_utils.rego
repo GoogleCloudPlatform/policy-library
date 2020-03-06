@@ -47,8 +47,8 @@ check_test_violations_signature(test_assets, test_constraints, test_template) {
 	is_object(violation.details)
 }
 
-check_test_violations(test_assets, test_constraints, test_template, expected_count, expected_resource_names) {
-	check_test_violations_count(test_assets, test_constraints, test_template, expected_count)
+check_test_violations(test_assets, test_constraints, test_template, expected_resource_names) {
+	check_test_violations_count(test_assets, test_constraints, test_template, count(expected_resource_names))
 	check_test_violations_resources(test_assets, test_constraints, test_template, expected_resource_names)
 	check_test_violations_signature(test_assets, test_constraints, test_template)
 }

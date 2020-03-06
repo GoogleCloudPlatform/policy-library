@@ -76,7 +76,7 @@ test_bq_dataset_location_allowlist_none_incorrect_assets {
 test_bq_dataset_location_denylist_one {
 	expected_resource_names := {"//bigquery.googleapis.com/projects/sandbox2/datasets/us_west2_test_dataset"}
 
-	test_utils.check_test_violations(fixture_datasets, [fixture_constraints.denylist_one], template_name, 1, expected_resource_names)
+	test_utils.check_test_violations(fixture_datasets, [fixture_constraints.denylist_one], template_name, expected_resource_names)
 }
 
 # Test denylist with single location and one exemption

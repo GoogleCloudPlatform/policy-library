@@ -32,5 +32,5 @@ test_appengine_location_violations {
 		"//appengine.googleapis.com/apps/cf-test-project-2",
 	}
 
-	test_utils.check_test_violations(fixture_assets, [fixture_constraint], template_name, 2, expected_resource_names)
+	test_utils.check_test_violations(fixture_assets, [fixture_constraint], template_name, expected_resource_names)
 }

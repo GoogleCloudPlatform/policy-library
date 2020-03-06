@@ -34,5 +34,5 @@ test_allowed_resource_types_whitelist_violations {
 		"//storage.googleapis.com/bucket-with-valid-labels",
 	}
 
-	test_utils.check_test_violations(fixture_assets, [fixture_constraint_basic_whitelist], template_name, 3, expected_resource_names)
+	test_utils.check_test_violations(fixture_assets, [fixture_constraint_basic_whitelist], template_name, expected_resource_names)
 }
