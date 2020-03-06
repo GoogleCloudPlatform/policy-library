@@ -15,38 +15,40 @@
 #
 
 package validator.test_utils
+
 # package templates.gcp.GCPAllowedResourceTypesConstraintV1
 
 get_test_violations(test_assets, test_constraints, test_template) = violations {
 	violations := [violation |
 		violations := data.templates.gcp[test_template].deny with input.asset as test_assets[_]
-            with input.constraint as test_constraints[_]
+			 with input.constraint as test_constraints[_]
 
 		violation := violations[_]
 	]
-    trace(sprintf("violations %s", [violations]))
+
+	trace(sprintf("violations %s", [violations]))
 }
 
 check_test_violations_count(test_assets, test_constraints, test_template, expected_count) {
-    violations := get_test_violations(test_assets, test_constraints, test_template)
-    count(violations) == expected_count
+	violations := get_test_violations(test_assets, test_constraints, test_template)
+	count(violations) == expected_count
 }
 
 check_test_violations_resources(test_assets, test_constraints, test_template, expected_resource_names) {
-    violations := get_test_violations(test_assets, test_constraints, test_template)
-    resource_names := {x | x = violations[_].details.resource}
-    resource_names == expected_resource_names
+	violations := get_test_violations(test_assets, test_constraints, test_template)
+	resource_names := {x | x = violations[_].details.resource}
+	resource_names == expected_resource_names
 }
 
 check_test_violations_signature(test_assets, test_constraints, test_template) {
-    violations := get_test_violations(test_assets, test_constraints, test_template)
-    violation := violations[_]
+	violations := get_test_violations(test_assets, test_constraints, test_template)
+	violation := violations[_]
 	is_string(violation.msg)
 	is_object(violation.details)
 }
 
 check_test_violations(test_assets, test_constraints, test_template, expected_count, expected_resource_names) {
-    check_test_violations_count(test_assets, test_constraints, test_template, expected_count)
-    check_test_violations_resources(test_assets, test_constraints, test_template, expected_resource_names)
-    check_test_violations_signature(test_assets, test_constraints, test_template)
+	check_test_violations_count(test_assets, test_constraints, test_template, expected_count)
+	check_test_violations_resources(test_assets, test_constraints, test_template, expected_resource_names)
+	check_test_violations_signature(test_assets, test_constraints, test_template)
 }

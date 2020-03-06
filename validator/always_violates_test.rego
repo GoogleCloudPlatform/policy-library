@@ -16,14 +16,14 @@
 
 package templates.gcp.GCPAlwaysViolatesConstraintV1
 
+template_name := "GCPAlwaysViolatesConstraintV1"
+
+import data.validator.test_utils as test_utils
+
+import data.test.fixtures.always_violates.assets as fixture_assets
+import data.test.fixtures.always_violates.constraints.always_violates_all as fixture_constraint
+
 # Confirm total violations count
 test_always_violates_all_violations {
-	violations := [violation |
-		violations := deny with input.asset as data.test.fixtures.always_violates.assets[_]
-			 with input.constraint as data.test.fixtures.always_violates.constraints.always_violates_all
-
-		violation := violations[_]
-	]
-
-	count(violations) == count(data.test.fixtures.always_violates.assets)
+	test_utils.check_test_violations_count(fixture_assets, [fixture_constraint], template_name, count(fixture_assets))
 }
