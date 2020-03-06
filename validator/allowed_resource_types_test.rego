@@ -18,7 +18,6 @@ package templates.gcp.GCPAllowedResourceTypesConstraintV1
 
 template_name := "GCPAllowedResourceTypesConstraintV1"
 
-import data.validator.gcp.lib as lib
 import data.validator.test_utils as test_utils
 
 #Importing the test data
