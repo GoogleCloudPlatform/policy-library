@@ -25,9 +25,12 @@ import data.test.fixtures.appengine_location.assets as fixture_assets
 import data.test.fixtures.appengine_location.constraints as fixture_constraint
 
 test_appengine_location_violations {
-	violations := [violation | violations := deny with input.asset as fixture_assets[_]
-		with input.constraint as fixture_constraint
-		violation := violations[_]]
+	violations := [violation |
+		violations := deny with input.asset as fixture_assets[_]
+			 with input.constraint as fixture_constraint
+
+		violation := violations[_]
+	]
 
 	count(violations) == 2
 

@@ -20,9 +20,12 @@ package templates.gcp.GCPBigQueryCMEKEncryptionConstraintV1
 import data.test.fixtures.bigquery_cmek.constraints as fixture_constraint
 
 test_bigquery_cmek_logic {
-	violations := [violation | violations := deny with input.asset as data.test.fixtures.bigquery_cmek.assets[_]
-		with input.constraint as fixture_constraint
-		violation := violations[_]]
+	violations := [violation |
+		violations := deny with input.asset as data.test.fixtures.bigquery_cmek.assets[_]
+			 with input.constraint as fixture_constraint
+
+		violation := violations[_]
+	]
 
 	count(violations) == 1
 

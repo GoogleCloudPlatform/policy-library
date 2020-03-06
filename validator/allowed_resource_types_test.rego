@@ -26,9 +26,12 @@ import data.test.fixtures.allowed_resource_types.constraints.basic.blacklist as 
 import data.test.fixtures.allowed_resource_types.constraints.basic.whitelist as fixture_constraint_basic_whitelist
 
 test_allowed_resource_types_whitelist_violations {
-	violations := [violation | violations := deny with input.asset as fixture_assets[_]
-		with input.constraint as fixture_constraint_basic_whitelist
-		violation := violations[_]]
+	violations := [violation |
+		violations := deny with input.asset as fixture_assets[_]
+			 with input.constraint as fixture_constraint_basic_whitelist
+
+		violation := violations[_]
+	]
 
 	count(violations) == 3
 
