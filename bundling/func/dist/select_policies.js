@@ -35,8 +35,8 @@ function selectPolicies(configs) {
         configs.get(io_k8s_api_core_v1_1.isNamespace).forEach(n => kpt_functions_1.addLabel(n, "hello", annotateValue));
         // this.getAll().filter(isKind) as Kind[];
         configs.get(io_k8s_api_core_v1_1.isNamespace).filter(o => {
-            // const bundleValue = String(getAnnotation(o, ANNOTATION_NAME));
-            return true;
+            const bundleValue = String(kpt_functions_1.getAnnotation(o, exports.ANNOTATION_NAME));
+            return bundleValue != annotateValue;
         }).forEach(o => {
             configs.delete(o);
         });

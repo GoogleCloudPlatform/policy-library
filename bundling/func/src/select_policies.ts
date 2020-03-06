@@ -28,8 +28,8 @@ export async function selectPolicies(configs: Configs) {
   // this.getAll().filter(isKind) as Kind[];
 
   configs.get(isNamespace).filter(o => {
-    // const bundleValue = String(getAnnotation(o, ANNOTATION_NAME));
-    return true
+    const bundleValue = String(getAnnotation(o, ANNOTATION_NAME));
+    return bundleValue != annotateValue;
   }).forEach(o => {
     configs.delete(o);
   });
