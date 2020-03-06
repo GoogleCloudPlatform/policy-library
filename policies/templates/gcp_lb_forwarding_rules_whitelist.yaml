@@ -28,7 +28,7 @@ spec:
           whitelist:
             instances:
               type: array
-              items: 
+              items:
                 type: object
                 properties:
                   target:
@@ -61,11 +61,11 @@ spec:
            # See the License for the specific language governing permissions and
            # limitations under the License.
            #
-           
+
            package templates.gcp.GCPLBForwardingRulesWhitelistConstraintV1
-           
+
            import data.validator.gcp.lib as lib
-           
+
            ###########################
            # Find allowlist Violations
            ###########################
@@ -76,86 +76,86 @@ spec:
            	constraint := input.constraint
            	lib.get_constraint_params(constraint, params)
            	asset := input.asset
-           
+
            	is_forwarding_rule(asset.asset_type)
-           
+
            	instance := asset.resource.data
-           
+
            	rule := get_whitelist_entry(params.whitelist, instance.target)
            	rule
-           
+
            	invalid_forwarding_rule(rule, instance)
-           
+
            	message := sprintf("%v is not allowed, violates whitelist policy.", [asset.name])
            	metadata := {"resource": asset.name}
            }
-           
+
            ###########################
            # Rule Utilities
            ###########################
-           
+
            is_forwarding_rule(asset_type) {
            	asset_type == "compute.googleapis.com/ForwardingRule"
            }
-           
+
            is_forwarding_rule(asset_type) {
            	asset_type == "compute.googleapis.com/GlobalForwardingRule"
            }
-           
+
            get_whitelist_entry(whitelist, target) = output {
            	rule := whitelist[_]
            	rule.target == target
            	output = rule
            }
-           
+
            check_scheme(rule, resource) {
            	rule.load_balancing_scheme
            	rule.load_balancing_scheme == resource.loadBalancingScheme
            }
-           
+
            check_scheme(rule, resource) {
            	not rule.load_balancing_scheme
            }
-           
+
            check_ip_protocol(rule, resource) {
            	rule.ip_protocol
-           	rule.ip_protocol == resource.ipProtocol
+           	rule.ip_protocol == resource.IPProtocol
            }
-           
+
            check_ip_protocol(rule, resource) {
            	not rule.ip_protocol
            }
-           
+
            check_ip_address(rule, resource) {
            	rule.ip_address
-           	rule.ip_address == resource.ipAddress
+           	rule.ip_address == resource.IPAddress
            }
-           
+
            check_ip_address(rule, resource) {
            	not rule.ip_address
            }
-           
+
            check_port_range(rule, resource) {
            	rule.port_range
            	rule.port_range == resource.portRange
            }
-           
+
            check_port_range(rule, resource) {
            	not rule.port_range
            }
-           
+
            invalid_forwarding_rule(rule, resource) {
            	not check_scheme(rule, resource)
            }
-           
+
            invalid_forwarding_rule(rule, resource) {
            	not check_ip_address(rule, resource)
            }
-           
+
            invalid_forwarding_rule(rule, resource) {
            	not check_ip_protocol(rule, resource)
            }
-           
+
            invalid_forwarding_rule(rule, resource) {
            	not check_port_range(rule, resource)
            }
