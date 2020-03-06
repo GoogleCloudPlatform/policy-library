@@ -173,27 +173,31 @@ spec:
         }
         
         # Generate a violation if the bucket lifecycle Delete 'age' condition is less than the minimum_retention_days defined.
-        get_min_retention_age_violation(rule_condition, minimum_retention_days) = "Lifecycle age is less than minimum_retention_days" {
+        get_min_retention_age_violation(rule_condition, minimum_retention_days) = output {
         	lifecycle_age := rule_condition.age
         	lifecycle_age != ""
+        
         	lifecycle_age < minimum_retention_days
+        	output := "Lifecycle age is less than minimum_retention_days"
         }
         
         # Generate a violation if the difference between now and the bucket lifecycle Delete 'createdBefore' condition is less than the minimum_retention_days defined.
-        get_min_retention_created_before_violation(rule_condition, minimum_retention_days) = "createdBefore condition is less than minimum_retention_days" {
+        get_min_retention_created_before_violation(rule_condition, minimum_retention_days) = output {
         	created_before := rule_condition.createdBefore
         	created_before != ""
         	created_before_date_ns := convert_rfc3339_compatible(created_before)
         	diff_days := get_diff_in_days_from_now(created_before_date_ns)
         
         	diff_days < minimum_retention_days
+        	output := "createdBefore condition is less than minimum_retention_days"
         }
         
         # Generate a violation if the bucket lifecycle Delete 'numNewerVersions' condition is 0 or does NOT exist when minimum_retention_days is defined.
-        get_min_retention_num_newer_versions_violation(rule_condition, minimum_retention_days) = "numNewerVersions condition is 0 or non-existent" {
+        get_min_retention_num_newer_versions_violation(rule_condition, minimum_retention_days) = output {
         	num_newer_versions := lib.get_default(rule_condition, "numNewerVersions", 0)
         
         	num_newer_versions == 0
+        	output := "numNewerVersions condition is 0 or non-existent"
         }
         
         # Convert 'createdBefore' time to ns
