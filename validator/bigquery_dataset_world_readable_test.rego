@@ -16,23 +16,18 @@
 
 package templates.gcp.GCPBigQueryDatasetWorldReadableConstraintV1
 
-all_violations[violation] {
-	resource := data.test.fixtures.bigquery_dataset_world_readable.assets[_]
-	constraint := data.test.fixtures.bigquery_dataset_world_readable.constraints
+template_name := "GCPBigQueryDatasetWorldReadableConstraintV1"
 
-	issues := deny with input.asset as resource
-		 with input.constraint as constraint
-
-	violation := issues[_]
-}
-
-# Confirm total violations count
-test_bigquery_iam_violations_count {
-	count(all_violations) == 4
-}
+import data.validator.test_utils as test_utils
 
 test_bigquery_iam_violations {
-	all_violations[_].details.resource == "//bigquery.googleapis.com/projects/test-project/datasets/world-readable-allUsers"
-	all_violations[_].details.resource == "//bigquery.googleapis.com/projects/test-project/datasets/world-readable-allAuthenticatedUsers"
-	all_violations[_].details.resource == "//bigquery.googleapis.com/projects/test-project/datasets/world-readable-both"
+	expected_resource_names := {
+		"//bigquery.googleapis.com/projects/test-project/datasets/world-readable-allUsers",
+		"//bigquery.googleapis.com/projects/test-project/datasets/world-readable-allAuthenticatedUsers",
+		"//bigquery.googleapis.com/projects/test-project/datasets/world-readable-both",
+		# TODO: fix the (existing) bug in this constraint:
+		"//bigquery.googleapis.com/projects/test-project/datasets/not-world-readable",
+	}
+
+	test_utils.check_test_violations(data.test.fixtures.bigquery_dataset_world_readable.assets, [data.test.fixtures.bigquery_dataset_world_readable.constraints], template_name, 4, expected_resource_names)
 }

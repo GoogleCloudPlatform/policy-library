@@ -16,7 +16,9 @@
 
 package templates.gcp.GCPAppengineLocationConstraintV1
 
-import data.validator.gcp.lib as lib
+template_name := "GCPAppengineLocationConstraintV1"
+
+import data.validator.test_utils as test_utils
 
 #Importing the test data
 import data.test.fixtures.appengine_location.assets as fixture_assets
@@ -25,25 +27,10 @@ import data.test.fixtures.appengine_location.assets as fixture_assets
 import data.test.fixtures.appengine_location.constraints as fixture_constraint
 
 test_appengine_location_violations {
-	violations := [violation |
-		violations := deny with input.asset as fixture_assets[_]
-			 with input.constraint as fixture_constraint
-
-		violation := violations[_]
-	]
-
-	count(violations) == 2
-
-	resource_names := {x | x = violations[_].details.resource}
-
-	expected_resource_name := {
+	expected_resource_names := {
 		"//appengine.googleapis.com/apps/cf-test-project-1",
 		"//appengine.googleapis.com/apps/cf-test-project-2",
 	}
 
-	resource_names == expected_resource_name
-
-	violation := violations[_]
-	is_string(violation.msg)
-	is_object(violation.details)
+	test_utils.check_test_violations(fixture_assets, [fixture_constraint], template_name, 2, expected_resource_names)
 }
