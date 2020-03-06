@@ -13,14 +13,14 @@
                 "creationTimestamp": "2018-11-01T12:44:57.303-07:00",
                 "deletionProtection": false,
                 "description": "InstanceTemplate created for Dataflow job: 2018-10-02_12_46_57-16714086278907465014",
-                "disk": [
+                "disks": [
                     {
                         "autoDelete": true,
                         "boot": true,
                         "deviceName": "persistent-disk-0",
                         "index": 0,
                         "interface": "SCSI",
-                        "license": [
+                        "licenses": [
                             "https://www.googleapis.com/compute/v1/projects/clouddataflow-readonly/global/licenses/dataflow-owned-resource",
                             "https://www.googleapis.com/compute/v1/projects/cos-cloud/global/licenses/cos"
                         ],
@@ -39,18 +39,18 @@
                 },
                 "machineType": "https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/zones/us-central1-b/machineTypes/n1-standard-4",
                 "name": "valid-instance-8hz5",
-                "networkInterface": [
+                "networkInterfaces": [
                     {
-                        "accessConfig": [
+                        "accessConfigs": [
                             {
-                                "externalIp": "35.226.29.59",
+                                "natIP": "35.226.29.59",
                                 "name": "EXTERNAL NAT",
                                 "networkTier": "PREMIUM",
                                 "type": "ONE_TO_ONE_NAT"
                             }
                         ],
                         "fingerprint": "BZYSgscuzgc=",
-                        "ipAddress": "10.128.0.3",
+                        "networkIP": "10.128.0.3",
                         "name": "nic0",
                         "network": "https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/global/networks/default1",
                         "subnetwork": "https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/regions/us-central1/subnetworks/default"
@@ -62,10 +62,10 @@
                     "preemptible": false
                 },
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/zones/us-central1-b/instances/valid-instance-8hz5",
-                "serviceAccount": [
+                "serviceAccounts": [
                     {
                         "email": "216968792402-compute@developer.gserviceaccount.com",
-                        "scope": [
+                        "scopes": [
                             "https://www.googleapis.com/auth/any-api",
                             "https://www.googleapis.com/auth/bigquery",
                             "https://www.googleapis.com/auth/cloud-platform",
@@ -106,14 +106,14 @@
                 "creationTimestamp": "2018-11-01T12:44:57.303-07:00",
                 "deletionProtection": false,
                 "description": "InstanceTemplate created for Dataflow job: 2018-10-02_12_46_57-16714086278907465014",
-                "disk": [
+                "disks": [
                     {
                         "autoDelete": true,
                         "boot": true,
                         "deviceName": "persistent-disk-0",
                         "index": 0,
                         "interface": "SCSI",
-                        "license": [
+                        "licenses": [
                             "https://www.googleapis.com/compute/v1/projects/clouddataflow-readonly/global/licenses/dataflow-owned-resource",
                             "https://www.googleapis.com/compute/v1/projects/cos-cloud/global/licenses/cos"
                         ],
@@ -132,18 +132,18 @@
                 },
                 "machineType": "https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/zones/us-central1-b/machineTypes/n1-standard-4",
                 "name": "valid-instance-8hz5",
-                "networkInterface": [
+                "networkInterfaces": [
                     {
-                        "accessConfig": [
+                        "accessConfigs": [
                             {
-                                "externalIp": "35.226.29.59",
+                                "natIP": "35.226.29.59",
                                 "name": "EXTERNAL NAT",
                                 "networkTier": "PREMIUM",
                                 "type": "ONE_TO_ONE_NAT"
                             }
                         ],
                         "fingerprint": "BZYSgscuzgc=",
-                        "ipAddress": "10.128.0.3",
+                        "networkIP": "10.128.0.3",
                         "name": "nic0",
                         "network": "https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/global/networks/default2",
                         "subnetwork": "https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/regions/us-central1/subnetworks/default"
@@ -155,10 +155,10 @@
                     "preemptible": false
                 },
                 "selfLink": "https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/zones/us-central1-b/instances/valid-instance-8hz5",
-                "serviceAccount": [
+                "serviceAccounts": [
                     {
                         "email": "216968792402-compute@developer.gserviceaccount.com",
-                        "scope": [
+                        "scopes": [
                             "https://www.googleapis.com/auth/any-api",
                             "https://www.googleapis.com/auth/bigquery",
                             "https://www.googleapis.com/auth/cloud-platform",
