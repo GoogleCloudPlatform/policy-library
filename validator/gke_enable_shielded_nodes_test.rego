@@ -16,32 +16,19 @@
 
 package templates.gcp.GCPGKEEnableShieldedNodesConstraintV1
 
+import data.test.fixtures.gke_enable_shielded_nodes.assets as fixture_assets
+import data.test.fixtures.gke_enable_shielded_nodes.constraints as fixture_constraints
 import data.validator.gcp.lib as lib
 
-all_violations[violation] {
-	resource := data.test.fixtures.gke_enable_shielded_nodes.assets[_]
-	constraint := data.test.fixtures.gke_enable_shielded_nodes.constraints.enable_shielded_nodes
+import data.validator.test_utils as test_utils
 
-	issues := deny with input.asset as resource
-		 with input.constraint as constraint
+template_name := "GCPGKEEnableShieldedNodesConstraintV1"
 
-	violation := issues[_]
-}
-
-# Tests that the nodes with shielded nodes disabled at the cluster are detected
 test_disabled_shielded_nodes {
-	violation := all_violations[_]
-	resource_names := {x | x = violation.details.resource}
+	expected_resource_names = {
+		"//container.googleapis.com/projects/transfer-repo/zones/us-central1-c/clusters/shielded-nodes-disabled",
+		"//container.googleapis.com/projects/transfer-repo/zones/us-central1-c/clusters/shielded-nodes-enabled-noboot",
+	}
 
-	trace(sprintf("Resource not expected: %s", [resource_names]))
-	not resource_names["//container.googleapicom/projects/transfer-repo/zones/us-central1-c/clusters/shielded-enabled"]
-	resource_in_violation(resource_names)
-}
-
-resource_in_violation(resource_names) {
-	resource_names["//container.googleapis.com/projects/transfer-repo/zones/us-central1-c/clusters/shielded-nodes-disabled"]
-}
-
-resouce_in_violation(resource_names) {
-	resource_names["//container.googleapis.com/projects/transfer-repo/zones/us-central1-c/clusters/shielded-nodes-enabled-noboot"]
+	test_utils.check_test_violations(fixture_assets, [fixture_constraints.enable_shielded_nodes], template_name, expected_resource_names)
 }

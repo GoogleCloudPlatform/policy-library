@@ -32,7 +32,7 @@ deny[{
 
 	# We fail if either the cluster doesn't have shielded vms, or
 	# one of the node pools doesn't have the proper settings.
-	cluster_shielded_nodes(cluster, node_pool)
+	cluster_shielded_nodes_disabled(cluster, node_pool)
 
 	message := sprintf("Cluster %v doesn't use shielded VMs with integrity and secure boot in node pool %v.", [asset.name, node_pool.name])
 	metadata := {"resource": asset.name}
@@ -43,25 +43,25 @@ deny[{
 ###########################
 
 # Checks the Shielded Nodes setting in the cluster configuration.
-cluster_shielded_nodes(cluster, node_pool) {
+cluster_shielded_nodes_disabled(cluster, node_pool) {
 	shielded_nodes := lib.get_default(cluster, "shieldedNodes", {})
 	enabled := lib.get_default(shielded_nodes, "enabled", false)
 	enabled == false
 }
 
 # Checks that all shielded nodes options are enabled for all node pools.
-cluster_shielded_nodes(cluster, node_pool) {
+cluster_shielded_nodes_disabled(cluster, node_pool) {
 	single_pool := lib.get_default(node_pool, "config", {})
 	shieldedInstanceConfig := lib.get_default(single_pool, "shieldedInstanceConfig", {})
 	integrity_monitoring := lib.get_default(shieldedInstanceConfig, "enableIntegrityMonitoring", false)
 	secure_boot := lib.get_default(shieldedInstanceConfig, "enableSecureBoot", false)
-	node_pool_check(integrity_monitoring, secure_boot)
+	node_pool_has_insufficient_configuration(integrity_monitoring, secure_boot)
 }
 
-node_pool_check(integrity_monitoring, secure_boot) {
+node_pool_has_insufficient_configuration(integrity_monitoring, secure_boot) {
 	integrity_monitoring == false
 }
 
-node_pool_check(integrity_monitoring, secure_boot) {
+node_pool_has_insufficient_configuration(integrity_monitoring, secure_boot) {
 	secure_boot == false
 }
