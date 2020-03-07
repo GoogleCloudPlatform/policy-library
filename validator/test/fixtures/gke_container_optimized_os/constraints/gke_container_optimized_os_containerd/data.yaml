@@ -1,4 +1,4 @@
-# Copyright 2020 Google LLC
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,13 +13,18 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPBigQueryTableRetentionConstraintV1
+kind: GCPGKEContainerOptimizedOSConstraintV1
 metadata:
-  name: bq_table_maximum_retention
+  name: gke_container_optimized_os
+  annotations:
+    description: Ensure Container-Optimized OS (cos) is used for Kubernetes Engine Clusters
+    # This constraint is not certified by CIS.
+    bundles.validator.forsetisecurity.org/cis-v1.1: 7.09
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    gcp:
+      target: ["organization/*"]
   parameters:
-    maximum_retention_days: 60
-    exemptions: []
+    cos_containerd_allowed: true
+
