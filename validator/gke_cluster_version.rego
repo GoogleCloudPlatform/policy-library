@@ -51,7 +51,7 @@ deny[{
 ###########################
 
 get_target_value(data_resource, field_name) = output {
-	output := object.get(data_resource, field_name, "")
+	output := lib.get_default(data_resource, field_name, "")
 }
 
 # Determine the overlap between locations under test and constraint
