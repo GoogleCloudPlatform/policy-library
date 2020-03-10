@@ -25,9 +25,6 @@ deny[{
 	constraint := input.constraint
 	lib.get_constraint_params(constraint, params)
 
-	min_retention_days := lib.get_default(params, "minimum_retention_days", "")
-	max_retention_days := lib.get_default(params, "maximum_retention_days", "")
-
 	asset := input.asset
 	asset.asset_type == "storage.googleapis.com/Bucket"
 
@@ -36,14 +33,14 @@ deny[{
 	matches := {asset.name} & cast_set(exempt_list)
 	count(matches) == 0
 
-	violation_msg := get_diff(asset, min_retention_days, max_retention_days)
-	is_string(violation_msg)
-
+	violations := get_diff
+	count(violations) > 0
+	violation_msg := concat(" & ", violations)
 	message := sprintf("Storage bucket %v has a retention policy violation: %v", [asset.name, violation_msg])
 
 	metadata := {
 		"resource": asset.name,
-		"violation_type": violation_msg,
+		"violation_type": violations,
 	}
 }
 
@@ -52,58 +49,58 @@ deny[{
 ###########################
 
 # Generate a violation if there is no bucket lifecycle Delete condition and maximum_retention_days is defined.
-get_diff(asset, minimum_retention_days, maximum_retention_days) = output {
-	maximum_retention_days != ""
-	lifecycle_delete_exists := [is_delete | is_delete = asset.resource.data.lifecycle.rule[_].action.type == "Delete"; is_delete = true]
+get_diff[output] {
+	input.constraint.spec.parameters.maximum_retention_days != ""
+	lifecycle_delete_exists := [is_delete | is_delete = input.asset.resource.data.lifecycle.rule[_].action.type == "Delete"; is_delete = true]
 	count(lifecycle_delete_exists) == 0
 	output := "Lifecycle delete action does not exist when maximum_retention_days is defined"
 }
 
 # Generate a violation if the bucket lifecycle Delete 'age' condition is greater than the maximum_retention_days defined.
-else = output {
+get_diff[output] {
 	some i
-	maximum_retention_days != ""
-	asset.resource.data.lifecycle.rule[i].action.type == "Delete"
-	lifecycle_age := asset.resource.data.lifecycle.rule[i].condition.age
-	lifecycle_age > maximum_retention_days
+	input.constraint.spec.parameters.maximum_retention_days != ""
+	input.asset.resource.data.lifecycle.rule[i].action.type == "Delete"
+	lifecycle_age := input.asset.resource.data.lifecycle.rule[i].condition.age
+	lifecycle_age > input.constraint.spec.parameters.maximum_retention_days
 	output := "Lifecycle age is greater than maximum_retention_days"
 }
 
 # Generate a violation if the bucket lifecycle Delete 'age' condition does NOT exist and maximum_retention_days is defined.
-else = output {
+get_diff[output] {
 	some i
-	maximum_retention_days != ""
-	asset.resource.data.lifecycle.rule[i].action.type == "Delete"
-	lifecycle_age := lib.get_default(asset.resource.data.lifecycle.rule[i].condition, "age", "")
+	input.constraint.spec.parameters.maximum_retention_days != ""
+	input.asset.resource.data.lifecycle.rule[i].action.type == "Delete"
+	lifecycle_age := lib.get_default(input.asset.resource.data.lifecycle.rule[i].condition, "age", "")
 	lifecycle_age == ""
 	output := "Lifecycle age is not set when maximum_retention_days is defined"
 }
 
 # Generate a violation if lifecycle Delete 'age' condition (i.e. retention days) is less than minimum_retention_days
-else = output {
+get_diff[output] {
 	some i
-	minimum_retention_days != ""
-	asset.resource.data.lifecycle.rule[i].action.type == "Delete"
-	rule_condition := asset.resource.data.lifecycle.rule[i].condition
-	output := get_min_retention_age_violation(rule_condition, minimum_retention_days)
+	input.constraint.spec.parameters.minimum_retention_days != ""
+	input.asset.resource.data.lifecycle.rule[i].action.type == "Delete"
+	rule_condition := input.asset.resource.data.lifecycle.rule[i].condition
+	output := get_min_retention_age_violation(rule_condition, input.constraint.spec.parameters.minimum_retention_days)
 }
 
 # lifecycle Delete 'createdBefore' condition is less than minimum_retention_days
-else = output {
+get_diff[output] {
 	some i
-	minimum_retention_days != ""
-	asset.resource.data.lifecycle.rule[i].action.type == "Delete"
-	rule_condition := asset.resource.data.lifecycle.rule[i].condition
-	output := get_min_retention_created_before_violation(rule_condition, minimum_retention_days)
+	input.constraint.spec.parameters.minimum_retention_days != ""
+	input.asset.resource.data.lifecycle.rule[i].action.type == "Delete"
+	rule_condition := input.asset.resource.data.lifecycle.rule[i].condition
+	output := get_min_retention_created_before_violation(rule_condition, input.constraint.spec.parameters.minimum_retention_days)
 }
 
 # lifecycle Delete 'numNewerVersions' is 0 or does NOT exist when minimum_retention_days is defined
-else = output {
+get_diff[output] {
 	some i
-	minimum_retention_days != ""
-	asset.resource.data.lifecycle.rule[i].action.type == "Delete"
-	rule_condition := asset.resource.data.lifecycle.rule[i].condition
-	output := get_min_retention_num_newer_versions_violation(rule_condition, minimum_retention_days)
+	input.constraint.spec.parameters.minimum_retention_days != ""
+	input.asset.resource.data.lifecycle.rule[i].action.type == "Delete"
+	rule_condition := input.asset.resource.data.lifecycle.rule[i].condition
+	output := get_min_retention_num_newer_versions_violation(rule_condition, input.constraint.spec.parameters.minimum_retention_days)
 }
 
 # Generate a violation if the bucket lifecycle Delete 'age' condition is less than the minimum_retention_days defined.
