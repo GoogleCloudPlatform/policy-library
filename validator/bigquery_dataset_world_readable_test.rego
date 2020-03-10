@@ -25,8 +25,6 @@ test_bigquery_iam_violations {
 		"//bigquery.googleapis.com/projects/test-project/datasets/world-readable-allUsers",
 		"//bigquery.googleapis.com/projects/test-project/datasets/world-readable-allAuthenticatedUsers",
 		"//bigquery.googleapis.com/projects/test-project/datasets/world-readable-both",
-		# TODO: fix the (existing) bug in this constraint:
-		"//bigquery.googleapis.com/projects/test-project/datasets/not-world-readable",
 	}
 
 	test_utils.check_test_violations(data.test.fixtures.bigquery_dataset_world_readable.assets, [data.test.fixtures.bigquery_dataset_world_readable.constraints], template_name, expected_resource_names)
