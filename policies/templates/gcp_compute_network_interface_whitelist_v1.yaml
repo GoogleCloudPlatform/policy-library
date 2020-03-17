@@ -64,14 +64,14 @@ spec:
             
             	instance := asset.resource.data
             
-            	interfaces := lib.get_default(instance, "networkInterface", [])
+            	interfaces := lib.get_default(instance, "networkInterfaces", [])
             	interface := interfaces[_]
             	full_network_uri := interface.network
             
             	whitelist := lib.get_default(params, "whitelist", [])
             	allowed_networks := {n | n = whitelist[_]}
             
-            	access_configs := lib.get_default(interface, "accessConfig", [])
+            	access_configs := lib.get_default(interface, "accessConfigs", [])
             
             	is_external_network := count(access_configs) > 0
             	is_network_whitelisted := count({full_network_uri} - allowed_networks) == 0

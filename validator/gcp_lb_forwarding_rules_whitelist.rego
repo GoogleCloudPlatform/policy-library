@@ -73,7 +73,7 @@ check_scheme(rule, resource) {
 
 check_ip_protocol(rule, resource) {
 	rule.ip_protocol
-	rule.ip_protocol == resource.ipProtocol
+	rule.ip_protocol == resource.IPProtocol
 }
 
 check_ip_protocol(rule, resource) {
@@ -82,7 +82,7 @@ check_ip_protocol(rule, resource) {
 
 check_ip_address(rule, resource) {
 	rule.ip_address
-	rule.ip_address == resource.ipAddress
+	rule.ip_address == resource.IPAddress
 }
 
 check_ip_address(rule, resource) {

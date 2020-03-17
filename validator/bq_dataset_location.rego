@@ -46,7 +46,11 @@ deny[{
 
 	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 	message := sprintf("%v is in a disallowed location.", [asset.name])
-	metadata := {"location": asset_location, "ancestry_path": ancestry_path}
+	metadata := {
+		"location": asset_location,
+		"resource": asset.name,
+		"ancestry_path": ancestry_path,
+	}
 }
 
 #################

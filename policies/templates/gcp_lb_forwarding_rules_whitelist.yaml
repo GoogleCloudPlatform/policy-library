@@ -28,7 +28,7 @@ spec:
           whitelist:
             instances:
               type: array
-              items: 
+              items:
                 type: object
                 properties:
                   target:
@@ -121,7 +121,7 @@ spec:
            
            check_ip_protocol(rule, resource) {
            	rule.ip_protocol
-           	rule.ip_protocol == resource.ipProtocol
+           	rule.ip_protocol == resource.IPProtocol
            }
            
            check_ip_protocol(rule, resource) {
@@ -130,7 +130,7 @@ spec:
            
            check_ip_address(rule, resource) {
            	rule.ip_address
-           	rule.ip_address == resource.ipAddress
+           	rule.ip_address == resource.IPAddress
            }
            
            check_ip_address(rule, resource) {

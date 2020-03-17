@@ -31,6 +31,8 @@ deny[{
 		asset.iam_policy.bindings[_].members[_] == "allAuthenticatedUsers",
 	]
 
+	world_readable_checks[_] == true
+
 	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 	message := sprintf("%v is publicly accessable", [asset.name])
 	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
