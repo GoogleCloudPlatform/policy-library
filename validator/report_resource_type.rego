@@ -23,11 +23,25 @@ deny[{
 }] {
 	asset := input.asset
 	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	resource_data = asset.resource.data
+	short_name = lib.get_default(resource_data, "name", "")
+	display_name = lib.get_default(resource_data, "displayName", "")
 
 	message := sprintf("%v", [asset.asset_type])
 	metadata := {
 		"asset_type": asset.asset_type,
 		"name": asset.name,
 		"ancestry_path": ancestry_path,
+		"display_name": get_name(short_name, display_name),
 	}
+}
+
+get_name(short_name, display_name) = output {
+	display_name != ""
+	output = display_name
+}
+
+get_name(short_name, display_name) = output {
+	display_name == ""
+	output = short_name
 }
