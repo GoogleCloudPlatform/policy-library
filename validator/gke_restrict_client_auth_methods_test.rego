@@ -16,47 +16,18 @@
 
 package templates.gcp.GCPGKERestrictClientAuthenticationMethodsConstraintV1
 
-import data.validator.gcp.lib as lib
+import data.test.fixtures.gke_restrict_client_auth_methods.assets as fixture_assets
+import data.test.fixtures.gke_restrict_client_auth_methods.constraints as fixture_constraints
+import data.validator.test_utils as test_utils
 
-all_violations[violation] {
-	resource := data.test.fixtures.gke_restrict_client_auth_methods.assets[_]
-	constraint := data.test.fixtures.gke_restrict_client_auth_methods.constraints.restrict_gke_client_auth_methods
+template_name := "GCPGKERestrictClientAuthenticationMethodsConstraintV1"
 
-	issues := deny with input.asset as resource
-		 with input.constraint as constraint
+test_gke_restrict_client_auth_methods {
+	expected_resource_names = {
+		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust",
+		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2",
+		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust5",
+	}
 
-	violation := issues[_]
-}
-
-test_master_auth_not_specified {
-	violation := all_violations[_]
-	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust"
-}
-
-test_issue_client_cert_set_to_true {
-	violation := all_violations[_]
-	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2"
-}
-
-test_issue_client_cert_set_to_false {
-	violation := all_violations[_]
-	resource_names := {x | x = violation.details.resource; violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust3"}
-	count(resource_names) == 0
-}
-
-test_username_empty {
-	violation := all_violations[_]
-	resource_names := {x | x = violation.details.resource; violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust4"}
-	count(resource_names) == 0
-}
-
-test_username_non_empty {
-	violation := all_violations[_]
-	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust5"
-}
-
-test_username_empty_and_issue_client_cert_set_to_false {
-	violation := all_violations[_]
-	resource_names := {x | x = violation.details.resource; violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust6"}
-	count(resource_names) == 0
+	test_utils.check_test_violations(fixture_assets, [fixture_constraints.restrict_gke_client_auth_methods], template_name, expected_resource_names)
 }
