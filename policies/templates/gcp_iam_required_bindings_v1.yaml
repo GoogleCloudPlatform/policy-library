@@ -38,7 +38,7 @@ spec:
               This can be specific users, groups, or domains. Wildcards (*) supported.
               E.g. 'user:*@google.com' would generate violations if there were no users with domain @google.com.
               E.g. 'group:*@google.com' would generate violations if there were no groups with domain @google.com.
-              E.g. 'user:myuser111@google.com' would generate violations if user:myuser111@google.com does not exist.
+              E.g. 'user:myuser111@google.com' would generate violations if user:myuser111@google.com does not exist."
               type: array
               items: string
   targets:
