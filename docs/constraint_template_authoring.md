@@ -27,9 +27,6 @@ The template name appears in three places in a template YAML file:
 *   CRD kind (under "spec" > "crd" > "spec" > "names" > "kind"): Camel case. It
     has the format of "GCP{resource}{feature}Constraint{version}" (example:
     "GCPStorageLoggingConstraintV1").
-*   CRD plural name (under "spec" > "crd" > "spec" > "names" > "plural"): Same
-    as CRD kind but in all lower case with the word "constraints" replacing
-    "constraint" (example: "gcpstorageloggingconstraintsv1")
 
 Wherever possible, follow [gcloud](https://cloud.google.com/sdk/gcloud/) group
 names for resource naming. For example, use "compute" instead of "gce", "sql"
@@ -296,7 +293,6 @@ spec:
     spec:
       names:
         kind: GCPExternalIpAccessConstraintV1
-        plural: gcpexternalipaccessconstraintsv1
       validation:
         openAPIV3Schema:
           properties:
