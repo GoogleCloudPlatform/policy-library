@@ -16,30 +16,38 @@
 
 package templates.gcp.GCPGKEMasterAuthorizedNetworksEnabledConstraintV1
 
-import data.validator.gcp.lib as lib
+import data.test.fixtures.gke_master_authorized_networks_enabled.assets as fixture_assets
+import data.test.fixtures.gke_master_authorized_networks_enabled.constraints as fixture_constraints
+import data.validator.test_utils as test_utils
 
-all_violations[violation] {
-	resource := data.test.fixtures.gke_master_authorized_networks_enabled.assets[_]
-	constraint := data.test.fixtures.gke_master_authorized_networks_enabled.constraints.enable_master_authorized_networks
+template_name := "GCPGKEMasterAuthorizedNetworksEnabledConstraintV1"
 
-	issues := deny with input.asset as resource
-		 with input.constraint as constraint
+test_gke_master_authorized_networks_default {
+	expected_resource_names = {
+		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/private-endpoint-public",
+		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/public",
+	}
 
-	violation := issues[_]
+	test_utils.check_test_violations(fixture_assets, [fixture_constraints.enable_master_authorized_networks], template_name, expected_resource_names)
 }
 
-test_no_master_auth_specified {
-	violation := all_violations[_]
-	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust"
+test_gke_master_authorized_networks_whitelist {
+	expected_resource_names = {
+		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/private-endpoint-public",
+		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/public",
+		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/private-endpoint-restricted-bad",
+	}
+
+	test_utils.check_test_violations(fixture_assets, [fixture_constraints.whitelist], template_name, expected_resource_names)
 }
 
-test_enable_master_auth_enabled {
-	violation := all_violations[_]
-	resource_names := {x | x = all_violations[_].details.resource}
-	not resource_names["//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2"]
-}
+test_gke_master_authorized_networks_nonetworks {
+	expected_resource_names = {
+		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/private-endpoint-public",
+		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/public",
+		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/private-endpoint-restricted",
+		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/private-endpoint-restricted-bad",
+	}
 
-test_master_auth_disabled {
-	violation := all_violations[_]
-	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust3"
+	test_utils.check_test_violations(fixture_assets, [fixture_constraints.nonetworks], template_name, expected_resource_names)
 }
