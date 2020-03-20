@@ -87,8 +87,14 @@ spec:
             forbidden_networks(cluster, params) = forbidden {
             	allowed_authorized_networks = lib.get_default(params, "authorized_networks", [])
             
+            	# We only go down this path if there are networks listed. Otherwise, the other rule
+            	# already checks for the existance of masterAuthorizedNetworks.
+            	count(allowed_authorized_networks) > 0
+            
             	master_network_config := lib.get_default(cluster, "masterAuthorizedNetworksConfig", {})
             	master_network_config.enabled == true
+            
+            	count(allowed_authorized_networks) > 0
             
             	cidrBlocks = lib.get_default(master_network_config, "cidrBlocks", [])
             	configured_networks := {network |
