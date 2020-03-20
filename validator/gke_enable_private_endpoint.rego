@@ -14,23 +14,29 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPBigQueryDatasetWorldReadableConstraintV1
+package templates.gcp.GCPGKEEnablePrivateEndpointConstraintV1
+
+import data.validator.gcp.lib as lib
 
 deny[{
 	"msg": message,
 	"details": metadata,
 }] {
 	constraint := input.constraint
+	lib.get_constraint_params(constraint, params)
+
 	asset := input.asset
-	asset.asset_type == "bigquery.googleapis.com/Dataset"
+	asset.asset_type == "container.googleapis.com/Cluster"
+	cluster := asset.resource.data
 
-	world_readable_checks := [
-		asset.iam_policy.bindings[_].members[_] == "allUsers",
-		asset.iam_policy.bindings[_].members[_] == "allAuthenticatedUsers",
-	]
+	not_private_endpoint(cluster)
 
-	world_readable_checks[_] == true
-
-	message := sprintf("%v is publicly accessable", [asset.name])
+	message := sprintf("%v has private endpoint disabled", [asset.name])
 	metadata := {"resource": asset.name}
+}
+
+not_private_endpoint(cluster) {
+	private_cluster_config := lib.get_default(cluster, "privateClusterConfig", {})
+	enable_private_endpoint := lib.get_default(private_cluster_config, "enablePrivateEndpoint", false)
+	enable_private_endpoint != true
 }
