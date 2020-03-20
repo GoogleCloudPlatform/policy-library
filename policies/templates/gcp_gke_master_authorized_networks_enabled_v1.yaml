@@ -83,18 +83,15 @@ spec:
             	forbidden = ["0.0.0.0/0"]
             }
             
-            # Checks that the list of the networks include only the one allowed.
+            # If authorized network parameter is not set, then no need of checking anything else
+            # If it is set to anything (e.g., a list of paramters, or an empty list) then
+            # enforce that only the listed networks are defined.
             forbidden_networks(cluster, params) = forbidden {
+            	lib.has_field(params, "authorized_networks")
             	allowed_authorized_networks = lib.get_default(params, "authorized_networks", [])
-            
-            	# We only go down this path if there are networks listed. Otherwise, the other rule
-            	# already checks for the existance of masterAuthorizedNetworks.
-            	count(allowed_authorized_networks) > 0
             
             	master_network_config := lib.get_default(cluster, "masterAuthorizedNetworksConfig", {})
             	master_network_config.enabled == true
-            
-            	count(allowed_authorized_networks) > 0
             
             	cidrBlocks = lib.get_default(master_network_config, "cidrBlocks", [])
             	configured_networks := {network |

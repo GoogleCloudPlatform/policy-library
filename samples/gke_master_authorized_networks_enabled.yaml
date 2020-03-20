@@ -24,5 +24,13 @@ metadata:
     bundles.validator.forsetisecurity.org/scorecard-v1: security
 spec:
   severity: high
+  # parameters: {} to simply check for authorized networks enabled
+  # parameters:
+  #     authorized_networks: []
+  # to specify that authorized networks is enabled, and no networks are set.
+  #
+  # parameters:
+  #     authorized_networks: ["...", "..."]
+  # to specify that authorized networks need to be subnets of the given ones.
   parameters:
     authorized_networks: ["35.187.118.0/24"]

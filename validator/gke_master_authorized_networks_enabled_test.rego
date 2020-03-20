@@ -22,7 +22,7 @@ import data.validator.test_utils as test_utils
 
 template_name := "GCPGKEMasterAuthorizedNetworksEnabledConstraintV1"
 
-test_gke_master_endpoint_exposure_default {
+test_gke_master_authorized_networks_default {
 	expected_resource_names = {
 		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/private-endpoint-public",
 		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/public",
@@ -31,7 +31,7 @@ test_gke_master_endpoint_exposure_default {
 	test_utils.check_test_violations(fixture_assets, [fixture_constraints.enable_master_authorized_networks], template_name, expected_resource_names)
 }
 
-test_gke_master_endpoint_exposure_whitelist {
+test_gke_master_authorized_networks_whitelist {
 	expected_resource_names = {
 		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/private-endpoint-public",
 		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/public",
@@ -39,4 +39,15 @@ test_gke_master_endpoint_exposure_whitelist {
 	}
 
 	test_utils.check_test_violations(fixture_assets, [fixture_constraints.whitelist], template_name, expected_resource_names)
+}
+
+test_gke_master_authorized_networks_nonetworks {
+	expected_resource_names = {
+		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/private-endpoint-public",
+		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/public",
+		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/private-endpoint-restricted",
+		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/private-endpoint-restricted-bad",
+	}
+
+	test_utils.check_test_violations(fixture_assets, [fixture_constraints.nonetworks], template_name, expected_resource_names)
 }
