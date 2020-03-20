@@ -5,3 +5,5 @@ steps:
   args: ['check_sample_files']
 - name: 'gcr.io/config-validator/make'
   args: ['check_format']
+- name: 'gcr.io/config-validator/policy-tool'
+  args: ['lint', '--policies', './policies', '--libs', './lib']
