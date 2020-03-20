@@ -29,6 +29,8 @@ deny[{
 		asset.iam_policy.bindings[_].members[_] == "allAuthenticatedUsers",
 	]
 
+	world_readable_checks[_] == true
+
 	message := sprintf("%v is publicly accessable", [asset.name])
 	metadata := {"resource": asset.name}
 }
