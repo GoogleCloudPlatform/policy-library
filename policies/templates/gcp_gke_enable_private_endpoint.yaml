@@ -15,24 +15,19 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-gke-master-endpoint-exposure-v1
+  name: gcp-gke-enable-private-endpoint-v1
 spec:
   crd:
     spec:
       names:
-        kind: GCPGKEMasterEndpointExposureConstraintV1
+        kind: GCPGKEEnablePrivateEndpointConstraintV1
       validation:
         openAPIV3Schema:
-          properties:
-            authorized_networks:
-              description: "Networks CIDR allowed in the master authorized
-              network for the GKE cluster. For example, 199.27.25.0/24."
-              type: array
-              items: string
+          properties: {}
 
   targets:
    validation.gcp.forsetisecurity.org:
-      rego: | #INLINE("validator/gke_master_endpoint_exposure.rego")
+      rego: | #INLINE("validator/gke_enable_private_endpoint.rego")
             #
             # Copyright 2018 Google LLC
             #
@@ -49,7 +44,7 @@ spec:
             # limitations under the License.
             #
             
-            package templates.gcp.GCPGKEMasterEndpointExposureConstraintV1
+            package templates.gcp.GCPGKEEnablePrivateEndpointConstraintV1
             
             import data.validator.gcp.lib as lib
             
@@ -66,10 +61,7 @@ spec:
             
             	not_private_endpoint(cluster)
             
-            	forbidden := forbidden_networks(cluster, params)
-            	count(forbidden) > 0
-            
-            	message := sprintf("%v has a public endpoint with authorized networks that are not allowed: %v", [asset.name, forbidden])
+            	message := sprintf("%v has private endpoint disabled", [asset.name])
             	metadata := {"resource": asset.name}
             }
             
@@ -77,35 +69,5 @@ spec:
             	private_cluster_config := lib.get_default(cluster, "privateClusterConfig", {})
             	enable_private_endpoint := lib.get_default(private_cluster_config, "enablePrivateEndpoint", false)
             	enable_private_endpoint != true
-            }
-            
-            # Checks that master authorized network is enabled.
-            # if it is not enabled, then the forbidden network is set
-            # to 0.0.0.0/0
-            forbidden_networks(cluster, params) = forbidden {
-            	master_network_config := lib.get_default(cluster, "masterAuthorizedNetworksConfig", {})
-            	enabled := lib.get_default(master_network_config, "enabled", false)
-            	enabled == false
-            	forbidden = ["0.0.0.0/0"]
-            }
-            
-            # Checks that the list of the networks include only the one allowed.
-            forbidden_networks(cluster, params) = forbidden {
-            	allowed_authorized_networks = lib.get_default(params, "authorized_networks", [])
-            
-            	master_network_config := lib.get_default(cluster, "masterAuthorizedNetworksConfig", {})
-            	master_network_config.enabled == true
-            
-            	cidrBlocks = lib.get_default(master_network_config, "cidrBlocks", [])
-            	configured_networks := {network |
-            		network = cidrBlocks[_].cidrBlock
-            	}
-            
-            	matched_networks := {network |
-            		network = configured_networks[_]
-            		net.cidr_contains(allowed_authorized_networks[_], network)
-            	}
-            
-            	forbidden := configured_networks - matched_networks
             }
             #ENDINLINE

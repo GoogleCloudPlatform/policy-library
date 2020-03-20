@@ -14,29 +14,19 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPGKEMasterEndpointExposureConstraintV1
+package templates.gcp.GCPGKEEnablePrivateEndpointConstraintV1
 
-import data.test.fixtures.gke_master_endpoint_exposure.assets as fixture_assets
-import data.test.fixtures.gke_master_endpoint_exposure.constraints as fixture_constraints
+import data.test.fixtures.gke_enable_private_endpoint.assets as fixture_assets
+import data.test.fixtures.gke_enable_private_endpoint.constraints as fixture_constraints
 import data.validator.test_utils as test_utils
 
-template_name := "GCPGKEMasterEndpointExposureConstraintV1"
+template_name := "GCPGKEEnablePrivateEndpointConstraintV1"
 
-test_gke_master_endpoint_exposure_default {
+test_gke_enable_private_endpoint_default {
 	expected_resource_names = {
 		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/private-endpoint-public",
 		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/public",
-		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/private-endpoint-restricted",
 	}
 
 	test_utils.check_test_violations(fixture_assets, [fixture_constraints.default_params], template_name, expected_resource_names)
-}
-
-test_gke_master_endpoint_exposure_whitelist {
-	expected_resource_names = {
-		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/private-endpoint-public",
-		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/public",
-	}
-
-	test_utils.check_test_violations(fixture_assets, [fixture_constraints.whitelist], template_name, expected_resource_names)
 }

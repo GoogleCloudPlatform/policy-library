@@ -26,7 +26,12 @@ spec:
         kind: GCPGKEMasterAuthorizedNetworksEnabledConstraintV1
       validation:
         openAPIV3Schema:
-          properties: {}
+          properties:
+            authorized_networks:
+              description: "Networks CIDR allowed in the master authorized
+              network for the GKE cluster. For example, 199.27.25.0/24."
+              type: array
+              items: string
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/gke_master_authorized_networks_enabled.rego")
@@ -55,22 +60,46 @@ spec:
             	"details": metadata,
             }] {
             	constraint := input.constraint
+            	lib.get_constraint_params(constraint, params)
+            
             	asset := input.asset
             	asset.asset_type == "container.googleapis.com/Cluster"
-            
             	cluster := asset.resource.data
-            	master_auth_network_disabled(cluster)
             
-            	message := sprintf("Master authorized networks is not being used in cluster %v.", [asset.name])
+            	forbidden := forbidden_networks(cluster, params)
+            	count(forbidden) > 0
+            
+            	message := sprintf("%v master is accessible from unauthorized networks: %v", [asset.name, forbidden])
             	metadata := {"resource": asset.name}
             }
             
-            ###########################
-            # Rule Utilities
-            ###########################
-            master_auth_network_disabled(cluster) {
-            	master_auth_network_config := lib.get_default(cluster, "masterAuthorizedNetworksConfig", {})
-            	enabled := lib.get_default(master_auth_network_config, "enabled", false)
+            # Checks that master authorized network is enabled.
+            # if it is not enabled, then the forbidden network is set
+            # to 0.0.0.0/0
+            forbidden_networks(cluster, params) = forbidden {
+            	master_network_config := lib.get_default(cluster, "masterAuthorizedNetworksConfig", {})
+            	enabled := lib.get_default(master_network_config, "enabled", false)
             	enabled == false
+            	forbidden = ["0.0.0.0/0"]
+            }
+            
+            # Checks that the list of the networks include only the one allowed.
+            forbidden_networks(cluster, params) = forbidden {
+            	allowed_authorized_networks = lib.get_default(params, "authorized_networks", [])
+            
+            	master_network_config := lib.get_default(cluster, "masterAuthorizedNetworksConfig", {})
+            	master_network_config.enabled == true
+            
+            	cidrBlocks = lib.get_default(master_network_config, "cidrBlocks", [])
+            	configured_networks := {network |
+            		network = cidrBlocks[_].cidrBlock
+            	}
+            
+            	matched_networks := {network |
+            		network = configured_networks[_]
+            		net.cidr_contains(allowed_authorized_networks[_], network)
+            	}
+            
+            	forbidden := configured_networks - matched_networks
             }
             #ENDINLINE

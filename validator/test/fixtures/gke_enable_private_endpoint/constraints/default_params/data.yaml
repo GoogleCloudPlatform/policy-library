@@ -13,10 +13,9 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPGKEMasterEndpointExposureConstraintV1
+kind: GCPGKEEnablePrivateEndpointConstraintV1
 metadata:
-  name: gke_master_endpoint_exposure
+  name: gke_enable_private_endpoint
 spec:
   severity: high
-  parameters:
-    authorized_networks: ["35.187.118.0/24"]
+  parameters: {}

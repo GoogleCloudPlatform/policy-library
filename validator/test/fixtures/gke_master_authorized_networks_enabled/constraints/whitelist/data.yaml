@@ -13,13 +13,10 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPGKEMasterEndpointExposureConstraintV1
+kind: GCPGKEMasterAuthorizedNetworksEnabledConstraintV1
 metadata:
-  name: gke_master_endpoint_exposure_default
+  name: gke_master_authorized_network_enabled_whitelist
 spec:
   severity: high
-  # No allowed authorized networks indicates that:
-  # - the endpoint is private
-  # - the endpoint is public, master authorized network is enabled,
-  #   and no networks are listed.
-  parameters: {}
+  parameters:
+    authorized_networks: ["11.1.0.0/16"]
