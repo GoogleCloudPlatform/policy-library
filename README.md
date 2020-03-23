@@ -59,3 +59,14 @@ gcloud components install cloud-build-local
 cloud-build-local --config ./cloudbuild.yaml --dryrun=false .
 ```
 
+### Updating CI Images
+
+You can update the CI images to add new versions of rego/opa as they are released.
+```
+# Rebuild all images.
+make -j ci-images
+
+# Rebuild a single image
+make ci-image-v1.16.0
+```
+
