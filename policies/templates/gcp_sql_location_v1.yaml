@@ -28,7 +28,6 @@ spec:
     spec:
       names:
         kind: GCPSQLLocationConstraintV1
-        plural: gcpsqllocationconstraintsv1
       validation:
         openAPIV3Schema:
           properties:

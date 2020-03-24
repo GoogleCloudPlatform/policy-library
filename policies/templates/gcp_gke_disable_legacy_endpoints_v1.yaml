@@ -24,7 +24,6 @@ spec:
     spec:
       names:
         kind: GCPGKEDisableLegacyEndpointsConstraintV1
-        plural: gcpgkedisablelegacyendpointsconstraintsV1
       validation:
         openAPIV3Schema:
           properties: {}

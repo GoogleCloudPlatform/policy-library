@@ -23,7 +23,6 @@ spec:
     spec:
       names:
         kind: GCPGKEDashboardConstraintV1
-        plural: gcpgkedashboardconstraintsv1        
       validation:
         openAPIV3Schema:
           properties: {}

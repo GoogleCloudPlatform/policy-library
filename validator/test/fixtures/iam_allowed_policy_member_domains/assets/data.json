@@ -76,6 +76,12 @@
                     ]
                 },
                 {
+                    "role": "roles/storage.admin",
+                    "members": [
+                        "user:bad@sub.google.com"
+                    ]
+                },
+                {
                     "role": "roles/dataflow.serviceAgent",
                     "members": [
                         "serviceAccount:service-12345@dataflow-service-producer-prod.iam.gserviceaccount.com",

@@ -16,19 +16,13 @@
 
 package templates.gcp.GCPBigQueryDatasetLocationConstraintV1
 
+template_name := "GCPBigQueryDatasetLocationConstraintV1"
+
+import data.validator.test_utils as test_utils
+
 import data.test.fixtures.bq_dataset_location.assets.datasets as fixture_datasets
 import data.test.fixtures.bq_dataset_location.assets.instances as fixture_instances
 import data.test.fixtures.bq_dataset_location.constraints as fixture_constraints
-
-# Final all violations of our test cases
-
-find_violations[violation] {
-	asset := data.assets[_]
-	constraint := data.test_constraints[_]
-	issues := deny with input.asset as asset with input.constraint as constraint
-	total_issues := count(issues)
-	violation := issues[_]
-}
 
 # Test logic for allowlisting/denylisting
 test_target_location_match_count_allowlist {
@@ -43,186 +37,69 @@ test_target_location_match_count_denylist {
 
 # Test for no violations with no assets
 test_bq_dataset_location_no_assets {
-	found_violations := find_violations with data.assets as []
-
-	count(found_violations) == 0
+	test_utils.check_test_violations_count([], fixture_constraints, template_name, 0)
 }
 
 # Test for no violations with no constraints
 test_bq_dataset_location_no_constraints {
-	found_violations := find_violations with data.assets as fixture_datasets
-		 with data.constraints as []
-
-	count(found_violations) == 0
+	test_utils.check_test_violations_count(fixture_datasets, [], template_name, 0)
 }
 
 # Test for no violations with empty parameters
-violations_with_empty_parameters[violation] {
-	constraints := [fixture_constraints.location_default]
-	found_violations := find_violations with data.assets as fixture_datasets
-		 with data.test_constraints as constraints
-
-	violation := found_violations[_]
-}
-
 test_bq_dataset_location_default {
-	found_violations := violations_with_empty_parameters
-
-	count(found_violations) == 0
+	test_utils.check_test_violations_count(fixture_datasets, [fixture_constraints.location_default], template_name, 0)
 }
 
 # Test empty denylist
-violations_with_empty_denylist[violation] {
-	constraints := [fixture_constraints.denylist_none]
-	found_violations := find_violations with data.assets as fixture_datasets
-		 with data.test_constraints as constraints
-
-	violation := found_violations[_]
-}
-
 test_compute_zone_denylist_none {
-	found_violations := violations_with_empty_denylist
-
-	count(found_violations) == 0
+	test_utils.check_test_violations_count(fixture_datasets, [fixture_constraints.denylist_none], template_name, 0)
 }
 
 # Test empty denylist with incorrect asset type
-violations_with_empty_denylist_incorrect_assets[violation] {
-	constraints := [fixture_constraints.denylist_none]
-	combined_assets := array.concat(fixture_instances, fixture_datasets)
-	found_violations := find_violations with data.assets as combined_assets
-		 with data.test_constraints as constraints
-
-	violation := found_violations[_]
-}
-
 test_bq_dataset_location_denylist_none_incorrect_assets {
-	found_violations := violations_with_empty_denylist_incorrect_assets
-
-	count(found_violations) == 0
+	combined_assets := array.concat(fixture_instances, fixture_datasets)
+	test_utils.check_test_violations_count(combined_assets, [fixture_constraints.denylist_none], template_name, 0)
 }
 
 # Test empty allowlist
-violations_with_empty_allowlist[violation] {
-	constraints := [fixture_constraints.allowlist_none]
-	found_violations := find_violations with data.assets as fixture_datasets
-		 with data.test_constraints as constraints
-
-	violation := found_violations[_]
-}
-
 test_bq_dataset_location_allowlist_none {
-	found_violations := violations_with_empty_allowlist
-
-	count(found_violations) == count(fixture_datasets)
+	test_utils.check_test_violations_count(fixture_datasets, [fixture_constraints.allowlist_none], template_name, count(fixture_datasets))
 }
 
 # Test empty allowlist with incorrect assets
-violations_with_empty_allowlist_incorrect_assets[violation] {
-	constraints := [fixture_constraints.allowlist_none]
-	combined_assets := array.concat(fixture_instances, fixture_datasets)
-	found_violations := find_violations with data.assets as combined_assets
-		 with data.test_constraints as constraints
-
-	violation := found_violations[_]
-}
-
 test_bq_dataset_location_allowlist_none_incorrect_assets {
-	found_violations := violations_with_empty_allowlist_incorrect_assets
-
-	count(found_violations) == count(fixture_datasets)
+	combined_assets := array.concat(fixture_instances, fixture_datasets)
+	test_utils.check_test_violations_count(combined_assets, [fixture_constraints.allowlist_none], template_name, count(fixture_datasets))
 }
 
 # Test denylist with single location
-violations_with_single_denylist[violation] {
-	constraints := [fixture_constraints.denylist_one]
-	found_violations := find_violations with data.assets as fixture_datasets
-		 with data.test_constraints as constraints
-
-	violation := found_violations[_]
-}
-
 test_bq_dataset_location_denylist_one {
-	found_violations := violations_with_single_denylist
-	count(found_violations) == 1
+	expected_resource_names := {"//bigquery.googleapis.com/projects/sandbox2/datasets/us_west2_test_dataset"}
 
-	violation := found_violations[_]
-	resource_name := "//bigquery.googleapis.com/projects/sandbox2/datasets/us_west2_test_dataset"
-	is_string(violation.msg)
-	is_object(violation.details)
+	test_utils.check_test_violations(fixture_datasets, [fixture_constraints.denylist_one], template_name, expected_resource_names)
 }
 
 # Test denylist with single location and one exemption
-violations_with_single_denylist_exemption[violation] {
-	constraints := [fixture_constraints.denylist_one_exemption]
-	found_violations := find_violations with data.assets as fixture_datasets
-		 with data.test_constraints as constraints
-
-	violation := found_violations[_]
-}
-
 test_bq_dataset_location_denylist_one_exemption {
-	found_violations := violations_with_single_denylist_exemption
-
-	count(found_violations) == 0
+	test_utils.check_test_violations_count(fixture_datasets, [fixture_constraints.denylist_one_exemption], template_name, 0)
 }
 
 # Test allowlist with single location
-violations_with_single_allowlist[violation] {
-	constraints := [fixture_constraints.allowlist_one]
-	found_violations := find_violations with data.assets as fixture_datasets
-		 with data.test_constraints as constraints
-
-	violation := found_violations[_]
-}
-
 test_bq_dataset_location_allowlist_one {
-	found_violations := violations_with_single_allowlist
-
-	count(found_violations) == count(fixture_datasets) - 1
+	test_utils.check_test_violations_count(fixture_datasets, [fixture_constraints.allowlist_one], template_name, count(fixture_datasets) - 1)
 }
 
 # Test allowlist with single location and one exemption
-violations_with_single_allowlist_exemption[violation] {
-	constraints := [fixture_constraints.allowlist_one_exemption]
-	found_violations := find_violations with data.assets as fixture_datasets
-		 with data.test_constraints as constraints
-
-	violation := found_violations[_]
-}
-
 test_bq_dataset_location_allowlist_one_exemption {
-	found_violations := violations_with_single_allowlist_exemption
-
-	count(found_violations) == count(fixture_datasets) - 2
+	test_utils.check_test_violations_count(fixture_datasets, [fixture_constraints.allowlist_one_exemption], template_name, count(fixture_datasets) - 2)
 }
 
 # Test denylist with all locations
-violations_with_full_denylist[violation] {
-	constraints := [fixture_constraints.denylist_all]
-	found_violations := find_violations with data.assets as fixture_datasets
-		 with data.test_constraints as constraints
-
-	violation := found_violations[_]
-}
-
 test_bq_dataset_location_denylist_all {
-	found_violations := violations_with_full_denylist
-
-	count(found_violations) == count(fixture_datasets)
+	test_utils.check_test_violations_count(fixture_datasets, [fixture_constraints.denylist_all], template_name, count(fixture_datasets))
 }
 
 # Test allowlist with all zones
-violations_with_full_allowlist[violation] {
-	constraints := [fixture_constraints.allowlist_all]
-	found_violations := find_violations with data.assets as fixture_datasets
-		 with data.test_constraints as constraints
-
-	violation := found_violations[_]
-}
-
 test_bq_dataset_location_allowlist_all {
-	found_violations := violations_with_full_allowlist
-
-	count(found_violations) == 0
+	test_utils.check_test_violations_count(fixture_datasets, [fixture_constraints.allowlist_all], template_name, 0)
 }

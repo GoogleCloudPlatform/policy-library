@@ -16,46 +16,21 @@
 
 package templates.gcp.GCPAppEngineServiceVersionsConstraintV1
 
+template_name := "GCPAppEngineServiceVersionsConstraintV1"
+
+import data.validator.test_utils as test_utils
+
 import data.test.fixtures.app_service_versions.assets as fixture_assets
 import data.test.fixtures.app_service_versions.constraints as fixture_constraints
 
-# Final all violations of our test cases
-find_violations[violation] {
-	asset := data.assets[_]
-	constraint := data.test_constraints[_]
-	issues := deny with input.asset as asset with input.constraint as constraint
-	total_issues := count(issues)
-	violation := issues[_]
-}
-
-# Test for default
-violations_with_default_constraint[violation] {
-	constraints := [fixture_constraints.default_constraint]
-	found_violations := find_violations with data.assets as fixture_assets
-		 with data.test_constraints as constraints
-
-	violation := found_violations[_]
-}
-
 test_violations_with_default_constraint {
-	found_violations := violations_with_default_constraint
-
-	count(found_violations) == 1
+	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.default_constraint], template_name, 1)
 }
 
-# Test with customcount
-violations_with_custom_constraint[violation] {
-	constraints := [fixture_constraints.custom_count]
-	found_violations := find_violations with data.assets as fixture_assets
-		 with data.test_constraints as constraints
-
-	violation := found_violations[_]
-}
+violations_with_custom_constraint := test_utils.get_test_violations(fixture_assets, [fixture_constraints.custom_count], template_name)
 
 test_violations_with_custom_constraint {
-	found_violations := violations_with_custom_constraint
-
-	count(found_violations) == 2
+	count(violations_with_custom_constraint) == 2
 }
 
 test_violation_3_versions {

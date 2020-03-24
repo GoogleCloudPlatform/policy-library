@@ -24,7 +24,6 @@ spec:
     spec:
       names:
         kind: GCPNetworkEnablePrivateGoogleAccessConstraintV1
-        plural: gcpnetworkenableprivategoogleaccessconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}

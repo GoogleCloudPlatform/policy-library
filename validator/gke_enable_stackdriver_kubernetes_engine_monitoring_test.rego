@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPGKEEnableStackdriverKubernetesEngineMonitoringConstraintV1
+package templates.gcp.GCPGKEEnableStackdriverKubernetesEngineMonitoringV1
 
 import data.validator.gcp.lib as lib
 
