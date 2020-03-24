@@ -120,3 +120,4 @@ list:
           - "cloudresourcemanager.googleapis.com/Project"
         field_name: "labels.billing_id"
         required: true
+        
