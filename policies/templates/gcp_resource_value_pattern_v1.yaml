@@ -33,6 +33,7 @@ spec:
               In denylist mode, resources with field_name values that match the
               pattern defined will generate a violation.
               Defaults to allowlist."
+              required: true
             asset_types:
               description: "List of Google CAI asset types to apply this constraint to.
               E.g. 'cloudresourcemanager.googleapis.com/Project'
@@ -53,8 +54,7 @@ spec:
               fail validation.  Also ensure to use anchors ^$ if you need them
               as by default no start and end anchors are defined.
               E.g. '^\\d{4}$' will look for any four digits (1234)
-              E.g. 'logging.googleapis.com' will only look for 'logging.googleapis.com'm
-              "
+              E.g. 'logging.googleapis.com' will only look for 'logging.googleapis.com'"
               type: string
               required: false
             required:
