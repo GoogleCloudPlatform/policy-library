@@ -21,7 +21,6 @@ spec:
     spec:
       names:
         kind: GCPResourceValuePatternConstraintV1
-        plural: gcpresourcevaluepatternconstraintsv1
       validation:
         openAPIV3Schema:
           properties:
