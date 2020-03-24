@@ -1,4 +1,4 @@
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,22 +15,35 @@
 
 package templates.gcp.GCPIAMRestrictServiceAccountKeyAgeConstraintV1
 
-all_violations[violation] {
-	resource := data.test.fixtures.gcp_iam_restrict_service_account_key_age.assets[_]
-	constraint := data.test.fixtures.gcp_iam_restrict_service_account_key_age.constraints
+template_name := "GCPIAMRestrictServiceAccountKeyAgeConstraintV1"
 
-	issues := deny with input.asset as resource
-		 with input.constraint as constraint
+import data.validator.test_utils as test_utils
 
-	violation := issues[_]
+import data.test.fixtures.gcp_iam_restrict_service_account_key_age.assets as fixture_assets
+import data.test.fixtures.gcp_iam_restrict_service_account_key_age.constraints as fixture_constraints
+
+# Confirm total violations count
+test_service_account_key_age_ninety_days_violations_count {
+	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.ninety_days], template_name, 2)
 }
 
-# Count total violations
-test_service_account_key_age_violations_count {
-	count(all_violations) == 1
+test_service_account_key_age_one_hundred_days_violations_count {
+	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.one_hundred_days], template_name, 2)
 }
 
-test_service_account_key_age_violation_basic {
-	violation_resources := {r | r = all_violations[_].details.resource}
-	violation_resources == {"//iam.googleapis.com/projects/forseti-system-test/serviceAccounts/111111-compute@developer.gserviceaccount.com/keys/1234567890abcdef"}
+# Confirm violation resources
+test_service_account_key_age_ninety_days_resources {
+	resource_names := {
+	    "//iam.googleapis.com/projects/forseti-system-test/serviceAccounts/111111-compute@developer.gserviceaccount.com/keys/testkeyageover90days",
+	    "//iam.googleapis.com/projects/forseti-system-test/serviceAccounts/111111-compute@developer.gserviceaccount.com/keys/testkeyageover100days"
+	}
+	test_utils.check_test_violations(fixture_assets, [fixture_constraints.ninety_days], template_name, resource_names)
+}
+
+test_service_account_key_age_one_hundred_days_resources {
+	resource_names := {
+	    "//iam.googleapis.com/projects/forseti-system-test/serviceAccounts/111111-compute@developer.gserviceaccount.com/keys/testkeyageover90days",
+	    "//iam.googleapis.com/projects/forseti-system-test/serviceAccounts/111111-compute@developer.gserviceaccount.com/keys/testkeyageover100days"
+	}
+	test_utils.check_test_violations(fixture_assets, [fixture_constraints.one_hundred_days], template_name, resource_names)
 }
