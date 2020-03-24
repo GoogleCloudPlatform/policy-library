@@ -15,31 +15,20 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-gke-cluster-location-v1
+  name: gcp-bigquery-dataset-world-readable-v1
 spec:
   crd:
     spec:
       names:
-        kind: GKEClusterLocationConstraintV1
-        plural: gkeclusterlocationconstraintsv1
+        kind: GCPBigQueryDatasetWorldReadableConstraintV1
       validation:
         openAPIV3Schema:
-          properties:
-            allowed_locations:
-              description: "Whitelist of regions and/or zones in which GKE
-              clusters can be created, e.g. us-central1-a, us-east1. Multiple
-              locations can be specified. Regions and zones need to be specified
-              separately, as this allows for restricting clusters to be zonal or
-              regional, e.g. whitelisting us-central1 will allow regional
-              clusters to be created, but will not implicitly allow zonal
-              clusters in any us-central1 zone."
-              type: array
-              items: string
+          properties: {}
   targets:
-    validation.gcp.forsetisecurity.org:
-      rego: | #INLINE("validator/gke_cluster_location.rego")
+   validation.gcp.forsetisecurity.org:
+      rego: | #INLINE("validator/bigquery_dataset_world_readable.rego")
            #
-           # Copyright 2019 Google LLC
+           # Copyright 2018 Google LLC
            #
            # Licensed under the Apache License, Version 2.0 (the "License");
            # you may not use this file except in compliance with the License.
@@ -54,28 +43,22 @@ spec:
            # limitations under the License.
            #
            
-           package templates.gcp.GKEClusterLocationConstraintV1
-           
-           import data.validator.gcp.lib as lib
+           package templates.gcp.GCPBigQueryDatasetWorldReadableConstraintV1
            
            deny[{
            	"msg": message,
            	"details": metadata,
            }] {
            	constraint := input.constraint
-           	lib.get_constraint_params(constraint, params)
            	asset := input.asset
-           	asset.asset_type == "container.googleapis.com/Cluster"
+           	asset.asset_type == "bigquery.googleapis.com/Dataset"
            
-           	cluster_location := asset.resource.data.location
-           	target_location := params.allowed_locations
-           	count({cluster_location} & cast_set(target_location)) == 0
+           	world_readable_checks := [
+           		asset.iam_policy.bindings[_].members[_] == "allUsers",
+           		asset.iam_policy.bindings[_].members[_] == "allAuthenticatedUsers",
+           	]
            
-           	message := sprintf("Cluster %v is not allowed in the specified location", [asset.name])
+           	message := sprintf("%v is publicly accessable", [asset.name])
            	metadata := {"resource": asset.name}
            }
-           
-           ###########################
-           # Rule Utilities
-           ###########################
            #ENDINLINE

@@ -16,15 +16,15 @@
 
 package templates.gcp.GCPBigQueryCMEKEncryptionConstraintV1
 
-all_violations[violation] {
-	resource := data.test.fixtures.bigquery_cmek.assets[_]
-	constraint := data.test.fixtures.bigquery_cmek.constraints
-	issues := deny with input.asset as resource
-	violation := issues[_]
-}
+template_name := "GCPBigQueryCMEKEncryptionConstraintV1"
+
+import data.validator.test_utils as test_utils
+
+# Importing the test constraints
+import data.test.fixtures.bigquery_cmek.constraints as fixture_constraint
 
 test_bigquery_cmek_logic {
-	violation := all_violations[_]
-	count(all_violations) == 1
-	violation.details.resource == "//bigquery.googleapis.com/projects/anand-spanner/datasets/anand_bq_test_3/tables/test_google_encryption_key"
+	expected_resource_names := {"//bigquery.googleapis.com/projects/anand-spanner/datasets/anand_bq_test_3/tables/test_google_encryption_key"}
+
+	test_utils.check_test_violations(data.test.fixtures.bigquery_cmek.assets, [fixture_constraint], template_name, expected_resource_names)
 }

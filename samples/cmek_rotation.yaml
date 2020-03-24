@@ -16,6 +16,9 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPCMEKRotationConstraintV1
 metadata:
   name: cmek_rotation
+  annotations:
+    # This constraint is not certified by CIS.
+    bundles.validator.forsetisecurity.org/cis-v1.1: 1.08
 spec:
   severity: high
   match:

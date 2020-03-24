@@ -18,6 +18,9 @@ metadata:
   name: gke_restrict_client_auth_methods
   annotations:
     benchmark: GKE_HARDENING_GUIDELINE
+    bundles.validator.forsetisecurity.org/scorecard-v1: security
+    # This constraint is not certified by CIS.
+    bundles.validator.forsetisecurity.org/cis-v1.1: 7.12
 spec:
   severity: high
   parameters: {}

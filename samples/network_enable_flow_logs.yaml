@@ -20,6 +20,7 @@ metadata:
     description: Ensure VPC Flow logs is enabled for every subnet in VPC Network
     # This constraint is not certified by CIS.
     bundles.validator.forsetisecurity.org/cis-v1.1: 3.09
+    bundles.validator.forsetisecurity.org/scorecard-v1: security
 spec:
   severity: high
   match:
