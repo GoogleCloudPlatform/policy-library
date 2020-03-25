@@ -188,7 +188,7 @@ denylist_all_is_valid_test_scenarios[[i, scenario]] {
 	d := {"is_required": t.is_required, "has_pattern": t.has_pattern, "has_field": t.has_field, "pattern": t.pattern, "value": t.value}
 	mode := "denylist"
 	result := is_valid_bool(mode, d)
-  
+
 	scenario = {
 		"scenario": t,
 		"result": result,

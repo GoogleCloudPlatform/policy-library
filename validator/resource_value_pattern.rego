@@ -66,73 +66,61 @@ deny[{
 # Rule Utilities
 ###########################
 
-is_valid(mode, {
-	"is_required": is_required,
-	"has_field": has_field,
-	"has_pattern": has_pattern,
-	"pattern": pattern,
-	"value": field_value,
-}) {
+is_valid(mode, rule_data) {
 	mode == "allowlist"
-	is_allowlist_valid(has_field, has_pattern, pattern, field_value, is_required, has_field)
+	is_allowlist_valid(rule_data)
 }
 
-is_valid(mode, {
-	"is_required": is_required,
-	"has_field": has_field,
-	"has_pattern": has_pattern,
-	"pattern": pattern,
-	"value": field_value,
-}) {
+is_valid(mode, rule_data) {
 	mode == "denylist"
-	is_denylist_valid(has_field, has_pattern, pattern, field_value, is_required, has_field)
+	is_denylist_valid(rule_data)
 }
 
-is_denylist_valid(has_field, has_pattern, pattern, field_value, is_required, has_field) {
-	is_required_field_valid(is_required, has_field)
-	is_denylist_pattern_valid(has_field, has_pattern, pattern, field_value)
+is_denylist_valid(rule_data) {
+	is_required_field_valid(rule_data)
+	is_denylist_pattern_valid(rule_data)
 }
 
-is_denylist_valid(has_field, has_pattern, pattern, field_value, is_required, has_field) {
-	not is_required_field_valid(is_required, has_field)
+is_denylist_valid(rule_data) {
+	not is_required_field_valid(rule_data)
 }
 
-is_required_field_valid(is_required, has_field) {
-	has_field == true
+is_required_field_valid(rule_data) {
+	rule_data.has_field == true
 }
 
-is_required_field_valid(is_required, has_field) {
-	is_required == false
-	has_field == false
+is_required_field_valid(rule_data) {
+	rule_data.is_required == false
+	rule_data.has_field == false
 }
 
-is_denylist_pattern_valid(has_field, has_pattern, pattern, value) {
-	has_pattern == true
-	has_field == true
-	re_match(pattern, value)
+is_denylist_pattern_valid(rule_data) {
+	rule_data.has_pattern == true
+	rule_data.has_field == true
+	re_match(rule_data.pattern, rule_data.value)
 }
 
-is_allowlist_valid(has_field, has_pattern, pattern, field_value, is_required, has_field) {
-	is_required_field_valid(is_required, has_field)
-	not is_allowlist_pattern_valid(has_field, has_pattern, pattern, field_value)
+is_allowlist_valid(rule_data) {
+	is_required_field_valid(rule_data)
+	not is_allowlist_pattern_valid(rule_data)
 }
 
-is_allowlist_valid(has_field, has_pattern, pattern, field_value, is_required, has_field) {
-	not is_required_field_valid(is_required, has_field)
+is_allowlist_valid(rule_data) {
+	not is_required_field_valid(rule_data)
 }
 
-is_allowlist_pattern_valid(has_field, has_pattern, pattern, value) {
-	has_pattern == false
+is_allowlist_pattern_valid(rule_data) {
+	rule_data.has_pattern == false
 }
 
-is_allowlist_pattern_valid(has_field, has_pattern, pattern, value) {
-	has_field == false
+is_allowlist_pattern_valid(rule_data) {
+	rule_data.has_field == false
 }
 
-is_allowlist_pattern_valid(has_field, has_pattern, pattern, value) {
-	has_pattern == true
-	has_field == true
-	re_match(pattern, value)
+is_allowlist_pattern_valid(rule_data) {
+	rule_data.has_pattern == true
+	rule_data.has_field == true
+	re_match(rule_data.pattern, rule_data.value)
 }
 
 ###
