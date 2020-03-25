@@ -19,6 +19,7 @@ kind: GCPRestrictedFirewallRulesConstraintV1
 metadata:
   name: restrict-firewall-rule-world-open
   annotations:
+    bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
     bundles.validator.forsetisecurity.org/scorecard-v1: security
 spec:
   severity: high
