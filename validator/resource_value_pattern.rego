@@ -46,7 +46,7 @@ deny[{
 		"value": get_default_by_path(asset.resource.data, field_name, ""),
 	}
 
-	is_valid(mode, rule_data)
+	is_not_valid(mode, rule_data)
 
 	message := sprintf("%v has %v violation for field named '%v' with a value '%v' matching pattern '%v'.", [
 		asset.name,
@@ -66,22 +66,32 @@ deny[{
 # Rule Utilities
 ###########################
 
-is_valid(mode, rule_data) {
+# is_not_valid evaluates to true if mode is allowlist and:
+# required = true; field_name exists in resource; pattern is NOT found
+# required = true; field_name does NOT exist in resource
+# required = false; field_name exists in resource; pattern is NOT found
+
+is_not_valid(mode, rule_data) {
 	mode == "allowlist"
-	is_allowlist_valid(rule_data)
+	allowlist_violation(rule_data)
 }
 
-is_valid(mode, rule_data) {
+# is_not_valid evaluates to true if mode is denylist and:
+# required = true; field_name exists in resource; pattern is found
+# required = true; field_name does NOT exist in resource
+# required = false; field_name exists in resource; pattern is found
+
+is_not_valid(mode, rule_data) {
 	mode == "denylist"
-	is_denylist_valid(rule_data)
+	denylist_violation(rule_data)
 }
 
-is_denylist_valid(rule_data) {
+denylist_violation(rule_data) {
 	is_required_field_valid(rule_data)
 	is_denylist_pattern_valid(rule_data)
 }
 
-is_denylist_valid(rule_data) {
+denylist_violation(rule_data) {
 	not is_required_field_valid(rule_data)
 }
 
@@ -100,12 +110,12 @@ is_denylist_pattern_valid(rule_data) {
 	re_match(rule_data.pattern, rule_data.value)
 }
 
-is_allowlist_valid(rule_data) {
+allowlist_violation(rule_data) {
 	is_required_field_valid(rule_data)
 	not is_allowlist_pattern_valid(rule_data)
 }
 
-is_allowlist_valid(rule_data) {
+allowlist_violation(rule_data) {
 	not is_required_field_valid(rule_data)
 }
 
@@ -123,9 +133,10 @@ is_allowlist_pattern_valid(rule_data) {
 	re_match(rule_data.pattern, rule_data.value)
 }
 
-###
+###########################
 # Rule Library Functions
-###
+###########################
+
 get_field_by_path(obj, path) = output {
 	split(path, ".", path_parts)
 	walk(obj, [path_parts, output])

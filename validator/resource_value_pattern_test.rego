@@ -157,12 +157,12 @@ denylist_validation_scenario_table = [
 ]
 
 is_valid_bool(mode, obj) = output {
-	is_valid(mode, obj)
+	is_not_valid(mode, obj)
 	output := true
 }
 
 is_valid_bool(mode, obj) = output {
-	not is_valid(mode, obj)
+	not is_not_valid(mode, obj)
 	output := false
 }
 
