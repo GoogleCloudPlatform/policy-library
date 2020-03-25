@@ -16,6 +16,9 @@
 
 package templates.gcp.GCPIAMRequiredBindingsConstraintV1
 
+template_name := "GCPIAMRequiredBindingsConstraintV1"
+
+import data.validator.test_utils as test_utils
 import data.test.fixtures.iam_required_bindings.assets as fixture_assets
 import data.test.fixtures.iam_required_bindings.constraints as fixture_constraints
 
@@ -33,13 +36,7 @@ find_violations[violation] {
 }
 
 # Test that a required domain is absent in data
-require_role_domain_violations[violation] {
-	constraints := [fixture_constraints.iam_required_bindings_role_domain]
-
-	found_violations := find_violations with data.test_constraints as constraints
-
-	violation := found_violations[_]
-}
+require_role_domain_violations := test_utils.get_test_violations(fixture_assets, [fixture_constraints.iam_required_bindings_role_domain], template_name)
 
 test_require_role_domain_violations {
 	count(require_role_domain_violations) = 2
@@ -49,13 +46,7 @@ test_require_role_domain_violations {
 }
 
 # Test that a required member is absent in data
-require_role_member_violations[violation] {
-	constraints := [fixture_constraints.iam_required_bindings_role_members]
-
-	found_violations := find_violations with data.test_constraints as constraints
-
-	violation := found_violations[_]
-}
+require_role_member_violations := test_utils.get_test_violations(fixture_assets, [fixture_constraints.iam_required_bindings_role_members], template_name)
 
 test_require_role_member_violations {
 	count(require_role_member_violations) = 2
@@ -65,40 +56,16 @@ test_require_role_member_violations {
 }
 
 # Test that only Project resources are parsed
-require_project_violations[violation] {
-	constraints := [fixture_constraints.iam_required_bindings_project]
-
-	found_violations := find_violations with data.test_constraints as constraints
-
-	violation := found_violations[_]
-}
-
 test_require_project_violations {
-	count(require_project_violations) = 3
+	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.iam_required_bindings_project], template_name, 3)
 }
 
 # Test for no violations
-require_role_no_violations[violation] {
-	constraints := [fixture_constraints.iam_required_bindings_role_domain_all]
-
-	found_violations := find_violations with data.test_constraints as constraints
-
-	violation := found_violations[_]
-}
-
 test_require_role_no_violations {
-	count(require_role_no_violations) = 0
+	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.iam_required_bindings_role_domain_all], template_name, 0)
 }
 
 # Test with empty members params
-require_no_members_params[violation] {
-	constraints := [fixture_constraints.iam_required_bindings_none]
-
-	found_violations := find_violations with data.test_constraints as constraints
-
-	violation := found_violations[_]
-}
-
 test_require_role_no_violations {
-	count(require_no_members_params) = 0
+	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.iam_required_bindings_none], template_name, 0)
 }
