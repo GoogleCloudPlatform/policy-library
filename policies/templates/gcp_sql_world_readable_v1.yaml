@@ -21,7 +21,6 @@ spec:
     spec:
       names:
         kind: GCPSQLWorldReadableConstraintV1
-        plural: gcpsqlworldreadableconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}
