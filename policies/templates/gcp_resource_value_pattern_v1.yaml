@@ -23,6 +23,7 @@ spec:
         kind: GCPResourceValuePatternConstraintV1
       validation:
         openAPIV3Schema:
+          required: ["mode", "asset_types", "field_name"]
           properties:
             mode:
               type: string
@@ -33,22 +34,19 @@ spec:
               In denylist mode, resources with field_name values that match the
               pattern defined will generate a violation.
               Defaults to allowlist."
-              default: "allowlist"
-              required: true
             asset_types:
+              type: array
+              items: string
               description: "List of Google CAI asset types to apply this constraint to.
               E.g. 'cloudresourcemanager.googleapis.com/Project'
               E.g. 'compute.googleapis.com/Instance"
-              type: array
-              items: string
-              required: true
             field_name:
+              type: string
               description: "The (dot) path separated field name from the asset data to validate.
               E.g. 'labels.billing_id' would indicate the value for 'data': {'labels': {'billing_id': 'x'}}
               E.g. 'loggingService' would indicate the value for 'data': {'loggingService': 'y'}}"
-              type: string
-              required: true
             pattern:
+              type: string
               description: "A regular expression to validate the value of the
               field name against.  If the field is required and exists, the
               regular expression must match the value otherwise the asset will
@@ -56,15 +54,11 @@ spec:
               as by default no start and end anchors are defined.
               E.g. '^\\d{4}$' will look for any four digits (1234)
               E.g. 'logging.googleapis.com' will only look for 'logging.googleapis.com'"
-              type: string
-              required: false
             required:
+              type: boolean
               description: "Set to false to make the field_name appearing in the
               asset optional- a violation is NOT generated if the field_name does not exist.
               Defaults to true."
-              type: boolean
-              default: true
-              required: false
   targets:
    validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/resource_value_pattern.rego")
