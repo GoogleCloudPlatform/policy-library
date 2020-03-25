@@ -33,7 +33,7 @@ spec:
               In denylist mode, resources with field_name values that match the
               pattern defined will generate a violation.
               Defaults to allowlist."
-              default: allowlist
+              default: "allowlist"
               required: true
             asset_types:
               description: "List of Google CAI asset types to apply this constraint to.
