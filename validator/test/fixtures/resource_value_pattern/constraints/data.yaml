@@ -1,4 +1,4 @@
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ list:
           target: ["organization/*"]
           exclude: [] # optional, default is no exclusions
       parameters:
+        mode: allowlist
         asset_types:
           - "cloudresourcemanager.googleapis.com/Project"
         field_name: "labels.billing_id"
@@ -41,6 +42,7 @@ list:
           target: ["organization/*"]
           exclude: [] # optional, default is no exclusions
       parameters:
+        mode: allowlist
         asset_types:
           - "cloudresourcemanager.googleapis.com/Project"
           - "compute.googleapis.com/Instance"
@@ -59,8 +61,63 @@ list:
           target: ["organization/*"]
           exclude: [] # optional, default is no exclusions
       parameters:
+        mode: allowlist
         asset_types:
           - "cloudresourcemanager.googleapis.com/Project"
         field_name: "labels.billing_id"
         required: true
 
+  - apiVersion: constraints.gatekeeper.sh/v1alpha1
+    kind: GCPResourceValuePatternConstraintV1
+    metadata:
+      name: required_billing_id_on_project_denylist
+    spec:
+      severity: high
+      match:
+        gcp:
+          target: ["organization/*"]
+          exclude: [] # optional, default is no exclusions
+      parameters:
+        mode: denylist
+        asset_types:
+          - "cloudresourcemanager.googleapis.com/Project"
+        field_name: "labels.billing_id"
+        pattern: "^\\d{4}$"
+        required: true
+
+  - apiVersion: constraints.gatekeeper.sh/v1alpha1
+    kind: GCPResourceValuePatternConstraintV1
+    metadata:
+      name: optional_billing_id_on_multiple_assets_denylist
+    spec:
+      severity: high
+      match:
+        gcp:
+          target: ["organization/*"]
+          exclude: [] # optional, default is no exclusions
+      parameters:
+        mode: denylist
+        asset_types:
+          - "cloudresourcemanager.googleapis.com/Project"
+          - "compute.googleapis.com/Instance"
+        field_name: "labels.billing_id"
+        required: false
+        pattern: "^\\d{4}$"
+
+  - apiVersion: constraints.gatekeeper.sh/v1alpha1
+    kind: GCPResourceValuePatternConstraintV1
+    metadata:
+      name: required_billing_id_no_pattern_denylist
+    spec:
+      severity: high
+      match:
+        gcp:
+          target: ["organization/*"]
+          exclude: [] # optional, default is no exclusions
+      parameters:
+        mode: denylist
+        asset_types:
+          - "cloudresourcemanager.googleapis.com/Project"
+        field_name: "labels.billing_id"
+        required: true
+        

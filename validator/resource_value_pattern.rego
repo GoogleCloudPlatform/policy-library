@@ -1,5 +1,5 @@
 #
-# Copyright 2018 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ deny[{
 	asset.asset_type = params.asset_types[_]
 
 	field_name := params.field_name
+	mode := lib.get_default(params, "mode", "allowlist")
 
 	rule_data := {
 		"is_required": lib.get_default(params, "required", true),
@@ -45,59 +46,97 @@ deny[{
 		"value": get_default_by_path(asset.resource.data, field_name, ""),
 	}
 
-	not is_valid(rule_data)
+	is_not_valid(mode, rule_data)
 
-	message := sprintf("%v does not have a valid field named '%v' with a value '%v' matching pattern '%v'.", [
+	message := sprintf("%v has %v violation for field named '%v' with a value '%v' matching pattern '%v'.", [
 		asset.name,
+		mode,
 		field_name,
 		rule_data.value,
 		rule_data.pattern,
 	])
 
-	metadata := {"resource": asset.name}
+	metadata := {
+		"resource": asset.name,
+		"mode": mode,
+	}
 }
 
 ###########################
 # Rule Utilities
 ###########################
 
-is_valid({
-	"is_required": is_required,
-	"has_field": has_field,
-	"has_pattern": has_pattern,
-	"pattern": pattern,
-	"value": field_value,
-}) {
-	is_required_field_valid(is_required, has_field)
-	is_pattern_valid(has_field, has_pattern, pattern, field_value)
+# is_not_valid evaluates to true if mode is allowlist and:
+# required = true; field_name exists in resource; pattern is NOT found
+# required = true; field_name does NOT exist in resource
+# required = false; field_name exists in resource; pattern is NOT found
+
+is_not_valid(mode, rule_data) {
+	mode == "allowlist"
+	allowlist_violation(rule_data)
 }
 
-is_required_field_valid(is_required, has_field) {
-	has_field == true
+# is_not_valid evaluates to true if mode is denylist and:
+# required = true; field_name exists in resource; pattern is found
+# required = true; field_name does NOT exist in resource
+# required = false; field_name exists in resource; pattern is found
+
+is_not_valid(mode, rule_data) {
+	mode == "denylist"
+	denylist_violation(rule_data)
 }
 
-is_required_field_valid(is_required, has_field) {
-	is_required == false
-	has_field == false
+denylist_violation(rule_data) {
+	is_required_field_valid(rule_data)
+	is_denylist_pattern_valid(rule_data)
 }
 
-is_pattern_valid(has_field, has_pattern, pattern, value) {
-	has_pattern == false
+denylist_violation(rule_data) {
+	not is_required_field_valid(rule_data)
 }
 
-is_pattern_valid(has_field, has_pattern, pattern, value) {
-	has_field == false
+is_required_field_valid(rule_data) {
+	rule_data.has_field == true
 }
 
-is_pattern_valid(has_field, has_pattern, pattern, value) {
-	has_pattern == true
-	has_field == true
-	re_match(pattern, value)
+is_required_field_valid(rule_data) {
+	rule_data.is_required == false
+	rule_data.has_field == false
 }
 
-###
+is_denylist_pattern_valid(rule_data) {
+	rule_data.has_pattern == true
+	rule_data.has_field == true
+	re_match(rule_data.pattern, rule_data.value)
+}
+
+allowlist_violation(rule_data) {
+	is_required_field_valid(rule_data)
+	not is_allowlist_pattern_valid(rule_data)
+}
+
+allowlist_violation(rule_data) {
+	not is_required_field_valid(rule_data)
+}
+
+is_allowlist_pattern_valid(rule_data) {
+	rule_data.has_pattern == false
+}
+
+is_allowlist_pattern_valid(rule_data) {
+	rule_data.has_field == false
+}
+
+is_allowlist_pattern_valid(rule_data) {
+	rule_data.has_pattern == true
+	rule_data.has_field == true
+	re_match(rule_data.pattern, rule_data.value)
+}
+
+###########################
 # Rule Library Functions
-###
+###########################
+
 get_field_by_path(obj, path) = output {
 	split(path, ".", path_parts)
 	walk(obj, [path_parts, output])
