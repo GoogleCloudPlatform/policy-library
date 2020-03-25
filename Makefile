@@ -43,7 +43,7 @@ check_sample_files: ## Make sure each template in policies/templates has one sam
 
 .PHONY: check_format
 check_format: ## Check that files have been formatted using opa fmt
-	@test $$(opa fmt -l lib/ validator/ | wc -l) -eq '0'
+	@./scripts/check_format.sh
 
 .PHONY: audit
 audit: ## Run audit against real CAI dump data
