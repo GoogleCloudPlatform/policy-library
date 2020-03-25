@@ -23,7 +23,6 @@ spec:
     spec:
       names:
         kind: GCPGKEAllowedNodeSAConstraintV1
-        plural: gcpgkeallowedodesaconstraintsv1
       validation:
         openAPIV3Schema:
           properties:

@@ -18,6 +18,8 @@ metadata:
   name: require_sql_ssl
   annotations:
     bundles.validator.forsetisecurity.org/scorecard-v1: security
+    # This constraint has not been validated by the formal CIS certification process.
+    bundles.validator.forsetisecurity.org/cis-v1.1: 6.01
 spec:
   severity: high
   parameters: {}

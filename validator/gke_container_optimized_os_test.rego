@@ -18,7 +18,7 @@ package templates.gcp.GCPGKEContainerOptimizedOSConstraintV1
 
 import data.validator.gcp.lib as lib
 
-all_violations[violation] {
+cos_violations[violation] {
 	resource := data.test.fixtures.gke_container_optimized_os.assets[_]
 	constraint := data.test.fixtures.gke_container_optimized_os.constraints.gke_container_optimized_os
 
@@ -28,13 +28,35 @@ all_violations[violation] {
 	violation := issues[_]
 }
 
-test_nodepool_cos {
-	violation := all_violations[_]
-	resource_names := {x | x = violation.details.resource}
-	not resource_names["//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust"]
+cos_or_containerd_violations[violation] {
+	resource := data.test.fixtures.gke_container_optimized_os.assets[_]
+	constraint := data.test.fixtures.gke_container_optimized_os.constraints.gke_container_optimized_os_containerd
+
+	issues := deny with input.asset as resource
+		 with input.constraint as constraint
+
+	violation := issues[_]
 }
 
-test_nodepool_ubuntu {
-	violation := all_violations[_]
-	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2"
+# Tests that we can identify all clusters that are NOT using COS.
+test_nodepool_cos {
+	resource_names := {x | x = cos_violations[_].details.resource}
+
+	expected_resource_name := {
+		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2",
+		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/containerd",
+	}
+
+	trace(sprintf("Error: %s", [resource_names]))
+	resource_names == expected_resource_name
+}
+
+# Tests that we can identify all clusters that are NOT using COS or COS_CONTAINERD
+test_nodepool_cos_or_containerd {
+	resource_names := {x | x = cos_or_containerd_violations[_].details.resource}
+
+	expected_resource_name := {"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2"}
+
+	trace(sprintf("Error: %s", [resource_names]))
+	resource_names == expected_resource_name
 }

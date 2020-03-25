@@ -24,7 +24,6 @@ spec:
     spec:
       names:
         kind: GCPBigQueryCMEKEncryptionConstraintV1
-        plural: gcpbigquerycmekencryptionconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}

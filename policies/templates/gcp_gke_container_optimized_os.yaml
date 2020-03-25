@@ -24,10 +24,14 @@ spec:
     spec:
       names:
         kind: GCPGKEContainerOptimizedOSConstraintV1
-        plural: gcpgkecontaineroptimizedosconstraintsv1
       validation:
         openAPIV3Schema:
-          properties: {}
+          properties:
+            cos_containerd_allowed:
+              type: boolean
+              description: "If true, the constraint allows COS_CONTAINERD
+                as an acceptable Container Optimized OS image."
+
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/gke_container_optimized_os.rego")
@@ -58,11 +62,13 @@ spec:
             	constraint := input.constraint
             	asset := input.asset
             	asset.asset_type == "container.googleapis.com/Cluster"
+            	lib.get_constraint_params(constraint, params)
+            	containerd_allowed = lib.get_default(params, "cos_containerd_allowed", false)
             
             	cluster := asset.resource.data
             	node_pools := lib.get_default(cluster, "nodePools", [])
             	node_pool := node_pools[_]
-            	non_cos_image(node_pool)
+            	not cos_image(node_pool, containerd_allowed)
             
             	message := sprintf("Cluster %v has node pool %v without Container-Optimized OS.", [asset.name, node_pool.name])
             	metadata := {"resource": asset.name}
@@ -71,9 +77,16 @@ spec:
             ###########################
             # Rule Utilities
             ###########################
-            non_cos_image(node_pool) {
+            cos_image(node_pool, containerd_allowed) {
             	nodeConfig := lib.get_default(node_pool, "config", {})
             	imageType := lib.get_default(nodeConfig, "imageType", "")
-            	imageType != "COS"
+            	imageType == "COS"
+            }
+            
+            cos_image(node_pool, containerd_allowed) {
+            	containerd_allowed
+            	nodeConfig := lib.get_default(node_pool, "config", {})
+            	imageType := lib.get_default(nodeConfig, "imageType", "")
+            	imageType == "COS_CONTAINERD"
             }
             #ENDINLINE

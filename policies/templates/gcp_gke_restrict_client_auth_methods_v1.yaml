@@ -24,7 +24,6 @@ spec:
     spec:
       names:
         kind: GCPGKERestrictClientAuthenticationMethodsConstraintV1
-        plural: gcpgkerestrictclientauthenticationmethodsconstraintsV1
       validation:
         openAPIV3Schema:
           properties: {}
@@ -60,8 +59,9 @@ spec:
             	asset.asset_type == "container.googleapis.com/Cluster"
             	cluster := asset.resource.data
             	master_auth := lib.get_default(cluster, "masterAuth", {})
+            	cluster_version := lib.get_default(cluster, "currentMasterVersion", "")
             
-            	not check_all_disabled(master_auth)
+            	not check_all_disabled(master_auth, cluster_version)
             
             	message := sprintf("%v has client certificate or static password authentication enabled.", [asset.name])
             	metadata := {"resource": asset.name}
@@ -70,11 +70,20 @@ spec:
             ###########################
             # Rule Utilities
             ###########################
-            check_all_disabled(master_auth) {
+            check_all_disabled(master_auth, cluster_version) {
             	# For clusters before v1.12, if masterAuth is unspecified, username will 
             	# be set to "admin", a random password will be generated, and a client certificate 
             	# will be issued.
+            	re_match("1\\.(1)?[012]\\.", cluster_version)
             	master_auth != {}
+            	auth_with_client_cert_disabled(master_auth) == true
+            	auth_with_static_password_disabled(master_auth) == true
+            }
+            
+            check_all_disabled(master_auth, cluster_version) {
+            	# For clusters after v1.12, if masterAuth is unspecified, then we have safe defaults:
+            	# no username auth, no client cert. 
+            	not re_match("1\\.(1)?[012]\\.", cluster_version)
             	auth_with_client_cert_disabled(master_auth) == true
             	auth_with_static_password_disabled(master_auth) == true
             }

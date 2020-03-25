@@ -23,7 +23,6 @@ spec:
     spec:
       names:
         kind: GCPGKERestrictPodTrafficConstraintV1
-        plural: gcpgkerestrictpodtrafficconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}

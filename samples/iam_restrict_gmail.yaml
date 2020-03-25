@@ -1,0 +1,18 @@
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: GCPIAMAllowedBindingsConstraintV1
+metadata:
+  name: blacklist_gmail
+  annotations:
+    # This constraint is not certified by CIS.
+    bundles.validator.forsetisecurity.org/cis-v1.1: 1.01
+    description: Enforce corporate domain by banning gmail.com addresses
+spec:
+  severity: high
+  match:
+    target: ["organization/*"]
+    exclude: []
+  parameters:
+    mode: blacklist
+    role: roles/*
+    members:
+    - "user:*@gmail.com"
