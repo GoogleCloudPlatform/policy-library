@@ -32,7 +32,7 @@ spec:
               allow or deny. In the allow mode, only Cloud SQL instances
               with an instance type in the instance_types list will be allowed (the other ones will
               raise a violation). In the deny mode, the opposite is true. The default mode is deny."
-              default: "deny"
+#              default: "deny"
             sql_instance_types:
               type: array
               items: string
