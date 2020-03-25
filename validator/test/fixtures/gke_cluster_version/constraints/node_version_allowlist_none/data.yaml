@@ -20,6 +20,6 @@ spec:
   severity: high
   parameters:
     mode: "allowlist"
-    version_type: "currentNodeVersion"
+    version_type: "node"
     versions: []
     exemptions: []

@@ -20,6 +20,6 @@ spec:
   severity: high
   parameters:
     mode: "allowlist"
-    version_type: "currentMasterVersion"
+    version_type: "master"
     versions: []
     exemptions: []

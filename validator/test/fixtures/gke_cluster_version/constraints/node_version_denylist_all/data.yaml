@@ -20,7 +20,7 @@ spec:
   severity: high
   parameters:
     mode: "denylist"
-    version_type: "currentNodeVersion"
+    version_type: "node"
     versions:
       - 1.4.6
       - 1.4.5

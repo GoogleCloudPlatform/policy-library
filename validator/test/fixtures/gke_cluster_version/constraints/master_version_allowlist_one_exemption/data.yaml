@@ -20,7 +20,7 @@ spec:
   severity: high
   parameters:
     mode: "allowlist"
-    version_type: "currentMasterVersion"
+    version_type: "master"
     versions:
       - 1.12.10-gke.17
     exemptions:

@@ -27,12 +27,15 @@ deny[{
 	asset := input.asset
 	asset.asset_type == "container.googleapis.com/Cluster"
 
+	mode := lib.get_default(params, "mode", "allowlist")
+
 	# Check if resource is in exempt list
 	exempt_list := lib.get_default(params, "exemptions", [])
 	not is_exempt(exempt_list, asset.name)
 
 	# Get the version value in the asset
-	target_version_type := params.version_type
+	params_version_type := lib.get_default(params, "version_type", "master")
+	target_version_type := get_version_type(params_version_type)
 	target_version := get_target_value(asset.resource.data, target_version_type)
 
 	# Check that version is in allowlist/denylist
@@ -41,13 +44,23 @@ deny[{
 	desired_count := target_version_match_count(params.mode)
 	count(version_matches) == desired_count
 
-	message := sprintf("Cluster %v has a disallowed %v field", [asset.name, params.version_type])
+	message := sprintf("Cluster %v has a disallowed %v field", [asset.name, target_version_type])
 	metadata := {"resource": asset.name}
 }
 
 ###########################
 # Rule Utilities
 ###########################
+
+get_version_type(version_type) = target_version {
+	version_type == "master"
+	target_version := "currentMasterVersion"
+}
+
+get_version_type(version_type) = target_version {
+	version_type == "node"
+	target_version := "currentNodeVersion"
+}
 
 is_exempt(exempt_list, asset_name) {
 	exempt_list != []
