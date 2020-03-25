@@ -35,11 +35,13 @@ spec:
             # more information.
             member_type_whitelist:
               type: array
-              items: string
+              items:
+                type: string
             # Array of domains to whitelist.
             domains:
               type: array
-              items: string
+              items:
+                type: string
             # Whether or not to allow subdomains. If true, all subdomains of whitelisted
             # domains are whitelisted as well.
             # For example, whitelisting "example.com" will cause IAM policy

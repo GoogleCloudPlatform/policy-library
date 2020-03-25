@@ -28,7 +28,8 @@ spec:
             required_services:
               description: "Required services type URIs"
               type: array
-              items: string
+              items:
+                type: string
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/vpc_sc_ensure_services.rego")

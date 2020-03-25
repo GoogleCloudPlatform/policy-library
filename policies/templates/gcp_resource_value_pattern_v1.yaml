@@ -36,7 +36,8 @@ spec:
               Defaults to allowlist."
             asset_types:
               type: array
-              items: string
+              items:
+                type: string
               description: "List of Google CAI asset types to apply this constraint to.
               E.g. 'cloudresourcemanager.googleapis.com/Project'
               E.g. 'compute.googleapis.com/Instance"

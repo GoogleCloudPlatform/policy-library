@@ -31,7 +31,8 @@ spec:
           properties:
             locations:
               type: array
-              items: string
+              items:
+                type: string
               description: "List of GCP regions (or region patterns) for
               Appengine applications locations (i.e 'asia*', 'europe-west2' etc.)."
   targets:

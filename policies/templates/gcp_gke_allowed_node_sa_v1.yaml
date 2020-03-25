@@ -30,7 +30,8 @@ spec:
             # https://cloud.google.com/compute/docs/access/service-accounts#accesscopesiam
             oauth_scopes:
               type: array
-              items: string
+              items:
+                type: string
               description: The list of OAuth scopes that can be assigned to the node service 
                 account. "https://www.googleapis.com/auth/monitoring" is an example scope. By
                 default, without providing any values, we will check against the list of service

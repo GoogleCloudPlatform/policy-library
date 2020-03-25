@@ -22,7 +22,6 @@ apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
   name: gcp-compute-zone-v1
-  annoations:
 spec:
   crd:
     spec:
@@ -39,12 +38,14 @@ spec:
               are allowed in all zones except those listed in the 'zones' parameter."
             exemptions:
               type: array
-              items: string
+              items:
+                type: string
               description: "Array of compute assets to exempt from zonal restriction. String values in the array should 
               correspond to the full name values of exempted devices."
             zones:
               type: array
-              items: string
+              items:
+                type: string
               description: "Array of zone names to be allowed or denied. Should be the simple form of the zone name, 
               e.g. asia-east1-b."
   targets:
