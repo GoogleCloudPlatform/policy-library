@@ -16,11 +16,11 @@
 
 package templates.gcp.GCPIAMRequiredBindingsConstraintV1
 
-template_name := "GCPIAMRequiredBindingsConstraintV1"
-
-import data.validator.test_utils as test_utils
 import data.test.fixtures.iam_required_bindings.assets as fixture_assets
 import data.test.fixtures.iam_required_bindings.constraints as fixture_constraints
+import data.validator.test_utils as test_utils
+
+template_name := "GCPIAMRequiredBindingsConstraintV1"
 
 # Find all violations on our test cases
 find_violations[violation] {
