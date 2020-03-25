@@ -22,19 +22,6 @@ import data.validator.test_utils as test_utils
 
 template_name := "GCPIAMRequiredBindingsConstraintV1"
 
-# Find all violations on our test cases
-find_violations[violation] {
-	asset := fixture_assets[_]
-	constraint := data.test_constraints[_]
-
-	issues := deny with input.asset as asset
-		 with input.constraint as constraint
-
-	total_issues := count(issues)
-
-	violation := issues[_]
-}
-
 # Test that a required domain is absent in data
 require_role_domain_violations := test_utils.get_test_violations(fixture_assets, [fixture_constraints.iam_required_bindings_role_domain], template_name)
 
