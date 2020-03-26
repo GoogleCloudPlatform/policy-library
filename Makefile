@@ -72,7 +72,7 @@ check_format: ## Check that files have been formatted using opa fmt
 docker_check_format: ## Check format of rego using OPA docker image
 	docker run -it --rm \
 		-v $(CURDIR):/workspace \
-		$(OPA_IMAGE_URL)/$(OPA_IMAGE):$(OPA_IMAGE_TAG) \
+		$(OPA_IMAGE_URL)/$(OPA_IMAGE):$(OPA_IMAGE_TAG_V15) \
 		fmt /workspace/lib/ /workspace/validator/
 
 .PHONY: audit
