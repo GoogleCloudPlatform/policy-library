@@ -15,12 +15,23 @@
 # Make will use bash instead of sh
 SHELL := /usr/bin/env bash
 
+OPA_IMAGE := opa
+OPA_IMAGE_TAG := 0.16.2
+OPA_IMAGE_URL := openpolicyagent
+
 # The .PHONY directive tells make that this isn't a real target and so
 # the presence of a file with that name won't cause this target to stop
 .PHONY: test
 test: ## Test constraint templates via OPA
 	@echo "Running OPA tests..."
 	@opa test --timeout 30s -v lib/ validator/ --explain=notes
+
+.PHONY: docker_test
+docker_test: ## Run tests using OPA docker image
+	docker run -it --rm \
+		-v $(CURDIR):/workspace \
+		$(OPA_IMAGE_URL)/$(OPA_IMAGE):$(OPA_IMAGE_TAG) \
+		test --timeout 30s -v /workspace/lib/ /workspace/validator/ --explain=notes
 
 .PHONY: debug
 debug: ## Show debugging output from OPA
@@ -44,6 +55,13 @@ check_sample_files: ## Make sure each template in policies/templates has one sam
 .PHONY: check_format
 check_format: ## Check that files have been formatted using opa fmt
 	@./scripts/check_format.sh
+
+.PHONY: docker_check_format
+docker_check_format: ## Check format of rego using OPA docker image
+	docker run -it --rm \
+		-v $(CURDIR):/workspace \
+		$(OPA_IMAGE_URL)/$(OPA_IMAGE):$(OPA_IMAGE_TAG) \
+		fmt /workspace/lib/ /workspace/validator/
 
 .PHONY: audit
 audit: ## Run audit against real CAI dump data
