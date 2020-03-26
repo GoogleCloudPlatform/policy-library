@@ -44,9 +44,9 @@ test_whitelist_role_domain_violation_count {
 }
 
 test_whitelist_role_domain_violations {
-    violations := test_utils.get_test_violations(fixture_assets, [fixture_constraints.iam_allowed_bindings_whitelist_role_domain], template_name)
-    violation := violations[_]
-    violation.details.role == "roles/owner"
+	violations := test_utils.get_test_violations(fixture_assets, [fixture_constraints.iam_allowed_bindings_whitelist_role_domain], template_name)
+	violation := violations[_]
+  violation.details.role == "roles/owner"
 	violation.details.member == "user:evil@notgoogle.com"
 }
 
@@ -61,7 +61,7 @@ test_restrict_gmail_bigquery_dataset_violations_count {
 }
 
 test_restrict_gmail_bigquery_dataset_resources {
-	resource_names := {"//bigquery.googleapis.com/projects/12345/datasets/testdataset1", "//bigquery.googleapis.com/projects/12345/datasets/testdataset1"}
+	resource_names := {"//bigquery.googleapis.com/projects/12345/datasets/testdataset1"}
 	test_utils.check_test_violations_resources(fixture_assets, [fixture_constraints.iam_allowed_bindings_blacklist_gmail_bigquery_dataset], template_name, resource_names)
 }
 
@@ -71,6 +71,6 @@ test_restrict_googlegroups_bigquery_dataset_violations_count {
 }
 
 test_restrict_googlegroups_bigquery_dataset_resources {
-	resource_names := {"//bigquery.googleapis.com/projects/12345/datasets/testdataset2", "//bigquery.googleapis.com/projects/12345/datasets/testdataset2"}
+	resource_names := {"//bigquery.googleapis.com/projects/12345/datasets/testdataset2"}
 	test_utils.check_test_violations_resources(fixture_assets, [fixture_constraints.iam_allowed_bindings_blacklist_googlegroups_bigquery_dataset], template_name, resource_names)
 }
