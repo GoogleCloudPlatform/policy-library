@@ -16,7 +16,8 @@
 SHELL := /usr/bin/env bash
 
 OPA_IMAGE := opa
-OPA_IMAGE_TAG := 0.16.2
+OPA_IMAGE_TAG_V15 := 0.15.1
+OPA_IMAGE_TAG_V16 := 0.16.2
 OPA_IMAGE_URL := openpolicyagent
 
 # The .PHONY directive tells make that this isn't a real target and so
@@ -26,12 +27,23 @@ test: ## Test constraint templates via OPA
 	@echo "Running OPA tests..."
 	@opa test --timeout 30s -v lib/ validator/ --explain=notes
 
-.PHONY: docker_test
-docker_test: ## Run tests using OPA docker image
+.PHONY: docker_test_opa_v15
+docker_test_opa_v15: ## Run tests using OPA docker image v0.15.x
 	docker run -it --rm \
 		-v $(CURDIR):/workspace \
-		$(OPA_IMAGE_URL)/$(OPA_IMAGE):$(OPA_IMAGE_TAG) \
+		$(OPA_IMAGE_URL)/$(OPA_IMAGE):$(OPA_IMAGE_TAG_V15) \
 		test --timeout 30s -v /workspace/lib/ /workspace/validator/ --explain=notes
+
+.PHONY: docker_test_opa_v16
+docker_test_opa_v16: ## Run tests using OPA docker image v0.16.x
+	docker run -it --rm \
+		-v $(CURDIR):/workspace \
+		$(OPA_IMAGE_URL)/$(OPA_IMAGE):$(OPA_IMAGE_TAG_V16) \
+		test --timeout 30s -v /workspace/lib/ /workspace/validator/ --explain=notes
+
+# Run tests using OPA docker image
+.PHONY: docker_test
+docker_test: docker_test_opa_v15 docker_test_opa_v16
 
 .PHONY: debug
 debug: ## Show debugging output from OPA
