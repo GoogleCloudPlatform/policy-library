@@ -29,12 +29,12 @@ test_blacklist_project_violation_count {
 }
 
 # Test blacklist public
-test_blacklist_role_violation_count {
+test_blacklist_public_violation_count {
 	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.iam_allowed_bindings_blacklist_public], template_name, 2)
 }
 
 # Test blacklist role
-test_blacklist_project_violation_count {
+test_blacklist_role_violation_count {
 	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.iam_allowed_bindings_blacklist_role], template_name, 2)
 }
 

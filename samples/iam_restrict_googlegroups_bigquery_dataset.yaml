@@ -15,7 +15,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPIAMAllowedBindingsConstraintV1
 metadata:
-  name: blacklist_googlegroups_bigquery_dataset
+  name: blacklist-googlegroups-bigquery-dataset
   annotations:
     description: Enforce corporate domain by banning googlegroups.com addresses access to BigQuery datasets
     bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
