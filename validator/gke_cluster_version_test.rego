@@ -191,3 +191,60 @@ test_gke_cluster_denylist_all_node_version {
 test_gke_cluster_allowlist_all_node_version {
 	test_utils.check_test_violations_count(fixture_assets, [node_version_allowlist_all], template_name, 0)
 }
+
+# Test glob functionality
+test_glob_functionality_all_projects_zones_clusters {
+	asset_name := "//container.googleapis.com/projects/cicd-staging/zones/us-west1-a/clusters/redditmobile-staging"
+	exempt_list := {"//container.googleapis.com/projects/*/zones/*/clusters/*"}
+
+	is_exempt(exempt_list, asset_name)
+}
+
+test_glob_functionality_all_projects_zones_clusters_super_glob {
+	asset_name := "//container.googleapis.com/projects/cicd-staging/zones/us-west1-a/clusters/redditmobile-staging"
+	exempt_list := {"//container.googleapis.com/projects/**"}
+
+	is_exempt(exempt_list, asset_name)
+}
+
+test_glob_functionality_one_char {
+	asset_name := "//container.googleapis.com/projects/cicd-staging/zones/us-west1-a/clusters/redditmobile-staging"
+	exempt_list := {"//container.googleapis.com/projects/*/zones/us-west1-?/clusters/*"}
+
+	is_exempt(exempt_list, asset_name)
+}
+
+test_glob_functionality_char_range {
+	asset_name := "//container.googleapis.com/projects/cicd-staging/zones/us-west1-a/clusters/redditmobile-staging"
+	exempt_list := {"//container.googleapis.com/projects/*/zones/us-west1-[a-c]/clusters/*"}
+
+	is_exempt(exempt_list, asset_name)
+}
+
+test_glob_functionality_char_range_not {
+	asset_name := "//container.googleapis.com/projects/cicd-staging/zones/us-west1-a/clusters/redditmobile-staging"
+	exempt_list := {"//container.googleapis.com/projects/*/zones/us-west1-[!a-c]/clusters/*"}
+
+	not is_exempt(exempt_list, asset_name)
+}
+
+test_glob_functionality_all_projects_wrong_zone {
+	asset_name := "//container.googleapis.com/projects/cicd-staging/zones/us-west1-a/clusters/redditmobile-staging"
+	exempt_list := {"//container.googleapis.com/projects/*/zones/us-west1-b/clusters/*"}
+
+	not is_exempt(exempt_list, asset_name)
+}
+
+test_glob_functionality_wrong_cluster {
+	asset_name := "//container.googleapis.com/projects/cicd-staging/zones/us-west1-a/clusters/redditmobile-staging"
+	exempt_list := {"//container.googleapis.com/projects/*/zones/*/clusters/exempt-cluster"}
+
+	not is_exempt(exempt_list, asset_name)
+}
+
+test_glob_functionality_all_projects_no_delimiter {
+	asset_name := "//container.googleapis.com/projects/cicd-staging/zones/us-west1-a/clusters/redditmobile-staging"
+	exempt_list := {"//container.googleapis.com/projects/*"}
+
+	not is_exempt(exempt_list, asset_name)
+}

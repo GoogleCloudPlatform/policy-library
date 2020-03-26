@@ -71,7 +71,7 @@ get_target_value(data_resource, field_name) = output {
 	output := lib.get_default(data_resource, field_name, "")
 }
 
-# Determine the overlap between locations under test and constraint
+# Determine the overlap between versions under test and constraint
 # By default (allowlist), we violate if there isn't overlap.
 target_version_match_count(mode) = 0 {
 	mode != "denylist"

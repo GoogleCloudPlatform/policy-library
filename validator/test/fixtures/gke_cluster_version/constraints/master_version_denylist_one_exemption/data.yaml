@@ -24,4 +24,4 @@ spec:
     versions:
       - 1.12.10-gke.17
     exemptions:
-      - //container.googleapis.com/projects/cicd-staging/zones/us-west1-a/clusters/redditmobile-staging
+      - //container.googleapis.com/projects/cicd-staging/zones/us-west1-a/clusters/*

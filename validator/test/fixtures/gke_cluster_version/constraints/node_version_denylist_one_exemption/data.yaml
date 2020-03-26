@@ -25,4 +25,4 @@ spec:
       - 1.4.5
       - 1.4.4
     exemptions:
-      - //container.googleapis.com/projects/cicd-prod/zones/us-west1-a/clusters/redditmobile-canary-west
+      - //container.googleapis.com/projects/cicd-prod/zones/us-west1-a/clusters/*
