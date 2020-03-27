@@ -40,6 +40,7 @@ test_cmek_rotation_violations_one_hundred_days_resources {
 		"//cloudkms.googleapis.com/projects/test-project/locations/us-central1/keyRings/test-key-ring/cryptoKeys/rotation-365-days",
 		"//cloudkms.googleapis.com/projects/test-project/locations/us-central1/keyRings/test-key-ring/cryptoKeys/rotation-400-days",
 	}
+
 	test_utils.check_test_violations_resources(fixture_assets, [data.test.fixtures.cmek_rotation.constraints.one_hundred_days], template_name, expected_resource_names)
 }
 
