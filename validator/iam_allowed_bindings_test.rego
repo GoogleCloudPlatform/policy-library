@@ -16,70 +16,61 @@
 
 package templates.gcp.GCPIAMAllowedBindingsConstraintV1
 
+template_name := "GCPIAMAllowedBindingsConstraintV1"
+
+import data.validator.test_utils as test_utils
+
 import data.test.fixtures.iam_allowed_bindings.assets as fixture_assets
 import data.test.fixtures.iam_allowed_bindings.constraints as fixture_constraints
 
-# Find all violations on our test cases
-find_violations[violation] {
-	asset := fixture_assets[_]
-	constraint := data.test_constraints[_]
-
-	issues := deny with input.asset as asset
-		 with input.constraint as constraint
-
-	total_issues := count(issues)
-
-	violation := issues[_]
+# Test blacklist project
+test_blacklist_project_violation_count {
+	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.iam_allowed_bindings_blacklist_project], template_name, 1)
 }
 
-blacklist_role_violations[violation] {
-	constraints := [fixture_constraints.iam_allowed_bindings_blacklist_role]
-
-	found_violations := find_violations with data.test_constraints as constraints
-
-	violation := found_violations[_]
+# Test blacklist public
+test_blacklist_public_violation_count {
+	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.iam_allowed_bindings_blacklist_public], template_name, 2)
 }
 
-test_blacklist_role_violations {
-	count(blacklist_role_violations) = 2
+# Test blacklist role
+test_blacklist_role_violation_count {
+	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.iam_allowed_bindings_blacklist_role], template_name, 2)
 }
 
-whitelist_role_domain_violations[violation] {
-	constraints := [fixture_constraints.iam_allowed_bindings_whitelist_role_domain]
-
-	found_violations := find_violations with data.test_constraints as constraints
-
-	violation := found_violations[_]
+# Test whitelist role domain
+test_whitelist_role_domain_violation_count {
+	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.iam_allowed_bindings_whitelist_role_domain], template_name, 1)
 }
 
 test_whitelist_role_domain_violations {
-	count(whitelist_role_domain_violations) = 1
-	violation := whitelist_role_domain_violations[_]
+	violations := test_utils.get_test_violations(fixture_assets, [fixture_constraints.iam_allowed_bindings_whitelist_role_domain], template_name)
+	violation := violations[_]
 	violation.details.role == "roles/owner"
 	violation.details.member == "user:evil@notgoogle.com"
 }
 
-blacklist_public_violations[violation] {
-	constraints := [fixture_constraints.iam_allowed_bindings_blacklist_public]
-
-	found_violations := find_violations with data.test_constraints as constraints
-
-	violation := found_violations[_]
+# Test whitelist role members (no violations)
+test_whitelist_role_violation_count {
+	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.iam_allowed_bindings_whitelist_role_members], template_name, 0)
 }
 
-test_blacklist_public_violations {
-	count(blacklist_public_violations) = 2
+# Test blacklist to BigQuery dataset for gmail.com addresses
+test_restrict_gmail_bigquery_dataset_violations_count {
+	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.iam_allowed_bindings_blacklist_gmail_bigquery_dataset], template_name, 2)
 }
 
-# Try a constraint which shouldn't trigger any violations
-whitelist_role_no_violations[violation] {
-	constraints := [fixture_constraints.iam_allowed_bindings_whitelist_role_members]
-
-	found_violations := find_violations with data.test_constraints as constraints
-
-	violation := found_violations[_]
+test_restrict_gmail_bigquery_dataset_resources {
+	resource_names := {"//bigquery.googleapis.com/projects/12345/datasets/testdataset1"}
+	test_utils.check_test_violations_resources(fixture_assets, [fixture_constraints.iam_allowed_bindings_blacklist_gmail_bigquery_dataset], template_name, resource_names)
 }
 
-test_whitelist_role_no_violations {
-	count(whitelist_role_no_violations) = 0
+# Test blacklist to BigQuery dataset for googlegroups.com addresses
+test_restrict_googlegroups_bigquery_dataset_violations_count {
+	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.iam_allowed_bindings_blacklist_googlegroups_bigquery_dataset], template_name, 2)
+}
+
+test_restrict_googlegroups_bigquery_dataset_resources {
+	resource_names := {"//bigquery.googleapis.com/projects/12345/datasets/testdataset2"}
+	test_utils.check_test_violations_resources(fixture_assets, [fixture_constraints.iam_allowed_bindings_blacklist_googlegroups_bigquery_dataset], template_name, resource_names)
 }

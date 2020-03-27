@@ -21,7 +21,6 @@ spec:
     spec:
       names:
         kind: GCPSQLPublicIpConstraintV1
-        plural: gcpsqlpublicipconstraintsv1
       validation:
         openAPIV3Schema:
           properties: {}
