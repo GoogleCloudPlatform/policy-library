@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPNetworkRestrictDefaultConstraintV1
+package templates.gcp.GCPNetworkRestrictDefaultV1
 
 import data.validator.gcp.lib as lib
 
