@@ -15,12 +15,53 @@
 # Make will use bash instead of sh
 SHELL := /usr/bin/env bash
 
+CV_IMAGE_URL := gcr.io/config-validator
+
+POLICY_TOOL_IMAGE := policy-tool
+POLICY_TOOL_IMAGE_TAG := latest
+
+REGO_IMAGE_V15 := rego-v0.15.0
+REGO_IMAGE_V16 := rego-v0.16.0
+REGO_IMAGE_TAG := latest
+
+
 # The .PHONY directive tells make that this isn't a real target and so
 # the presence of a file with that name won't cause this target to stop
 .PHONY: test
 test: ## Test constraint templates via OPA
 	@echo "Running OPA tests..."
 	@opa test --timeout 30s -v lib/ validator/ --explain=notes
+
+.PHONY: docker_test_opa_v15
+docker_test_opa_v15: ## Run tests using CV rego docker image v0.15.x
+	docker run -it --rm \
+  	-v "$(CURDIR):/workspace" \
+  	-w=/workspace \
+		$(CV_IMAGE_URL)/$(REGO_IMAGE_V15):$(REGO_IMAGE_TAG) \
+		test
+
+.PHONY: docker_test_opa_v16
+docker_test_opa_v16: ## Run tests using CV rego docker image v0.16.x
+	docker run -it --rm \
+  	-v "$(CURDIR):/workspace" \
+  	-w=/workspace \
+		$(CV_IMAGE_URL)/$(REGO_IMAGE_V16):$(REGO_IMAGE_TAG) \
+		test
+
+# Run tests using CV rego docker image
+.PHONY: docker_test
+docker_test: docker_test_opa_v15 docker_test_opa_v16
+
+.PHONY: docker_test_lint
+docker_test_lint: # Run lint tests using policy tool docker image
+	docker run -it --rm \
+  	-v "$(CURDIR):/workspace" \
+  	-w=/workspace \
+		$(CV_IMAGE_URL)/$(POLICY_TOOL_IMAGE):$(POLICY_TOOL_IMAGE_TAG) \
+		lint \
+		--policies /workspace/policies \
+		--policies /workspace/samples \
+		--libs /workspace/lib
 
 .PHONY: debug
 debug: ## Show debugging output from OPA
@@ -41,9 +82,26 @@ build: format build_templates ## Format and build
 check_sample_files: ## Make sure each template in policies/templates has one sample file using it in samples/
 	@python3 scripts/check_samples.py
 
+.PHONY: check_sample_files
+docker_check_sample_files: ## Make sure each template in policies/templates has one sample file using it in samples/
+	docker run -it --rm \
+  	-v "$(CURDIR):/workspace" \
+  	-w=/workspace \
+		--entrypoint python3 \
+		$(CV_IMAGE_URL)/$(REGO_IMAGE_V15):$(REGO_IMAGE_TAG) \
+		/workspace/scripts/check_samples.py
+
 .PHONY: check_format
 check_format: ## Check that files have been formatted using opa fmt
 	@./scripts/check_format.sh
+
+.PHONY: docker_check_format
+docker_check_format: ## Check format of rego using CV rego docker image
+	docker run -it --rm \
+  	-v "$(CURDIR):/workspace" \
+  	-w=/workspace \
+		$(CV_IMAGE_URL)/$(REGO_IMAGE_V15):$(REGO_IMAGE_TAG) \
+		check_format
 
 .PHONY: audit
 audit: ## Run audit against real CAI dump data
