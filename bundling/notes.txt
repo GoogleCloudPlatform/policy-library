@@ -9,3 +9,7 @@ node dist/select_policies_run.js -d label_value=pink |
 kpt fn sink $CONFIGS
 
 kpt fn run $CONFIGS/ --image gcr.io/config-validator/select-policies:dev -- bundle=prod
+
+## Generate docs
+kpt fn source $CONFIGS |
+node func/dist/generate_docs_run.js -d sink_dir=docs/ -d overwrite=true

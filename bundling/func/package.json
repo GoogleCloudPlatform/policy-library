@@ -15,7 +15,10 @@
     "kpt:type-create": "kpt type-create"
   },
   "dependencies": {
-    "kpt-functions": "^0.12.0"
+    "@types/glob": "^7.1.1",
+    "glob": "^7.1.6",
+    "kpt-functions": "^0.12.0",
+    "markdown-table": "^2.0.0"
   },
   "devDependencies": {
     "create-kpt-functions": "^0.16.0",
