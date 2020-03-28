@@ -28,6 +28,8 @@ export const SOURCE_DIR = 'sink_dir';
 export const SINK_DIR = 'sink_dir';
 export const BUNDLE_DIR = 'bundles';
 export const OVERWRITE = 'overwrite';
+
+const CT_KIND = 'ConstraintTemplate';
 const SUPPORTED_API_VERSIONS = /^(constraints|templates).gatekeeper.sh\/v1(.+)$/g 
 
 export async function generateDocs(configs: Configs) {
@@ -41,28 +43,64 @@ export async function generateDocs(configs: Configs) {
     fs.mkdirSync(bundleDir, { recursive: true });
   }
 
-  // If bundle diretory is not empty, require 'overwrite' parameter to be set.
-  const docFiles = listDocFiles(bundleDir);
-  if (!overwrite && docFiles.length > 0) {
-    throw new Error(
-      `sink dir contains files and overwrite is not set to string 'true'.`
-    );
-  }
-
-  const filesToDelete = new Set(docFiles);
-
+  const fileWriter = new FileWriter(bundleDir, overwrite);
 
   // Build the policy library
   const library = new PolicyLibrary(configs.getAll());
 
+  // Document constraint templates
+  const templates = [["Template", "Description", "Samples"]];
+  library.getOfKind(CT_KIND).forEach((o) => {
+    const constraints = library.getOfKind(o.spec.crd.spec.names.kind);
+    templates.push([
+      `[${getName(o)}](${getPath(o)})`,
+      getDescription(o),
+      constraints.map((c) => `[${getName(c)}](${getPath(c)})`).join(', ')
+    ]);
+  });
+
+  const samples = [["Sample", "Template", "Description"]];
+  library.getAll().filter(o => {
+    return o.kind != CT_KIND;
+  }).forEach((o) => {
+    const name = `[${getName(o)}](${getPath(o)})`;
+    const description = getDescription(o);
+    const ct = library.getTemplate(o.kind);
+    const ctName = ct ? `[${getName(ct)}](${getPath(ct)})` : "";
+
+    samples.push([name, ctName, description]);
+  });
+
+  const templateDoc = `# Config Validator Constraint Templates
+
+Constraint templates specify the logic to be used by constraints.
+This repository contains pre-defined constraint templates that you can implement or modify for your own needs. 
+
+## Creating a constraint template
+You can create and implement your own custom constraint templates.
+For instructions on how to write constraint templates, see [How to write your own constraint templates](./constraint_template_authoring.md).
+
+## Available Templates
+
+${mdTable(templates)}
+
+## Sample Constraints
+
+The repo also contains a number of sample constraints:
+
+${mdTable(samples)}
+`;
+
+  const templateDocPath = path.join(sinkDir, "index.md");
+  fileWriter.write(templateDocPath, templateDoc);
+
+  // Document bundles
   library.bundles.forEach((bundle) => {
     const constraints = [["Constraint", "Control", "Description"]];
     bundle.getConfigs().forEach((o) => {
-      const name = `[${o.metadata.name}](${getPath(o)})`;
+      const name = `[${getName(o)}](${getPath(o)})`;
       const control = bundle.getControl(o);
       const description = getDescription(o);
-
-      // console.log("name", name);
     
       constraints.push([name, control, description]);
     });
@@ -77,24 +115,10 @@ ${mdTable(constraints)}
 
     const file = path.join(bundleDir, `${bundle.getKey()}.md`);
 
-    if (fs.existsSync(file)) {
-      filesToDelete.delete(file);
-      const currentContents = fs.readFileSync(file).toString();
-      if (contents == currentContents) {
-        // No changes to make.
-        return;
-      }
-    }
-
-    fs.writeFileSync(file, contents, 'utf8');
+    fileWriter.write(file, contents);
   });
 
-  // Delete files that are missing from the new docs.
-  // Other file types are ignored.
-  filesToDelete.forEach(file => {
-    fs.unlinkSync(file);
-  });
-
+  fileWriter.finish();
 
   // filter out non-policy objects
   configs.getAll().filter(o => {
@@ -107,9 +131,12 @@ ${mdTable(constraints)}
 
 class PolicyLibrary {
   bundles: map;
+  configs: KubernetesObject[];
 
   constructor(configs: KubernetesObject[]) {
       this.bundles = new Map();
+
+      this.configs = new Array(0;)
 
       configs.filter(o => {
         return isPolicyObject(o);
@@ -122,12 +149,34 @@ class PolicyLibrary {
           }
           const bundle = result[0];
           const control = annotations[annotation];
-          this.addPolicy(bundle, control, o);
+          this.bundlePolicy(bundle, control, o);
         });
+        this.configs.push(o);
       });
   }
 
-  addPolicy(bundleKey: string, control: string, policy: KubernetesObject) {
+  getAll(): KubernetesObject[] {
+    return this.configs;
+  }
+
+  getTemplates(): KubernetesObject[] {
+    return this.getOfKind(CT_KIND);
+  }
+
+  getTemplate(kind: string): KubernetesObject {
+    const matches = this.getTemplates().filter((o) => {
+      return o.spec.crd.spec.names.kind === kind;
+    });
+    return matches[0] || null;
+  }
+
+  getOfKind(kind: string): KubernetesObject[] {
+    return this.configs.filter((o) => {
+      return o.kind === kind;
+    });
+  }
+
+  bundlePolicy(bundleKey: string, control: string, policy: KubernetesObject) {
     let bundle = this.bundles.get(bundleKey);
     if (bundle === undefined) {
       bundle = new PolicyBundle(bundleKey);
@@ -176,19 +225,71 @@ function isPolicyObject(o: any): bool {
   );
 }
 
+function getName(o: KubernetesObject): string {
+  if (o.kind === CT_KIND) {
+    return o.spec.crd.spec.names.kind;
+  }
+  return o.metadata.name;
+}
+
 function getDescription(o: KubernetesObject): string {
   return getAnnotation(o, "description") || "";
 }
 
 function getPath(o: KubernetesObject): string {
-  return path.join("../../samples", getAnnotation(o, "config.kubernetes.io/path"));
+  let basePath = "../../samples";
+  if (o.kind === CT_KIND) {
+    basePath = "../../policies/";
+  }
+  return path.join(basePath, getAnnotation(o, "config.kubernetes.io/path"));
 }
 
-function listDocFiles(dir: string): string[] {
-  if (!existsSync(dir)) {
-    mkdirSync(dir, { recursive: true });
+
+
+class FileWriter {
+  filesToDelete: set;
+
+  constructor(bundleDir: string, overwrite: bool) {
+    // If bundle diretory is not empty, require 'overwrite' parameter to be set.
+    const docFiles = this.listDocFiles(bundleDir);
+    if (!overwrite && docFiles.length > 0) {
+      throw new Error(
+        `sink dir contains files and overwrite is not set to string 'true'.`
+      );
+    }
+
+    this.filesToDelete = new Set(docFiles);
   }
-  return glob.sync(dir + '/**/*.+(md)');
+
+  finish() {
+    // Delete files that are missing from the new docs.
+    // Other file types are ignored.
+    this.filesToDelete.forEach(file => {
+      fs.unlinkSync(file);
+    });
+  }
+
+  listDocFiles(dir: string): string[] {
+    if (!existsSync(dir)) {
+      mkdirSync(dir, { recursive: true });
+    }
+    return glob.sync(dir + '/**/*.+(md)');
+  }
+
+  write(file, contents) {
+    this.filesToDelete.delete(file);
+
+    if (fs.existsSync(file)) {
+      this.filesToDelete.delete(file);
+      const currentContents = fs.readFileSync(file).toString();
+      if (contents == currentContents) {
+        // No changes to make.
+        return;
+      }
+    }
+
+    fs.writeFileSync(file, contents, 'utf8');
+  }
 }
 
 generateDocs.usage = `

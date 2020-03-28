@@ -16,4 +16,5 @@
 | [enable_network_private_google_access](../../samples/network_enable_private_google_access.yaml)    | security               | Ensure Private Google Access is enabled for all subnetworks in VPC                |
 | [restrict-firewall-rule-ssh-world-open](../../samples/restrict_fw_rules_ssh_world_open.yaml)       | security               |                                                                                   |
 | [prevent-public-ip-cloudsql](../../samples/sql_public_ip.yaml)                                     | security               | Prevents a public IP from being assigned to a Cloud SQL instance.                 |
+| [blacklist_public_users](../../samples/storage_blacklist_public.yaml)                              | security               | Prevent public users from having access to resources via IAM                      |
 
