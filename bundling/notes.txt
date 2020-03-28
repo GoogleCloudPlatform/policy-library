@@ -1,4 +1,4 @@
-export CONFIGS=../policy
+export CONFIGS=./sample
 
 kpt fn source $CONFIGS |
 node dist/label_namespace_run.js -d label_name=color -d label_value=orange |
@@ -7,3 +7,5 @@ kpt fn sink $CONFIGS
 kpt fn source $CONFIGS |
 node dist/select_policies_run.js -d label_value=pink |
 kpt fn sink $CONFIGS
+
+kpt fn run $CONFIGS/ --image gcr.io/config-validator/select-policies:dev -- bundle=prod
