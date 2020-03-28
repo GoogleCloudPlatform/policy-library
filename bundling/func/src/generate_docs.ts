@@ -49,12 +49,11 @@ export async function generateDocs(configs: Configs) {
   const library = new PolicyLibrary(configs.getAll());
 
   // Document constraint templates
-  const templates = [["Template", "Description", "Samples"]];
+  const templates = [["Template", "Samples"]];
   library.getOfKind(CT_KIND).forEach((o) => {
     const constraints = library.getOfKind(o.spec.crd.spec.names.kind);
     templates.push([
       `[${getName(o)}](${getPath(o)})`,
-      getDescription(o),
       constraints.map((c) => `[${getName(c)}](${getPath(c)})`).join(', ')
     ]);
   });
