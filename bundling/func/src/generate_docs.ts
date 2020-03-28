@@ -65,7 +65,7 @@ export async function generateDocs(configs: Configs) {
     const name = `[${getName(o)}](${getPath(o)})`;
     const description = getDescription(o);
     const ct = library.getTemplate(o.kind);
-    const ctName = ct ? `[${getName(ct)}](${getPath(ct)})` : "";
+    const ctName = ct ? `[Link](${getPath(ct)})` : "";
 
     samples.push([name, ctName, description]);
   });
