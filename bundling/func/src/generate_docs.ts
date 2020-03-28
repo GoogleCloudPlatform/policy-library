@@ -97,7 +97,7 @@ ${mdTable(samples)}
   library.bundles.forEach((bundle) => {
     const constraints = [["Constraint", "Control", "Description"]];
     bundle.getConfigs().forEach((o) => {
-      const name = `[${getName(o)}](${getPath(o)})`;
+      const name = `[${getName(o)}](${getPath(o, "../../")})`;
       const control = bundle.getControl(o);
       const description = getDescription(o);
     
@@ -235,12 +235,15 @@ function getDescription(o: KubernetesObject): string {
   return getAnnotation(o, "description") || "";
 }
 
-function getPath(o: KubernetesObject): string {
-  let basePath = "../../samples";
-  if (o.kind === CT_KIND) {
-    basePath = "../../policies/";
+function getPath(o: KubernetesObject, root: string): string {
+  if (root === undefined) {
+    root = "../";
   }
-  return path.join(basePath, getAnnotation(o, "config.kubernetes.io/path"));
+  let targetPath = path.join(root, "samples");
+  if (o.kind === CT_KIND) {
+    targetPath = path.join(root, "policies");
+  }
+  return path.join(targetPath, getAnnotation(o, "config.kubernetes.io/path"));
 }
 
 

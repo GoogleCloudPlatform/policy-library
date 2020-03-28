@@ -102,7 +102,7 @@ ${mdTable(samples)}
         library.bundles.forEach((bundle) => {
             const constraints = [["Constraint", "Control", "Description"]];
             bundle.getConfigs().forEach((o) => {
-                const name = `[${getName(o)}](${getPath(o)})`;
+                const name = `[${getName(o)}](${getPath(o, "../../")})`;
                 const control = bundle.getControl(o);
                 const description = getDescription(o);
                 constraints.push([name, control, description]);
@@ -210,12 +210,15 @@ function getName(o) {
 function getDescription(o) {
     return kpt_functions_1.getAnnotation(o, "description") || "";
 }
-function getPath(o) {
-    let basePath = "../../samples";
-    if (o.kind === CT_KIND) {
-        basePath = "../../policies/";
+function getPath(o, root) {
+    if (root === undefined) {
+        root = "../";
     }
-    return path.join(basePath, kpt_functions_1.getAnnotation(o, "config.kubernetes.io/path"));
+    let targetPath = path.join(root, "samples");
+    if (o.kind === CT_KIND) {
+        targetPath = path.join(root, "policies");
+    }
+    return path.join(targetPath, kpt_functions_1.getAnnotation(o, "config.kubernetes.io/path"));
 }
 class FileWriter {
     constructor(bundleDir, overwrite) {
