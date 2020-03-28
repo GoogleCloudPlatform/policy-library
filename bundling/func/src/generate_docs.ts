@@ -17,16 +17,16 @@
 import * as fs from 'fs';
 import { existsSync, mkdirSync } from 'fs';
 import * as glob from 'glob';
-// import { safeDump } from 'js-yaml';
 import { Configs, getAnnotation } from 'kpt-functions';
 import * as path from 'path';
-// import { isNamespace, Namespace } from './gen/io.k8s.api.core.v1';
 import { BUNDLE_ANNOTATION_REGEX } from './common'
-import { Buffer } from 'buffer';
 import { KubernetesObject, KubernetesObjectError, getAnnotation } from 'kpt-functions';
 
 const mdTable = require('markdown-table');
+export const SOURCE_DIR = 'SOURCE_DIR';
+export const SOURCE_DIR = 'sink_dir';
 export const SINK_DIR = 'sink_dir';
+export const BUNDLE_DIR = 'bundles';
 export const OVERWRITE = 'overwrite';
 const SUPPORTED_API_VERSIONS = /^(constraints|templates).gatekeeper.sh\/v1(.+)$/g 
 
@@ -35,8 +35,14 @@ export async function generateDocs(configs: Configs) {
   const sinkDir = configs.getFunctionConfigValueOrThrow(SINK_DIR);
   const overwrite = configs.getFunctionConfigValue(OVERWRITE) === 'true';
 
-  // If sink diretory is not empty, require 'overwrite' parameter to be set.
-  const docFiles = listDocFiles(sinkDir);
+  // Ensure bundle directory exists
+  const bundleDir = path.join(sinkDir, BUNDLE_DIR);
+  if (!fs.existsSync(bundleDir)) {
+    fs.mkdirSync(bundleDir, { recursive: true });
+  }
+
+  // If bundle diretory is not empty, require 'overwrite' parameter to be set.
+  const docFiles = listDocFiles(bundleDir);
   if (!overwrite && docFiles.length > 0) {
     throw new Error(
       `sink dir contains files and overwrite is not set to string 'true'.`
@@ -45,12 +51,6 @@ export async function generateDocs(configs: Configs) {
 
   const filesToDelete = new Set(docFiles);
 
-  // filter out non-policy objects
-  configs.getAll().filter(o => {
-    return !isPolicyObject(o);
-  }).forEach(o => {
-    configs.delete(o);
-  });
 
   // Build the policy library
   const library = new PolicyLibrary(configs.getAll());
@@ -58,9 +58,11 @@ export async function generateDocs(configs: Configs) {
   library.bundles.forEach((bundle) => {
     const constraints = [["Constraint", "Control", "Description"]];
     bundle.getConfigs().forEach((o) => {
-      const name = o.metadata.name;
+      const name = `[${o.metadata.name}](${getPath(o)})`;
       const control = bundle.getControl(o);
       const description = getDescription(o);
+
+      // console.log("name", name);
     
       constraints.push([name, control, description]);
     });
@@ -73,9 +75,7 @@ ${mdTable(constraints)}
 
 `;
 
-    console.log(contents);
-
-    const file = path.join(sinkDir, `${bundle.getKey()}.md`);
+    const file = path.join(bundleDir, `${bundle.getKey()}.md`);
 
     if (fs.existsSync(file)) {
       filesToDelete.delete(file);
@@ -87,48 +87,27 @@ ${mdTable(constraints)}
     }
 
     fs.writeFileSync(file, contents, 'utf8');
-  })
+  });
 
-  // console.log("library", library);
-
-  // // Group objects by the file path and create a multi-object file if required.
-  // configs.groupBy(buildSourcePath).forEach(([p, configsAtPath]) => {
-  //   // Preserve the original filesystem hierarchy and object ordering using the annotations
-  //   // set by the source function. Remove these annotations before writing files.
-  //   const documents = configsAtPath
-  //     .sort(compareSourceIndex)
-  //     .map(config => kpt.removeAnnotation(config, kpt.SOURCE_INDEX_ANNOTATION))
-  //     .map(config => kpt.removeAnnotation(config, kpt.SOURCE_PATH_ANNOTATION))
-  //     .map(toYaml);
-
-  //   const file = path.join(sinkDir, p);
-  //   const dir = path.dirname(file);
-  //   if (!fs.existsSync(dir)) {
-  //     fs.mkdirSync(path.dirname(file), { recursive: true });
-  //   }
-  //   const contents = documents.join('---\n');
-
-  //   if (fs.existsSync(file)) {
-  //     filesToDelete.delete(file);
-  //     const currentContents = fs.readFileSync(file).toString();
-  //     if (contents === currentContents) {
-  //       // No changes to make.
-  //       return;
-  //     }
-  //   }
-
-  //   fs.writeFileSync(file, contents, 'utf8');
-  // });
-
-  // Delete files that are missing from the input.
+  // Delete files that are missing from the new docs.
   // Other file types are ignored.
   filesToDelete.forEach(file => {
     fs.unlinkSync(file);
+  });
+
+
+  // filter out non-policy objects
+  configs.getAll().filter(o => {
+    return true;
+    // return !isPolicyObject(o);
+  }).forEach(o => {
+    configs.delete(o);
   });
 }
 
 class PolicyLibrary {
   bundles: map;
+
   constructor(configs: KubernetesObject[]) {
       this.bundles = new Map();
 
@@ -147,8 +126,8 @@ class PolicyLibrary {
         });
       });
   }
+
   addPolicy(bundleKey: string, control: string, policy: KubernetesObject) {
-    console.log("store", bundleKey, control);
     let bundle = this.bundles.get(bundleKey);
     if (bundle === undefined) {
       bundle = new PolicyBundle(bundleKey);
@@ -198,7 +177,11 @@ function isPolicyObject(o: any): bool {
 }
 
 function getDescription(o: KubernetesObject): string {
-  return getAnnotation(o, "description");
+  return getAnnotation(o, "description") || "";
+}
+
+function getPath(o: KubernetesObject): string {
+  return path.join("../../samples", getAnnotation(o, "config.kubernetes.io/path"));
 }
 
 function listDocFiles(dir: string): string[] {
