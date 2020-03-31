@@ -1,5 +1,4 @@
-#
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,23 +11,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPRestrictedFirewallRulesConstraintV1
+kind: GCPCMEKRotationConstraintV1
 metadata:
-  name: restrict-firewall-rule-world-open
+  name: cmek_rotation_one_hundred_days
   annotations:
     bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
-    bundles.validator.forsetisecurity.org/scorecard-v1: security
 spec:
   severity: high
   match:
     target: ["organization/*"]
   parameters:
-    rules:
-      - direction: "INGRESS"
-        source_ranges:
-        - "0.0.0.0/0"
-        enabled: "true"
-        rule_type: "allowed"
+    # Optionaly specify the required key rotation period.  Default is 365 days
+    # Valid time units are  "ns", "us" (or "µs"), "ms", "s", "m", "h"
+    # This is 100 days
+    period: 2400h

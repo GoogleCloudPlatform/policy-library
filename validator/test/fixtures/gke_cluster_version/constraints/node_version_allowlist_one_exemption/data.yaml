@@ -1,5 +1,4 @@
-#
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,22 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPRestrictedFirewallRulesConstraintV1
+kind: GKEClusterVersionConstraintV1
 metadata:
-  name: restrict-firewall-rule-world-open
-  annotations:
-    bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
-    bundles.validator.forsetisecurity.org/scorecard-v1: security
+  name: gke_cluster_allowlist_one_exemption_node_version
 spec:
   severity: high
-  match:
-    target: ["organization/*"]
   parameters:
-    rules:
-      - direction: "INGRESS"
-        source_ranges:
-        - "0.0.0.0/0"
-        enabled: "true"
-        rule_type: "allowed"
+    mode: "allowlist"
+    version_type: "node"
+    versions:
+      - 1.4.6
+    exemptions:
+      - //container.googleapis.com/projects/cicd-prod/zones/us-west1-a/clusters/*

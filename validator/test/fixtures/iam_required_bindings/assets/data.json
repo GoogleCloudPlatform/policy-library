@@ -54,49 +54,5 @@
                 }
             ]
         }
-    },
-    {
-        "name": "//bigquery.googleapis.com/projects/12345/datasets/testdataset1",
-        "asset_type": "bigquery.googleapis.com/Dataset",
-        "iam_policy": {
-            "version": 1,
-            "etag": "CdWC1qPLfdw=",
-            "bindings": [
-                {
-                    "role": "roles/bigquery.dataViewer",
-                    "members": [
-                        "user:user@gmail.com"
-                    ]
-                },
-                {
-                    "role": "roles/bigquery.dataOwner",
-                    "members": [
-                        "user:admin@gmail.com"
-                    ]
-                }
-            ]
-        }
-    },
-    {
-        "name": "//bigquery.googleapis.com/projects/12345/datasets/testdataset2",
-        "asset_type": "bigquery.googleapis.com/Dataset",
-        "iam_policy": {
-            "version": 1,
-            "etag": "CdWC1qPLfdw=",
-            "bindings": [
-                {
-                    "role": "roles/bigquery.dataViewer",
-                    "members": [
-                        "user:user@googlegroups.com"
-                    ]
-                },
-                {
-                    "role": "roles/bigquery.dataOwner",
-                    "members": [
-                        "user:admin@googlegroups.com"
-                    ]
-                }
-            ]
-        }
     }
 ]

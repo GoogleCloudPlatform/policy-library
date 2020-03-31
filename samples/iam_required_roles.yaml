@@ -1,5 +1,4 @@
-#
-# Copyright 2019 Google LLC
+# Copyright 2020 Google Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,23 +11,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPRestrictedFirewallRulesConstraintV1
+kind: GCPIAMRequiredBindingsConstraintV1
 metadata:
-  name: restrict-firewall-rule-world-open
+  name: require_members_and_domains_owner
   annotations:
-    bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
-    bundles.validator.forsetisecurity.org/scorecard-v1: security
+    description: Trigger violations if the following members and domains are absent in roles/owner
 spec:
   severity: high
-  match:
-    target: ["organization/*"]
   parameters:
-    rules:
-      - direction: "INGRESS"
-        source_ranges:
-        - "0.0.0.0/0"
-        enabled: "true"
-        rule_type: "allowed"
+    role: roles/owner
+    members:
+    - "user:*@required-group.com"
+    - "group:*@required-group.com"
+    - "user:required-user@random-group.com"

@@ -1,5 +1,4 @@
-#
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,23 +11,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPRestrictedFirewallRulesConstraintV1
+kind: GCPIAMAllowedBindingsConstraintV1
 metadata:
-  name: restrict-firewall-rule-world-open
+  name: blacklist-googlegroups-bigquery-dataset
   annotations:
+    description: Enforce corporate domain by banning googlegroups.com addresses access to BigQuery datasets
     bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
-    bundles.validator.forsetisecurity.org/scorecard-v1: security
 spec:
   severity: high
-  match:
-    target: ["organization/*"]
   parameters:
-    rules:
-      - direction: "INGRESS"
-        source_ranges:
-        - "0.0.0.0/0"
-        enabled: "true"
-        rule_type: "allowed"
+    mode: blacklist
+    assetType: bigquery.googleapis.com/Dataset
+    role: roles/*
+    members:
+      - "user:*@googlegroups.com"
