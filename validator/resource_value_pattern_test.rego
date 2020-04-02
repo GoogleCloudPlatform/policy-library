@@ -1,7 +1,27 @@
+#
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 package templates.gcp.GCPResourceValuePatternConstraintV1
 
 import data.test.fixtures.resource_value_pattern.assets as fixture_assets
 import data.test.fixtures.resource_value_pattern.constraints.list as fixture_constraints
+
+import data.validator.test_utils as test_utils
+
+template_name := "GCPResourceValuePatternConstraintV1"
 
 # Helper to lookup a constraint based on its name via metadata, not package
 lookup_constraint[name] = [c] {
@@ -30,84 +50,46 @@ resource_names[name] {
 }
 
 test_resource_value_pattern_optional_on_multiple_resources {
-	expected_count := 2
 	expected_resources := {
 		"//compute.googleapis.com/projects/test-project/zones/us-east1-c/instances/vm-no-ip",
 		"//cloudresourcemanager.googleapis.com/projects/15100256534",
 	}
 
-	found_violations := find_violations with data.assets as fixture_assets
-		 with data.test_constraints as lookup_constraint.optional_billing_id_on_multiple_assets
-
-	found_resources := resource_names with data.violations as found_violations
-
-	found_resources == expected_resources
+    test_utils.check_test_violations(fixture_assets, lookup_constraint.optional_billing_id_on_multiple_assets, template_name, expected_resources)
 }
 
 test_resource_value_pattern_required_field_with_pattern {
-	expected_count := 2
 	expected_resources := {
 		"//cloudresourcemanager.googleapis.com/projects/1510025653",
 		"//cloudresourcemanager.googleapis.com/projects/15100256534",
 	}
 
-	found_violations := find_violations with data.assets as fixture_assets
-		 with data.test_constraints as lookup_constraint.required_billing_id_on_project
-
-	found_resources := resource_names with data.violations as found_violations
-
-	found_resources == expected_resources
+    test_utils.check_test_violations(fixture_assets, lookup_constraint.required_billing_id_on_project, template_name, expected_resources)
 }
 
 test_resource_value_pattern_no_pattern_violations {
-	expected_count := 1
 	expected_resources := {"//cloudresourcemanager.googleapis.com/projects/1510025653"}
 
-	found_violations := find_violations with data.assets as fixture_assets
-		 with data.test_constraints as lookup_constraint.required_billing_id_no_pattern
-
-	found_resources := resource_names with data.violations as found_violations
-
-	found_resources == expected_resources
+    test_utils.check_test_violations(fixture_assets, lookup_constraint.required_billing_id_no_pattern, template_name, expected_resources)
 }
 
 test_denylist_resource_value_pattern_optional_on_multiple_resources {
-	expected_count := 1
 	expected_resources := {"//cloudresourcemanager.googleapis.com/projects/1510025652"}
 
-	found_violations := find_violations with data.assets as fixture_assets
-		 with data.test_constraints as lookup_constraint.optional_billing_id_on_multiple_assets_denylist
-
-	found_resources := resource_names with data.violations as found_violations
-
-	found_resources == expected_resources
+	test_utils.check_test_violations(fixture_assets, lookup_constraint.optional_billing_id_on_multiple_assets_denylist, template_name, expected_resources)
 }
 
 test_denylist_resource_value_pattern_required_field_with_pattern {
-	expected_count := 2
 	expected_resources := {
 		"//cloudresourcemanager.googleapis.com/projects/1510025652",
 		"//cloudresourcemanager.googleapis.com/projects/1510025653",
 	}
-
-	found_violations := find_violations with data.assets as fixture_assets
-		 with data.test_constraints as lookup_constraint.required_billing_id_on_project_denylist
-
-	found_resources := resource_names with data.violations as found_violations
-
-	found_resources == expected_resources
+    test_utils.check_test_violations(fixture_assets, lookup_constraint.required_billing_id_on_project_denylist, template_name, expected_resources)
 }
 
 test_denylist_resource_value_pattern_no_pattern_violations {
-	expected_count := 1
 	expected_resources := {"//cloudresourcemanager.googleapis.com/projects/1510025653"}
-
-	found_violations := find_violations with data.assets as fixture_assets
-		 with data.test_constraints as lookup_constraint.required_billing_id_no_pattern_denylist
-
-	found_resources := resource_names with data.violations as found_violations
-
-	found_resources == expected_resources
+	test_utils.check_test_violations(fixture_assets, lookup_constraint.required_billing_id_no_pattern_denylist, template_name, expected_resources)
 }
 
 # Boolean truth table is 16 rows, 2^4 (2 states, 4 variables)
