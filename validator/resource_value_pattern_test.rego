@@ -55,7 +55,7 @@ test_resource_value_pattern_optional_on_multiple_resources {
 		"//cloudresourcemanager.googleapis.com/projects/15100256534",
 	}
 
-    test_utils.check_test_violations(fixture_assets, lookup_constraint.optional_billing_id_on_multiple_assets, template_name, expected_resources)
+	test_utils.check_test_violations(fixture_assets, lookup_constraint.optional_billing_id_on_multiple_assets, template_name, expected_resources)
 }
 
 test_resource_value_pattern_required_field_with_pattern {
@@ -64,13 +64,13 @@ test_resource_value_pattern_required_field_with_pattern {
 		"//cloudresourcemanager.googleapis.com/projects/15100256534",
 	}
 
-    test_utils.check_test_violations(fixture_assets, lookup_constraint.required_billing_id_on_project, template_name, expected_resources)
+	test_utils.check_test_violations(fixture_assets, lookup_constraint.required_billing_id_on_project, template_name, expected_resources)
 }
 
 test_resource_value_pattern_no_pattern_violations {
 	expected_resources := {"//cloudresourcemanager.googleapis.com/projects/1510025653"}
 
-    test_utils.check_test_violations(fixture_assets, lookup_constraint.required_billing_id_no_pattern, template_name, expected_resources)
+	test_utils.check_test_violations(fixture_assets, lookup_constraint.required_billing_id_no_pattern, template_name, expected_resources)
 }
 
 test_denylist_resource_value_pattern_optional_on_multiple_resources {
@@ -84,7 +84,8 @@ test_denylist_resource_value_pattern_required_field_with_pattern {
 		"//cloudresourcemanager.googleapis.com/projects/1510025652",
 		"//cloudresourcemanager.googleapis.com/projects/1510025653",
 	}
-    test_utils.check_test_violations(fixture_assets, lookup_constraint.required_billing_id_on_project_denylist, template_name, expected_resources)
+
+	test_utils.check_test_violations(fixture_assets, lookup_constraint.required_billing_id_on_project_denylist, template_name, expected_resources)
 }
 
 test_denylist_resource_value_pattern_no_pattern_violations {
