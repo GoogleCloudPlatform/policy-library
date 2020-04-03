@@ -1,5 +1,5 @@
 #
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -173,8 +173,33 @@ fw_rule_check_port(ip_config, port) {
 	not ip_config.ports
 }
 
+# fw_rule_check_port when port is all and there are no ports
+fw_rule_check_port(ip_config, port) {
+	port == "all"
+
+	# check if the port matches
+	not ip_config.ports
+}
+
+# fw_rule_check_port when port is all and the fw rule exposes ports 0-65535
+fw_rule_check_port(ip_config, port) {
+	port == "all"
+
+	# check if the port matches
+	range_match("0-65535", ip_config.ports[_])
+}
+
+# fw_rule_check_port when port is all and the fw rule exposes ports 1-65535
+fw_rule_check_port(ip_config, port) {
+	port == "all"
+
+	# check if the port matches
+	range_match("1-65535", ip_config.ports[_])
+}
+
 # fw_rule_check_port when port is a single number
 fw_rule_check_port(ip_config, port) {
+	port != "all"
 	port != "any"
 	not re_match("-", port)
 
@@ -187,6 +212,7 @@ fw_rule_check_port(ip_config, port) {
 
 # fw_rule_check_port when port is a range (e.g 100-200)
 fw_rule_check_port(ip_config, port) {
+	port != "all"
 	port != "any"
 	re_match("-", port)
 
