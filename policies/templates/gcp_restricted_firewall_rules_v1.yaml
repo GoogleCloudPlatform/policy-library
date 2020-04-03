@@ -58,7 +58,7 @@ spec:
                     description: |
                       "Port of the rules to restrict. This parameter is tighly coupled with the
                       protocol paramter: the rule will be marked as in violation if the parameter
-                      protocol:port pair matches one of its
+                      protocol:port pair matches (denylist) / does not match (allowlist) one of its
                       protocol:port listed.
                       Valid values are:
                           * single number
@@ -72,7 +72,8 @@ spec:
                     description: |
                       "Protocol of the rules to restrict. This parameter is tighly coupled with
                       the port paramter: the rule will be marked as in violation if the parameter
-                      protocol:port pair matches one of its protocol:port listed.
+                      protocol:port pair matches (denylist) / does not match (allowlist)
+                      one of its protocol:port listed.
                       Valid values are:
                           * single protocol (e.g 'tcp', 'icmp' etc.)
                           * 'any' - when set to any, the protocol of the rule will NOT be a factor
@@ -83,7 +84,7 @@ spec:
                     description: |
                       "Source ranges of the rules to restrict. A fw rule only matches if ONE of its
                       source CIDR ranges is an exact match of ANY of the CIDR blocks passed in this
-                      parameter.
+                      parameter (denylist) / does not match (allowlist).
                       Valid values are:
                           * 'X.X.X.X/XX' - i.e valid CIDR blocks
                           * 'any' - when set to any, the source ranges of the rule will NOT be a factor
@@ -95,7 +96,8 @@ spec:
                   source_tags:
                     description: |
                       "Source tags of the rules to restrict. A fw rule only matches if ONE of its source
-                      tags is a match of ANY of the tag patterns (regex) passed in this parameter.
+                      tags is a match of ANY of the tag patterns (regex) passed in this parameter (denylist)
+                      / does not match (allowlist).
                       Valid values are:
                           * 'mytag-*' - valid regex patterns for source tags
                           * 'any' - when set to any, the source tags of the rule will NOT be a factor
@@ -108,7 +110,7 @@ spec:
                     description: |
                       "Source service accounts of the rules to restrict. A fw rule only matches if ONE of
                       its source service accounts is a match of ANY of the service account
-                      patterns (regex) passed in this parameter.
+                      patterns (regex) passed in this parameter (denylist) / does not match (allowlist).
                       Valid values are:
                           * 'mytag-*' - valid regex patterns for source tags
                           * 'any' - when set to any, the source tags of the rule will NOT be a factor
@@ -121,7 +123,7 @@ spec:
                     description: |
                       "Target (or destination) ranges of the rules to restrict. A fw rule only matches
                       if ONE of its destination CIDR ranges is an exact match of ANY of the CIDR blocks
-                      passed in this parameter.
+                      passed in this parameter(denylist) / does not match (allowlist).
                       Valid values are:
                           * 'X.X.X.X/XX' - i.e valid CIDR blocks
                           * 'any' - when set to any, the target ranges of the rule will NOT be a factor
@@ -133,7 +135,8 @@ spec:
                   target_tags:
                     description: |
                       "Target tags of the rules to restrict. A fw rule only matches if ONE of its target
-                      tags is a match of ANY of the tag patterns (regex) passed in this parameter.
+                      tags is a match of ANY of the tag patterns (regex) passed in this
+                      parameter (denylist) / does not match (allowlist).
                       Valid values are:
                           * 'mytag-*' - valid regex patterns for target tags
                           * 'any' - when set to any, the target tags of the rule will NOT be a factor
@@ -146,7 +149,7 @@ spec:
                     description: |
                       "Target service accounts of the rules to restrict. A fw rule only matches if ONE of
                         its target service accounts is a match of ANY of the service account
-                        patterns (regex) passed in this parameter.
+                        patterns (regex) passed in this parameter (denylist) / does not match (allowlist).
                       Valid values are:
                           * 'mytag-*' - valid regex patterns for target tags
                           * 'any' - when set to any, the target tags of the rule will NOT be a factor
