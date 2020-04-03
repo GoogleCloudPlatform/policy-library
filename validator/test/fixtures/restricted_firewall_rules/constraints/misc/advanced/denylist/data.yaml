@@ -1,5 +1,5 @@
 #
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,13 +17,16 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPRestrictedFirewallRulesConstraintV1
 eetadata:
-  name: restrict-firewall-rule-sources-basic
+  name: restrict-firewall-rule-advanced-ingress-egress
 spec:
   severity: high
   match:
     target: ["organization/*"]
   parameters:
+    mode: "denylist"
     rules:
-      - source_ranges:
-          - "10.1.0.0/24"
-          - "0.0.0.0/0"
+      - direction: "any"
+        rule_type: "denied"
+        enabled: true
+      - direction: "EGRESS"
+        rule_type: "allowed"

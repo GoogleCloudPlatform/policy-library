@@ -17,24 +17,13 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPRestrictedFirewallRulesConstraintV1
 metadata:
-  name: restrict-firewall-rules-tcp-all-ports
+  name: allowlist-restrict-firewall-rule-tcp-ports-6001
 spec:
   severity: high
   match:
     target: ["organization/*"]
   parameters:
+    mode: "allowlist"
     rules:
-      - direction: "INGRESS"
-        enabled: "true"
-        port: "all"
+      - port: "6001"
         protocol: "tcp"
-        rule_type: "allowed"
-        source_ranges:
-        - "0.0.0.0/0"
-      - direction: "INGRESS"
-        enabled: "true"
-        port: "all"
-        protocol: "udp"
-        rule_type: "allowed"
-        source_ranges:
-        - "0.0.0.0/0"

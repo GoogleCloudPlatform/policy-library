@@ -27,13 +27,15 @@ deny[{
 
 	# Update params (set all missing params to their default value)
 	rules_params := update_params(params.rules[_])
+	mode := lib.get_default(params, "mode", "denylist")
 
 	asset := input.asset
 	asset.asset_type == "compute.googleapis.com/Firewall"
 
 	fw_rule = asset.resource.data
 
-	fw_rule_is_restricted(fw_rule, rules_params)
+	is_valid(mode, fw_rule, rules_params)
+
 	message := sprintf("%s Firewall rule is prohibited.", [asset.name])
 	metadata := {
 		"resource": asset.name,
@@ -61,6 +63,16 @@ update_params(params) = updated_params {
 		"target_service_accounts": lib.get_default(params, "target_service_accounts", ["any"]),
 		"enabled": lib.get_default(params, "enabled", "any"),
 	}
+}
+
+is_valid(mode, fw_rule, params) {
+	mode == "denylist"
+	fw_rule_is_restricted(fw_rule, params)
+}
+
+is_valid(mode, fw_rule, params) {
+	mode == "allowlist"
+	not fw_rule_is_restricted(fw_rule, params)
 }
 
 # fw_rule_is_restricted for Ingress rules
