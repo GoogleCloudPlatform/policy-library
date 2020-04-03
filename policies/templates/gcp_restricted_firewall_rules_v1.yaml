@@ -41,7 +41,9 @@ spec:
               type: string
               enum: [allowlist, denylist]
             rules:
-              description: "List of rules to match in order to raise violations. Rule are object describing rules (see below)"
+              description: |
+                "List of rules to match (denylist) / not match (allowlist)
+                in order to raise violations. Rule are object describing rules (see below)"
               type: array
               items:
                 type: object
