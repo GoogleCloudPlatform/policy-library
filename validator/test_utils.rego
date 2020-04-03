@@ -26,7 +26,6 @@ get_test_violations(test_assets, test_constraints, test_template) = violations {
 		violation := violations[_]
 	]
 
-	trace(sprintf("count %d", [count(violations)]))
 	trace(sprintf("violations %s", [violations]))
 }
 
