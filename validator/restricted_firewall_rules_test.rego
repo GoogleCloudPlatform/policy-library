@@ -1,5 +1,5 @@
 #
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +16,12 @@
 
 package templates.gcp.GCPRestrictedFirewallRulesConstraintV1
 
-#Importing the test data
+template_name := "GCPRestrictedFirewallRulesConstraintV1"
+
+import data.validator.test_utils as test_utils
+
+# Importing the test data
+import data.test.fixtures.restricted_firewall_rules.assets.protocol_and_all_ports as protocol_and_all_ports_fixture_assets
 import data.test.fixtures.restricted_firewall_rules.assets.protocol_and_port as protocol_and_port_fixture_assets
 import data.test.fixtures.restricted_firewall_rules.assets.sources as sources_fixture_assets
 import data.test.fixtures.restricted_firewall_rules.assets.targets as targets_fixture_assets
@@ -25,6 +30,7 @@ import data.test.fixtures.restricted_firewall_rules.assets.targets as targets_fi
 import data.test.fixtures.restricted_firewall_rules.constraints.all as all_fixture_constraint
 import data.test.fixtures.restricted_firewall_rules.constraints.misc.advanced as misc_advanced_fixture_constraint
 import data.test.fixtures.restricted_firewall_rules.constraints.misc.basic as misc_basic_fixture_constraint
+import data.test.fixtures.restricted_firewall_rules.constraints.protocol_and_all_ports as protocol_and_all_ports_fixture_constraint
 import data.test.fixtures.restricted_firewall_rules.constraints.protocol_and_port.advanced as protocol_and_port_advanced_fixture_constraint
 import data.test.fixtures.restricted_firewall_rules.constraints.protocol_and_port.basic as protocol_and_port_basic_fixture_constraint
 import data.test.fixtures.restricted_firewall_rules.constraints.sources.advanced as sources_advanced_fixture_constraint
@@ -40,6 +46,22 @@ find_all_violations[violation] {
 		 with input.constraint as constraint
 
 	violation := issues[_]
+}
+
+# Test protocol and all ports
+test_protocol_and_all_ports_count {
+	test_utils.check_test_violations_count(protocol_and_all_ports_fixture_assets, [protocol_and_all_ports_fixture_constraint], template_name, 4)
+}
+
+test_protocol_and_all_ports_resources {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-udp-all",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all-port-range0",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all-port-range1",
+	}
+
+	test_utils.check_test_violations_resources(protocol_and_all_ports_fixture_assets, [protocol_and_all_ports_fixture_constraint], template_name, expected_resource_names)
 }
 
 fw_violations_protocol_and_port_basic[violation] {
