@@ -23,9 +23,7 @@ spec:
         kind: GCPNetworkRestrictDefaultV1
       validation:
         openAPIV3Schema:
-          mode:
-            type: string
-            default: GLOBAL
+          properties: {}
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/network_restrict_default.rego")
@@ -53,7 +51,7 @@ spec:
             	"details": metadata,
             }] {
             	a := input.asset
-            	count({a.asset_type} & {"compute.googleapis.com/Network", "google.compute.Network"}) == 1
+            	a.asset_type == "compute.googleapis.com/Network"
             	a.resource.data.name == "default"
             	name := a.name
             	message := sprintf("Default network in use: %v", [name])
