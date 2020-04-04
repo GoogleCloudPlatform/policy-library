@@ -1,5 +1,5 @@
 #
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,8 +16,10 @@
 
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPRestrictedFirewallRulesConstraintV1
-eetadata:
-  name: restrict-firewall-rule-allow-ingress-demo
+metadata:
+  name: restrict-firewall-rule-world-open-tcp-udp-all-ports
+  annotations:
+    bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
 spec:
   severity: high
   match:
@@ -25,14 +27,16 @@ spec:
   parameters:
     rules:
       - direction: "INGRESS"
-        rule_type: "any"
+        enabled: "true"
+        port: "all"
         protocol: "tcp"
-        source_tags:
-          - "source-tag*"
+        rule_type: "allowed"
         source_ranges:
-          - "192.168.1.1/32"
-          - "0.0.0.0/0"
-        target_service_accounts:
-          - "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
-      - direction: "EGRESS"
+        - "0.0.0.0/0"
+      - direction: "INGRESS"
+        enabled: "true"
+        port: "all"
         protocol: "udp"
+        rule_type: "allowed"
+        source_ranges:
+        - "0.0.0.0/0"

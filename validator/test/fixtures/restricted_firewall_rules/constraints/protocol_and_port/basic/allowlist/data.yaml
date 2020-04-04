@@ -1,5 +1,5 @@
 #
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,17 +16,14 @@
 
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPRestrictedFirewallRulesConstraintV1
-eetadata:
-  name: restrict-firewall-rule-target_range_and_tag
+metadata:
+  name: allowlist-restrict-firewall-rule-tcp-ports-6001
 spec:
   severity: high
   match:
     target: ["organization/*"]
   parameters:
+    mode: "allowlist"
     rules:
-      - target_ranges:
-          - "10.0.0.0/24"
-        target_tags:
-          - "target-tag*"
-      - target_service_accounts:
-          - "cf-gcp-challenge-dev-sa-lone@cf-gcp-challenge-dev.iam.gserviceaccount.com"
+      - port: "6001"
+        protocol: "tcp"

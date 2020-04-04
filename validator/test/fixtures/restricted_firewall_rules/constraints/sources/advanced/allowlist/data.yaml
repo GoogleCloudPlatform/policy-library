@@ -1,5 +1,5 @@
 #
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,15 +16,18 @@
 
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPRestrictedFirewallRulesConstraintV1
-metadata:
-  name: restrict-firewall-rules-udp-ports-1000-to-6000
+eetadata:
+  name: allowlist-restrict-firewall-rule-sources-advanced
 spec:
   severity: high
   match:
     target: ["organization/*"]
   parameters:
+    mode: "allowlist"
     rules:
-      - port: "2000-2100"
-        protocol: "tcp"
-      - port: "2000-2100"
-        protocol: "udp"
+      - source_service_accounts:
+          - "*"
+        source_tags:
+          - "source-tag*"
+      - source_ranges:
+          - "10.0.0.0/24"
