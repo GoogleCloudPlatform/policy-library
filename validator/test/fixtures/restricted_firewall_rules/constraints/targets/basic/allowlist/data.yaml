@@ -1,5 +1,5 @@
 #
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,16 +17,13 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPRestrictedFirewallRulesConstraintV1
 eetadata:
-  name: restrict-firewall-rule-sources-advanced
+  name: allowlist-restrict-firewall-rule-target_service_account
 spec:
   severity: high
   match:
     target: ["organization/*"]
   parameters:
+    mode: "allowlist"
     rules:
-      - source_service_accounts:
-          - "*"
-        source_tags:
-          - "source-tag*"
-      - source_ranges:
-          - "10.0.0.0/24"
+      - target_service_accounts:
+          - "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
