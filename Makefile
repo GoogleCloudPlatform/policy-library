@@ -111,7 +111,6 @@ audit: ## Run audit against real CAI dump data
 help: ## Prints help for targets with comments
 	@grep -E '^[a-zA-Z._-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "make \033[36m%- 30s\033[0m %s\n", $$1, $$2}'
 
-
 # Cloudbuild doesn't allow us to use the Dockerfile "ARG" feature so we have to
 # template the dockerfile, expand for each version then build.
 REGO_VERSIONS := v0.15.0 v0.16.0 v0.17.0
@@ -126,3 +125,10 @@ ci-image-%: build/rego-%/Dockerfile
 build/rego-%/Dockerfile: cloudbuild/Dockerfile
 	@mkdir -p $(dir $@)
 	@sed -e 's/__REGO_VERSION__/$*/' $^ > $@
+
+## Generate docs
+.PHONY: generate_docs
+generate_docs: # Generate docs
+	@echo "Generating docs with kpt..."
+	@kpt fn source ./samples/ ./policies/ | \
+	 docker run -v $(shell pwd)/docs:/docs -i gcr.io/config-validator/generate-docs:dev  -d overwrite=true -d sink_dir=/docs/
