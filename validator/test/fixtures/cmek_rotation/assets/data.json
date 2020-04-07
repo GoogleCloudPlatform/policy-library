@@ -141,5 +141,34 @@
              }
           }
        }
+    },
+    {
+       "name":"//cloudkms.googleapis.com/projects/test-project/locations/us-central1/keyRings/test-key-ring/cryptoKeys/rotation-100-days",
+       "asset_type":"cloudkms.googleapis.com/CryptoKey",
+       "resource":{
+          "version":"v1",
+          "discovery_document_uri":"https://cloudkms.googleapis.com/$discovery/rest",
+          "discovery_name":"CryptoKey",
+          "parent":"//cloudkms.googleapis.com/projects/test-project/locations/us-central1/keyRings/test-key-ring",
+          "data":{
+             "createTime":"2019-05-15T17:29:18.497471089Z",
+             "name":"projects/test-project/locations/us-central1/keyRings/test-key-ring/cryptoKeys/rotation-100-days",
+             "nextRotationTime":"2020-06-18T05:00:00Z",
+             "primary":{
+                "algorithm":"GOOGLE_SYMMETRIC_ENCRYPTION",
+                "createTime":"2019-05-15T17:29:18.497471089Z",
+                "generateTime":"2019-05-15T17:29:18.497471089Z",
+                "name":"projects/test-project/locations/us-central1/keyRings/test-key-ring/cryptoKeys/rotation-100-days/cryptoKeyVersions/1",
+                "protectionLevel":"SOFTWARE",
+                "state":"ENABLED"
+             },
+             "purpose":"ENCRYPT_DECRYPT",
+             "rotationPeriod":"10368000s",
+             "versionTemplate":{
+                "algorithm":"GOOGLE_SYMMETRIC_ENCRYPTION",
+                "protectionLevel":"SOFTWARE"
+             }
+          }
+       }
     }
  ]

@@ -19,6 +19,7 @@ metadata:
   annotations:
     # This constraint is not certified by CIS.
     bundles.validator.forsetisecurity.org/cis-v1.1: 5.03
+    bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
     bundles.validator.forsetisecurity.org/scorecard-v1: security
 spec:
   severity: high
