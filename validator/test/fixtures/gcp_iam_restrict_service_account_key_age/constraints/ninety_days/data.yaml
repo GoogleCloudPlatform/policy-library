@@ -15,7 +15,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPIAMRestrictServiceAccountKeyAgeConstraintV1
 metadata:
-  name: iam_restrict_service_account_key_age_ninety_days
+  name: iam-restrict-service-account-key-age-ninety-days
 spec:
   severity: high
   parameters:
