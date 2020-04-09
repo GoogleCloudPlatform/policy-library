@@ -23,11 +23,8 @@ import data.validator.test_utils as test_utils
 import data.test.fixtures.sql_world_readable.assets as fixture_assets
 import data.test.fixtures.sql_world_readable.constraints as fixture_constraints
 
-
 test_sql_world_readable_violations_resources {
-	expected_resource_names := {
-		"//cloudsql.googleapis.com/projects/noble-history-87417/instances/authorized-networks-0",
-	}
+	expected_resource_names := {"//cloudsql.googleapis.com/projects/noble-history-87417/instances/authorized-networks-0"}
 
 	test_utils.check_test_violations_resources(fixture_assets, [fixture_constraints], template_name, expected_resource_names)
 }
