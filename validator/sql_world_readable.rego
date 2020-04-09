@@ -32,6 +32,6 @@ deny[{
 	network := networks[_]
 	network.value == "0.0.0.0/0"
 
-	message := sprintf("%v is world readabl", [asset.name])
+	message := sprintf("%v is world readable", [asset.name])
 	metadata := {"resource": asset.name}
 }
