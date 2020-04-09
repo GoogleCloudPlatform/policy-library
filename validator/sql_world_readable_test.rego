@@ -1,5 +1,5 @@
 #
-# Copyright 2018 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,19 +16,18 @@
 
 package templates.gcp.GCPSQLWorldReadableConstraintV1
 
-import data.test.fixtures.sql_allowed_authorized_networks.constraints as fixture_constraints
+template_name := "GCPSQLWorldReadableConstraintV1"
 
-all_violations[violation] {
-	resource := data.test.fixtures.sql_world_readable.assets[_]
-	constraint := data.test.fixtures.sql_world_readable.constraints
+import data.validator.test_utils as test_utils
 
-	issues := deny with input.asset as resource
-		 with input.constraint as constraint
+import data.test.fixtures.sql_world_readable.assets as fixture_assets
+import data.test.fixtures.sql_world_readable.constraints as fixture_constraints
 
-	violation := issues[_]
-}
 
-test_violations_basic {
-	violation_resources := {r | r = all_violations[_].details.resource}
-	violation_resources == {"//cloudsql.googleapis.com/projects/noble-history-87417/instances/authorized-networks-0"}
+test_sql_world_readable_violations_resources {
+	expected_resource_names := {
+		"//cloudsql.googleapis.com/projects/noble-history-87417/instances/authorized-networks-0",
+	}
+
+	test_utils.check_test_violations_resources(fixture_assets, [fixture_constraints], template_name, expected_resource_names)
 }
