@@ -39,7 +39,7 @@ deny[{
 	mode := lib.get_default(params, "mode", "allowlist")
 
 	rule_data := {
-		"is_required": lib.get_default(params, "required", true),
+		"is_optional": lib.get_default(params, "optional", false),
 		"has_field": has_field_by_path(asset.resource.data, field_name),
 		"has_pattern": lib.has_field(params, "pattern"),
 		"pattern": lib.get_default(params, "pattern", ""),
@@ -67,9 +67,9 @@ deny[{
 ###########################
 
 # is_not_valid evaluates to true if mode is allowlist and:
-# required = true; field_name exists in resource; pattern is NOT found
-# required = true; field_name does NOT exist in resource
-# required = false; field_name exists in resource; pattern is NOT found
+# optional = false; field_name exists in resource; pattern is NOT found
+# optional = false; field_name does NOT exist in resource
+# optional = true; field_name exists in resource; pattern is NOT found
 
 is_not_valid(mode, rule_data) {
 	mode == "allowlist"
@@ -77,9 +77,9 @@ is_not_valid(mode, rule_data) {
 }
 
 # is_not_valid evaluates to true if mode is denylist and:
-# required = true; field_name exists in resource; pattern is found
-# required = true; field_name does NOT exist in resource
-# required = false; field_name exists in resource; pattern is found
+# optional = false; field_name exists in resource; pattern is found
+# optional = false; field_name does NOT exist in resource
+# optional = true; field_name exists in resource; pattern is found
 
 is_not_valid(mode, rule_data) {
 	mode == "denylist"
@@ -87,20 +87,20 @@ is_not_valid(mode, rule_data) {
 }
 
 denylist_violation(rule_data) {
-	is_required_field_valid(rule_data)
+	is_optional_field_valid(rule_data)
 	is_denylist_pattern_valid(rule_data)
 }
 
 denylist_violation(rule_data) {
-	not is_required_field_valid(rule_data)
+	not is_optional_field_valid(rule_data)
 }
 
-is_required_field_valid(rule_data) {
+is_optional_field_valid(rule_data) {
 	rule_data.has_field == true
 }
 
-is_required_field_valid(rule_data) {
-	rule_data.is_required == false
+is_optional_field_valid(rule_data) {
+	rule_data.is_optional == true
 	rule_data.has_field == false
 }
 
@@ -111,12 +111,12 @@ is_denylist_pattern_valid(rule_data) {
 }
 
 allowlist_violation(rule_data) {
-	is_required_field_valid(rule_data)
+	is_optional_field_valid(rule_data)
 	not is_allowlist_pattern_valid(rule_data)
 }
 
 allowlist_violation(rule_data) {
-	not is_required_field_valid(rule_data)
+	not is_optional_field_valid(rule_data)
 }
 
 is_allowlist_pattern_valid(rule_data) {

@@ -29,7 +29,6 @@ list:
           - "cloudresourcemanager.googleapis.com/Project"
         field_name: "labels.billing_id"
         pattern: "^\\d{4}$"
-        required: true
 
   - apiVersion: constraints.gatekeeper.sh/v1alpha1
     kind: GCPResourceValuePatternConstraintV1
@@ -47,7 +46,7 @@ list:
           - "cloudresourcemanager.googleapis.com/Project"
           - "compute.googleapis.com/Instance"
         field_name: "labels.billing_id"
-        required: false
+        optional: true
         pattern: "^\\d{4}$"
 
   - apiVersion: constraints.gatekeeper.sh/v1alpha1
@@ -65,7 +64,6 @@ list:
         asset_types:
           - "cloudresourcemanager.googleapis.com/Project"
         field_name: "labels.billing_id"
-        required: true
 
   - apiVersion: constraints.gatekeeper.sh/v1alpha1
     kind: GCPResourceValuePatternConstraintV1
@@ -83,7 +81,6 @@ list:
           - "cloudresourcemanager.googleapis.com/Project"
         field_name: "labels.billing_id"
         pattern: "^\\d{4}$"
-        required: true
 
   - apiVersion: constraints.gatekeeper.sh/v1alpha1
     kind: GCPResourceValuePatternConstraintV1
@@ -101,7 +98,7 @@ list:
           - "cloudresourcemanager.googleapis.com/Project"
           - "compute.googleapis.com/Instance"
         field_name: "labels.billing_id"
-        required: false
+        optional: true
         pattern: "^\\d{4}$"
 
   - apiVersion: constraints.gatekeeper.sh/v1alpha1
@@ -119,5 +116,4 @@ list:
         asset_types:
           - "cloudresourcemanager.googleapis.com/Project"
         field_name: "labels.billing_id"
-        required: true
         
