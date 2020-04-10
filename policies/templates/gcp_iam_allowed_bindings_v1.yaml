@@ -31,6 +31,13 @@ spec:
             assetType:
               description: "Restrict which asset type this policy applies to"
               type: string
+            assetNames:
+              description: "CAI name of asset to restrict which specific assets this policy applies to.
+              assetNames must have the same assetType defined above.
+              E.g. '//bigquery.googleapis.com/projects/my-project/datasets/my-dataset'"
+              type: array
+              items:
+                type: string
             role:
               description: "Role to restrict bindings for,
                 ex. roles/owner; Wildcards (*) supported"
@@ -45,7 +52,7 @@ spec:
    validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/iam_allowed_bindings.rego")
             #
-            # Copyright 2019 Google LLC
+            # Copyright 2020 Google LLC
             #
             # Licensed under the Apache License, Version 2.0 (the "License");
             # you may not use this file except in compliance with the License.
@@ -73,6 +80,10 @@ spec:
             	asset := input.asset
             
             	check_asset_type(asset, params)
+            
+            	# Check if resource is part of asset names to scan
+            	include_list := lib.get_default(params, "assetNames", [])
+            	is_included(include_list, asset.name)
             
             	binding := asset.iam_policy.bindings[_]
             	member := binding.members[_]
@@ -115,6 +126,15 @@ spec:
             
             check_asset_type(asset, params) {
             	lib.has_field(params, "assetType") == false
+            }
+            
+            is_included(include_list, asset_name) {
+            	include_list != []
+            	glob.match(include_list[_], ["/"], asset_name)
+            }
+            
+            is_included(include_list, asset_name) {
+            	include_list == []
             }
             
             # If the member in constraint is written as a single "*", turn it into super

@@ -27,6 +27,7 @@ spec:
   parameters:
     mode: blacklist
     assetType: bigquery.googleapis.com/Dataset
+    assetNames: []
     role: roles/*
     members:
     - "user:*@googlegroups.com"
