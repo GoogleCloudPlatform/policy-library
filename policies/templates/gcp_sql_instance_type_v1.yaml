@@ -35,7 +35,8 @@ spec:
 #              default: "deny"
             sql_instance_types:
               type: array
-              items: string
+              items:
+                type: string
               description: "List of Cloud SQL instance types to allow or deny. Can be any value from
               ['POSTGRES', 'MYSQL', 'SQLSERVER']."
   targets:

@@ -34,8 +34,8 @@ spec:
                 connections to instances need to be mediated by the
                 Cloud SQL Proxy."
               type: array
-              items: string
-
+              items:
+                type: string
   targets:
    validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/sql_allowed_authorized_networks.rego")

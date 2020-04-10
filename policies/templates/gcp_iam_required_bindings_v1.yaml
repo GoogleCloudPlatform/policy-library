@@ -40,7 +40,8 @@ spec:
               E.g. 'group:*@google.com' would generate violations if there were no groups with domain @google.com.
               E.g. 'user:myuser111@google.com' would generate violations if user:myuser111@google.com does not exist."
               type: array
-              items: string
+              items:
+                type: string
   targets:
    validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/iam_required_bindings.rego")

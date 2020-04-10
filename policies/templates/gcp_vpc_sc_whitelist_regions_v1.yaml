@@ -27,7 +27,8 @@ spec:
           properties:
             service_perimeters:
               type: array
-              items: string
+              items:
+                type: string
               description: "List of whitelisted regions"
   targets:
     validation.gcp.forsetisecurity.org:

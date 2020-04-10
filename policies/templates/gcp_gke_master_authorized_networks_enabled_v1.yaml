@@ -31,7 +31,8 @@ spec:
               description: "Networks CIDR allowed in the master authorized
               network for the GKE cluster. For example, 199.27.25.0/24."
               type: array
-              items: string
+              items:
+                type: string
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/gke_master_authorized_networks_enabled.rego")

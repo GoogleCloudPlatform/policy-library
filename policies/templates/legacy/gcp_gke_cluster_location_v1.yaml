@@ -33,7 +33,8 @@ spec:
               clusters to be created, but will not implicitly allow zonal
               clusters in any us-central1 zone."
               type: array
-              items: string
+              items:
+                type: string
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/gke_cluster_location.rego")
