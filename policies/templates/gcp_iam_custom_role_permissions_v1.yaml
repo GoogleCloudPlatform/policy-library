@@ -42,7 +42,8 @@ spec:
                 with bigquery, such as bigquery.savedqueries.get, bigquery.config.get
                 E.g. '*' will search for any permissions"
               type: array
-              items: string
+              items:
+                type: string
   targets:
    validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/iam_custom_role_permissions.rego")
