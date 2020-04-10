@@ -34,7 +34,8 @@ spec:
               description: "Whether to use exact string matching or regular expressions against instance names"
             instances:
               type: array
-              items: string
+              items:
+                type: string
               description: "The list of instances in your whitelist or blacklist"
   targets:
    validation.gcp.forsetisecurity.org:

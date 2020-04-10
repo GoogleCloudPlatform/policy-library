@@ -34,7 +34,8 @@ spec:
                 Each mismatching label will result in a violation for scanned resources.
                 "
               type: array
-              items: objects
+              items:
+                type: object
             resource_types_to_scan:
               description: |
                 "Optional parameter: list of resource types to scan for labels.
@@ -62,7 +63,8 @@ spec:
                 looked for in the data.labels key of the resource object.
                 "
               type: array
-              items: string
+              items:
+                type: string
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/enforce_labels.rego")

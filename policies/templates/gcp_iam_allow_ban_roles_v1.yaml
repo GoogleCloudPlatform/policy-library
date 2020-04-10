@@ -32,8 +32,8 @@ spec:
               description: "Roles to be allowed or banned 
                             ex. roles/owner; Wildcards (*) supported"
               type: array
-              items: string
-            
+              items:
+                type: string
   targets:
    validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/iam_allow_ban_roles.rego")

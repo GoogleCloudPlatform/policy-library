@@ -94,7 +94,8 @@ spec:
                           * '*' - all CIDR blocks match: this only checks that a source range exists
                                   in the restricted FW rule"
                     type: array
-                    items: string
+                    items:
+                      type: string
                   source_tags:
                     description: |
                       "Source tags of the rules to restrict. A fw rule only matches if ONE of its source
@@ -107,7 +108,8 @@ spec:
                           * '*' - all source tags match: this only checks that a source tag exists
                                   in the restricted FW rule"
                     type: array
-                    items: string
+                    items:
+                      type: string
                   source_service_accounts:
                     description: |
                       "Source service accounts of the rules to restrict. A fw rule only matches if ONE of
@@ -120,7 +122,8 @@ spec:
                           * '*' - all source service accounts match: this only checks that a source
                                   service account existsin the restricted FW rule"
                     type: array
-                    items: string
+                    items:
+                      type: string
                   target_ranges:
                     description: |
                       "Target (or destination) ranges of the rules to restrict. A fw rule only matches
@@ -133,7 +136,8 @@ spec:
                           * '*' - all CIDR blocks match: this only checks that a target / destination
                                   range exists in the restricted FW rule"
                     type: array
-                    items: string
+                    items:
+                      type: string
                   target_tags:
                     description: |
                       "Target tags of the rules to restrict. A fw rule only matches if ONE of its target
@@ -146,7 +150,8 @@ spec:
                           * '*' - all target tags match: this only checks that a target tag range exists
                                   in the restricted FW rule"
                     type: array
-                    items: string
+                    items:
+                      type: string
                   target_service_accounts:
                     description: |
                       "Target service accounts of the rules to restrict. A fw rule only matches if ONE of
@@ -159,7 +164,8 @@ spec:
                           * '*' - all target service account match: this only checks that a target
                                   service account exists in the restricted FW rule"
                     type: array
-                    items: string
+                    items:
+                      type: string
                   enabled:
                     description: "Status of the rules to restrict (enabled vs disabled)."
                     type: string

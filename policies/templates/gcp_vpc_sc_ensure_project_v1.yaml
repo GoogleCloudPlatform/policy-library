@@ -28,7 +28,8 @@ spec:
             required_projects:
               description: "Required project IDs"
               type: array
-              items: string
+              items:
+                type: string
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/vpc_sc_ensure_project.rego")

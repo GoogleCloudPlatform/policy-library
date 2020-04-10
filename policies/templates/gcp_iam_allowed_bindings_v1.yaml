@@ -39,7 +39,8 @@ spec:
               description: "Members to either allow or deny for the given role,
                 depending on mode; Wildcards (*) supported"
               type: array
-              items: string
+              items:
+                type: string
   targets:
    validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/iam_allowed_bindings.rego")

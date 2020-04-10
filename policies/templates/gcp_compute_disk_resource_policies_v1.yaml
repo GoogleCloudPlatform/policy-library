@@ -38,12 +38,14 @@ spec:
               parameter."
             exemptions:
               type: array
-              items: string
+              items:
+                type: string
               description: "Array of disk assets to exempt from resource policies restriction. String values in the array 
               should correspond to the full name values of exempted policies."
             resourcePolicies:
               type: array
-              items: string
+              items:
+                type: string
               description: "Array of resource policies to be allowed or denied. Should be the full URL syntax,
               e.g. https://www.googleapis.com/compute/v1/projects/my-project/regions/europe-north1/resourcePolicies/snapshot-schedule."
   targets:
