@@ -19,7 +19,6 @@ metadata:
 spec:
   severity: high
   parameters:
-    # Valid time units are  "ns", "us" (or "µs"), "ms", "s", "m", "h"
+    # Valid time units are  "ns", "us", "ms", "s", "m", "h"
     # This is 365 days
     period: 8760h
-
