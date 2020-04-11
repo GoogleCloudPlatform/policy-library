@@ -50,7 +50,7 @@ test_allowlist_wildcards {
 		"resourcemanager.projects.list",
 	}
 
-	test_utils.check_test_violations_field_names(fixture_assets, [iam_custom_role_permissions_allowlist], template_name, "permission", expected_resource_names)
+	test_utils.check_test_violations_metadata(fixture_assets, [iam_custom_role_permissions_allowlist], template_name, "permission", expected_resource_names)
 }
 
 # Test denylist with wildcards
@@ -77,7 +77,7 @@ test_denylist_wildcards {
 		"resourcemanager.projects.get",
 	}
 
-	test_utils.check_test_violations_field_names(fixture_assets, [iam_custom_role_permissions_denylist], template_name, "permission", expected_resource_names)
+	test_utils.check_test_violations_metadata(fixture_assets, [iam_custom_role_permissions_denylist], template_name, "permission", expected_resource_names)
 }
 
 # Test allowlist for all permissions
@@ -124,7 +124,7 @@ test_denylist_all {
 		"resourcemanager.projects.list",
 	}
 
-	test_utils.check_test_violations_field_names(fixture_assets, [iam_custom_role_permissions_denylist_all], template_name, "permission", expected_resource_names)
+	test_utils.check_test_violations_metadata(fixture_assets, [iam_custom_role_permissions_denylist_all], template_name, "permission", expected_resource_names)
 }
 
 # Test that title name works with different caps case
@@ -147,7 +147,7 @@ test_title_caps {
 		"resourcemanager.projects.list",
 	}
 
-	test_utils.check_test_violations_field_names(fixture_assets, [iam_custom_role_permissions_title_caps], template_name, "permission", expected_resource_names)
+	test_utils.check_test_violations_metadata(fixture_assets, [iam_custom_role_permissions_title_caps], template_name, "permission", expected_resource_names)
 }
 
 # Test for wrong title name
@@ -156,6 +156,29 @@ test_title_wrong {
 }
 
 # Test for no title
-test_title_wrong {
-	test_utils.check_test_violations_count(fixture_assets, [iam_custom_role_permissions_no_title], template_name, 0)
+test_title_none {
+	expected_resource_names := {
+		"bigquery.config.get",
+		"bigquery.jobs.list",
+		"bigquery.models.list",
+		"bigquery.readsessions.create",
+		"bigquery.savedqueries.get",
+		"bigquery.savedqueries.list",
+		"appengine.applications.get",
+		"bigquery.config.update",
+		"cloudsql.instances.clone",
+		"cloudsql.instances.create",
+		"cloudsql.instances.delete",
+		"cloudsql.instances.export",
+		"cloudsql.instances.failover",
+		"cloudsql.instances.getIamPolicy",
+		"cloudsql.instances.import",
+		"compute.disks.list",
+		"compute.disks.resize",
+		"compute.globalOperations.get",
+		"compute.globalOperations.list",
+		"resourcemanager.projects.list",
+	}
+
+	test_utils.check_test_violations_metadata(fixture_assets, [iam_custom_role_permissions_no_title], template_name, "permission", expected_resource_names)
 }

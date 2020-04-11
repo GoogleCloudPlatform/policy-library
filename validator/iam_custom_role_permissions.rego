@@ -30,7 +30,10 @@ deny[{
 
 	asset_permissions := asset.resource.data.includedPermissions[_]
 	asset_title := asset.resource.data.title
-	lower(asset_title) == lower(params.title)
+
+	params_title := lib.get_default(params, "title", "*")
+
+	check_asset_title(asset_title, params_title)
 
 	mode := lib.get_default(params, "mode", "allowlist")
 
@@ -38,11 +41,11 @@ deny[{
 	target_match_count(mode, desired_count)
 	count(matches_found) != desired_count
 
-	message := sprintf("Custom role %v grants permission %v", [asset.name, asset_permissions])
+	message := sprintf("Role %v grants permission %v", [asset.name, asset_permissions])
 
 	metadata := {
 		"resource": asset.name,
-		"custom_role_title": asset_title,
+		"role_title": asset_title,
 		"permission": asset_permissions,
 	}
 }
@@ -58,6 +61,15 @@ target_match_count(mode) = 0 {
 
 target_match_count(mode) = 1 {
 	mode == "allowlist"
+}
+
+check_asset_title(asset_title, params_title) {
+	params_title == "*"
+}
+
+check_asset_title(asset_title, params_title) {
+	params_title != "*"
+	lower(asset_title) == lower(params_title)
 }
 
 # If the member in constraint is written as a single "*", turn it into super

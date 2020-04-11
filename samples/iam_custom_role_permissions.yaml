@@ -15,7 +15,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPIAMCustomRolePermissionsConstraintV1
 metadata:
-  name: allowlist_custom_role_permissions
+  name: allowlist-custom-role-permissions
   annotations:
     description: Custom BigQuery role must only have specific permissions
 spec:
