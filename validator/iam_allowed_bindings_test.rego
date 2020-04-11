@@ -57,11 +57,16 @@ test_whitelist_role_violation_count {
 
 # Test blacklist to BigQuery dataset for gmail.com addresses
 test_restrict_gmail_bigquery_dataset_violations_count {
-	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.iam_allowed_bindings_blacklist_gmail_bigquery_dataset], template_name, 2)
+	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.iam_allowed_bindings_blacklist_gmail_bigquery_dataset], template_name, 6)
 }
 
 test_restrict_gmail_bigquery_dataset_resources {
-	resource_names := {"//bigquery.googleapis.com/projects/12345/datasets/testdataset1"}
+	resource_names := {
+		"//bigquery.googleapis.com/projects/12345/datasets/testdataset1",
+		"//bigquery.googleapis.com/projects/12345/datasets/testdataset3",
+		"//bigquery.googleapis.com/projects/12345/datasets/testdataset4",
+	}
+
 	test_utils.check_test_violations_resources(fixture_assets, [fixture_constraints.iam_allowed_bindings_blacklist_gmail_bigquery_dataset], template_name, resource_names)
 }
 
@@ -73,4 +78,14 @@ test_restrict_googlegroups_bigquery_dataset_violations_count {
 test_restrict_googlegroups_bigquery_dataset_resources {
 	resource_names := {"//bigquery.googleapis.com/projects/12345/datasets/testdataset2"}
 	test_utils.check_test_violations_resources(fixture_assets, [fixture_constraints.iam_allowed_bindings_blacklist_googlegroups_bigquery_dataset], template_name, resource_names)
+}
+
+# Test blacklist to specific BigQuery dataset for gmail.com addresses
+test_restrict_gmail_specific_bigquery_dataset_violations_count {
+	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.iam_allowed_bindings_blacklist_asset_names], template_name, 4)
+}
+
+# Test whitelist to specific BigQuery dataset for gmail.com addresses
+test_restrict_gmail_specific_bigquery_dataset_violations_count {
+	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.iam_allowed_bindings_whitelist_asset_names], template_name, 0)
 }
