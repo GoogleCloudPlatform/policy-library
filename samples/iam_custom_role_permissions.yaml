@@ -11,23 +11,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+#
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPIAMAllowedBindingsConstraintV1
+kind: GCPIAMCustomRolePermissionsConstraintV1
 metadata:
-  name: blacklist-gmail-bigquery-dataset
+  name: allowlist-custom-role-permissions
   annotations:
-    description: Enforce corporate domain by banning gmail.com addresses access to BigQuery datasets
-    bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
+    description: Custom BigQuery role must only have specific permissions
 spec:
   severity: high
-  match:
-    target: ["organization/*"]
-    exclude: []
   parameters:
-    mode: blacklist
-    assetType: bigquery.googleapis.com/Dataset
-    assetNames: []
-    role: roles/*
-    members:
-    - "user:*@gmail.com"
+    mode: allowlist
+    title: "My Custom BigQuery Role"
+    permissions:
+    - "bigquery.datasets.get"
+    - "bigquery.tables.*"

@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPIAMAllowedBindingsConstraintV1
+package templates.gcp.GCPIAMCustomRolePermissionsConstraintV1
 
 import data.validator.gcp.lib as lib
 
@@ -26,30 +26,27 @@ deny[{
 	lib.get_constraint_params(constraint, params)
 	asset := input.asset
 
-	check_asset_type(asset, params)
+	asset.asset_type == "iam.googleapis.com/Role"
 
-	# Check if resource is part of asset names to scan
-	include_list := lib.get_default(params, "assetNames", [])
-	is_included(include_list, asset.name)
+	asset_permissions := asset.resource.data.includedPermissions[_]
+	asset_title := asset.resource.data.title
 
-	binding := asset.iam_policy.bindings[_]
-	member := binding.members[_]
-	role := binding.role
+	params_title := lib.get_default(params, "title", "*")
 
-	glob.match(params.role, ["/"], role)
+	check_asset_title(asset_title, params_title)
 
-	mode := lib.get_default(params, "mode", "whitelist")
+	mode := lib.get_default(params, "mode", "allowlist")
 
-	matches_found = [m | m = config_pattern(params.members[_]); glob.match(m, [], member)]
+	matches_found = [m | m = config_pattern(params.permissions[_]); glob.match(m, [], asset_permissions)]
 	target_match_count(mode, desired_count)
 	count(matches_found) != desired_count
 
-	message := sprintf("IAM policy for %v grants %v to %v", [asset.name, role, member])
+	message := sprintf("Role %v grants permission %v", [asset.name, asset_permissions])
 
 	metadata := {
 		"resource": asset.name,
-		"member": member,
-		"role": role,
+		"role_title": asset_title,
+		"permission": asset_permissions,
 	}
 }
 
@@ -59,29 +56,20 @@ deny[{
 
 # Determine the overlap between matches under test and constraint
 target_match_count(mode) = 0 {
-	mode == "blacklist"
+	mode == "denylist"
 }
 
 target_match_count(mode) = 1 {
-	mode == "whitelist"
+	mode == "allowlist"
 }
 
-check_asset_type(asset, params) {
-	lib.has_field(params, "assetType")
-	params.assetType == asset.asset_type
+check_asset_title(asset_title, params_title) {
+	params_title == "*"
 }
 
-check_asset_type(asset, params) {
-	lib.has_field(params, "assetType") == false
-}
-
-is_included(include_list, asset_name) {
-	include_list != []
-	glob.match(include_list[_], ["/"], asset_name)
-}
-
-is_included(include_list, asset_name) {
-	include_list == []
+check_asset_title(asset_title, params_title) {
+	params_title != "*"
+	lower(asset_title) == lower(params_title)
 }
 
 # If the member in constraint is written as a single "*", turn it into super
