@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPStorageBucketWorldReadableConstraintV2
+kind: GCPStorageBucketWorldReadableConstraintV1
 metadata:
   name: require_storage_iam_one_exemption
   annotations:

@@ -1,4 +1,4 @@
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,7 +23,15 @@ spec:
         kind: GCPStorageBucketWorldReadableConstraintV1
       validation:
         openAPIV3Schema:
-          properties: {}
+          properties:
+            exemptions:
+              type: array
+              items:
+                type: string
+              description: "Array of GCS buckets to exempt from scanning.
+              String values in the array should correspond to the full name
+              values of exempted GCS buckets.
+              E.g.'//storage.googleapis.com/my-bucket'."
   targets:
    validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/storage_bucket_world_readable.rego")
@@ -43,7 +51,7 @@ spec:
            # limitations under the License.
            #
            
-           package templates.gcp.GCPStorageBucketWorldReadableConstraintV2
+           package templates.gcp.GCPStorageBucketWorldReadableConstraintV1
            
            import data.validator.gcp.lib as lib
            

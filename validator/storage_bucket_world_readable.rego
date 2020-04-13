@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPStorageBucketWorldReadableConstraintV2
+package templates.gcp.GCPStorageBucketWorldReadableConstraintV1
 
 import data.validator.gcp.lib as lib
 

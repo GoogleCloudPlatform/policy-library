@@ -14,9 +14,9 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPStorageBucketWorldReadableConstraintV2
+package templates.gcp.GCPStorageBucketWorldReadableConstraintV1
 
-template_name := "GCPStorageBucketWorldReadableConstraintV2"
+template_name := "GCPStorageBucketWorldReadableConstraintV1"
 
 # Importing the test data
 import data.test.fixtures.storage_bucket_world_readable.assets as fixture_assets
