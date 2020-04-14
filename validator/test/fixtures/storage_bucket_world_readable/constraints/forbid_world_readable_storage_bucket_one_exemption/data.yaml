@@ -1,4 +1,4 @@
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,15 +15,12 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPStorageBucketWorldReadableConstraintV1
 metadata:
-  name: blacklist_public_users
+  name: require_storage_iam_one_exemption
   annotations:
-    description: Prevent public users from having access to resources via IAM
-    bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
-    bundles.validator.forsetisecurity.org/scorecard-v1: security
+    # Example of tying a constraint to a CIS benchmark
+    benchmark: CIS11_5.03
 spec:
   severity: high
-  match:
-    target: ["organization/*"]
-    exclude: [] # optional, default is no exclusions
   parameters:
-    exemptions: [] # optional, default is no exemptions
+    exemptions:
+      - "//storage.googleapis.com/my-second-test-bucket"

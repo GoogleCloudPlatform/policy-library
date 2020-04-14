@@ -1,5 +1,5 @@
 #
-# Copyright 2018 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,22 +16,44 @@
 
 package templates.gcp.GCPStorageBucketWorldReadableConstraintV1
 
-all_violations[violation] {
-	resource := data.test.fixtures.storage_bucket_world_readable.assets[_]
-	constraint := data.test.fixtures.storage_bucket_world_readable.constraints.forbid_world_readable_storage_bucket
+template_name := "GCPStorageBucketWorldReadableConstraintV1"
 
-	issues := deny with input.asset as resource
-		 with input.constraint as constraint
+# Importing the test data
+import data.test.fixtures.storage_bucket_world_readable.assets as fixture_assets
 
-	violation := issues[_]
+# Importing the test constraints
+import data.test.fixtures.storage_bucket_world_readable.constraints.forbid_world_readable_storage_bucket as forbid_world_readable_storage_bucket
+import data.test.fixtures.storage_bucket_world_readable.constraints.forbid_world_readable_storage_bucket_empty_exemption as forbid_world_readable_storage_bucket_empty_exemption
+import data.test.fixtures.storage_bucket_world_readable.constraints.forbid_world_readable_storage_bucket_multiple_exemption as forbid_world_readable_storage_bucket_multiple_exemption
+import data.test.fixtures.storage_bucket_world_readable.constraints.forbid_world_readable_storage_bucket_one_exemption as forbid_world_readable_storage_bucket_one_exemption
+
+# Import test utils
+import data.validator.test_utils as test_utils
+
+test_bucket_all_violations {
+	expected_resource_names := {
+		"//storage.googleapis.com/my-test-bucket",
+		"//storage.googleapis.com/my-second-test-bucket",
+	}
+
+	test_utils.check_test_violations(fixture_assets, [forbid_world_readable_storage_bucket], template_name, expected_resource_names)
 }
 
-# Confirm total violations count
-test_storage_iam_violations_count {
-	count(all_violations) == 2
+test_bucket_one_exemption {
+	expected_resource_names := {"//storage.googleapis.com/my-test-bucket"}
+
+	test_utils.check_test_violations(fixture_assets, [forbid_world_readable_storage_bucket_one_exemption], template_name, expected_resource_names)
 }
 
-test_storage_iam_violations_basic {
-	all_violations[_].details.resource == "//storage.googleapis.com/my-test-bucket"
-	all_violations[_].details.resource == "//storage.googleapis.com/my-second-test-bucket"
+test_bucket_multiple_exemption {
+	test_utils.check_test_violations_count(fixture_assets, [forbid_world_readable_storage_bucket_multiple_exemption], template_name, 0)
+}
+
+test_bucket_empty_exemption {
+	expected_resource_names := {
+		"//storage.googleapis.com/my-test-bucket",
+		"//storage.googleapis.com/my-second-test-bucket",
+	}
+
+	test_utils.check_test_violations(fixture_assets, [forbid_world_readable_storage_bucket_empty_exemption], template_name, expected_resource_names)
 }
