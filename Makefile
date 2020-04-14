@@ -126,6 +126,8 @@ build/rego-%/Dockerfile: cloudbuild/Dockerfile
 	@mkdir -p $(dir $@)
 	@sed -e 's/__REGO_VERSION__/$*/' $^ > $@
 
+# KPT Targets
+
 ## Generate docs
 .PHONY: generate_docs
 generate_docs: # Generate docs
@@ -134,5 +136,13 @@ generate_docs: # Generate docs
 	 docker run -v $(shell pwd)/docs:/docs -i gcr.io/config-validator/generate-docs:dev  -d overwrite=true -d sink_dir=/docs/
 
 .PHONY: docker_build_kpt
-docker_build_kpt_bundle:
+docker_build_kpt_bundle: ## Build docker image for get policy bundle KPT function
 	docker build -f ./bundler/build/get_policy_bundle.Dockerfile -t gcr.io/config-validator/get-policy-bundle:latest ./bundler/
+
+.PHONY: docker_kpt_test
+docker_kpt_test: ## Run npm test for KPT functions
+	docker run -i \
+		--entrypoint=npm \
+		-v $(CURDIR)/bundler/:/workspace \
+		node:10.20.1-alpine3.11 \
+		--prefix /workspace test

@@ -44,3 +44,16 @@ Copy the `forseti-security` bundle to the constriants directory using Docker.
 docker run -v ./samples/:/source gcr.io/kpt-dev/kpt fn source /source | 
 docker run -i -u $(id -u) -v ./policies/constraints/:/sink gcr.io/config-validator/get-policy-bundle:latest -d bundle=bundles.validator.forsetisecurity.org/forseti-security -d sink_dir=/sink -d overwrite=true
 ```
+
+## Tests
+Tests use the Jasmine framework and can be run with npm or with docker.
+
+### Run with Node
+```
+npm --prefix ./bundler test
+```
+
+### Run with Docker
+```
+make docker_kpt_test
+```
