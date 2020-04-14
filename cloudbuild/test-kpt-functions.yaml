@@ -13,6 +13,6 @@
 # limitations under the License.
 
 steps:
-  - name: 'node:10.20.1-alpine3.11'
+  - name: 'docker.io/library/node:10.20.1-alpine3.11'
     entrypoint: 'npm'
-    args: ['--prefix', './bundler', 'test']
+    args: ['--prefix', '/workspace/bundler', 'test']
