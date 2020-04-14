@@ -139,8 +139,8 @@ generate_docs: # Generate docs
 docker_build_kpt_bundle: ## Build docker image for get policy bundle KPT function
 	docker build -f ./bundler/build/get_policy_bundle.Dockerfile -t gcr.io/config-validator/get-policy-bundle:latest ./bundler/
 
-.PHONY: docker_kpt_test
-docker_kpt_test: ## Run npm test for KPT functions
+.PHONY: docker_test_kpt
+docker_test_kpt: ## Run npm test for KPT functions
 	docker run -i \
 		--entrypoint=npm \
 		-v $(CURDIR)/bundler/:/workspace \

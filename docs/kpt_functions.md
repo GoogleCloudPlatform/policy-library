@@ -55,5 +55,5 @@ npm --prefix ./bundler test
 
 ### Run with Docker
 ```
-make docker_kpt_test
+make docker_test_kpt
 ```
