@@ -143,6 +143,6 @@ docker_build_kpt_bundle: ## Build docker image for get policy bundle KPT functio
 docker_test_kpt: ## Run npm test for KPT functions
 	docker run -i \
 		--entrypoint=npm \
-		-v $(CURDIR)/bundler/:/workspace \
-		node:10.20.1-alpine3.11 \
-		--prefix /workspace test
+		-v $(CURDIR):/workspace \
+		docker.io/library/node:10.20.1-alpine3.11 \
+		--prefix /workspace/bundler/ test
