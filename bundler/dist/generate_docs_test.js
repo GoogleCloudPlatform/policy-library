@@ -55,13 +55,33 @@ describe('generateDocs', () => {
         // Reset tmpDir value to confirm test finished normally.
         tmpDir = '';
     });
-    it('creates index.md', () => __awaiter(void 0, void 0, void 0, function* () {
+    it('generates index.md', () => __awaiter(void 0, void 0, void 0, function* () {
         const sinkDir = path.resolve(tmpDir, 'foo');
         const input = yield readTestConfigs(SOURCE_SAMPLES_FILE);
         functionConfig.data[generate_docs_1.OVERWRITE] = 'true';
         functionConfig.data[generate_docs_1.SINK_DIR] = sinkDir;
         const configs = new kpt.Configs(input.getAll(), functionConfig);
         const expectedFile = path.resolve(sinkDir, 'index.md');
+        yield generate_docs_1.generateDocs(configs);
+        expect(fs.existsSync(expectedFile)).toEqual(true);
+    }));
+    it('generates cis-v1.0 bundle docs', () => __awaiter(void 0, void 0, void 0, function* () {
+        const sinkDir = path.resolve(tmpDir, 'foo');
+        const input = yield readTestConfigs(SOURCE_SAMPLES_FILE);
+        functionConfig.data[generate_docs_1.OVERWRITE] = 'true';
+        functionConfig.data[generate_docs_1.SINK_DIR] = sinkDir;
+        const configs = new kpt.Configs(input.getAll(), functionConfig);
+        const expectedFile = path.resolve(sinkDir, generate_docs_1.BUNDLE_DIR, 'cis-v1.0.md');
+        yield generate_docs_1.generateDocs(configs);
+        expect(fs.existsSync(expectedFile)).toEqual(true);
+    }));
+    it('generates cis-v1.1 bundle docs', () => __awaiter(void 0, void 0, void 0, function* () {
+        const sinkDir = path.resolve(tmpDir, 'foo');
+        const input = yield readTestConfigs(SOURCE_SAMPLES_FILE);
+        functionConfig.data[generate_docs_1.OVERWRITE] = 'true';
+        functionConfig.data[generate_docs_1.SINK_DIR] = sinkDir;
+        const configs = new kpt.Configs(input.getAll(), functionConfig);
+        const expectedFile = path.resolve(sinkDir, generate_docs_1.BUNDLE_DIR, 'cis-v1.1.md');
         yield generate_docs_1.generateDocs(configs);
         expect(fs.existsSync(expectedFile)).toEqual(true);
     }));

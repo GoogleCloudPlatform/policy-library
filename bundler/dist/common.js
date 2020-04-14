@@ -35,6 +35,7 @@ class PolicyLibrary {
         this.configs = new Array();
         configs.filter(o => {
             return PolicyConfig.isPolicyObject(o);
+            // return true;
         }).forEach(o => {
             const annotations = o.metadata.annotations || {};
             Object.keys(annotations).forEach(annotation => {
@@ -112,6 +113,9 @@ class PolicyBundle {
 }
 exports.PolicyBundle = PolicyBundle;
 class PolicyConfig {
+    static compare(a, b) {
+        return (PolicyConfig.getName(a) > PolicyConfig.getName(b)) ? 1 : -1;
+    }
     static getDescription(o) {
         return kpt_functions_1.getAnnotation(o, 'description') || '';
     }
@@ -136,13 +140,16 @@ class PolicyConfig {
 }
 exports.PolicyConfig = PolicyConfig;
 class FileWriter {
-    constructor(sinkDir, overwrite, filePattern = '/**/*') {
+    constructor(sinkDir, overwrite, filePattern = '/**/*', create = true) {
+        if (create && !fs_1.existsSync(sinkDir)) {
+            fs_1.mkdirSync(sinkDir, { recursive: true });
+        }
         // If sink diretory is not empty, require 'overwrite' parameter to be set.
-        const docFiles = this.listFiles(sinkDir, filePattern);
-        if (!overwrite && docFiles.length > 0) {
+        const files = this.listFiles(sinkDir, filePattern);
+        if (!overwrite && files.length > 0) {
             throw new Error(`sink dir contains files and overwrite is not set to string 'true'.`);
         }
-        this.filesToDelete = new Set(docFiles);
+        this.filesToDelete = new Set(files);
     }
     finish() {
         // Delete files that are missing from the new configs.
@@ -151,9 +158,6 @@ class FileWriter {
         });
     }
     listFiles(dir, filePattern) {
-        if (!fs_1.existsSync(dir)) {
-            fs_1.mkdirSync(dir, { recursive: true });
-        }
         return glob.sync(dir + filePattern);
     }
     write(file, contents) {

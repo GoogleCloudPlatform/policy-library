@@ -33,6 +33,7 @@ class PolicyLibrary {
 
     configs.filter(o => {
       return PolicyConfig.isPolicyObject(o);
+      // return true;
     }).forEach(o => {
       const annotations = o.metadata.annotations || {};
       Object.keys(annotations).forEach(annotation => {
@@ -125,6 +126,10 @@ class PolicyBundle {
 }
 
 class PolicyConfig {
+  static compare(a: any, b: any) {
+    return (PolicyConfig.getName(a) > PolicyConfig.getName(b)) ? 1 : -1;
+  }
+
   static getDescription(o: any): string {
     return getAnnotation(o, 'description') || '';
   }
@@ -156,16 +161,20 @@ class PolicyConfig {
 class FileWriter {
   filesToDelete: Set<string>;
 
-  constructor(sinkDir: string, overwrite: boolean, filePattern: string = '/**/*') {
+  constructor(sinkDir: string, overwrite: boolean, filePattern: string = '/**/*', create: boolean = true) {
+    if (create && !existsSync(sinkDir)) {
+      mkdirSync(sinkDir, { recursive: true });
+    }
+
     // If sink diretory is not empty, require 'overwrite' parameter to be set.
-    const docFiles = this.listFiles(sinkDir, filePattern);
-    if (!overwrite && docFiles.length > 0) {
+    const files = this.listFiles(sinkDir, filePattern);
+    if (!overwrite && files.length > 0) {
       throw new Error(
         `sink dir contains files and overwrite is not set to string 'true'.`
       );
     }
 
-    this.filesToDelete = new Set(docFiles);
+    this.filesToDelete = new Set(files);
   }
 
   finish() {
@@ -176,9 +185,6 @@ class FileWriter {
   }
 
   listFiles(dir: string, filePattern: string): string[] {
-    if (!existsSync(dir)) {
-      mkdirSync(dir, { recursive: true });
-    }
     return glob.sync(dir + filePattern);
   }
 

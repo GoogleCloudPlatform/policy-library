@@ -19,7 +19,7 @@ import * as kpt from 'kpt-functions';
 import * as os from 'os';
 import * as path from 'path';
 import { ConfigMap } from './gen/io.k8s.api.core.v1';
-import { generateDocs, OVERWRITE, SINK_DIR } from './generate_docs';
+import { generateDocs, BUNDLE_DIR, OVERWRITE, SINK_DIR } from './generate_docs';
 
 const SOURCE_DIR = path.resolve(
   __dirname,
@@ -53,13 +53,39 @@ describe('generateDocs', () => {
     tmpDir = '';
   });
 
-  it('creates index.md', async () => {
+  it('generates index.md', async () => {
     const sinkDir = path.resolve(tmpDir, 'foo');
     const input = await readTestConfigs(SOURCE_SAMPLES_FILE);
     functionConfig.data![OVERWRITE] = 'true';
     functionConfig.data![SINK_DIR] = sinkDir;
     const configs = new kpt.Configs(input.getAll(), functionConfig);
     const expectedFile = path.resolve(sinkDir, 'index.md');
+
+    await generateDocs(configs);
+
+    expect(fs.existsSync(expectedFile)).toEqual(true);
+  });
+
+  it('generates cis-v1.0 bundle docs', async () => {
+    const sinkDir = path.resolve(tmpDir, 'foo');
+    const input = await readTestConfigs(SOURCE_SAMPLES_FILE);
+    functionConfig.data![OVERWRITE] = 'true';
+    functionConfig.data![SINK_DIR] = sinkDir;
+    const configs = new kpt.Configs(input.getAll(), functionConfig);
+    const expectedFile = path.resolve(sinkDir, BUNDLE_DIR, 'cis-v1.0.md');
+
+    await generateDocs(configs);
+
+    expect(fs.existsSync(expectedFile)).toEqual(true);
+  });
+
+  it('generates cis-v1.1 bundle docs', async () => {
+    const sinkDir = path.resolve(tmpDir, 'foo');
+    const input = await readTestConfigs(SOURCE_SAMPLES_FILE);
+    functionConfig.data![OVERWRITE] = 'true';
+    functionConfig.data![SINK_DIR] = sinkDir;
+    const configs = new kpt.Configs(input.getAll(), functionConfig);
+    const expectedFile = path.resolve(sinkDir, BUNDLE_DIR, 'cis-v1.1.md');
 
     await generateDocs(configs);
 
