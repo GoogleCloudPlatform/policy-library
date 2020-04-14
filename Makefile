@@ -132,3 +132,7 @@ generate_docs: # Generate docs
 	@echo "Generating docs with kpt..."
 	@kpt fn source ./samples/ ./policies/ | \
 	 docker run -v $(shell pwd)/docs:/docs -i gcr.io/config-validator/generate-docs:dev  -d overwrite=true -d sink_dir=/docs/
+
+.PHONY: docker_build_kpt
+docker_build_kpt_bundle:
+	docker build -f ./bundler/build/get_policy_bundle.Dockerfile -t gcr.io/config-validator/get-policy-bundle:latest ./bundler/

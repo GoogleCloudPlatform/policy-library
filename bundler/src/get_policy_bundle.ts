@@ -53,15 +53,15 @@ Get policy bundle of constraints based on annoation.
 
 Configured using a ConfigMap with the following keys:
 ${ANNOTATION_NAME}: Name of the policy bundle.
-${SINK_DIR}: [Optional] Path to the config directory to write to; will create if it does not exist.
 ${OVERWRITE}: [Optional] If 'true', overwrite existing YAML files. Otherwise, fail if any YAML files exist.
+${SINK_DIR}: [Optional] Path to the config directory to write to; will create if it does not exist.
 Example:
 apiVersion: v1
 kind: ConfigMap
 data:
   ${ANNOTATION_NAME}: 'bundles.validator.forsetisecurity.org/cis-v1.1'
-  ${SINK_DIR}: /path/to/sink/dir
   ${OVERWRITE}: 'true'
+  ${SINK_DIR}: /path/to/sink/dir
 metadata:
   name: my-config
 `;
