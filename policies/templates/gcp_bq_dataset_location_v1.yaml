@@ -38,12 +38,14 @@ spec:
               resources are allowed in all locations except those listed in the 'locations' parameter."
             exemptions:
               type: array
-              items: string
+              items:
+                type: string
               description: "Array of datasets to exempt from location restriction. String values in the array should 
               correspond to the full name values of exempted datasets."
             locations:
               type: array
-              items: string
+              items:
+                type: string
               description: "Array of location names to be allowed or denied. Should be the the location name, whether regional  
               (e.g. us-west2) or multi-regional (e.g. EU), as defined at https://cloud.google.com/bigquery/docs/locations."
   targets:

@@ -57,7 +57,8 @@ spec:
                 * Any storage buckets where 'numNewerVersions' is 0 or does NOT exist"
             exemptions:
               type: array
-              items: string
+              items:
+                type: string
               description: "Array of storage buckets to exempt from retention restriction. String values in the array
               should correspond to the full name values of exempted storage buckets, e.g.
               //storage.googleapis.com/my-storage-bucket"

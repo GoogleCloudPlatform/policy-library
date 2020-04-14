@@ -28,6 +28,10 @@ deny[{
 
 	check_asset_type(asset, params)
 
+	# Check if resource is part of asset names to scan
+	include_list := lib.get_default(params, "assetNames", [])
+	is_included(include_list, asset.name)
+
 	binding := asset.iam_policy.bindings[_]
 	role := binding.role
 
@@ -68,6 +72,15 @@ check_asset_type(asset, params) {
 
 check_asset_type(asset, params) {
 	lib.has_field(params, "assetType") == false
+}
+
+is_included(include_list, asset_name) {
+	include_list != []
+	glob.match(include_list[_], ["/"], asset_name)
+}
+
+is_included(include_list, asset_name) {
+	include_list == []
 }
 
 # If the member in constraint is written as a single "*", turn it into super

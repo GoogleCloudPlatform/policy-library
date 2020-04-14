@@ -40,7 +40,8 @@ spec:
               Default is master."
             exemptions:
               type: array
-              items: string
+              items:
+                type: string
               description: "Array of GKE clusters in the form of glob expressions to exempt from version restriction.
               Delimiter is '/'.
               E.g. `//container.googleapis.com/projects/project-abc/zones/*/clusters/*` will exempt any clusters
@@ -51,7 +52,8 @@ spec:
               '//container.googleapis.com/projects/wrong-project/zones/us-central1-c/clusters/wrong-cluster'"
             versions:
               type: array
-              items: string
+              items:
+                type: string
               description: "Array of versions that GKE clusters are allowed to have,
               e.g. 1.12.10-gke.17 for master version_type or 1.4.4 for node version_type."
   targets:

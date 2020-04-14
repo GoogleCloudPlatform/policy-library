@@ -31,7 +31,8 @@ spec:
               enum: [denylist, allowlist]
             instances:
               type: array
-              items: string
+              items:
+                type: string
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/gcp_glb_external_ip.rego")

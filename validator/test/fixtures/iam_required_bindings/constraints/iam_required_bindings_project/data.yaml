@@ -8,6 +8,7 @@ spec:
   severity: high
   parameters:
     assetType: cloudresourcemanager.googleapis.com/Project
+    assetNames: []
     role: "roles/*"
     members:
     - "user:required@google.com"

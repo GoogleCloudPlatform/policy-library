@@ -35,7 +35,8 @@ spec:
               enum: [exact, regex]
             instances:
               type: array
-              items: string
+              items:
+                type: string
   targets:
    validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/vm_external_ip.rego")

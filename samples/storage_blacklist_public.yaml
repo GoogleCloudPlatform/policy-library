@@ -25,4 +25,5 @@ spec:
   match:
     target: ["organization/*"]
     exclude: [] # optional, default is no exclusions
-  parameters: {}
+  parameters:
+    exemptions: [] # optional, default is no exemptions
