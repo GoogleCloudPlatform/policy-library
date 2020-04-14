@@ -35,7 +35,6 @@ class PolicyLibrary {
         this.configs = new Array();
         configs.filter(o => {
             return PolicyConfig.isPolicyObject(o);
-            // return true;
         }).forEach(o => {
             const annotations = o.metadata.annotations || {};
             Object.keys(annotations).forEach(annotation => {
