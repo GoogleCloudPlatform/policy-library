@@ -14,41 +14,41 @@
  * limitations under the License.
  */
 
-import * as kpt from 'kpt-functions';
-import * as path from 'path';
-import { ConfigMap } from './gen/io.k8s.api.core.v1';
-import { getPolicyBundle, ANNOTATION_NAME } from './get_policy_bundle';
-import { TestRunner } from 'kpt-functions';
+import * as kpt from "kpt-functions";
+import * as path from "path";
+import { ConfigMap } from "./gen/io.k8s.api.core.v1";
+import { getPolicyBundle, ANNOTATION_NAME } from "./get_policy_bundle";
+import { TestRunner } from "kpt-functions";
 
-const FORSETI_BUNDLE = 'bundles.validator.forsetisecurity.org/forseti-security';
+const FORSETI_BUNDLE = "bundles.validator.forsetisecurity.org/forseti-security";
 const RUNNER = new TestRunner(getPolicyBundle);
 
 const SOURCE_SAMPLES_FILE = path.resolve(
   __dirname,
-  '..',
-  'test-data',
-  'policy-bundle',
-  'source',
-  'samples.yaml'
+  "..",
+  "test-data",
+  "policy-bundle",
+  "source",
+  "samples.yaml"
 );
 
 const SINK_SAMPLES_FILE = path.resolve(
   __dirname,
-  '..',
-  'test-data',
-  'policy-bundle',
-  'sink',
-  'samples.yaml'
+  "..",
+  "test-data",
+  "policy-bundle",
+  "sink",
+  "samples.yaml"
 );
 
-describe('getPolicyBundle', () => {
-  const functionConfig = ConfigMap.named('config');
+describe("getPolicyBundle", () => {
+  const functionConfig = ConfigMap.named("config");
 
   beforeEach(() => {
     functionConfig.data = {};
   });
 
-  it('replicates test dir', async () => {
+  it("replicates test dir", async () => {
     const input = await readTestConfigs(SOURCE_SAMPLES_FILE);
     functionConfig.data![ANNOTATION_NAME] = FORSETI_BUNDLE;
     const configs = new kpt.Configs(input.getAll(), functionConfig);
@@ -57,7 +57,7 @@ describe('getPolicyBundle', () => {
     await getPolicyBundle(configs);
 
     await RUNNER.assert(configs, expectedConfigs);
-  });  
+  });
 });
 
 function readTestConfigs(file: string): Promise<kpt.Configs> {

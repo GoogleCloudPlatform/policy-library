@@ -14,38 +14,46 @@
  * limitations under the License.
  */
 
-import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
-import * as glob from 'glob';
-import { KubernetesObject, getAnnotation } from 'kpt-functions';
-import * as path from 'path';
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  unlinkSync,
+  writeFileSync
+} from "fs";
+import * as glob from "glob";
+import { KubernetesObject, getAnnotation } from "kpt-functions";
+import * as path from "path";
 
 export const BUNDLE_ANNOTATION_REGEX = /bundles.validator.forsetisecurity.org\/(.+)/;
-export const CT_KIND = 'ConstraintTemplate';
+export const CT_KIND = "ConstraintTemplate";
 export const SUPPORTED_API_VERSIONS = /^(constraints|templates).gatekeeper.sh\/v1(.+)$/;
 
 class PolicyLibrary {
-  bundles: Map<String, PolicyBundle>;
+  bundles: Map<string, PolicyBundle>;
   configs: KubernetesObject[];
 
   constructor(configs: KubernetesObject[]) {
     this.bundles = new Map();
     this.configs = new Array();
 
-    configs.filter(o => {
-      return PolicyConfig.isPolicyObject(o);
-    }).forEach(o => {
-      const annotations = o.metadata.annotations || {};
-      Object.keys(annotations).forEach(annotation => {
-        const result = annotation.match(BUNDLE_ANNOTATION_REGEX);
-        if (!result) {
-          return;
-        }
-        const bundle = result[0];
-        const control = annotations[annotation];
-        this.bundlePolicy(bundle, control, o);
+    configs
+      .filter(o => {
+        return PolicyConfig.isPolicyObject(o);
+      })
+      .forEach(o => {
+        const annotations = o.metadata.annotations || {};
+        Object.keys(annotations).forEach(annotation => {
+          const result = annotation.match(BUNDLE_ANNOTATION_REGEX);
+          if (!result) {
+            return;
+          }
+          const bundle = result[0];
+          const control = annotations[annotation];
+          this.bundlePolicy(bundle, control, o);
+        });
+        this.configs.push(o);
       });
-      this.configs.push(o);
-    });
   }
 
   getAll(): KubernetesObject[] {
@@ -57,14 +65,14 @@ class PolicyLibrary {
   }
 
   getTemplate(kind: string): KubernetesObject {
-    const matches = this.getTemplates().filter((o) => {
-      return (<any>o).spec.crd.spec.names.kind === kind;
+    const matches = this.getTemplates().filter(o => {
+      return (o as any).spec.crd.spec.names.kind === kind;
     });
-    return matches[0] || null;
+    return matches[0] || undefined;
   }
 
   getOfKind(kind: string): KubernetesObject[] {
-    return this.configs.filter((o) => {
+    return this.configs.filter(o => {
       return o.kind === kind;
     });
   }
@@ -79,7 +87,7 @@ class PolicyLibrary {
     bundle.addPolicy(policy);
   }
 }
-  
+
 class PolicyBundle {
   key: string;
   configs: KubernetesObject[];
@@ -91,7 +99,7 @@ class PolicyBundle {
 
   getName() {
     const matches = this.key.match(BUNDLE_ANNOTATION_REGEX);
-    return matches ? matches[1] : 'Unknown';
+    return matches ? matches[1] : "Unknown";
   }
 
   getKey() {
@@ -113,7 +121,7 @@ class PolicyBundle {
   write(sinkDir: string, overwrite: boolean) {
     const fileWriter = new FileWriter(sinkDir, overwrite);
     this.configs.forEach((o: any) => {
-      const configPath = getAnnotation(o, 'config.kubernetes.io/path');
+      const configPath = getAnnotation(o, "config.kubernetes.io/path");
       if (!configPath) {
         return;
       }
@@ -126,33 +134,34 @@ class PolicyBundle {
 
 class PolicyConfig {
   static compare(a: any, b: any) {
-    return (PolicyConfig.getName(a) > PolicyConfig.getName(b)) ? 1 : -1;
+    return PolicyConfig.getName(a) > PolicyConfig.getName(b) ? 1 : -1;
   }
 
   static getDescription(o: any): string {
-    return getAnnotation(o, 'description') || '';
+    return getAnnotation(o, "description") || "";
   }
-  
+
   static getName(o: any): string {
     if (o.kind === CT_KIND) {
       return o.spec.crd.spec.names.kind;
     }
     return o.metadata.name;
   }
-  
-  static getPath(o: any, root: string = '../'): string {
-    let targetPath = path.join(root, 'samples');
+
+  static getPath(o: any, root = "../"): string {
+    let targetPath = path.join(root, "samples");
     if (o.kind === CT_KIND) {
-      targetPath = path.join(root, 'policies');
+      targetPath = path.join(root, "policies");
     }
-    return path.join(targetPath, getAnnotation(o, 'config.kubernetes.io/path') || '');
+    return path.join(
+      targetPath,
+      getAnnotation(o, "config.kubernetes.io/path") || ""
+    );
   }
 
   static isPolicyObject(o: any): boolean {
     return (
-      o &&
-      o.apiVersion != '' &&
-      SUPPORTED_API_VERSIONS.test(o.apiVersion)
+      o && o.apiVersion !== "" && SUPPORTED_API_VERSIONS.test(o.apiVersion)
     );
   }
 }
@@ -160,7 +169,12 @@ class PolicyConfig {
 class FileWriter {
   filesToDelete: Set<string>;
 
-  constructor(sinkDir: string, overwrite: boolean, filePattern: string = '/**/*', create: boolean = true) {
+  constructor(
+    sinkDir: string,
+    overwrite: boolean,
+    filePattern = "/**/*",
+    create = true
+  ) {
     if (create && !existsSync(sinkDir)) {
       mkdirSync(sinkDir, { recursive: true });
     }
@@ -193,13 +207,13 @@ class FileWriter {
     if (existsSync(file)) {
       this.filesToDelete.delete(file);
       const currentContents = readFileSync(file).toString();
-      if (contents == currentContents) {
+      if (contents === currentContents) {
         // No changes to make.
         return;
       }
     }
 
-    writeFileSync(file, contents, 'utf8');
+    writeFileSync(file, contents, "utf8");
   }
 }
 

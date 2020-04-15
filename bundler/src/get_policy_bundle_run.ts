@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { run } from 'kpt-functions';
-import { getPolicyBundle } from './get_policy_bundle';
+import { run } from "kpt-functions";
+import { getPolicyBundle } from "./get_policy_bundle";
 
 run(getPolicyBundle);

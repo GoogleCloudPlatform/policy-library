@@ -32,7 +32,9 @@ class APIGroupList {
 }
 exports.APIGroupList = APIGroupList;
 function isAPIGroupList(o) {
-    return o && o.apiVersion === APIGroupList.apiVersion && o.kind === APIGroupList.kind;
+    return (o &&
+        o.apiVersion === APIGroupList.apiVersion &&
+        o.kind === APIGroupList.kind);
 }
 exports.isAPIGroupList = isAPIGroupList;
 (function (APIGroupList) {
@@ -68,7 +70,9 @@ class APIResourceList {
 }
 exports.APIResourceList = APIResourceList;
 function isAPIResourceList(o) {
-    return o && o.apiVersion === APIResourceList.apiVersion && o.kind === APIResourceList.kind;
+    return (o &&
+        o.apiVersion === APIResourceList.apiVersion &&
+        o.kind === APIResourceList.kind);
 }
 exports.isAPIResourceList = isAPIResourceList;
 (function (APIResourceList) {
@@ -88,7 +92,7 @@ class APIVersions {
 }
 exports.APIVersions = APIVersions;
 function isAPIVersions(o) {
-    return o && o.apiVersion === APIVersions.apiVersion && o.kind === APIVersions.kind;
+    return (o && o.apiVersion === APIVersions.apiVersion && o.kind === APIVersions.kind);
 }
 exports.isAPIVersions = isAPIVersions;
 (function (APIVersions) {
@@ -111,7 +115,9 @@ class DeleteOptions {
 }
 exports.DeleteOptions = DeleteOptions;
 function isDeleteOptions(o) {
-    return o && o.apiVersion === DeleteOptions.apiVersion && o.kind === DeleteOptions.kind;
+    return (o &&
+        o.apiVersion === DeleteOptions.apiVersion &&
+        o.kind === DeleteOptions.kind);
 }
 exports.isDeleteOptions = isDeleteOptions;
 (function (DeleteOptions) {
@@ -254,7 +260,7 @@ class WatchEvent {
 }
 exports.WatchEvent = WatchEvent;
 function isWatchEvent(o) {
-    return o && o.apiVersion === WatchEvent.apiVersion && o.kind === WatchEvent.kind;
+    return (o && o.apiVersion === WatchEvent.apiVersion && o.kind === WatchEvent.kind);
 }
 exports.isWatchEvent = isWatchEvent;
 (function (WatchEvent) {

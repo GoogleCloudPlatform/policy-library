@@ -1,6 +1,6 @@
-import { KubernetesObject } from 'kpt-functions';
-import * as apiCoreV1 from './io.k8s.api.core.v1';
-import * as apisMetaV1 from './io.k8s.apimachinery.pkg.apis.meta.v1';
+import { KubernetesObject } from "kpt-functions";
+import * as apiCoreV1 from "./io.k8s.api.core.v1";
+import * as apisMetaV1 from "./io.k8s.apimachinery.pkg.apis.meta.v1";
 
 // Job represents the configuration of a single job.
 export class Job implements KubernetesObject {
@@ -40,7 +40,7 @@ export namespace Job {
 
   // named constructs a Job with metadata.name set to name.
   export function named(name: string): Job {
-    return new Job({metadata: {name}});
+    return new Job({ metadata: { name } });
   }
   // Job represents the configuration of a single job.
   export interface Interface {
@@ -101,7 +101,7 @@ export class JobList {
 
   constructor(desc: JobList) {
     this.apiVersion = JobList.apiVersion;
-    this.items = desc.items.map((i) => new Job(i));
+    this.items = desc.items.map(i => new Job(i));
     this.kind = JobList.kind;
     this.metadata = desc.metadata;
   }

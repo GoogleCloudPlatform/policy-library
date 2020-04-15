@@ -14,35 +14,32 @@
  * limitations under the License.
  */
 
-import * as fs from 'fs-extra';
-import * as kpt from 'kpt-functions';
-import * as os from 'os';
-import * as path from 'path';
-import { ConfigMap } from './gen/io.k8s.api.core.v1';
-import { generateDocs, BUNDLE_DIR, OVERWRITE, SINK_DIR } from './generate_docs';
+import * as fs from "fs-extra";
+import * as kpt from "kpt-functions";
+import * as os from "os";
+import * as path from "path";
+import { ConfigMap } from "./gen/io.k8s.api.core.v1";
+import { generateDocs, BUNDLE_DIR, OVERWRITE, SINK_DIR } from "./generate_docs";
 
 const SOURCE_DIR = path.resolve(
   __dirname,
-  '..',
-  'test-data',
-  'generate-docs',
-  'source'
+  "..",
+  "test-data",
+  "generate-docs",
+  "source"
 );
 
-const SOURCE_SAMPLES_FILE = path.resolve(
-  SOURCE_DIR,
-  'samples_templates.yaml'
-);
+const SOURCE_SAMPLES_FILE = path.resolve(SOURCE_DIR, "samples_templates.yaml");
 
-describe('generateDocs', () => {
-  let tmpDir = '';
-  const functionConfig = ConfigMap.named('config');
+describe("generateDocs", () => {
+  let tmpDir = "";
+  const functionConfig = ConfigMap.named("config");
 
   beforeEach(() => {
     // Ensures tmpDir is unset before testing. Detects incorrectly running tests in parallel, or
     // tests not cleaning up properly.
-    expect(tmpDir).toEqual('');
-    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'generate-docs-test'));
+    expect(tmpDir).toEqual("");
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "generate-docs-test"));
     functionConfig.data = {};
   });
 
@@ -50,42 +47,42 @@ describe('generateDocs', () => {
     // Remove tmpDir so no other tests can have access to the data.
     fs.removeSync(tmpDir);
     // Reset tmpDir value to confirm test finished normally.
-    tmpDir = '';
+    tmpDir = "";
   });
 
-  it('generates index.md', async () => {
-    const sinkDir = path.resolve(tmpDir, 'foo');
+  it("generates index.md", async () => {
+    const sinkDir = path.resolve(tmpDir, "foo");
     const input = await readTestConfigs(SOURCE_SAMPLES_FILE);
-    functionConfig.data![OVERWRITE] = 'true';
+    functionConfig.data![OVERWRITE] = "true";
     functionConfig.data![SINK_DIR] = sinkDir;
     const configs = new kpt.Configs(input.getAll(), functionConfig);
-    const expectedFile = path.resolve(sinkDir, 'index.md');
+    const expectedFile = path.resolve(sinkDir, "index.md");
 
     await generateDocs(configs);
 
     expect(fs.existsSync(expectedFile)).toEqual(true);
   });
 
-  it('generates cis-v1.0 bundle docs', async () => {
-    const sinkDir = path.resolve(tmpDir, 'foo');
+  it("generates cis-v1.0 bundle docs", async () => {
+    const sinkDir = path.resolve(tmpDir, "foo");
     const input = await readTestConfigs(SOURCE_SAMPLES_FILE);
-    functionConfig.data![OVERWRITE] = 'true';
+    functionConfig.data![OVERWRITE] = "true";
     functionConfig.data![SINK_DIR] = sinkDir;
     const configs = new kpt.Configs(input.getAll(), functionConfig);
-    const expectedFile = path.resolve(sinkDir, BUNDLE_DIR, 'cis-v1.0.md');
+    const expectedFile = path.resolve(sinkDir, BUNDLE_DIR, "cis-v1.0.md");
 
     await generateDocs(configs);
 
     expect(fs.existsSync(expectedFile)).toEqual(true);
   });
 
-  it('generates cis-v1.1 bundle docs', async () => {
-    const sinkDir = path.resolve(tmpDir, 'foo');
+  it("generates cis-v1.1 bundle docs", async () => {
+    const sinkDir = path.resolve(tmpDir, "foo");
     const input = await readTestConfigs(SOURCE_SAMPLES_FILE);
-    functionConfig.data![OVERWRITE] = 'true';
+    functionConfig.data![OVERWRITE] = "true";
     functionConfig.data![SINK_DIR] = sinkDir;
     const configs = new kpt.Configs(input.getAll(), functionConfig);
-    const expectedFile = path.resolve(sinkDir, BUNDLE_DIR, 'cis-v1.1.md');
+    const expectedFile = path.resolve(sinkDir, BUNDLE_DIR, "cis-v1.1.md");
 
     await generateDocs(configs);
 

@@ -1,5 +1,5 @@
-import { KubernetesObject } from 'kpt-functions';
-import * as apisMetaV1 from './io.k8s.apimachinery.pkg.apis.meta.v1';
+import { KubernetesObject } from "kpt-functions";
+import * as apisMetaV1 from "./io.k8s.apimachinery.pkg.apis.meta.v1";
 
 // Lease defines a lease concept.
 export class Lease implements KubernetesObject {
@@ -35,7 +35,7 @@ export namespace Lease {
 
   // named constructs a Lease with metadata.name set to name.
   export function named(name: string): Lease {
-    return new Lease({metadata: {name}});
+    return new Lease({ metadata: { name } });
   }
   // Lease defines a lease concept.
   export interface Interface {
@@ -63,14 +63,16 @@ export class LeaseList {
 
   constructor(desc: LeaseList) {
     this.apiVersion = LeaseList.apiVersion;
-    this.items = desc.items.map((i) => new Lease(i));
+    this.items = desc.items.map(i => new Lease(i));
     this.kind = LeaseList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isLeaseList(o: any): o is LeaseList {
-  return o && o.apiVersion === LeaseList.apiVersion && o.kind === LeaseList.kind;
+  return (
+    o && o.apiVersion === LeaseList.apiVersion && o.kind === LeaseList.kind
+  );
 }
 
 export namespace LeaseList {

@@ -64,14 +64,12 @@ describe('PolicyLibrary', () => {
         });
     }));
     it("builds policy bundles", () => __awaiter(void 0, void 0, void 0, function* () {
-        var _a;
         const input = yield readTestConfigs(SOURCE_BUNDLE_FILE);
         const configs = new kpt.Configs(input.getAll());
         const expectedConfigs = yield readTestConfigs(SINK_BUNDLE_FILE);
         const library = new common_1.PolicyLibrary(configs.getAll());
         const bundle = library.bundles.get(FORSETI_BUNDLE);
-        const actualConfigs = new kpt.Configs((_a = bundle) === null || _a === void 0 ? void 0 : _a.configs);
-        expect(bundle).not.toBeNull();
+        const actualConfigs = bundle ? new kpt.Configs(bundle.configs) : new kpt.Configs();
         expect(valueOf(actualConfigs)).toEqual(valueOf(expectedConfigs));
     }));
 });
@@ -90,8 +88,8 @@ describe('FileWriter', () => {
         tmpDir = '';
     });
     it("throws if --overwrite isn't passed for non-empty directory", () => __awaiter(void 0, void 0, void 0, function* () {
-        const fileWriter = function () { new common_1.FileWriter(SINK_DIR, false); };
-        expect(fileWriter).toHaveBeenCalledTimes;
+        const fileWriter = () => { new common_1.FileWriter(SINK_DIR, false); };
+        expect(fileWriter).toThrowError(/sink dir contains files/);
     }));
     it("silently makes output directory if it doesn't exist", () => __awaiter(void 0, void 0, void 0, function* () {
         const sinkDir = path.resolve(tmpDir, 'foo');

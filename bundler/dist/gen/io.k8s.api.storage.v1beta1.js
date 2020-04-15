@@ -11,7 +11,7 @@ class CSIDriver {
 }
 exports.CSIDriver = CSIDriver;
 function isCSIDriver(o) {
-    return o && o.apiVersion === CSIDriver.apiVersion && o.kind === CSIDriver.kind;
+    return (o && o.apiVersion === CSIDriver.apiVersion && o.kind === CSIDriver.kind);
 }
 exports.isCSIDriver = isCSIDriver;
 (function (CSIDriver) {
@@ -24,14 +24,16 @@ exports.isCSIDriver = isCSIDriver;
 class CSIDriverList {
     constructor(desc) {
         this.apiVersion = CSIDriverList.apiVersion;
-        this.items = desc.items.map((i) => new CSIDriver(i));
+        this.items = desc.items.map(i => new CSIDriver(i));
         this.kind = CSIDriverList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.CSIDriverList = CSIDriverList;
 function isCSIDriverList(o) {
-    return o && o.apiVersion === CSIDriverList.apiVersion && o.kind === CSIDriverList.kind;
+    return (o &&
+        o.apiVersion === CSIDriverList.apiVersion &&
+        o.kind === CSIDriverList.kind);
 }
 exports.isCSIDriverList = isCSIDriverList;
 (function (CSIDriverList) {
@@ -77,14 +79,14 @@ exports.CSINodeDriver = CSINodeDriver;
 class CSINodeList {
     constructor(desc) {
         this.apiVersion = CSINodeList.apiVersion;
-        this.items = desc.items.map((i) => new CSINode(i));
+        this.items = desc.items.map(i => new CSINode(i));
         this.kind = CSINodeList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.CSINodeList = CSINodeList;
 function isCSINodeList(o) {
-    return o && o.apiVersion === CSINodeList.apiVersion && o.kind === CSINodeList.kind;
+    return (o && o.apiVersion === CSINodeList.apiVersion && o.kind === CSINodeList.kind);
 }
 exports.isCSINodeList = isCSINodeList;
 (function (CSINodeList) {
@@ -101,7 +103,7 @@ class CSINodeSpec {
 }
 exports.CSINodeSpec = CSINodeSpec;
 // StorageClass describes the parameters for a class of storage for which PersistentVolumes can be dynamically provisioned.
-// 
+//
 // StorageClasses are non-namespaced; the name of the storage class according to etcd is in ObjectMeta.Name.
 class StorageClass {
     constructor(desc) {
@@ -119,7 +121,9 @@ class StorageClass {
 }
 exports.StorageClass = StorageClass;
 function isStorageClass(o) {
-    return o && o.apiVersion === StorageClass.apiVersion && o.kind === StorageClass.kind;
+    return (o &&
+        o.apiVersion === StorageClass.apiVersion &&
+        o.kind === StorageClass.kind);
 }
 exports.isStorageClass = isStorageClass;
 (function (StorageClass) {
@@ -132,14 +136,16 @@ exports.isStorageClass = isStorageClass;
 class StorageClassList {
     constructor(desc) {
         this.apiVersion = StorageClassList.apiVersion;
-        this.items = desc.items.map((i) => new StorageClass(i));
+        this.items = desc.items.map(i => new StorageClass(i));
         this.kind = StorageClassList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.StorageClassList = StorageClassList;
 function isStorageClassList(o) {
-    return o && o.apiVersion === StorageClassList.apiVersion && o.kind === StorageClassList.kind;
+    return (o &&
+        o.apiVersion === StorageClassList.apiVersion &&
+        o.kind === StorageClassList.kind);
 }
 exports.isStorageClassList = isStorageClassList;
 (function (StorageClassList) {
@@ -149,7 +155,7 @@ exports.isStorageClassList = isStorageClassList;
     StorageClassList.kind = "StorageClassList";
 })(StorageClassList = exports.StorageClassList || (exports.StorageClassList = {}));
 // VolumeAttachment captures the intent to attach or detach the specified volume to/from the specified node.
-// 
+//
 // VolumeAttachment objects are non-namespaced.
 class VolumeAttachment {
     constructor(desc) {
@@ -162,7 +168,9 @@ class VolumeAttachment {
 }
 exports.VolumeAttachment = VolumeAttachment;
 function isVolumeAttachment(o) {
-    return o && o.apiVersion === VolumeAttachment.apiVersion && o.kind === VolumeAttachment.kind;
+    return (o &&
+        o.apiVersion === VolumeAttachment.apiVersion &&
+        o.kind === VolumeAttachment.kind);
 }
 exports.isVolumeAttachment = isVolumeAttachment;
 (function (VolumeAttachment) {
@@ -175,14 +183,16 @@ exports.isVolumeAttachment = isVolumeAttachment;
 class VolumeAttachmentList {
     constructor(desc) {
         this.apiVersion = VolumeAttachmentList.apiVersion;
-        this.items = desc.items.map((i) => new VolumeAttachment(i));
+        this.items = desc.items.map(i => new VolumeAttachment(i));
         this.kind = VolumeAttachmentList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.VolumeAttachmentList = VolumeAttachmentList;
 function isVolumeAttachmentList(o) {
-    return o && o.apiVersion === VolumeAttachmentList.apiVersion && o.kind === VolumeAttachmentList.kind;
+    return (o &&
+        o.apiVersion === VolumeAttachmentList.apiVersion &&
+        o.kind === VolumeAttachmentList.kind);
 }
 exports.isVolumeAttachmentList = isVolumeAttachmentList;
 (function (VolumeAttachmentList) {

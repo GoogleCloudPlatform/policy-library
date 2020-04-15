@@ -30,7 +30,7 @@ class DaemonSet {
 }
 exports.DaemonSet = DaemonSet;
 function isDaemonSet(o) {
-    return o && o.apiVersion === DaemonSet.apiVersion && o.kind === DaemonSet.kind;
+    return (o && o.apiVersion === DaemonSet.apiVersion && o.kind === DaemonSet.kind);
 }
 exports.isDaemonSet = isDaemonSet;
 (function (DaemonSet) {
@@ -59,14 +59,16 @@ exports.DaemonSetCondition = DaemonSetCondition;
 class DaemonSetList {
     constructor(desc) {
         this.apiVersion = DaemonSetList.apiVersion;
-        this.items = desc.items.map((i) => new DaemonSet(i));
+        this.items = desc.items.map(i => new DaemonSet(i));
         this.kind = DaemonSetList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.DaemonSetList = DaemonSetList;
 function isDaemonSetList(o) {
-    return o && o.apiVersion === DaemonSetList.apiVersion && o.kind === DaemonSetList.kind;
+    return (o &&
+        o.apiVersion === DaemonSetList.apiVersion &&
+        o.kind === DaemonSetList.kind);
 }
 exports.isDaemonSetList = isDaemonSetList;
 (function (DaemonSetList) {
@@ -118,7 +120,7 @@ class Deployment {
 }
 exports.Deployment = Deployment;
 function isDeployment(o) {
-    return o && o.apiVersion === Deployment.apiVersion && o.kind === Deployment.kind;
+    return (o && o.apiVersion === Deployment.apiVersion && o.kind === Deployment.kind);
 }
 exports.isDeployment = isDeployment;
 (function (Deployment) {
@@ -148,14 +150,16 @@ exports.DeploymentCondition = DeploymentCondition;
 class DeploymentList {
     constructor(desc) {
         this.apiVersion = DeploymentList.apiVersion;
-        this.items = desc.items.map((i) => new Deployment(i));
+        this.items = desc.items.map(i => new Deployment(i));
         this.kind = DeploymentList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.DeploymentList = DeploymentList;
 function isDeploymentList(o) {
-    return o && o.apiVersion === DeploymentList.apiVersion && o.kind === DeploymentList.kind;
+    return (o &&
+        o.apiVersion === DeploymentList.apiVersion &&
+        o.kind === DeploymentList.kind);
 }
 exports.isDeploymentList = isDeploymentList;
 (function (DeploymentList) {
@@ -176,7 +180,9 @@ class DeploymentRollback {
 }
 exports.DeploymentRollback = DeploymentRollback;
 function isDeploymentRollback(o) {
-    return o && o.apiVersion === DeploymentRollback.apiVersion && o.kind === DeploymentRollback.kind;
+    return (o &&
+        o.apiVersion === DeploymentRollback.apiVersion &&
+        o.kind === DeploymentRollback.kind);
 }
 exports.isDeploymentRollback = isDeploymentRollback;
 (function (DeploymentRollback) {
@@ -289,14 +295,14 @@ exports.IngressBackend = IngressBackend;
 class IngressList {
     constructor(desc) {
         this.apiVersion = IngressList.apiVersion;
-        this.items = desc.items.map((i) => new Ingress(i));
+        this.items = desc.items.map(i => new Ingress(i));
         this.kind = IngressList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.IngressList = IngressList;
 function isIngressList(o) {
-    return o && o.apiVersion === IngressList.apiVersion && o.kind === IngressList.kind;
+    return (o && o.apiVersion === IngressList.apiVersion && o.kind === IngressList.kind);
 }
 exports.isIngressList = isIngressList;
 (function (IngressList) {
@@ -332,7 +338,9 @@ class NetworkPolicy {
 }
 exports.NetworkPolicy = NetworkPolicy;
 function isNetworkPolicy(o) {
-    return o && o.apiVersion === NetworkPolicy.apiVersion && o.kind === NetworkPolicy.kind;
+    return (o &&
+        o.apiVersion === NetworkPolicy.apiVersion &&
+        o.kind === NetworkPolicy.kind);
 }
 exports.isNetworkPolicy = isNetworkPolicy;
 (function (NetworkPolicy) {
@@ -358,14 +366,16 @@ exports.NetworkPolicyIngressRule = NetworkPolicyIngressRule;
 class NetworkPolicyList {
     constructor(desc) {
         this.apiVersion = NetworkPolicyList.apiVersion;
-        this.items = desc.items.map((i) => new NetworkPolicy(i));
+        this.items = desc.items.map(i => new NetworkPolicy(i));
         this.kind = NetworkPolicyList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.NetworkPolicyList = NetworkPolicyList;
 function isNetworkPolicyList(o) {
-    return o && o.apiVersion === NetworkPolicyList.apiVersion && o.kind === NetworkPolicyList.kind;
+    return (o &&
+        o.apiVersion === NetworkPolicyList.apiVersion &&
+        o.kind === NetworkPolicyList.kind);
 }
 exports.isNetworkPolicyList = isNetworkPolicyList;
 (function (NetworkPolicyList) {
@@ -403,7 +413,9 @@ class PodSecurityPolicy {
 }
 exports.PodSecurityPolicy = PodSecurityPolicy;
 function isPodSecurityPolicy(o) {
-    return o && o.apiVersion === PodSecurityPolicy.apiVersion && o.kind === PodSecurityPolicy.kind;
+    return (o &&
+        o.apiVersion === PodSecurityPolicy.apiVersion &&
+        o.kind === PodSecurityPolicy.kind);
 }
 exports.isPodSecurityPolicy = isPodSecurityPolicy;
 (function (PodSecurityPolicy) {
@@ -421,14 +433,16 @@ exports.isPodSecurityPolicy = isPodSecurityPolicy;
 class PodSecurityPolicyList {
     constructor(desc) {
         this.apiVersion = PodSecurityPolicyList.apiVersion;
-        this.items = desc.items.map((i) => new PodSecurityPolicy(i));
+        this.items = desc.items.map(i => new PodSecurityPolicy(i));
         this.kind = PodSecurityPolicyList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.PodSecurityPolicyList = PodSecurityPolicyList;
 function isPodSecurityPolicyList(o) {
-    return o && o.apiVersion === PodSecurityPolicyList.apiVersion && o.kind === PodSecurityPolicyList.kind;
+    return (o &&
+        o.apiVersion === PodSecurityPolicyList.apiVersion &&
+        o.kind === PodSecurityPolicyList.kind);
 }
 exports.isPodSecurityPolicyList = isPodSecurityPolicyList;
 (function (PodSecurityPolicyList) {
@@ -478,7 +492,7 @@ class ReplicaSet {
 }
 exports.ReplicaSet = ReplicaSet;
 function isReplicaSet(o) {
-    return o && o.apiVersion === ReplicaSet.apiVersion && o.kind === ReplicaSet.kind;
+    return (o && o.apiVersion === ReplicaSet.apiVersion && o.kind === ReplicaSet.kind);
 }
 exports.isReplicaSet = isReplicaSet;
 (function (ReplicaSet) {
@@ -507,14 +521,16 @@ exports.ReplicaSetCondition = ReplicaSetCondition;
 class ReplicaSetList {
     constructor(desc) {
         this.apiVersion = ReplicaSetList.apiVersion;
-        this.items = desc.items.map((i) => new ReplicaSet(i));
+        this.items = desc.items.map(i => new ReplicaSet(i));
         this.kind = ReplicaSetList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.ReplicaSetList = ReplicaSetList;
 function isReplicaSetList(o) {
-    return o && o.apiVersion === ReplicaSetList.apiVersion && o.kind === ReplicaSetList.kind;
+    return (o &&
+        o.apiVersion === ReplicaSetList.apiVersion &&
+        o.kind === ReplicaSetList.kind);
 }
 exports.isReplicaSetList = isReplicaSetList;
 (function (ReplicaSetList) {

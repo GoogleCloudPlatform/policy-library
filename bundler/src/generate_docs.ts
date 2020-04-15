@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-import { Configs } from 'kpt-functions';
-import * as path from 'path';
-import { CT_KIND, FileWriter, PolicyLibrary, PolicyConfig } from './common'
+import { Configs } from "kpt-functions";
+import * as path from "path";
+import { CT_KIND, FileWriter, PolicyLibrary, PolicyConfig } from "./common";
 
-const mdTable = require('markdown-table');
-export const SOURCE_DIR = 'sink_dir';
-export const SINK_DIR = 'sink_dir';
-export const BUNDLE_DIR = 'bundles';
-export const OVERWRITE = 'overwrite';
+const MD_TABLE = require("markdown-table");
+export const SOURCE_DIR = "sink_dir";
+export const SINK_DIR = "sink_dir";
+export const BUNDLE_DIR = "bundles";
+export const OVERWRITE = "overwrite";
 
-const FILE_PATTERN_MD = '/**/*.+(md)';
+const FILE_PATTERN_MD = "/**/*.+(md)";
 
 export async function generateDocs(configs: Configs) {
   // Get the paramters
   const sinkDir = configs.getFunctionConfigValueOrThrow(SINK_DIR);
-  const overwrite = configs.getFunctionConfigValue(OVERWRITE) === 'true';
+  const overwrite = configs.getFunctionConfigValue(OVERWRITE) === "true";
 
   // Create bundle dir and writer
   const bundleDir = path.join(sinkDir, BUNDLE_DIR);
@@ -48,36 +48,55 @@ export async function generateDocs(configs: Configs) {
   fileWriter.finish();
 
   // filter out non-policy objects
-  configs.getAll().filter(o => {
-    return !PolicyConfig.isPolicyObject(o);
-  }).forEach(o => {
-    configs.delete(o);
-  });
+  configs
+    .getAll()
+    .filter(o => {
+      return !PolicyConfig.isPolicyObject(o);
+    })
+    .forEach(o => {
+      configs.delete(o);
+    });
 }
 
-function generateIndexDoc(fileWriter: FileWriter, library: PolicyLibrary, sinkDir: string) {
+function generateIndexDoc(
+  fileWriter: FileWriter,
+  library: PolicyLibrary,
+  sinkDir: string
+) {
   // Templates
   const templates = [["Template", "Samples"]];
-  library.getTemplates().sort((a, b) => PolicyConfig.compare(a, b)).forEach((o) => {
-    const constraints = library.getOfKind((<any>o).spec.crd.spec.names.kind);
-    templates.push([
-      `[${PolicyConfig.getName(o)}](${PolicyConfig.getPath(o)})`,
-      constraints.map((c) => `[${PolicyConfig.getName(c)}](${PolicyConfig.getPath(c)})`).join(', ')
-    ]);
-  });
+  library
+    .getTemplates()
+    .sort((a, b) => PolicyConfig.compare(a, b))
+    .forEach(o => {
+      const constraints = library.getOfKind(
+        (o as any).spec.crd.spec.names.kind
+      );
+      const templateLink = `[${PolicyConfig.getName(o)}](${PolicyConfig.getPath(
+        o
+      )})`;
+      const samples = constraints
+        .map(c => `[${PolicyConfig.getName(c)}](${PolicyConfig.getPath(c)})`)
+        .join(", ");
+      templates.push([templateLink, samples]);
+    });
 
   // Samples
   const samples = [["Sample", "Template", "Description"]];
-  library.getAll().filter(o => {
-    return o.kind != CT_KIND;
-  }).sort((a, b) => PolicyConfig.compare(a, b)).forEach((o) => {
-    const name = `[${PolicyConfig.getName(o)}](${PolicyConfig.getPath(o)})`;
-    const description = PolicyConfig.getDescription(o);
-    const ct = library.getTemplate(o.kind);
-    const ctName = ct ? `[Link](${PolicyConfig.getPath(ct)})` : "";
+  library
+    .getAll()
+    .filter(o => {
+      return o.kind !== CT_KIND;
+    })
+    .sort((a, b) => PolicyConfig.compare(a, b))
+    .forEach(o => {
+      const name = `[${PolicyConfig.getName(o)}](${PolicyConfig.getPath(o)})`;
+      const description = PolicyConfig.getDescription(o);
+      const ct = library.getTemplate(o.kind);
+      const ctName = ct ? `[Link](${PolicyConfig.getPath(ct)})` : "";
 
-    samples.push([name, ctName, description]);
-  });
+      samples.push([name, ctName, description]);
+    });
 
   const templateDoc = `# Config Validator Policy Library
 
@@ -100,35 +119,45 @@ you can explore these policy bundles:
 
 ## Available Templates
 
-${mdTable(templates)}
+${MD_TABLE(templates)}
 
 ## Sample Constraints
 
 The repo also contains a number of sample constraints:
 
-${mdTable(samples)}
+${MD_TABLE(samples)}
 `;
 
   const templateDocPath = path.join(sinkDir, "index.md");
   fileWriter.write(templateDocPath, templateDoc);
 }
 
-function generateBundleDocs(bundleDir: string, fileWriter: FileWriter, library: PolicyLibrary) {
-  library.bundles.forEach((bundle) => {
+function generateBundleDocs(
+  bundleDir: string,
+  fileWriter: FileWriter,
+  library: PolicyLibrary
+) {
+  library.bundles.forEach(bundle => {
     const constraints = [["Constraint", "Control", "Description"]];
-    bundle.getConfigs().sort((a, b) => PolicyConfig.compare(a, b)).forEach((o) => {
-      const name = `[${PolicyConfig.getName(o)}](${PolicyConfig.getPath(o, "../../")})`;
-      const control = bundle.getControl(o);
-      const description = PolicyConfig.getDescription(o);
-    
-      constraints.push([name, control, description]);
-    });
+    bundle
+      .getConfigs()
+      .sort((a, b) => PolicyConfig.compare(a, b))
+      .forEach(o => {
+        const name = `[${PolicyConfig.getName(o)}](${PolicyConfig.getPath(
+          o,
+          "../../"
+        )})`;
+        const control = bundle.getControl(o);
+        const description = PolicyConfig.getDescription(o);
+
+        constraints.push([name, control, description]);
+      });
 
     const contents = `# ${bundle.getName()}
 
 ## Constraints
 
-${mdTable(constraints)}
+${MD_TABLE(constraints)}
 
 `;
 

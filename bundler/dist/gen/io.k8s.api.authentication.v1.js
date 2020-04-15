@@ -12,7 +12,7 @@ class TokenReview {
 }
 exports.TokenReview = TokenReview;
 function isTokenReview(o) {
-    return o && o.apiVersion === TokenReview.apiVersion && o.kind === TokenReview.kind;
+    return (o && o.apiVersion === TokenReview.apiVersion && o.kind === TokenReview.kind);
 }
 exports.isTokenReview = isTokenReview;
 (function (TokenReview) {

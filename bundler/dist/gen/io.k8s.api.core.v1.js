@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 // Represents a Persistent Disk resource in AWS.
-// 
+//
 // An AWS EBS disk must exist before mounting to a container. The disk must also be in the same AWS zone as the kubelet. An AWS EBS disk can only be mounted as read/write once. AWS EBS volumes support ownership management and SELinux relabeling.
 class AWSElasticBlockStoreVolumeSource {
     constructor(desc) {
@@ -173,7 +173,9 @@ class ComponentStatus {
 }
 exports.ComponentStatus = ComponentStatus;
 function isComponentStatus(o) {
-    return o && o.apiVersion === ComponentStatus.apiVersion && o.kind === ComponentStatus.kind;
+    return (o &&
+        o.apiVersion === ComponentStatus.apiVersion &&
+        o.kind === ComponentStatus.kind);
 }
 exports.isComponentStatus = isComponentStatus;
 (function (ComponentStatus) {
@@ -191,14 +193,16 @@ exports.isComponentStatus = isComponentStatus;
 class ComponentStatusList {
     constructor(desc) {
         this.apiVersion = ComponentStatusList.apiVersion;
-        this.items = desc.items.map((i) => new ComponentStatus(i));
+        this.items = desc.items.map(i => new ComponentStatus(i));
         this.kind = ComponentStatusList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.ComponentStatusList = ComponentStatusList;
 function isComponentStatusList(o) {
-    return o && o.apiVersion === ComponentStatusList.apiVersion && o.kind === ComponentStatusList.kind;
+    return (o &&
+        o.apiVersion === ComponentStatusList.apiVersion &&
+        o.kind === ComponentStatusList.kind);
 }
 exports.isComponentStatusList = isComponentStatusList;
 (function (ComponentStatusList) {
@@ -219,7 +223,7 @@ class ConfigMap {
 }
 exports.ConfigMap = ConfigMap;
 function isConfigMap(o) {
-    return o && o.apiVersion === ConfigMap.apiVersion && o.kind === ConfigMap.kind;
+    return (o && o.apiVersion === ConfigMap.apiVersion && o.kind === ConfigMap.kind);
 }
 exports.isConfigMap = isConfigMap;
 (function (ConfigMap) {
@@ -234,7 +238,7 @@ exports.isConfigMap = isConfigMap;
     ConfigMap.named = named;
 })(ConfigMap = exports.ConfigMap || (exports.ConfigMap = {}));
 // ConfigMapEnvSource selects a ConfigMap to populate the environment variables with.
-// 
+//
 // The contents of the target ConfigMap's Data field will represent the key-value pairs as environment variables.
 class ConfigMapEnvSource {
 }
@@ -252,14 +256,16 @@ exports.ConfigMapKeySelector = ConfigMapKeySelector;
 class ConfigMapList {
     constructor(desc) {
         this.apiVersion = ConfigMapList.apiVersion;
-        this.items = desc.items.map((i) => new ConfigMap(i));
+        this.items = desc.items.map(i => new ConfigMap(i));
         this.kind = ConfigMapList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.ConfigMapList = ConfigMapList;
 function isConfigMapList(o) {
-    return o && o.apiVersion === ConfigMapList.apiVersion && o.kind === ConfigMapList.kind;
+    return (o &&
+        o.apiVersion === ConfigMapList.apiVersion &&
+        o.kind === ConfigMapList.kind);
 }
 exports.isConfigMapList = isConfigMapList;
 (function (ConfigMapList) {
@@ -280,13 +286,13 @@ class ConfigMapNodeConfigSource {
 }
 exports.ConfigMapNodeConfigSource = ConfigMapNodeConfigSource;
 // Adapts a ConfigMap into a projected volume.
-// 
+//
 // The contents of the target ConfigMap's Data field will be presented in a projected volume as files using the keys in the Data field as the file names, unless the items element is populated with specific mappings of keys to paths. Note that this is identical to a configmap volume source without the default mode.
 class ConfigMapProjection {
 }
 exports.ConfigMapProjection = ConfigMapProjection;
 // Adapts a ConfigMap into a volume.
-// 
+//
 // The contents of the target ConfigMap's Data field will be presented in a volume as files using the keys in the Data field as the file names, unless the items element is populated with specific mappings of keys to paths. ConfigMap volumes support ownership management and SELinux relabeling.
 class ConfigMapVolumeSource {
 }
@@ -457,7 +463,7 @@ class Endpoints {
 }
 exports.Endpoints = Endpoints;
 function isEndpoints(o) {
-    return o && o.apiVersion === Endpoints.apiVersion && o.kind === Endpoints.kind;
+    return (o && o.apiVersion === Endpoints.apiVersion && o.kind === Endpoints.kind);
 }
 exports.isEndpoints = isEndpoints;
 (function (Endpoints) {
@@ -475,14 +481,16 @@ exports.isEndpoints = isEndpoints;
 class EndpointsList {
     constructor(desc) {
         this.apiVersion = EndpointsList.apiVersion;
-        this.items = desc.items.map((i) => new Endpoints(i));
+        this.items = desc.items.map(i => new Endpoints(i));
         this.kind = EndpointsList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.EndpointsList = EndpointsList;
 function isEndpointsList(o) {
-    return o && o.apiVersion === EndpointsList.apiVersion && o.kind === EndpointsList.kind;
+    return (o &&
+        o.apiVersion === EndpointsList.apiVersion &&
+        o.kind === EndpointsList.kind);
 }
 exports.isEndpointsList = isEndpointsList;
 (function (EndpointsList) {
@@ -545,14 +553,14 @@ exports.isEvent = isEvent;
 class EventList {
     constructor(desc) {
         this.apiVersion = EventList.apiVersion;
-        this.items = desc.items.map((i) => new Event(i));
+        this.items = desc.items.map(i => new Event(i));
         this.kind = EventList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.EventList = EventList;
 function isEventList(o) {
-    return o && o.apiVersion === EventList.apiVersion && o.kind === EventList.kind;
+    return (o && o.apiVersion === EventList.apiVersion && o.kind === EventList.kind);
 }
 exports.isEventList = isEventList;
 (function (EventList) {
@@ -604,7 +612,7 @@ class FlockerVolumeSource {
 }
 exports.FlockerVolumeSource = FlockerVolumeSource;
 // Represents a Persistent Disk resource in Google Compute Engine.
-// 
+//
 // A GCE PD must exist before mounting to a container. The disk must also be in the same GCE project and zone as the kubelet. A GCE PD can only be mounted as read/write once or read-only many times. GCE PDs support ownership management and SELinux relabeling.
 class GCEPersistentDiskVolumeSource {
     constructor(desc) {
@@ -616,7 +624,7 @@ class GCEPersistentDiskVolumeSource {
 }
 exports.GCEPersistentDiskVolumeSource = GCEPersistentDiskVolumeSource;
 // Represents a volume that is populated with the contents of a git repository. Git repo volumes do not support ownership management. Git repo volumes support SELinux relabeling.
-// 
+//
 // DEPRECATED: GitRepo is deprecated. To provision a container with a git repo, mount an EmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir into the Pod's container.
 class GitRepoVolumeSource {
     constructor(desc) {
@@ -738,7 +746,7 @@ class LimitRange {
 }
 exports.LimitRange = LimitRange;
 function isLimitRange(o) {
-    return o && o.apiVersion === LimitRange.apiVersion && o.kind === LimitRange.kind;
+    return (o && o.apiVersion === LimitRange.apiVersion && o.kind === LimitRange.kind);
 }
 exports.isLimitRange = isLimitRange;
 (function (LimitRange) {
@@ -760,14 +768,16 @@ exports.LimitRangeItem = LimitRangeItem;
 class LimitRangeList {
     constructor(desc) {
         this.apiVersion = LimitRangeList.apiVersion;
-        this.items = desc.items.map((i) => new LimitRange(i));
+        this.items = desc.items.map(i => new LimitRange(i));
         this.kind = LimitRangeList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.LimitRangeList = LimitRangeList;
 function isLimitRangeList(o) {
-    return o && o.apiVersion === LimitRangeList.apiVersion && o.kind === LimitRangeList.kind;
+    return (o &&
+        o.apiVersion === LimitRangeList.apiVersion &&
+        o.kind === LimitRangeList.kind);
 }
 exports.isLimitRangeList = isLimitRangeList;
 (function (LimitRangeList) {
@@ -824,7 +834,7 @@ class Namespace {
 }
 exports.Namespace = Namespace;
 function isNamespace(o) {
-    return o && o.apiVersion === Namespace.apiVersion && o.kind === Namespace.kind;
+    return (o && o.apiVersion === Namespace.apiVersion && o.kind === Namespace.kind);
 }
 exports.isNamespace = isNamespace;
 (function (Namespace) {
@@ -842,14 +852,16 @@ exports.isNamespace = isNamespace;
 class NamespaceList {
     constructor(desc) {
         this.apiVersion = NamespaceList.apiVersion;
-        this.items = desc.items.map((i) => new Namespace(i));
+        this.items = desc.items.map(i => new Namespace(i));
         this.kind = NamespaceList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.NamespaceList = NamespaceList;
 function isNamespaceList(o) {
-    return o && o.apiVersion === NamespaceList.apiVersion && o.kind === NamespaceList.kind;
+    return (o &&
+        o.apiVersion === NamespaceList.apiVersion &&
+        o.kind === NamespaceList.kind);
 }
 exports.isNamespaceList = isNamespaceList;
 (function (NamespaceList) {
@@ -932,7 +944,7 @@ exports.NodeDaemonEndpoints = NodeDaemonEndpoints;
 class NodeList {
     constructor(desc) {
         this.apiVersion = NodeList.apiVersion;
-        this.items = desc.items.map((i) => new Node(i));
+        this.items = desc.items.map(i => new Node(i));
         this.kind = NodeList.kind;
         this.metadata = desc.metadata;
     }
@@ -1016,7 +1028,9 @@ class PersistentVolume {
 }
 exports.PersistentVolume = PersistentVolume;
 function isPersistentVolume(o) {
-    return o && o.apiVersion === PersistentVolume.apiVersion && o.kind === PersistentVolume.kind;
+    return (o &&
+        o.apiVersion === PersistentVolume.apiVersion &&
+        o.kind === PersistentVolume.kind);
 }
 exports.isPersistentVolume = isPersistentVolume;
 (function (PersistentVolume) {
@@ -1042,7 +1056,9 @@ class PersistentVolumeClaim {
 }
 exports.PersistentVolumeClaim = PersistentVolumeClaim;
 function isPersistentVolumeClaim(o) {
-    return o && o.apiVersion === PersistentVolumeClaim.apiVersion && o.kind === PersistentVolumeClaim.kind;
+    return (o &&
+        o.apiVersion === PersistentVolumeClaim.apiVersion &&
+        o.kind === PersistentVolumeClaim.kind);
 }
 exports.isPersistentVolumeClaim = isPersistentVolumeClaim;
 (function (PersistentVolumeClaim) {
@@ -1072,14 +1088,16 @@ exports.PersistentVolumeClaimCondition = PersistentVolumeClaimCondition;
 class PersistentVolumeClaimList {
     constructor(desc) {
         this.apiVersion = PersistentVolumeClaimList.apiVersion;
-        this.items = desc.items.map((i) => new PersistentVolumeClaim(i));
+        this.items = desc.items.map(i => new PersistentVolumeClaim(i));
         this.kind = PersistentVolumeClaimList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.PersistentVolumeClaimList = PersistentVolumeClaimList;
 function isPersistentVolumeClaimList(o) {
-    return o && o.apiVersion === PersistentVolumeClaimList.apiVersion && o.kind === PersistentVolumeClaimList.kind;
+    return (o &&
+        o.apiVersion === PersistentVolumeClaimList.apiVersion &&
+        o.kind === PersistentVolumeClaimList.kind);
 }
 exports.isPersistentVolumeClaimList = isPersistentVolumeClaimList;
 (function (PersistentVolumeClaimList) {
@@ -1108,14 +1126,16 @@ exports.PersistentVolumeClaimVolumeSource = PersistentVolumeClaimVolumeSource;
 class PersistentVolumeList {
     constructor(desc) {
         this.apiVersion = PersistentVolumeList.apiVersion;
-        this.items = desc.items.map((i) => new PersistentVolume(i));
+        this.items = desc.items.map(i => new PersistentVolume(i));
         this.kind = PersistentVolumeList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.PersistentVolumeList = PersistentVolumeList;
 function isPersistentVolumeList(o) {
-    return o && o.apiVersion === PersistentVolumeList.apiVersion && o.kind === PersistentVolumeList.kind;
+    return (o &&
+        o.apiVersion === PersistentVolumeList.apiVersion &&
+        o.kind === PersistentVolumeList.kind);
 }
 exports.isPersistentVolumeList = isPersistentVolumeList;
 (function (PersistentVolumeList) {
@@ -1207,7 +1227,7 @@ exports.PodDNSConfigOption = PodDNSConfigOption;
 class PodList {
     constructor(desc) {
         this.apiVersion = PodList.apiVersion;
-        this.items = desc.items.map((i) => new Pod(i));
+        this.items = desc.items.map(i => new Pod(i));
         this.kind = PodList.kind;
         this.metadata = desc.metadata;
     }
@@ -1285,7 +1305,7 @@ class PodTemplate {
 }
 exports.PodTemplate = PodTemplate;
 function isPodTemplate(o) {
-    return o && o.apiVersion === PodTemplate.apiVersion && o.kind === PodTemplate.kind;
+    return (o && o.apiVersion === PodTemplate.apiVersion && o.kind === PodTemplate.kind);
 }
 exports.isPodTemplate = isPodTemplate;
 (function (PodTemplate) {
@@ -1303,14 +1323,16 @@ exports.isPodTemplate = isPodTemplate;
 class PodTemplateList {
     constructor(desc) {
         this.apiVersion = PodTemplateList.apiVersion;
-        this.items = desc.items.map((i) => new PodTemplate(i));
+        this.items = desc.items.map(i => new PodTemplate(i));
         this.kind = PodTemplateList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.PodTemplateList = PodTemplateList;
 function isPodTemplateList(o) {
-    return o && o.apiVersion === PodTemplateList.apiVersion && o.kind === PodTemplateList.kind;
+    return (o &&
+        o.apiVersion === PodTemplateList.apiVersion &&
+        o.kind === PodTemplateList.kind);
 }
 exports.isPodTemplateList = isPodTemplateList;
 (function (PodTemplateList) {
@@ -1404,7 +1426,9 @@ class ReplicationController {
 }
 exports.ReplicationController = ReplicationController;
 function isReplicationController(o) {
-    return o && o.apiVersion === ReplicationController.apiVersion && o.kind === ReplicationController.kind;
+    return (o &&
+        o.apiVersion === ReplicationController.apiVersion &&
+        o.kind === ReplicationController.kind);
 }
 exports.isReplicationController = isReplicationController;
 (function (ReplicationController) {
@@ -1433,14 +1457,16 @@ exports.ReplicationControllerCondition = ReplicationControllerCondition;
 class ReplicationControllerList {
     constructor(desc) {
         this.apiVersion = ReplicationControllerList.apiVersion;
-        this.items = desc.items.map((i) => new ReplicationController(i));
+        this.items = desc.items.map(i => new ReplicationController(i));
         this.kind = ReplicationControllerList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.ReplicationControllerList = ReplicationControllerList;
 function isReplicationControllerList(o) {
-    return o && o.apiVersion === ReplicationControllerList.apiVersion && o.kind === ReplicationControllerList.kind;
+    return (o &&
+        o.apiVersion === ReplicationControllerList.apiVersion &&
+        o.kind === ReplicationControllerList.kind);
 }
 exports.isReplicationControllerList = isReplicationControllerList;
 (function (ReplicationControllerList) {
@@ -1486,7 +1512,9 @@ class ResourceQuota {
 }
 exports.ResourceQuota = ResourceQuota;
 function isResourceQuota(o) {
-    return o && o.apiVersion === ResourceQuota.apiVersion && o.kind === ResourceQuota.kind;
+    return (o &&
+        o.apiVersion === ResourceQuota.apiVersion &&
+        o.kind === ResourceQuota.kind);
 }
 exports.isResourceQuota = isResourceQuota;
 (function (ResourceQuota) {
@@ -1504,14 +1532,16 @@ exports.isResourceQuota = isResourceQuota;
 class ResourceQuotaList {
     constructor(desc) {
         this.apiVersion = ResourceQuotaList.apiVersion;
-        this.items = desc.items.map((i) => new ResourceQuota(i));
+        this.items = desc.items.map(i => new ResourceQuota(i));
         this.kind = ResourceQuotaList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.ResourceQuotaList = ResourceQuotaList;
 function isResourceQuotaList(o) {
-    return o && o.apiVersion === ResourceQuotaList.apiVersion && o.kind === ResourceQuotaList.kind;
+    return (o &&
+        o.apiVersion === ResourceQuotaList.apiVersion &&
+        o.kind === ResourceQuotaList.kind);
 }
 exports.isResourceQuotaList = isResourceQuotaList;
 (function (ResourceQuotaList) {
@@ -1609,7 +1639,7 @@ exports.isSecret = isSecret;
     Secret.named = named;
 })(Secret = exports.Secret || (exports.Secret = {}));
 // SecretEnvSource selects a Secret to populate the environment variables with.
-// 
+//
 // The contents of the target Secret's Data field will represent the key-value pairs as environment variables.
 class SecretEnvSource {
 }
@@ -1627,14 +1657,14 @@ exports.SecretKeySelector = SecretKeySelector;
 class SecretList {
     constructor(desc) {
         this.apiVersion = SecretList.apiVersion;
-        this.items = desc.items.map((i) => new Secret(i));
+        this.items = desc.items.map(i => new Secret(i));
         this.kind = SecretList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.SecretList = SecretList;
 function isSecretList(o) {
-    return o && o.apiVersion === SecretList.apiVersion && o.kind === SecretList.kind;
+    return (o && o.apiVersion === SecretList.apiVersion && o.kind === SecretList.kind);
 }
 exports.isSecretList = isSecretList;
 (function (SecretList) {
@@ -1644,7 +1674,7 @@ exports.isSecretList = isSecretList;
     SecretList.kind = "SecretList";
 })(SecretList = exports.SecretList || (exports.SecretList = {}));
 // Adapts a secret into a projected volume.
-// 
+//
 // The contents of the target Secret's Data field will be presented in a projected volume as files using the keys in the Data field as the file names. Note that this is identical to a secret volume source without the default mode.
 class SecretProjection {
 }
@@ -1654,7 +1684,7 @@ class SecretReference {
 }
 exports.SecretReference = SecretReference;
 // Adapts a Secret into a volume.
-// 
+//
 // The contents of the target Secret's Data field will be presented in a volume as files using the keys in the Data field as the file names. Secret volumes support ownership management and SELinux relabeling.
 class SecretVolumeSource {
 }
@@ -1702,7 +1732,9 @@ class ServiceAccount {
 }
 exports.ServiceAccount = ServiceAccount;
 function isServiceAccount(o) {
-    return o && o.apiVersion === ServiceAccount.apiVersion && o.kind === ServiceAccount.kind;
+    return (o &&
+        o.apiVersion === ServiceAccount.apiVersion &&
+        o.kind === ServiceAccount.kind);
 }
 exports.isServiceAccount = isServiceAccount;
 (function (ServiceAccount) {
@@ -1720,14 +1752,16 @@ exports.isServiceAccount = isServiceAccount;
 class ServiceAccountList {
     constructor(desc) {
         this.apiVersion = ServiceAccountList.apiVersion;
-        this.items = desc.items.map((i) => new ServiceAccount(i));
+        this.items = desc.items.map(i => new ServiceAccount(i));
         this.kind = ServiceAccountList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.ServiceAccountList = ServiceAccountList;
 function isServiceAccountList(o) {
-    return o && o.apiVersion === ServiceAccountList.apiVersion && o.kind === ServiceAccountList.kind;
+    return (o &&
+        o.apiVersion === ServiceAccountList.apiVersion &&
+        o.kind === ServiceAccountList.kind);
 }
 exports.isServiceAccountList = isServiceAccountList;
 (function (ServiceAccountList) {
@@ -1749,14 +1783,14 @@ exports.ServiceAccountTokenProjection = ServiceAccountTokenProjection;
 class ServiceList {
     constructor(desc) {
         this.apiVersion = ServiceList.apiVersion;
-        this.items = desc.items.map((i) => new Service(i));
+        this.items = desc.items.map(i => new Service(i));
         this.kind = ServiceList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.ServiceList = ServiceList;
 function isServiceList(o) {
-    return o && o.apiVersion === ServiceList.apiVersion && o.kind === ServiceList.kind;
+    return (o && o.apiVersion === ServiceList.apiVersion && o.kind === ServiceList.kind);
 }
 exports.isServiceList = isServiceList;
 (function (ServiceList) {

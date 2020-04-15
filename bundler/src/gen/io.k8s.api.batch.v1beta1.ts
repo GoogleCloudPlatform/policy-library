@@ -1,7 +1,7 @@
-import { KubernetesObject } from 'kpt-functions';
-import * as apiBatchV1 from './io.k8s.api.batch.v1';
-import * as apiCoreV1 from './io.k8s.api.core.v1';
-import * as apisMetaV1 from './io.k8s.apimachinery.pkg.apis.meta.v1';
+import { KubernetesObject } from "kpt-functions";
+import * as apiBatchV1 from "./io.k8s.api.batch.v1";
+import * as apiCoreV1 from "./io.k8s.api.core.v1";
+import * as apisMetaV1 from "./io.k8s.apimachinery.pkg.apis.meta.v1";
 
 // CronJob represents the configuration of a single cron job.
 export class CronJob implements KubernetesObject {
@@ -41,7 +41,7 @@ export namespace CronJob {
 
   // named constructs a CronJob with metadata.name set to name.
   export function named(name: string): CronJob {
-    return new CronJob({metadata: {name}});
+    return new CronJob({ metadata: { name } });
   }
   // CronJob represents the configuration of a single cron job.
   export interface Interface {
@@ -72,14 +72,16 @@ export class CronJobList {
 
   constructor(desc: CronJobList) {
     this.apiVersion = CronJobList.apiVersion;
-    this.items = desc.items.map((i) => new CronJob(i));
+    this.items = desc.items.map(i => new CronJob(i));
     this.kind = CronJobList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isCronJobList(o: any): o is CronJobList {
-  return o && o.apiVersion === CronJobList.apiVersion && o.kind === CronJobList.kind;
+  return (
+    o && o.apiVersion === CronJobList.apiVersion && o.kind === CronJobList.kind
+  );
 }
 
 export namespace CronJobList {

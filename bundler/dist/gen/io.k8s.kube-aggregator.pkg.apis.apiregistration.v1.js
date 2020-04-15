@@ -12,7 +12,7 @@ class APIService {
 }
 exports.APIService = APIService;
 function isAPIService(o) {
-    return o && o.apiVersion === APIService.apiVersion && o.kind === APIService.kind;
+    return (o && o.apiVersion === APIService.apiVersion && o.kind === APIService.kind);
 }
 exports.isAPIService = isAPIService;
 (function (APIService) {
@@ -41,14 +41,16 @@ exports.APIServiceCondition = APIServiceCondition;
 class APIServiceList {
     constructor(desc) {
         this.apiVersion = APIServiceList.apiVersion;
-        this.items = desc.items.map((i) => new APIService(i));
+        this.items = desc.items.map(i => new APIService(i));
         this.kind = APIServiceList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.APIServiceList = APIServiceList;
 function isAPIServiceList(o) {
-    return o && o.apiVersion === APIServiceList.apiVersion && o.kind === APIServiceList.kind;
+    return (o &&
+        o.apiVersion === APIServiceList.apiVersion &&
+        o.kind === APIServiceList.kind);
 }
 exports.isAPIServiceList = isAPIServiceList;
 (function (APIServiceList) {

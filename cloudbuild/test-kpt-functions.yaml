@@ -14,8 +14,14 @@
 
 steps:
   - name: 'docker.io/library/node:10.20.1-alpine3.11'
+    id: 'npm-install'
     entrypoint: 'npm'
     args: ['--prefix', '/workspace/bundler', 'install']
   - name: 'docker.io/library/node:10.20.1-alpine3.11'
     entrypoint: 'npm'
+    args: ['--prefix', '/workspace/bundler', 'run', 'lint']
+    waitFor: ['npm-install']
+  - name: 'docker.io/library/node:10.20.1-alpine3.11'
+    entrypoint: 'npm'
     args: ['--prefix', '/workspace/bundler', 'test']
+    waitFor: ['npm-install']

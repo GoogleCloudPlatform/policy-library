@@ -1,5 +1,5 @@
-import { KubernetesObject } from 'kpt-functions';
-import * as apisMetaV1 from './io.k8s.apimachinery.pkg.apis.meta.v1';
+import { KubernetesObject } from "kpt-functions";
+import * as apisMetaV1 from "./io.k8s.apimachinery.pkg.apis.meta.v1";
 
 // RuntimeClass defines a class of container runtime supported in the cluster. The RuntimeClass is used to determine which container runtime is used to run all containers in a pod. RuntimeClasses are (currently) manually defined by a user or cluster provisioner, and referenced in the PodSpec. The Kubelet is responsible for resolving the RuntimeClassName reference before running the pod.  For more details, see https://git.k8s.io/enhancements/keps/sig-node/runtime-class.md
 export class RuntimeClass implements KubernetesObject {
@@ -24,7 +24,11 @@ export class RuntimeClass implements KubernetesObject {
 }
 
 export function isRuntimeClass(o: any): o is RuntimeClass {
-  return o && o.apiVersion === RuntimeClass.apiVersion && o.kind === RuntimeClass.kind;
+  return (
+    o &&
+    o.apiVersion === RuntimeClass.apiVersion &&
+    o.kind === RuntimeClass.kind
+  );
 }
 
 export namespace RuntimeClass {
@@ -59,14 +63,18 @@ export class RuntimeClassList {
 
   constructor(desc: RuntimeClassList) {
     this.apiVersion = RuntimeClassList.apiVersion;
-    this.items = desc.items.map((i) => new RuntimeClass(i));
+    this.items = desc.items.map(i => new RuntimeClass(i));
     this.kind = RuntimeClassList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isRuntimeClassList(o: any): o is RuntimeClassList {
-  return o && o.apiVersion === RuntimeClassList.apiVersion && o.kind === RuntimeClassList.kind;
+  return (
+    o &&
+    o.apiVersion === RuntimeClassList.apiVersion &&
+    o.kind === RuntimeClassList.kind
+  );
 }
 
 export namespace RuntimeClassList {

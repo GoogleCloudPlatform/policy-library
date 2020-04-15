@@ -14,28 +14,26 @@
  * limitations under the License.
  */
 
-import { Configs } from 'kpt-functions';
-import { PolicyLibrary } from './common'
+import { Configs } from "kpt-functions";
+import { PolicyLibrary } from "./common";
 
-export const ANNOTATION_NAME = 'bundle';
-export const SINK_DIR = 'sink_dir';
-export const OVERWRITE = 'overwrite';
+export const ANNOTATION_NAME = "bundle";
+export const SINK_DIR = "sink_dir";
+export const OVERWRITE = "overwrite";
 
 export async function getPolicyBundle(configs: Configs) {
   // Get the paramters
   const annotationName = configs.getFunctionConfigValueOrThrow(ANNOTATION_NAME);
   const sinkDir = configs.getFunctionConfigValue(SINK_DIR);
-  const overwrite = configs.getFunctionConfigValue(OVERWRITE) === 'true';
-  
+  const overwrite = configs.getFunctionConfigValue(OVERWRITE) === "true";
+
   // Build the policy library
   const library = new PolicyLibrary(configs.getAll());
 
   // Get bundle
   const bundle = library.bundles.get(annotationName);
   if (bundle === undefined) {
-    throw new Error(
-      `bundle does not exist: ` + annotationName + `.`
-    );
+    throw new Error(`bundle does not exist: ` + annotationName + `.`);
   }
 
   // Write bundle to sink dir

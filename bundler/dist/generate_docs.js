@@ -33,17 +33,17 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = __importStar(require("path"));
 const common_1 = require("./common");
-const mdTable = require('markdown-table');
-exports.SOURCE_DIR = 'sink_dir';
-exports.SINK_DIR = 'sink_dir';
-exports.BUNDLE_DIR = 'bundles';
-exports.OVERWRITE = 'overwrite';
-const FILE_PATTERN_MD = '/**/*.+(md)';
+const MD_TABLE = require("markdown-table");
+exports.SOURCE_DIR = "sink_dir";
+exports.SINK_DIR = "sink_dir";
+exports.BUNDLE_DIR = "bundles";
+exports.OVERWRITE = "overwrite";
+const FILE_PATTERN_MD = "/**/*.+(md)";
 function generateDocs(configs) {
     return __awaiter(this, void 0, void 0, function* () {
         // Get the paramters
         const sinkDir = configs.getFunctionConfigValueOrThrow(exports.SINK_DIR);
-        const overwrite = configs.getFunctionConfigValue(exports.OVERWRITE) === 'true';
+        const overwrite = configs.getFunctionConfigValue(exports.OVERWRITE) === "true";
         // Create bundle dir and writer
         const bundleDir = path.join(sinkDir, exports.BUNDLE_DIR);
         const fileWriter = new common_1.FileWriter(bundleDir, overwrite, FILE_PATTERN_MD);
@@ -56,9 +56,12 @@ function generateDocs(configs) {
         // Remove old docs
         fileWriter.finish();
         // filter out non-policy objects
-        configs.getAll().filter(o => {
+        configs
+            .getAll()
+            .filter(o => {
             return !common_1.PolicyConfig.isPolicyObject(o);
-        }).forEach(o => {
+        })
+            .forEach(o => {
             configs.delete(o);
         });
     });
@@ -67,18 +70,26 @@ exports.generateDocs = generateDocs;
 function generateIndexDoc(fileWriter, library, sinkDir) {
     // Templates
     const templates = [["Template", "Samples"]];
-    library.getTemplates().sort((a, b) => common_1.PolicyConfig.compare(a, b)).forEach((o) => {
+    library
+        .getTemplates()
+        .sort((a, b) => common_1.PolicyConfig.compare(a, b))
+        .forEach(o => {
         const constraints = library.getOfKind(o.spec.crd.spec.names.kind);
-        templates.push([
-            `[${common_1.PolicyConfig.getName(o)}](${common_1.PolicyConfig.getPath(o)})`,
-            constraints.map((c) => `[${common_1.PolicyConfig.getName(c)}](${common_1.PolicyConfig.getPath(c)})`).join(', ')
-        ]);
+        const templateLink = `[${common_1.PolicyConfig.getName(o)}](${common_1.PolicyConfig.getPath(o)})`;
+        const samples = constraints
+            .map(c => `[${common_1.PolicyConfig.getName(c)}](${common_1.PolicyConfig.getPath(c)})`)
+            .join(", ");
+        templates.push([templateLink, samples]);
     });
     // Samples
     const samples = [["Sample", "Template", "Description"]];
-    library.getAll().filter(o => {
-        return o.kind != common_1.CT_KIND;
-    }).sort((a, b) => common_1.PolicyConfig.compare(a, b)).forEach((o) => {
+    library
+        .getAll()
+        .filter(o => {
+        return o.kind !== common_1.CT_KIND;
+    })
+        .sort((a, b) => common_1.PolicyConfig.compare(a, b))
+        .forEach(o => {
         const name = `[${common_1.PolicyConfig.getName(o)}](${common_1.PolicyConfig.getPath(o)})`;
         const description = common_1.PolicyConfig.getDescription(o);
         const ct = library.getTemplate(o.kind);
@@ -106,21 +117,24 @@ you can explore these policy bundles:
 
 ## Available Templates
 
-${mdTable(templates)}
+${MD_TABLE(templates)}
 
 ## Sample Constraints
 
 The repo also contains a number of sample constraints:
 
-${mdTable(samples)}
+${MD_TABLE(samples)}
 `;
     const templateDocPath = path.join(sinkDir, "index.md");
     fileWriter.write(templateDocPath, templateDoc);
 }
 function generateBundleDocs(bundleDir, fileWriter, library) {
-    library.bundles.forEach((bundle) => {
+    library.bundles.forEach(bundle => {
         const constraints = [["Constraint", "Control", "Description"]];
-        bundle.getConfigs().sort((a, b) => common_1.PolicyConfig.compare(a, b)).forEach((o) => {
+        bundle
+            .getConfigs()
+            .sort((a, b) => common_1.PolicyConfig.compare(a, b))
+            .forEach(o => {
             const name = `[${common_1.PolicyConfig.getName(o)}](${common_1.PolicyConfig.getPath(o, "../../")})`;
             const control = bundle.getControl(o);
             const description = common_1.PolicyConfig.getDescription(o);
@@ -130,7 +144,7 @@ function generateBundleDocs(bundleDir, fileWriter, library) {
 
 ## Constraints
 
-${mdTable(constraints)}
+${MD_TABLE(constraints)}
 
 `;
         const file = path.join(bundleDir, `${bundle.getKey()}.md`);

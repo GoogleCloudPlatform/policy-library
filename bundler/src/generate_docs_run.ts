@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { generateDocs } from './generate_docs';
-import { run } from 'kpt-functions';
+import { generateDocs } from "./generate_docs";
+import { run } from "kpt-functions";
 
 run(generateDocs);

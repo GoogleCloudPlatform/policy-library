@@ -66,7 +66,7 @@ describe('PolicyLibrary', () => {
     library.configs.forEach((config) => {
       const configName = config.metadata.name || '';
       expect(configName).not.toEqual(INVALID_CONSTRAINT_NAME);
-    })
+    });
   });
 
   it("filters out policy objects without an annotation", async () => {
@@ -78,7 +78,7 @@ describe('PolicyLibrary', () => {
     library.configs.forEach((config) => {
       const configName = config.metadata.name || '';
       expect(configName).not.toEqual(CONSTRAINT_WITHOUT_BUNDLE_NAME);
-    })
+    });
   });
 
   it("builds policy bundles", async () => {
@@ -88,9 +88,8 @@ describe('PolicyLibrary', () => {
 
     const library = new PolicyLibrary(configs.getAll());
     const bundle = library.bundles.get(FORSETI_BUNDLE);
-    const actualConfigs = new kpt.Configs(bundle?.configs);
+    const actualConfigs = bundle ? new kpt.Configs(bundle.configs) : new kpt.Configs();
 
-    expect(bundle).not.toBeNull();
     expect(valueOf(actualConfigs)).toEqual(valueOf(expectedConfigs));
   });
 });
@@ -113,8 +112,8 @@ describe('FileWriter', () => {
   });
 
   it("throws if --overwrite isn't passed for non-empty directory", async () => {
-    const fileWriter = function() { new FileWriter(SINK_DIR, false); }
-    expect(fileWriter).toHaveBeenCalledTimes
+    const fileWriter = () => { new FileWriter(SINK_DIR, false); };
+    expect(fileWriter).toThrowError(/sink dir contains files/);
   });
 
   it("silently makes output directory if it doesn't exist", async () => {
@@ -143,7 +142,7 @@ describe('FileWriter', () => {
     const fileWriter = new FileWriter(sinkDir, true);
 
     fileWriter.write(file, fileContents);
-    const actualFileContents = fs.readFileSync(file).toString()
+    const actualFileContents = fs.readFileSync(file).toString();
 
     expect(JSON.parse(JSON.stringify(fileContents))).toEqual(JSON.parse(JSON.stringify(actualFileContents)));
   });

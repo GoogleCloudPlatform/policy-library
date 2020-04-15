@@ -1,5 +1,5 @@
-import { KubernetesObject } from 'kpt-functions';
-import * as apisMetaV1 from './io.k8s.apimachinery.pkg.apis.meta.v1';
+import { KubernetesObject } from "kpt-functions";
+import * as apisMetaV1 from "./io.k8s.apimachinery.pkg.apis.meta.v1";
 
 // CrossVersionObjectReference contains enough information to let you identify the referred resource.
 export class CrossVersionObjectReference {
@@ -45,8 +45,14 @@ export class HorizontalPodAutoscaler implements KubernetesObject {
   }
 }
 
-export function isHorizontalPodAutoscaler(o: any): o is HorizontalPodAutoscaler {
-  return o && o.apiVersion === HorizontalPodAutoscaler.apiVersion && o.kind === HorizontalPodAutoscaler.kind;
+export function isHorizontalPodAutoscaler(
+  o: any
+): o is HorizontalPodAutoscaler {
+  return (
+    o &&
+    o.apiVersion === HorizontalPodAutoscaler.apiVersion &&
+    o.kind === HorizontalPodAutoscaler.kind
+  );
 }
 
 export namespace HorizontalPodAutoscaler {
@@ -57,7 +63,7 @@ export namespace HorizontalPodAutoscaler {
 
   // named constructs a HorizontalPodAutoscaler with metadata.name set to name.
   export function named(name: string): HorizontalPodAutoscaler {
-    return new HorizontalPodAutoscaler({metadata: {name}});
+    return new HorizontalPodAutoscaler({ metadata: { name } });
   }
   // configuration of a horizontal pod autoscaler.
   export interface Interface {
@@ -88,14 +94,20 @@ export class HorizontalPodAutoscalerList {
 
   constructor(desc: HorizontalPodAutoscalerList) {
     this.apiVersion = HorizontalPodAutoscalerList.apiVersion;
-    this.items = desc.items.map((i) => new HorizontalPodAutoscaler(i));
+    this.items = desc.items.map(i => new HorizontalPodAutoscaler(i));
     this.kind = HorizontalPodAutoscalerList.kind;
     this.metadata = desc.metadata;
   }
 }
 
-export function isHorizontalPodAutoscalerList(o: any): o is HorizontalPodAutoscalerList {
-  return o && o.apiVersion === HorizontalPodAutoscalerList.apiVersion && o.kind === HorizontalPodAutoscalerList.kind;
+export function isHorizontalPodAutoscalerList(
+  o: any
+): o is HorizontalPodAutoscalerList {
+  return (
+    o &&
+    o.apiVersion === HorizontalPodAutoscalerList.apiVersion &&
+    o.kind === HorizontalPodAutoscalerList.kind
+  );
 }
 
 export namespace HorizontalPodAutoscalerList {
@@ -200,7 +212,7 @@ export namespace Scale {
 
   // named constructs a Scale with metadata.name set to name.
   export function named(name: string): Scale {
-    return new Scale({metadata: {name}});
+    return new Scale({ metadata: { name } });
   }
   // Scale represents a scaling request for a resource.
   export interface Interface {

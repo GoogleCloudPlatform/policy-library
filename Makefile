@@ -146,3 +146,11 @@ docker_test_kpt: ## Run npm test for KPT functions
 		-v $(CURDIR):/workspace \
 		docker.io/library/node:10.20.1-alpine3.11 \
 		--prefix /workspace/bundler/ test
+
+.PHONY: docker_test_lint_kpt
+docker_test_lint_kpt: ## Run tslint for KPT functions
+	docker run -i \
+		--entrypoint=npm \
+		-v $(CURDIR):/workspace \
+		docker.io/library/node:10.20.1-alpine3.11 \
+		--prefix /workspace/bundler/ run lint
