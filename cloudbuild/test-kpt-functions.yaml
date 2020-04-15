@@ -15,4 +15,7 @@
 steps:
   - name: 'docker.io/library/node:10.20.1-alpine3.11'
     entrypoint: 'npm'
+    args: ['--prefix', '/workspace/bundler', 'install']
+  - name: 'docker.io/library/node:10.20.1-alpine3.11'
+    entrypoint: 'npm'
     args: ['--prefix', '/workspace/bundler', 'test']
