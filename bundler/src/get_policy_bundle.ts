@@ -18,14 +18,10 @@ import { Configs } from "kpt-functions";
 import { PolicyLibrary } from "./common";
 
 export const ANNOTATION_NAME = "bundle";
-export const SINK_DIR = "sink_dir";
-export const OVERWRITE = "overwrite";
 
 export async function getPolicyBundle(configs: Configs) {
   // Get the paramters
   const annotationName = configs.getFunctionConfigValueOrThrow(ANNOTATION_NAME);
-  const sinkDir = configs.getFunctionConfigValue(SINK_DIR);
-  const overwrite = configs.getFunctionConfigValue(OVERWRITE) === "true";
 
   // Build the policy library
   const library = new PolicyLibrary(configs.getAll());
@@ -34,11 +30,6 @@ export async function getPolicyBundle(configs: Configs) {
   const bundle = library.bundles.get(annotationName);
   if (bundle === undefined) {
     throw new Error(`bundle does not exist: ` + annotationName + `.`);
-  }
-
-  // Write bundle to sink dir
-  if (sinkDir) {
-    bundle.write(sinkDir, overwrite);
   }
 
   // Return the bundle
@@ -51,15 +42,11 @@ Get policy bundle of constraints based on annoation.
 
 Configured using a ConfigMap with the following keys:
 ${ANNOTATION_NAME}: Name of the policy bundle.
-${OVERWRITE}: [Optional] If 'true', overwrite existing YAML files. Otherwise, fail if any YAML files exist.
-${SINK_DIR}: [Optional] Path to the config directory to write to; will create if it does not exist.
 Example:
 apiVersion: v1
 kind: ConfigMap
 data:
   ${ANNOTATION_NAME}: 'bundles.validator.forsetisecurity.org/cis-v1.1'
-  ${OVERWRITE}: 'true'
-  ${SINK_DIR}: /path/to/sink/dir
 metadata:
   name: my-config
 `;

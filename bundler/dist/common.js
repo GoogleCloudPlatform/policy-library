@@ -24,18 +24,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
 const glob = __importStar(require("glob"));
-const js_yaml_1 = require("js-yaml");
 const kpt_functions_1 = require("kpt-functions");
 const path = __importStar(require("path"));
 exports.BUNDLE_ANNOTATION_REGEX = /bundles.validator.forsetisecurity.org\/(.+)/;
 exports.CT_KIND = "ConstraintTemplate";
 exports.SUPPORTED_API_VERSIONS = /^(constraints|templates).gatekeeper.sh\/v1(.+)$/;
-const YAML_STYLE = {
-    // indentation width to use (in spaces).
-    indent: 2,
-    // when true, will not add an indentation level to array elements.
-    noArrayIndent: true,
-};
 class PolicyLibrary {
     constructor(configs) {
         this.bundles = new Map();
@@ -105,18 +98,6 @@ class PolicyBundle {
     }
     getControl(policy) {
         return kpt_functions_1.getAnnotation(policy, this.key) || "";
-    }
-    write(sinkDir, overwrite) {
-        const fileWriter = new FileWriter(sinkDir, overwrite);
-        this.configs.forEach((o) => {
-            const configPath = kpt_functions_1.getAnnotation(o, "config.kubernetes.io/path");
-            if (!configPath) {
-                return;
-            }
-            const file = path.join(sinkDir, configPath);
-            fileWriter.write(file, js_yaml_1.safeDump(o, YAML_STYLE));
-        });
-        fileWriter.finish();
     }
 }
 exports.PolicyBundle = PolicyBundle;

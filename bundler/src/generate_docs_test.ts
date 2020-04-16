@@ -34,6 +34,7 @@ const SOURCE_SAMPLES_FILE = path.resolve(SOURCE_DIR, "samples_templates.yaml");
 describe("generateDocs", () => {
   let tmpDir = "";
   const functionConfig = ConfigMap.named("config");
+  let sinkDir = "";
 
   beforeEach(() => {
     // Ensures tmpDir is unset before testing. Detects incorrectly running tests in parallel, or
@@ -41,6 +42,11 @@ describe("generateDocs", () => {
     expect(tmpDir).toEqual("");
     tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "generate-docs-test"));
     functionConfig.data = {};
+
+    // Get sample configs
+    sinkDir = path.resolve(tmpDir, "foo");
+    functionConfig.data![OVERWRITE] = "true";
+    functionConfig.data![SINK_DIR] = sinkDir;
   });
 
   afterEach(() => {
@@ -51,10 +57,7 @@ describe("generateDocs", () => {
   });
 
   it("generates index.md", async () => {
-    const sinkDir = path.resolve(tmpDir, "foo");
-    const input = await readTestConfigs(SOURCE_SAMPLES_FILE);
-    functionConfig.data![OVERWRITE] = "true";
-    functionConfig.data![SINK_DIR] = sinkDir;
+    const input = await getSampleConfigs();
     const configs = new kpt.Configs(input.getAll(), functionConfig);
     const expectedFile = path.resolve(sinkDir, "index.md");
 
@@ -64,10 +67,7 @@ describe("generateDocs", () => {
   });
 
   it("generates cis-v1.0 bundle docs", async () => {
-    const sinkDir = path.resolve(tmpDir, "foo");
-    const input = await readTestConfigs(SOURCE_SAMPLES_FILE);
-    functionConfig.data![OVERWRITE] = "true";
-    functionConfig.data![SINK_DIR] = sinkDir;
+    const input = await getSampleConfigs();
     const configs = new kpt.Configs(input.getAll(), functionConfig);
     const expectedFile = path.resolve(sinkDir, BUNDLE_DIR, "cis-v1.0.md");
 
@@ -77,10 +77,7 @@ describe("generateDocs", () => {
   });
 
   it("generates cis-v1.1 bundle docs", async () => {
-    const sinkDir = path.resolve(tmpDir, "foo");
-    const input = await readTestConfigs(SOURCE_SAMPLES_FILE);
-    functionConfig.data![OVERWRITE] = "true";
-    functionConfig.data![SINK_DIR] = sinkDir;
+    const input = await getSampleConfigs();
     const configs = new kpt.Configs(input.getAll(), functionConfig);
     const expectedFile = path.resolve(sinkDir, BUNDLE_DIR, "cis-v1.1.md");
 
@@ -90,6 +87,6 @@ describe("generateDocs", () => {
   });
 });
 
-function readTestConfigs(file: string): Promise<kpt.Configs> {
-  return kpt.readConfigs(file, kpt.FileFormat.YAML);
+function getSampleConfigs(): Promise<kpt.Configs> {
+  return kpt.readConfigs(SOURCE_SAMPLES_FILE, kpt.FileFormat.YAML);
 }

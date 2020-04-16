@@ -26,24 +26,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("./common");
 exports.ANNOTATION_NAME = "bundle";
-exports.SINK_DIR = "sink_dir";
-exports.OVERWRITE = "overwrite";
 function getPolicyBundle(configs) {
     return __awaiter(this, void 0, void 0, function* () {
         // Get the paramters
         const annotationName = configs.getFunctionConfigValueOrThrow(exports.ANNOTATION_NAME);
-        const sinkDir = configs.getFunctionConfigValue(exports.SINK_DIR);
-        const overwrite = configs.getFunctionConfigValue(exports.OVERWRITE) === "true";
         // Build the policy library
         const library = new common_1.PolicyLibrary(configs.getAll());
         // Get bundle
         const bundle = library.bundles.get(annotationName);
         if (bundle === undefined) {
             throw new Error(`bundle does not exist: ` + annotationName + `.`);
-        }
-        // Write bundle to sink dir
-        if (sinkDir) {
-            bundle.write(sinkDir, overwrite);
         }
         // Return the bundle
         configs.deleteAll();
@@ -56,15 +48,11 @@ Get policy bundle of constraints based on annoation.
 
 Configured using a ConfigMap with the following keys:
 ${exports.ANNOTATION_NAME}: Name of the policy bundle.
-${exports.OVERWRITE}: [Optional] If 'true', overwrite existing YAML files. Otherwise, fail if any YAML files exist.
-${exports.SINK_DIR}: [Optional] Path to the config directory to write to; will create if it does not exist.
 Example:
 apiVersion: v1
 kind: ConfigMap
 data:
   ${exports.ANNOTATION_NAME}: 'bundles.validator.forsetisecurity.org/cis-v1.1'
-  ${exports.OVERWRITE}: 'true'
-  ${exports.SINK_DIR}: /path/to/sink/dir
 metadata:
   name: my-config
 `;

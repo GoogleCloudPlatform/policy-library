@@ -58,8 +58,7 @@ const CONSTRAINT_WITHOUT_BUNDLE_NAME = 'constraint-without-bundle';
 
 describe('PolicyLibrary', () => {
   it('filters out invalid policy objects', async () => {
-    const input = await readTestConfigs(SOURCE_INVALID_FILE);
-    const configs = new kpt.Configs(input.getAll());
+    const configs = await readTestConfigs(SOURCE_INVALID_FILE);
 
     const library = new PolicyLibrary(configs.getAll());
 
@@ -70,8 +69,7 @@ describe('PolicyLibrary', () => {
   });
 
   it("filters out policy objects without an annotation", async () => {
-    const input = await readTestConfigs(SOURCE_INVALID_FILE);
-    const configs = new kpt.Configs(input.getAll());
+    const configs = await readTestConfigs(SOURCE_INVALID_FILE);
 
     const library = new PolicyLibrary(configs.getAll());
 
@@ -82,8 +80,7 @@ describe('PolicyLibrary', () => {
   });
 
   it("builds policy bundles", async () => {
-    const input = await readTestConfigs(SOURCE_BUNDLE_FILE);
-    const configs = new kpt.Configs(input.getAll());
+    const configs = await readTestConfigs(SOURCE_BUNDLE_FILE);
     const expectedConfigs = await readTestConfigs(SINK_BUNDLE_FILE);
 
     const library = new PolicyLibrary(configs.getAll());

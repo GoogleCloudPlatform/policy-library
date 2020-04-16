@@ -42,12 +42,17 @@ const SOURCE_SAMPLES_FILE = path.resolve(SOURCE_DIR, "samples_templates.yaml");
 describe("generateDocs", () => {
     let tmpDir = "";
     const functionConfig = io_k8s_api_core_v1_1.ConfigMap.named("config");
+    let sinkDir = "";
     beforeEach(() => {
         // Ensures tmpDir is unset before testing. Detects incorrectly running tests in parallel, or
         // tests not cleaning up properly.
         expect(tmpDir).toEqual("");
         tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "generate-docs-test"));
         functionConfig.data = {};
+        // Get sample configs
+        sinkDir = path.resolve(tmpDir, "foo");
+        functionConfig.data[generate_docs_1.OVERWRITE] = "true";
+        functionConfig.data[generate_docs_1.SINK_DIR] = sinkDir;
     });
     afterEach(() => {
         // Remove tmpDir so no other tests can have access to the data.
@@ -56,37 +61,28 @@ describe("generateDocs", () => {
         tmpDir = "";
     });
     it("generates index.md", () => __awaiter(void 0, void 0, void 0, function* () {
-        const sinkDir = path.resolve(tmpDir, "foo");
-        const input = yield readTestConfigs(SOURCE_SAMPLES_FILE);
-        functionConfig.data[generate_docs_1.OVERWRITE] = "true";
-        functionConfig.data[generate_docs_1.SINK_DIR] = sinkDir;
+        const input = yield getSampleConfigs();
         const configs = new kpt.Configs(input.getAll(), functionConfig);
         const expectedFile = path.resolve(sinkDir, "index.md");
         yield generate_docs_1.generateDocs(configs);
         expect(fs.existsSync(expectedFile)).toEqual(true);
     }));
     it("generates cis-v1.0 bundle docs", () => __awaiter(void 0, void 0, void 0, function* () {
-        const sinkDir = path.resolve(tmpDir, "foo");
-        const input = yield readTestConfigs(SOURCE_SAMPLES_FILE);
-        functionConfig.data[generate_docs_1.OVERWRITE] = "true";
-        functionConfig.data[generate_docs_1.SINK_DIR] = sinkDir;
+        const input = yield getSampleConfigs();
         const configs = new kpt.Configs(input.getAll(), functionConfig);
         const expectedFile = path.resolve(sinkDir, generate_docs_1.BUNDLE_DIR, "cis-v1.0.md");
         yield generate_docs_1.generateDocs(configs);
         expect(fs.existsSync(expectedFile)).toEqual(true);
     }));
     it("generates cis-v1.1 bundle docs", () => __awaiter(void 0, void 0, void 0, function* () {
-        const sinkDir = path.resolve(tmpDir, "foo");
-        const input = yield readTestConfigs(SOURCE_SAMPLES_FILE);
-        functionConfig.data[generate_docs_1.OVERWRITE] = "true";
-        functionConfig.data[generate_docs_1.SINK_DIR] = sinkDir;
+        const input = yield getSampleConfigs();
         const configs = new kpt.Configs(input.getAll(), functionConfig);
         const expectedFile = path.resolve(sinkDir, generate_docs_1.BUNDLE_DIR, "cis-v1.1.md");
         yield generate_docs_1.generateDocs(configs);
         expect(fs.existsSync(expectedFile)).toEqual(true);
     }));
 });
-function readTestConfigs(file) {
-    return kpt.readConfigs(file, kpt.FileFormat.YAML);
+function getSampleConfigs() {
+    return kpt.readConfigs(SOURCE_SAMPLES_FILE, kpt.FileFormat.YAML);
 }
 //# sourceMappingURL=generate_docs_test.js.map

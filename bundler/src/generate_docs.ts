@@ -15,10 +15,10 @@
  */
 
 import { Configs } from "kpt-functions";
+import mdTable from "markdown-table";
 import * as path from "path";
 import { CT_KIND, FileWriter, PolicyLibrary, PolicyConfig } from "./common";
 
-const MD_TABLE = require("markdown-table");
 export const SOURCE_DIR = "sink_dir";
 export const SINK_DIR = "sink_dir";
 export const BUNDLE_DIR = "bundles";
@@ -27,7 +27,7 @@ export const OVERWRITE = "overwrite";
 const FILE_PATTERN_MD = "/**/*.+(md)";
 
 export async function generateDocs(configs: Configs) {
-  // Get the paramters
+  // Get the parameters
   const sinkDir = configs.getFunctionConfigValueOrThrow(SINK_DIR);
   const overwrite = configs.getFunctionConfigValue(OVERWRITE) === "true";
 
@@ -67,7 +67,7 @@ function generateIndexDoc(
   const templates = [["Template", "Samples"]];
   library
     .getTemplates()
-    .sort((a, b) => PolicyConfig.compare(a, b))
+    .sort(PolicyConfig.compare)
     .forEach(o => {
       const constraints = library.getOfKind(
         (o as any).spec.crd.spec.names.kind
@@ -88,7 +88,7 @@ function generateIndexDoc(
     .filter(o => {
       return o.kind !== CT_KIND;
     })
-    .sort((a, b) => PolicyConfig.compare(a, b))
+    .sort(PolicyConfig.compare)
     .forEach(o => {
       const name = `[${PolicyConfig.getName(o)}](${PolicyConfig.getPath(o)})`;
       const description = PolicyConfig.getDescription(o);
@@ -119,13 +119,13 @@ you can explore these policy bundles:
 
 ## Available Templates
 
-${MD_TABLE(templates)}
+${mdTable(templates)}
 
 ## Sample Constraints
 
 The repo also contains a number of sample constraints:
 
-${MD_TABLE(samples)}
+${mdTable(samples)}
 `;
 
   const templateDocPath = path.join(sinkDir, "index.md");
@@ -141,7 +141,7 @@ function generateBundleDocs(
     const constraints = [["Constraint", "Control", "Description"]];
     bundle
       .getConfigs()
-      .sort((a, b) => PolicyConfig.compare(a, b))
+      .sort(PolicyConfig.compare)
       .forEach(o => {
         const name = `[${PolicyConfig.getName(o)}](${PolicyConfig.getPath(
           o,
@@ -157,7 +157,7 @@ function generateBundleDocs(
 
 ## Constraints
 
-${MD_TABLE(constraints)}
+${mdTable(constraints)}
 
 `;
 

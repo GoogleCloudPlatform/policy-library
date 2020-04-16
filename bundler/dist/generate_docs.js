@@ -23,6 +23,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -31,9 +34,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const markdown_table_1 = __importDefault(require("markdown-table"));
 const path = __importStar(require("path"));
 const common_1 = require("./common");
-const MD_TABLE = require("markdown-table");
 exports.SOURCE_DIR = "sink_dir";
 exports.SINK_DIR = "sink_dir";
 exports.BUNDLE_DIR = "bundles";
@@ -41,7 +44,7 @@ exports.OVERWRITE = "overwrite";
 const FILE_PATTERN_MD = "/**/*.+(md)";
 function generateDocs(configs) {
     return __awaiter(this, void 0, void 0, function* () {
-        // Get the paramters
+        // Get the parameters
         const sinkDir = configs.getFunctionConfigValueOrThrow(exports.SINK_DIR);
         const overwrite = configs.getFunctionConfigValue(exports.OVERWRITE) === "true";
         // Create bundle dir and writer
@@ -72,7 +75,7 @@ function generateIndexDoc(fileWriter, library, sinkDir) {
     const templates = [["Template", "Samples"]];
     library
         .getTemplates()
-        .sort((a, b) => common_1.PolicyConfig.compare(a, b))
+        .sort(common_1.PolicyConfig.compare)
         .forEach(o => {
         const constraints = library.getOfKind(o.spec.crd.spec.names.kind);
         const templateLink = `[${common_1.PolicyConfig.getName(o)}](${common_1.PolicyConfig.getPath(o)})`;
@@ -88,7 +91,7 @@ function generateIndexDoc(fileWriter, library, sinkDir) {
         .filter(o => {
         return o.kind !== common_1.CT_KIND;
     })
-        .sort((a, b) => common_1.PolicyConfig.compare(a, b))
+        .sort(common_1.PolicyConfig.compare)
         .forEach(o => {
         const name = `[${common_1.PolicyConfig.getName(o)}](${common_1.PolicyConfig.getPath(o)})`;
         const description = common_1.PolicyConfig.getDescription(o);
@@ -117,13 +120,13 @@ you can explore these policy bundles:
 
 ## Available Templates
 
-${MD_TABLE(templates)}
+${markdown_table_1.default(templates)}
 
 ## Sample Constraints
 
 The repo also contains a number of sample constraints:
 
-${MD_TABLE(samples)}
+${markdown_table_1.default(samples)}
 `;
     const templateDocPath = path.join(sinkDir, "index.md");
     fileWriter.write(templateDocPath, templateDoc);
@@ -133,7 +136,7 @@ function generateBundleDocs(bundleDir, fileWriter, library) {
         const constraints = [["Constraint", "Control", "Description"]];
         bundle
             .getConfigs()
-            .sort((a, b) => common_1.PolicyConfig.compare(a, b))
+            .sort(common_1.PolicyConfig.compare)
             .forEach(o => {
             const name = `[${common_1.PolicyConfig.getName(o)}](${common_1.PolicyConfig.getPath(o, "../../")})`;
             const control = bundle.getControl(o);
@@ -144,7 +147,7 @@ function generateBundleDocs(bundleDir, fileWriter, library) {
 
 ## Constraints
 
-${MD_TABLE(constraints)}
+${markdown_table_1.default(constraints)}
 
 `;
         const file = path.join(bundleDir, `${bundle.getKey()}.md`);

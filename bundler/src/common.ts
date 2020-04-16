@@ -22,19 +22,12 @@ import {
   writeFileSync
 } from "fs";
 import * as glob from "glob";
-import { DumpOptions, safeDump } from 'js-yaml';
 import { KubernetesObject, getAnnotation } from "kpt-functions";
 import * as path from "path";
 
 export const BUNDLE_ANNOTATION_REGEX = /bundles.validator.forsetisecurity.org\/(.+)/;
 export const CT_KIND = "ConstraintTemplate";
 export const SUPPORTED_API_VERSIONS = /^(constraints|templates).gatekeeper.sh\/v1(.+)$/;
-const YAML_STYLE: DumpOptions = {
-  // indentation width to use (in spaces).
-  indent: 2,
-  // when true, will not add an indentation level to array elements.
-  noArrayIndent: true,
-};
 
 class PolicyLibrary {
   bundles: Map<string, PolicyBundle>;
@@ -123,19 +116,6 @@ class PolicyBundle {
 
   getControl(policy: KubernetesObject): string {
     return getAnnotation(policy, this.key) || "";
-  }
-
-  write(sinkDir: string, overwrite: boolean) {
-    const fileWriter = new FileWriter(sinkDir, overwrite);
-    this.configs.forEach((o: any) => {
-      const configPath = getAnnotation(o, "config.kubernetes.io/path");
-      if (!configPath) {
-        return;
-      }
-      const file = path.join(sinkDir, configPath);
-      fileWriter.write(file, safeDump(o, YAML_STYLE));
-    });
-    fileWriter.finish();
   }
 }
 

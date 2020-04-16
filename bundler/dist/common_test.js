@@ -46,8 +46,7 @@ const INVALID_CONSTRAINT_NAME = 'invalid-constraint-no-api-version';
 const CONSTRAINT_WITHOUT_BUNDLE_NAME = 'constraint-without-bundle';
 describe('PolicyLibrary', () => {
     it('filters out invalid policy objects', () => __awaiter(void 0, void 0, void 0, function* () {
-        const input = yield readTestConfigs(SOURCE_INVALID_FILE);
-        const configs = new kpt.Configs(input.getAll());
+        const configs = yield readTestConfigs(SOURCE_INVALID_FILE);
         const library = new common_1.PolicyLibrary(configs.getAll());
         library.configs.forEach((config) => {
             const configName = config.metadata.name || '';
@@ -55,8 +54,7 @@ describe('PolicyLibrary', () => {
         });
     }));
     it("filters out policy objects without an annotation", () => __awaiter(void 0, void 0, void 0, function* () {
-        const input = yield readTestConfigs(SOURCE_INVALID_FILE);
-        const configs = new kpt.Configs(input.getAll());
+        const configs = yield readTestConfigs(SOURCE_INVALID_FILE);
         const library = new common_1.PolicyLibrary(configs.getAll());
         library.configs.forEach((config) => {
             const configName = config.metadata.name || '';
@@ -64,8 +62,7 @@ describe('PolicyLibrary', () => {
         });
     }));
     it("builds policy bundles", () => __awaiter(void 0, void 0, void 0, function* () {
-        const input = yield readTestConfigs(SOURCE_BUNDLE_FILE);
-        const configs = new kpt.Configs(input.getAll());
+        const configs = yield readTestConfigs(SOURCE_BUNDLE_FILE);
         const expectedConfigs = yield readTestConfigs(SINK_BUNDLE_FILE);
         const library = new common_1.PolicyLibrary(configs.getAll());
         const bundle = library.bundles.get(FORSETI_BUNDLE);
