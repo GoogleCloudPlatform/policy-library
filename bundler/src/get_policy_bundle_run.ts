@@ -1,6 +1,5 @@
-"use strict";
 /**
- * Copyright 2019 Google LLC
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-Object.defineProperty(exports, "__esModule", { value: true });
-const label_namespace_1 = require("./label_namespace");
-const kpt_functions_1 = require("kpt-functions");
-kpt_functions_1.run(label_namespace_1.labelNamespace);
-//# sourceMappingURL=label_namespace_run.js.map
+
+import { run } from "kpt-functions";
+import { getPolicyBundle } from "./get_policy_bundle";
+
+run(getPolicyBundle);

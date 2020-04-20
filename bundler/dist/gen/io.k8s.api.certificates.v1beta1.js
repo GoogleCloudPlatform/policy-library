@@ -12,7 +12,9 @@ class CertificateSigningRequest {
 }
 exports.CertificateSigningRequest = CertificateSigningRequest;
 function isCertificateSigningRequest(o) {
-    return o && o.apiVersion === CertificateSigningRequest.apiVersion && o.kind === CertificateSigningRequest.kind;
+    return (o &&
+        o.apiVersion === CertificateSigningRequest.apiVersion &&
+        o.kind === CertificateSigningRequest.kind);
 }
 exports.isCertificateSigningRequest = isCertificateSigningRequest;
 (function (CertificateSigningRequest) {
@@ -38,14 +40,16 @@ exports.CertificateSigningRequestCondition = CertificateSigningRequestCondition;
 class CertificateSigningRequestList {
     constructor(desc) {
         this.apiVersion = CertificateSigningRequestList.apiVersion;
-        this.items = desc.items.map((i) => new CertificateSigningRequest(i));
+        this.items = desc.items.map(i => new CertificateSigningRequest(i));
         this.kind = CertificateSigningRequestList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.CertificateSigningRequestList = CertificateSigningRequestList;
 function isCertificateSigningRequestList(o) {
-    return o && o.apiVersion === CertificateSigningRequestList.apiVersion && o.kind === CertificateSigningRequestList.kind;
+    return (o &&
+        o.apiVersion === CertificateSigningRequestList.apiVersion &&
+        o.kind === CertificateSigningRequestList.kind);
 }
 exports.isCertificateSigningRequestList = isCertificateSigningRequestList;
 (function (CertificateSigningRequestList) {

@@ -41,7 +41,9 @@ class HorizontalPodAutoscaler {
 }
 exports.HorizontalPodAutoscaler = HorizontalPodAutoscaler;
 function isHorizontalPodAutoscaler(o) {
-    return o && o.apiVersion === HorizontalPodAutoscaler.apiVersion && o.kind === HorizontalPodAutoscaler.kind;
+    return (o &&
+        o.apiVersion === HorizontalPodAutoscaler.apiVersion &&
+        o.kind === HorizontalPodAutoscaler.kind);
 }
 exports.isHorizontalPodAutoscaler = isHorizontalPodAutoscaler;
 (function (HorizontalPodAutoscaler) {
@@ -70,14 +72,16 @@ exports.HorizontalPodAutoscalerCondition = HorizontalPodAutoscalerCondition;
 class HorizontalPodAutoscalerList {
     constructor(desc) {
         this.apiVersion = HorizontalPodAutoscalerList.apiVersion;
-        this.items = desc.items.map((i) => new HorizontalPodAutoscaler(i));
+        this.items = desc.items.map(i => new HorizontalPodAutoscaler(i));
         this.kind = HorizontalPodAutoscalerList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.HorizontalPodAutoscalerList = HorizontalPodAutoscalerList;
 function isHorizontalPodAutoscalerList(o) {
-    return o && o.apiVersion === HorizontalPodAutoscalerList.apiVersion && o.kind === HorizontalPodAutoscalerList.kind;
+    return (o &&
+        o.apiVersion === HorizontalPodAutoscalerList.apiVersion &&
+        o.kind === HorizontalPodAutoscalerList.kind);
 }
 exports.isHorizontalPodAutoscalerList = isHorizontalPodAutoscalerList;
 (function (HorizontalPodAutoscalerList) {

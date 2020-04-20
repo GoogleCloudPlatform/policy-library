@@ -1,7 +1,7 @@
-import { KubernetesObject } from 'kpt-functions';
-import * as apiCoreV1 from './io.k8s.api.core.v1';
-import * as apisMetaV1 from './io.k8s.apimachinery.pkg.apis.meta.v1';
-import * as pkgUtilIntstr from './io.k8s.apimachinery.pkg.util.intstr';
+import { KubernetesObject } from "kpt-functions";
+import * as apiCoreV1 from "./io.k8s.api.core.v1";
+import * as apisMetaV1 from "./io.k8s.apimachinery.pkg.apis.meta.v1";
+import * as pkgUtilIntstr from "./io.k8s.apimachinery.pkg.util.intstr";
 
 // AllowedCSIDriver represents a single inline CSI Driver that is allowed to be used.
 export class AllowedCSIDriver {
@@ -26,7 +26,7 @@ export class AllowedFlexVolume {
 // AllowedHostPath defines the host volume conditions that will be enabled by a policy for pods to use. It requires the path prefix to be defined.
 export class AllowedHostPath {
   // pathPrefix is the path prefix that the host volume must match. It does not support `*`. Trailing slashes are trimmed when validating the path prefix with a host path.
-  // 
+  //
   // Examples: `/foo` would allow `/foo`, `/foo/` and `/foo/bar` `/foo` would not allow `/food` or `/etc/foo`
   public pathPrefix?: string;
 
@@ -68,7 +68,7 @@ export namespace Eviction {
 
   // named constructs a Eviction with metadata.name set to name.
   export function named(name: string): Eviction {
-    return new Eviction({metadata: {name}});
+    return new Eviction({ metadata: { name } });
   }
   // Eviction evicts a pod from its node subject to certain policies and safety constraints. This is a subresource of Pod.  A request to cause such an eviction is created by POSTing to .../pods/<pod name>/evictions.
   export interface Interface {
@@ -143,7 +143,11 @@ export class PodDisruptionBudget implements KubernetesObject {
 }
 
 export function isPodDisruptionBudget(o: any): o is PodDisruptionBudget {
-  return o && o.apiVersion === PodDisruptionBudget.apiVersion && o.kind === PodDisruptionBudget.kind;
+  return (
+    o &&
+    o.apiVersion === PodDisruptionBudget.apiVersion &&
+    o.kind === PodDisruptionBudget.kind
+  );
 }
 
 export namespace PodDisruptionBudget {
@@ -154,7 +158,7 @@ export namespace PodDisruptionBudget {
 
   // named constructs a PodDisruptionBudget with metadata.name set to name.
   export function named(name: string): PodDisruptionBudget {
-    return new PodDisruptionBudget({metadata: {name}});
+    return new PodDisruptionBudget({ metadata: { name } });
   }
   // PodDisruptionBudget is an object to define the max disruption that can be caused to a collection of pods
   export interface Interface {
@@ -182,14 +186,20 @@ export class PodDisruptionBudgetList {
 
   constructor(desc: PodDisruptionBudgetList) {
     this.apiVersion = PodDisruptionBudgetList.apiVersion;
-    this.items = desc.items.map((i) => new PodDisruptionBudget(i));
+    this.items = desc.items.map(i => new PodDisruptionBudget(i));
     this.kind = PodDisruptionBudgetList.kind;
     this.metadata = desc.metadata;
   }
 }
 
-export function isPodDisruptionBudgetList(o: any): o is PodDisruptionBudgetList {
-  return o && o.apiVersion === PodDisruptionBudgetList.apiVersion && o.kind === PodDisruptionBudgetList.kind;
+export function isPodDisruptionBudgetList(
+  o: any
+): o is PodDisruptionBudgetList {
+  return (
+    o &&
+    o.apiVersion === PodDisruptionBudgetList.apiVersion &&
+    o.kind === PodDisruptionBudgetList.kind
+  );
 }
 
 export namespace PodDisruptionBudgetList {
@@ -227,7 +237,7 @@ export class PodDisruptionBudgetStatus {
   public desiredHealthy: number;
 
   // DisruptedPods contains information about pods whose eviction was processed by the API server eviction subresource handler but has not yet been observed by the PodDisruptionBudget controller. A pod will be in this map from the time when the API server processed the eviction request to the time when the pod is seen by PDB controller as having been marked for deletion (or after a timeout). The key in the map is the name of the pod and the value is the time when the API server processed the eviction request. If the deletion didn't occur and a pod is still there it will be removed from the list automatically by PodDisruptionBudget controller after some time. If everything goes smooth this map should be empty for the most of the time. Large number of entries in the map may indicate problems with pod deletions.
-  public disruptedPods?: {[key: string]: apisMetaV1.Time};
+  public disruptedPods?: { [key: string]: apisMetaV1.Time };
 
   // Number of pod disruptions that are currently allowed.
   public disruptionsAllowed: number;
@@ -271,7 +281,11 @@ export class PodSecurityPolicy implements KubernetesObject {
 }
 
 export function isPodSecurityPolicy(o: any): o is PodSecurityPolicy {
-  return o && o.apiVersion === PodSecurityPolicy.apiVersion && o.kind === PodSecurityPolicy.kind;
+  return (
+    o &&
+    o.apiVersion === PodSecurityPolicy.apiVersion &&
+    o.kind === PodSecurityPolicy.kind
+  );
 }
 
 export namespace PodSecurityPolicy {
@@ -282,7 +296,7 @@ export namespace PodSecurityPolicy {
 
   // named constructs a PodSecurityPolicy with metadata.name set to name.
   export function named(name: string): PodSecurityPolicy {
-    return new PodSecurityPolicy({metadata: {name}});
+    return new PodSecurityPolicy({ metadata: { name } });
   }
   // PodSecurityPolicy governs the ability to make requests that affect the Security Context that will be applied to a pod and container.
   export interface Interface {
@@ -310,14 +324,18 @@ export class PodSecurityPolicyList {
 
   constructor(desc: PodSecurityPolicyList) {
     this.apiVersion = PodSecurityPolicyList.apiVersion;
-    this.items = desc.items.map((i) => new PodSecurityPolicy(i));
+    this.items = desc.items.map(i => new PodSecurityPolicy(i));
     this.kind = PodSecurityPolicyList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isPodSecurityPolicyList(o: any): o is PodSecurityPolicyList {
-  return o && o.apiVersion === PodSecurityPolicyList.apiVersion && o.kind === PodSecurityPolicyList.kind;
+  return (
+    o &&
+    o.apiVersion === PodSecurityPolicyList.apiVersion &&
+    o.kind === PodSecurityPolicyList.kind
+  );
 }
 
 export namespace PodSecurityPolicyList {
@@ -357,7 +375,7 @@ export class PodSecurityPolicySpec {
   public allowedProcMountTypes?: string[];
 
   // allowedUnsafeSysctls is a list of explicitly allowed unsafe sysctls, defaults to none. Each entry is either a plain sysctl name or ends in "*" in which case it is considered as a prefix of allowed sysctls. Single * means all unsafe sysctls are allowed. Kubelet has to whitelist all allowed unsafe sysctls explicitly to avoid rejection.
-  // 
+  //
   // Examples: e.g. "foo/*" allows "foo/bar", "foo/baz", etc. e.g. "foo.*" allows "foo.bar", "foo.baz", etc.
   public allowedUnsafeSysctls?: string[];
 
@@ -368,7 +386,7 @@ export class PodSecurityPolicySpec {
   public defaultAllowPrivilegeEscalation?: boolean;
 
   // forbiddenSysctls is a list of explicitly forbidden sysctls, defaults to none. Each entry is either a plain sysctl name or ends in "*" in which case it is considered as a prefix of forbidden sysctls. Single * means all sysctls are forbidden.
-  // 
+  //
   // Examples: e.g. "foo/*" forbids "foo/bar", "foo/baz", etc. e.g. "foo.*" forbids "foo.bar", "foo.baz", etc.
   public forbiddenSysctls?: string[];
 

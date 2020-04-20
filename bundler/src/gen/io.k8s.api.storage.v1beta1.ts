@@ -1,6 +1,6 @@
-import { KubernetesObject } from 'kpt-functions';
-import * as apiCoreV1 from './io.k8s.api.core.v1';
-import * as apisMetaV1 from './io.k8s.apimachinery.pkg.apis.meta.v1';
+import { KubernetesObject } from "kpt-functions";
+import * as apiCoreV1 from "./io.k8s.api.core.v1";
+import * as apisMetaV1 from "./io.k8s.apimachinery.pkg.apis.meta.v1";
 
 // CSIDriver captures information about a Container Storage Interface (CSI) volume driver deployed on the cluster. CSI drivers do not need to create the CSIDriver object directly. Instead they may use the cluster-driver-registrar sidecar container. When deployed with a CSI driver it automatically creates a CSIDriver object representing the driver. Kubernetes attach detach controller uses this object to determine whether attach is required. Kubelet uses this object to determine whether pod information needs to be passed on mount. CSIDriver objects are non-namespaced.
 export class CSIDriver implements KubernetesObject {
@@ -25,7 +25,9 @@ export class CSIDriver implements KubernetesObject {
 }
 
 export function isCSIDriver(o: any): o is CSIDriver {
-  return o && o.apiVersion === CSIDriver.apiVersion && o.kind === CSIDriver.kind;
+  return (
+    o && o.apiVersion === CSIDriver.apiVersion && o.kind === CSIDriver.kind
+  );
 }
 
 export namespace CSIDriver {
@@ -60,14 +62,18 @@ export class CSIDriverList {
 
   constructor(desc: CSIDriverList) {
     this.apiVersion = CSIDriverList.apiVersion;
-    this.items = desc.items.map((i) => new CSIDriver(i));
+    this.items = desc.items.map(i => new CSIDriver(i));
     this.kind = CSIDriverList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isCSIDriverList(o: any): o is CSIDriverList {
-  return o && o.apiVersion === CSIDriverList.apiVersion && o.kind === CSIDriverList.kind;
+  return (
+    o &&
+    o.apiVersion === CSIDriverList.apiVersion &&
+    o.kind === CSIDriverList.kind
+  );
 }
 
 export namespace CSIDriverList {
@@ -171,14 +177,16 @@ export class CSINodeList {
 
   constructor(desc: CSINodeList) {
     this.apiVersion = CSINodeList.apiVersion;
-    this.items = desc.items.map((i) => new CSINode(i));
+    this.items = desc.items.map(i => new CSINode(i));
     this.kind = CSINodeList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isCSINodeList(o: any): o is CSINodeList {
-  return o && o.apiVersion === CSINodeList.apiVersion && o.kind === CSINodeList.kind;
+  return (
+    o && o.apiVersion === CSINodeList.apiVersion && o.kind === CSINodeList.kind
+  );
 }
 
 export namespace CSINodeList {
@@ -208,7 +216,7 @@ export class CSINodeSpec {
 }
 
 // StorageClass describes the parameters for a class of storage for which PersistentVolumes can be dynamically provisioned.
-// 
+//
 // StorageClasses are non-namespaced; the name of the storage class according to etcd is in ObjectMeta.Name.
 export class StorageClass implements KubernetesObject {
   // AllowVolumeExpansion shows whether the storage class allow volume expand
@@ -230,7 +238,7 @@ export class StorageClass implements KubernetesObject {
   public mountOptions?: string[];
 
   // Parameters holds the parameters for the provisioner that should create volumes of this storage class.
-  public parameters?: {[key: string]: string};
+  public parameters?: { [key: string]: string };
 
   // Provisioner indicates the type of the provisioner.
   public provisioner: string;
@@ -256,7 +264,11 @@ export class StorageClass implements KubernetesObject {
 }
 
 export function isStorageClass(o: any): o is StorageClass {
-  return o && o.apiVersion === StorageClass.apiVersion && o.kind === StorageClass.kind;
+  return (
+    o &&
+    o.apiVersion === StorageClass.apiVersion &&
+    o.kind === StorageClass.kind
+  );
 }
 
 export namespace StorageClass {
@@ -266,7 +278,7 @@ export namespace StorageClass {
   export const kind = "StorageClass";
 
   // StorageClass describes the parameters for a class of storage for which PersistentVolumes can be dynamically provisioned.
-  // 
+  //
   // StorageClasses are non-namespaced; the name of the storage class according to etcd is in ObjectMeta.Name.
   export interface Interface {
     // AllowVolumeExpansion shows whether the storage class allow volume expand
@@ -282,7 +294,7 @@ export namespace StorageClass {
     mountOptions?: string[];
 
     // Parameters holds the parameters for the provisioner that should create volumes of this storage class.
-    parameters?: {[key: string]: string};
+    parameters?: { [key: string]: string };
 
     // Provisioner indicates the type of the provisioner.
     provisioner: string;
@@ -311,14 +323,18 @@ export class StorageClassList {
 
   constructor(desc: StorageClassList) {
     this.apiVersion = StorageClassList.apiVersion;
-    this.items = desc.items.map((i) => new StorageClass(i));
+    this.items = desc.items.map(i => new StorageClass(i));
     this.kind = StorageClassList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isStorageClassList(o: any): o is StorageClassList {
-  return o && o.apiVersion === StorageClassList.apiVersion && o.kind === StorageClassList.kind;
+  return (
+    o &&
+    o.apiVersion === StorageClassList.apiVersion &&
+    o.kind === StorageClassList.kind
+  );
 }
 
 export namespace StorageClassList {
@@ -338,7 +354,7 @@ export namespace StorageClassList {
 }
 
 // VolumeAttachment captures the intent to attach or detach the specified volume to/from the specified node.
-// 
+//
 // VolumeAttachment objects are non-namespaced.
 export class VolumeAttachment implements KubernetesObject {
   // APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources
@@ -366,7 +382,11 @@ export class VolumeAttachment implements KubernetesObject {
 }
 
 export function isVolumeAttachment(o: any): o is VolumeAttachment {
-  return o && o.apiVersion === VolumeAttachment.apiVersion && o.kind === VolumeAttachment.kind;
+  return (
+    o &&
+    o.apiVersion === VolumeAttachment.apiVersion &&
+    o.kind === VolumeAttachment.kind
+  );
 }
 
 export namespace VolumeAttachment {
@@ -376,7 +396,7 @@ export namespace VolumeAttachment {
   export const kind = "VolumeAttachment";
 
   // VolumeAttachment captures the intent to attach or detach the specified volume to/from the specified node.
-  // 
+  //
   // VolumeAttachment objects are non-namespaced.
   export interface Interface {
     // Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata
@@ -406,14 +426,18 @@ export class VolumeAttachmentList {
 
   constructor(desc: VolumeAttachmentList) {
     this.apiVersion = VolumeAttachmentList.apiVersion;
-    this.items = desc.items.map((i) => new VolumeAttachment(i));
+    this.items = desc.items.map(i => new VolumeAttachment(i));
     this.kind = VolumeAttachmentList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isVolumeAttachmentList(o: any): o is VolumeAttachmentList {
-  return o && o.apiVersion === VolumeAttachmentList.apiVersion && o.kind === VolumeAttachmentList.kind;
+  return (
+    o &&
+    o.apiVersion === VolumeAttachmentList.apiVersion &&
+    o.kind === VolumeAttachmentList.kind
+  );
 }
 
 export namespace VolumeAttachmentList {
@@ -465,7 +489,7 @@ export class VolumeAttachmentStatus {
   public attached: boolean;
 
   // Upon successful attach, this field is populated with any information returned by the attach operation that must be passed into subsequent WaitForAttach or Mount calls. This field must only be set by the entity completing the attach operation, i.e. the external-attacher.
-  public attachmentMetadata?: {[key: string]: string};
+  public attachmentMetadata?: { [key: string]: string };
 
   // The last error encountered during detach operation, if any. This field must only be set by the entity completing the detach operation, i.e. the external-attacher.
   public detachError?: VolumeError;

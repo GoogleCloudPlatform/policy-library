@@ -12,7 +12,9 @@ class LocalSubjectAccessReview {
 }
 exports.LocalSubjectAccessReview = LocalSubjectAccessReview;
 function isLocalSubjectAccessReview(o) {
-    return o && o.apiVersion === LocalSubjectAccessReview.apiVersion && o.kind === LocalSubjectAccessReview.kind;
+    return (o &&
+        o.apiVersion === LocalSubjectAccessReview.apiVersion &&
+        o.kind === LocalSubjectAccessReview.kind);
 }
 exports.isLocalSubjectAccessReview = isLocalSubjectAccessReview;
 (function (LocalSubjectAccessReview) {
@@ -59,7 +61,9 @@ class SelfSubjectAccessReview {
 }
 exports.SelfSubjectAccessReview = SelfSubjectAccessReview;
 function isSelfSubjectAccessReview(o) {
-    return o && o.apiVersion === SelfSubjectAccessReview.apiVersion && o.kind === SelfSubjectAccessReview.kind;
+    return (o &&
+        o.apiVersion === SelfSubjectAccessReview.apiVersion &&
+        o.kind === SelfSubjectAccessReview.kind);
 }
 exports.isSelfSubjectAccessReview = isSelfSubjectAccessReview;
 (function (SelfSubjectAccessReview) {
@@ -84,7 +88,9 @@ class SelfSubjectRulesReview {
 }
 exports.SelfSubjectRulesReview = SelfSubjectRulesReview;
 function isSelfSubjectRulesReview(o) {
-    return o && o.apiVersion === SelfSubjectRulesReview.apiVersion && o.kind === SelfSubjectRulesReview.kind;
+    return (o &&
+        o.apiVersion === SelfSubjectRulesReview.apiVersion &&
+        o.kind === SelfSubjectRulesReview.kind);
 }
 exports.isSelfSubjectRulesReview = isSelfSubjectRulesReview;
 (function (SelfSubjectRulesReview) {
@@ -108,7 +114,9 @@ class SubjectAccessReview {
 }
 exports.SubjectAccessReview = SubjectAccessReview;
 function isSubjectAccessReview(o) {
-    return o && o.apiVersion === SubjectAccessReview.apiVersion && o.kind === SubjectAccessReview.kind;
+    return (o &&
+        o.apiVersion === SubjectAccessReview.apiVersion &&
+        o.kind === SubjectAccessReview.kind);
 }
 exports.isSubjectAccessReview = isSubjectAccessReview;
 (function (SubjectAccessReview) {

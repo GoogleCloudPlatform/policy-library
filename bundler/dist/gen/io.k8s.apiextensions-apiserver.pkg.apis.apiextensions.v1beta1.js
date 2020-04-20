@@ -33,7 +33,9 @@ class CustomResourceDefinition {
 }
 exports.CustomResourceDefinition = CustomResourceDefinition;
 function isCustomResourceDefinition(o) {
-    return o && o.apiVersion === CustomResourceDefinition.apiVersion && o.kind === CustomResourceDefinition.kind;
+    return (o &&
+        o.apiVersion === CustomResourceDefinition.apiVersion &&
+        o.kind === CustomResourceDefinition.kind);
 }
 exports.isCustomResourceDefinition = isCustomResourceDefinition;
 (function (CustomResourceDefinition) {
@@ -57,14 +59,16 @@ exports.CustomResourceDefinitionCondition = CustomResourceDefinitionCondition;
 class CustomResourceDefinitionList {
     constructor(desc) {
         this.apiVersion = CustomResourceDefinitionList.apiVersion;
-        this.items = desc.items.map((i) => new CustomResourceDefinition(i));
+        this.items = desc.items.map(i => new CustomResourceDefinition(i));
         this.kind = CustomResourceDefinitionList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.CustomResourceDefinitionList = CustomResourceDefinitionList;
 function isCustomResourceDefinitionList(o) {
-    return o && o.apiVersion === CustomResourceDefinitionList.apiVersion && o.kind === CustomResourceDefinitionList.kind;
+    return (o &&
+        o.apiVersion === CustomResourceDefinitionList.apiVersion &&
+        o.kind === CustomResourceDefinitionList.kind);
 }
 exports.isCustomResourceDefinitionList = isCustomResourceDefinitionList;
 (function (CustomResourceDefinitionList) {

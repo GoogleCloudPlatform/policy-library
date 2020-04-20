@@ -30,14 +30,14 @@ exports.isCronJob = isCronJob;
 class CronJobList {
     constructor(desc) {
         this.apiVersion = CronJobList.apiVersion;
-        this.items = desc.items.map((i) => new CronJob(i));
+        this.items = desc.items.map(i => new CronJob(i));
         this.kind = CronJobList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.CronJobList = CronJobList;
 function isCronJobList(o) {
-    return o && o.apiVersion === CronJobList.apiVersion && o.kind === CronJobList.kind;
+    return (o && o.apiVersion === CronJobList.apiVersion && o.kind === CronJobList.kind);
 }
 exports.isCronJobList = isCronJobList;
 (function (CronJobList) {

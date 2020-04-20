@@ -1,4 +1,4 @@
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,17 +11,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
+
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPCMEKRotationConstraintV1
 metadata:
-  name: cmek_rotation_one_year
+  name: cmek_rotation_one_hundred_days
+  annotations:
+    bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
 spec:
   severity: high
   parameters:
-    # Valid time units are  "ns", "us" (or "µs"), "ms", "s", "m", "h"
+    # Valid time units are  "ns", "us", "ms", "s", "m", "h"
     # This is 365 days
     period: 8760h
     exemptions:
       - //cloudkms.googleapis.com/projects/test-project/locations/us-central1/keyRings/test-key-ring/cryptoKeys/rotation-never
-

@@ -42,7 +42,7 @@ exports.JobCondition = JobCondition;
 class JobList {
     constructor(desc) {
         this.apiVersion = JobList.apiVersion;
-        this.items = desc.items.map((i) => new Job(i));
+        this.items = desc.items.map(i => new Job(i));
         this.kind = JobList.kind;
         this.metadata = desc.metadata;
     }

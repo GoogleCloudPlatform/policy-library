@@ -1,6 +1,6 @@
 "use strict";
 /**
- * Copyright 2019 Google LLC
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-const select_policies_1 = require("./select_policies");
 const kpt_functions_1 = require("kpt-functions");
-kpt_functions_1.run(select_policies_1.selectPolicies);
-//# sourceMappingURL=select_policies_run.js.map
+const get_policy_bundle_1 = require("./get_policy_bundle");
+kpt_functions_1.run(get_policy_bundle_1.getPolicyBundle);
+//# sourceMappingURL=get_policy_bundle_run.js.map

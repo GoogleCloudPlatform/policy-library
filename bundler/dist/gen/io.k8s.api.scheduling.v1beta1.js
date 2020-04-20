@@ -13,7 +13,9 @@ class PriorityClass {
 }
 exports.PriorityClass = PriorityClass;
 function isPriorityClass(o) {
-    return o && o.apiVersion === PriorityClass.apiVersion && o.kind === PriorityClass.kind;
+    return (o &&
+        o.apiVersion === PriorityClass.apiVersion &&
+        o.kind === PriorityClass.kind);
 }
 exports.isPriorityClass = isPriorityClass;
 (function (PriorityClass) {
@@ -26,14 +28,16 @@ exports.isPriorityClass = isPriorityClass;
 class PriorityClassList {
     constructor(desc) {
         this.apiVersion = PriorityClassList.apiVersion;
-        this.items = desc.items.map((i) => new PriorityClass(i));
+        this.items = desc.items.map(i => new PriorityClass(i));
         this.kind = PriorityClassList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.PriorityClassList = PriorityClassList;
 function isPriorityClassList(o) {
-    return o && o.apiVersion === PriorityClassList.apiVersion && o.kind === PriorityClassList.kind;
+    return (o &&
+        o.apiVersion === PriorityClassList.apiVersion &&
+        o.kind === PriorityClassList.kind);
 }
 exports.isPriorityClassList = isPriorityClassList;
 (function (PriorityClassList) {

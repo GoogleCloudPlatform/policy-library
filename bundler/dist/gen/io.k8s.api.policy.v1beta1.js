@@ -75,7 +75,9 @@ class PodDisruptionBudget {
 }
 exports.PodDisruptionBudget = PodDisruptionBudget;
 function isPodDisruptionBudget(o) {
-    return o && o.apiVersion === PodDisruptionBudget.apiVersion && o.kind === PodDisruptionBudget.kind;
+    return (o &&
+        o.apiVersion === PodDisruptionBudget.apiVersion &&
+        o.kind === PodDisruptionBudget.kind);
 }
 exports.isPodDisruptionBudget = isPodDisruptionBudget;
 (function (PodDisruptionBudget) {
@@ -93,14 +95,16 @@ exports.isPodDisruptionBudget = isPodDisruptionBudget;
 class PodDisruptionBudgetList {
     constructor(desc) {
         this.apiVersion = PodDisruptionBudgetList.apiVersion;
-        this.items = desc.items.map((i) => new PodDisruptionBudget(i));
+        this.items = desc.items.map(i => new PodDisruptionBudget(i));
         this.kind = PodDisruptionBudgetList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.PodDisruptionBudgetList = PodDisruptionBudgetList;
 function isPodDisruptionBudgetList(o) {
-    return o && o.apiVersion === PodDisruptionBudgetList.apiVersion && o.kind === PodDisruptionBudgetList.kind;
+    return (o &&
+        o.apiVersion === PodDisruptionBudgetList.apiVersion &&
+        o.kind === PodDisruptionBudgetList.kind);
 }
 exports.isPodDisruptionBudgetList = isPodDisruptionBudgetList;
 (function (PodDisruptionBudgetList) {
@@ -136,7 +140,9 @@ class PodSecurityPolicy {
 }
 exports.PodSecurityPolicy = PodSecurityPolicy;
 function isPodSecurityPolicy(o) {
-    return o && o.apiVersion === PodSecurityPolicy.apiVersion && o.kind === PodSecurityPolicy.kind;
+    return (o &&
+        o.apiVersion === PodSecurityPolicy.apiVersion &&
+        o.kind === PodSecurityPolicy.kind);
 }
 exports.isPodSecurityPolicy = isPodSecurityPolicy;
 (function (PodSecurityPolicy) {
@@ -154,14 +160,16 @@ exports.isPodSecurityPolicy = isPodSecurityPolicy;
 class PodSecurityPolicyList {
     constructor(desc) {
         this.apiVersion = PodSecurityPolicyList.apiVersion;
-        this.items = desc.items.map((i) => new PodSecurityPolicy(i));
+        this.items = desc.items.map(i => new PodSecurityPolicy(i));
         this.kind = PodSecurityPolicyList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.PodSecurityPolicyList = PodSecurityPolicyList;
 function isPodSecurityPolicyList(o) {
-    return o && o.apiVersion === PodSecurityPolicyList.apiVersion && o.kind === PodSecurityPolicyList.kind;
+    return (o &&
+        o.apiVersion === PodSecurityPolicyList.apiVersion &&
+        o.kind === PodSecurityPolicyList.kind);
 }
 exports.isPodSecurityPolicyList = isPodSecurityPolicyList;
 (function (PodSecurityPolicyList) {

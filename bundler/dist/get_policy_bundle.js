@@ -1,6 +1,6 @@
 "use strict";
 /**
- * Copyright 2019 Google LLC
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,32 +24,36 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const kpt_functions_1 = require("kpt-functions");
-const io_k8s_api_core_v1_1 = require("./gen/io.k8s.api.core.v1");
-exports.ANNOTATION_NAME = 'env';
-exports.ANNOTATION_VALUE = 'bundle';
-function selectPolicies(configs) {
+const common_1 = require("./common");
+exports.ANNOTATION_NAME = "bundle";
+function getPolicyBundle(configs) {
     return __awaiter(this, void 0, void 0, function* () {
-        //   const annoteName = ANNOTATION_NAME
-        const annotateValue = configs.getFunctionConfigValueOrThrow(exports.ANNOTATION_VALUE);
-        configs.get(io_k8s_api_core_v1_1.isNamespace).forEach(n => kpt_functions_1.addLabel(n, "hello", annotateValue));
-        // this.getAll().filter(isKind) as Kind[];
-        configs.get(io_k8s_api_core_v1_1.isNamespace).filter(o => {
-            const bundleValue = String(kpt_functions_1.getAnnotation(o, exports.ANNOTATION_NAME));
-            return bundleValue != annotateValue;
-        }).forEach(o => {
-            configs.delete(o);
-        });
-        // configs.get(isNamespace).forEach(o => {
-        //   const bundleValue = String(getAnnotation(o, ANNOTATION_NAME));
-        //   const key = kubernetesKey(o);
-        //   addLabel(o, "found_env", bundleValue);
-        //   addLabel(o, "key", key);
-        // });
+        // Get the paramters
+        const annotationName = configs.getFunctionConfigValueOrThrow(exports.ANNOTATION_NAME);
+        // Build the policy library
+        const library = new common_1.PolicyLibrary(configs.getAll());
+        // Get bundle
+        const bundle = library.bundles.get(annotationName);
+        if (bundle === undefined) {
+            throw new Error(`bundle does not exist: ` + annotationName + `.`);
+        }
+        // Return the bundle
+        configs.deleteAll();
+        configs.insert(...bundle.configs);
     });
 }
-exports.selectPolicies = selectPolicies;
-selectPolicies.usage = `
-Adds a label to all Namespaces.
+exports.getPolicyBundle = getPolicyBundle;
+getPolicyBundle.usage = `
+Get policy bundle of constraints based on annoation.
+
+Configured using a ConfigMap with the following keys:
+${exports.ANNOTATION_NAME}: Name of the policy bundle.
+Example:
+apiVersion: v1
+kind: ConfigMap
+data:
+  ${exports.ANNOTATION_NAME}: 'bundles.validator.forsetisecurity.org/cis-v1.1'
+metadata:
+  name: my-config
 `;
-//# sourceMappingURL=select_policies.js.map
+//# sourceMappingURL=get_policy_bundle.js.map
