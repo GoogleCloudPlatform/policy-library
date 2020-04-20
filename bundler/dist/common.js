@@ -26,7 +26,8 @@ const fs_1 = require("fs");
 const glob = __importStar(require("glob"));
 const kpt_functions_1 = require("kpt-functions");
 const path = __importStar(require("path"));
-exports.BUNDLE_ANNOTATION_REGEX = /bundles.validator.forsetisecurity.org\/(.+)/;
+exports.BUNDLE_ANNOTATION_PREFIX = 'bundles.validator.forsetisecurity.org';
+exports.BUNDLE_ANNOTATION_REGEX = new RegExp(`${exports.BUNDLE_ANNOTATION_PREFIX}\/(.+)`);
 exports.CT_KIND = "ConstraintTemplate";
 exports.SUPPORTED_API_VERSIONS = /^(constraints|templates).gatekeeper.sh\/v1(.+)$/;
 class PolicyLibrary {

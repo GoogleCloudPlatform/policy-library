@@ -29,10 +29,11 @@ exports.ANNOTATION_NAME = "bundle";
 function getPolicyBundle(configs) {
     return __awaiter(this, void 0, void 0, function* () {
         // Get the paramters
-        const annotationName = configs.getFunctionConfigValueOrThrow(exports.ANNOTATION_NAME);
+        const bundleName = configs.getFunctionConfigValueOrThrow(exports.ANNOTATION_NAME);
         // Build the policy library
         const library = new common_1.PolicyLibrary(configs.getAll());
         // Get bundle
+        const annotationName = `${common_1.BUNDLE_ANNOTATION_PREFIX}/${bundleName}`;
         const bundle = library.bundles.get(annotationName);
         if (bundle === undefined) {
             throw new Error(`bundle does not exist: ` + annotationName + `.`);

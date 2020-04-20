@@ -14,9 +14,9 @@ Filters the [samples](../samples) in this repo for a given [policy bundle](./ind
 Copy the `forseti-security` bundle to the constriants directory using Docker.
 
 ```
-kpt fn source policy-library/samples/ | \
-  kpt fn run --image gcr.io/config-validator/get_policy_bundle:latest -- bundle=bundles.validator.forsetisecurity.org/forseti-security | \
-  kpt fn sink policy-library/policies/constraints/
+kpt fn source ./samples/ | \
+  kpt fn run --image gcr.io/config-validator/get_policy_bundle:latest -- forseti-security | \
+  kpt fn sink ./policies/constraints/
 ```
 
 ## Generate Docs

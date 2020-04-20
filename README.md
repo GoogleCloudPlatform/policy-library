@@ -16,7 +16,7 @@ kpt fn source policy-library/samples/ | \
   kpt fn sink policy-library/policies/constraints/
 ```
 
-Once you have initialized a library, you might want to save it to [git](./docs/user_guide.md).
+Once you have initialized a library, you might want to save it to [git](./docs/user_guide.md#https://github.com/forseti-security/policy-library/blob/master/docs/user_guide.md#get-started-with-the-policy-library-repository).
 
 ## Developing a Constraint
 

@@ -20,7 +20,7 @@ import { ConfigMap } from "./gen/io.k8s.api.core.v1";
 import { getPolicyBundle, ANNOTATION_NAME } from "./get_policy_bundle";
 import { TestRunner } from "kpt-functions";
 
-const FORSETI_BUNDLE = "bundles.validator.forsetisecurity.org/forseti-security";
+const FORSETI_BUNDLE = "forseti-security";
 const RUNNER = new TestRunner(getPolicyBundle);
 
 const SOURCE_SAMPLES_FILE = path.resolve(
