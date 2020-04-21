@@ -6,7 +6,7 @@ This bundle can be installed via kpt:
 export BUNDLE=cis-v1.0
 kpt pkg get https://github.com/forseti-security/policy-library.git ./policy-library
 kpt fn source policy-library/samples/ | \
-  kpt fn run --image gcr.io/config-validator/get_policy_bundle:latest -- bundle=$BUNDLE | \
+  kpt fn run --image gcr.io/config-validator/get-policy-bundle:latest -- bundle=$BUNDLE | \
   kpt fn sink policy-library/policies/constraints/
 ```
 

@@ -6,7 +6,7 @@ This bundle can be installed via kpt:
 export BUNDLE=cis-v1.1
 kpt pkg get https://github.com/forseti-security/policy-library.git ./policy-library
 kpt fn source policy-library/samples/ | \
-  kpt fn run --image gcr.io/config-validator/get_policy_bundle:latest -- bundle=$BUNDLE | \
+  kpt fn run --image gcr.io/config-validator/get-policy-bundle:latest -- bundle=$BUNDLE | \
   kpt fn sink policy-library/policies/constraints/
 ```
 
@@ -37,10 +37,10 @@ kpt fn source policy-library/samples/ | \
 | [iam-restrict-service-account-key-age-ninety-days](../../samples/gcp_iam_restrict_service_account_key_age.yaml)               | 1.06    |                                                                                      |
 | [iam_restrict_service_account_key_type](../../samples/gcp_iam_restrict_service_account_key_type.yaml)                         | 1.03    |                                                                                      |
 | [prevent-public-ip-cloudsql](../../samples/sql_public_ip.yaml)                                                                | 6.05    | Prevents a public IP from being assigned to a Cloud SQL instance.                    |
-| [require_bq_table_iam](../../samples/constraints/bigquery_world_readable.yaml)                                                | 5.03    |                                                                                      |
-| [require_bucket_policy_only](../../samples/constraints/storage_bucket_policy_only.yaml)                                       | 5.02    |                                                                                      |
+| [require_bq_table_iam](../../samples/bigquery_world_readable.yaml)                                                            | 5.03    |                                                                                      |
+| [require_bucket_policy_only](../../samples/storage_bucket_policy_only.yaml)                                                   | 5.02    |                                                                                      |
 | [require_sql_ssl](../../samples/sql_ssl.yaml)                                                                                 | 6.01    |                                                                                      |
 | [restrict-firewall-rule-rdp-world-open](../../samples/restrict_fw_rules_rdp_world_open.yaml)                                  | 3.07    |                                                                                      |
 | [restrict-firewall-rule-ssh-world-open](../../samples/restrict_fw_rules_ssh_world_open.yaml)                                  | 3.06    |                                                                                      |
-| [sql-world-readable](../../samples/constraints/sql_world_readable.yaml)                                                       | 6.02    |                                                                                      |
+| [sql-world-readable](../../samples/sql_world_readable.yaml)                                                                   | 6.02    |                                                                                      |
 
