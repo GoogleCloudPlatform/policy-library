@@ -32,6 +32,9 @@ deny[{
 	asset := input.asset
 	asset.asset_type == "compute.googleapis.com/Firewall"
 
+	match_mode := lib.get_default(params, "exemptions_mode", "exact")
+	check_for_exemptions(asset.name, constraint, match_mode)
+
 	fw_rule = asset.resource.data
 
 	is_valid(mode, fw_rule, rules_params)
@@ -492,4 +495,30 @@ fw_rule_check_enabled(fw_rule, enabled) {
 	# this is necessary as cast_boolean does not work on strings...
 	lower(enabled) == "false"
 	fw_rule.disabled
+}
+
+# Check for exempted resources in regex mode
+check_for_exemptions(asset_name, constraint, exemptions_mode) {
+	exemptions_mode == "regex"
+	lib.get_constraint_params(constraint, params)
+	exempt_list := params.exemptions
+	not re_match_name(asset_name, exempt_list)
+}
+
+# Check for exempted resources in exact mode (default)
+check_for_exemptions(asset_name, constraint, exemptions_mode) {
+	exemptions_mode == "exact"
+	lib.get_constraint_params(constraint, params)
+	exempt_list := params.exemptions
+	matches := {asset_name} & cast_set(exempt_list)
+	count(matches) == 0
+}
+
+# Check for empty exemption mode
+check_for_exemptions(asset_name, constraint, exemptions_mode) {
+	lib.has_field(constraint.spec.parameters, "exemptions") == false
+}
+
+re_match_name(name, filters) {
+	re_match(filters[_], name)
 }

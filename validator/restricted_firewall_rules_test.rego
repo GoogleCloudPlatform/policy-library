@@ -21,6 +21,7 @@ template_name := "GCPRestrictedFirewallRulesConstraintV1"
 import data.validator.test_utils as test_utils
 
 # Importing the test data
+import data.test.fixtures.restricted_firewall_rules.assets.exemption as exemption_fixture_assets
 import data.test.fixtures.restricted_firewall_rules.assets.protocol_and_all_ports as protocol_and_all_ports_fixture_assets
 import data.test.fixtures.restricted_firewall_rules.assets.protocol_and_port as protocol_and_port_fixture_assets
 import data.test.fixtures.restricted_firewall_rules.assets.sources as sources_fixture_assets
@@ -49,6 +50,11 @@ import data.test.fixtures.restricted_firewall_rules.constraints.sources.advanced
 import data.test.fixtures.restricted_firewall_rules.constraints.sources.basic.allowlist as sources_basic_fixture_constraint_allowlist
 import data.test.fixtures.restricted_firewall_rules.constraints.targets.advanced.allowlist as targets_advanced_fixture_constraint_allowlist
 import data.test.fixtures.restricted_firewall_rules.constraints.targets.basic.allowlist as targets_basic_fixture_constraint_allowlist
+
+# Importing the exemption test constraints
+import data.test.fixtures.restricted_firewall_rules.constraints.exemption.exact as exemption_exact_constraint
+import data.test.fixtures.restricted_firewall_rules.constraints.exemption.regex as exemption_regex_constraint
+import data.test.fixtures.restricted_firewall_rules.constraints.exemption.unset as exemption_unset_constraint
 
 # Test protocol and all ports
 test_protocol_and_all_ports_count {
@@ -501,4 +507,31 @@ test_restricted_firewall_rule_all_violations_targets_allowlist {
 
 	test_utils.check_test_violations_count(targets_fixture_assets, [all_fixture_constraint_allowlist], template_name, 20)
 	test_utils.check_test_violations_resources(targets_fixture_assets, [all_fixture_constraint_allowlist], template_name, expected_resource_names)
+}
+
+test_exemptions_unset {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-udp-all",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all-port-range1",
+	}
+
+	test_utils.check_test_violations_resources(exemption_fixture_assets, [exemption_unset_constraint], template_name, expected_resource_names)
+}
+
+test_exemptions_exact {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all-port-range0",
+	}
+
+	test_utils.check_test_violations_resources(exemption_fixture_assets, [exemption_exact_constraint], template_name, expected_resource_names)
+}
+
+test_exemptions_regex {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all-port-range0",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all-port-range1",
+	}
+
+	test_utils.check_test_violations_resources(exemption_fixture_assets, [exemption_regex_constraint], template_name, expected_resource_names)
 }
