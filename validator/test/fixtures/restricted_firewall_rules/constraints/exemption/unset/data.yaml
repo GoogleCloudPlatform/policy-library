@@ -1,5 +1,5 @@
 #
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,24 +17,28 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPRestrictedFirewallRulesConstraintV1
 metadata:
-  name: restrict-firewall-rule-allow-ingress-demo
+  name: allowlist-restrict-firewall-rules-tcp-all-ports
 spec:
   severity: high
   match:
     target: ["organization/*"]
   parameters:
+    mode: "allowlist"
     rules:
       - direction: "INGRESS"
+        enabled: "true"
+        port: "all"
+        protocol: "tcp"
         rule_type: "allowed"
-        protocol: "all"
-        source_tags:
-          - "second-source-tag"
         source_ranges:
-          - "192.168.1.1/32"
-          - "0.0.0.0/0"
-        target_tags:
-          - "target-tag"
-        source_service_accounts:
-          - "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
-    exemptions_mode: "exact"
-    exemptions: []
+        - "0.0.0.0/0"
+      - direction: "INGRESS"
+        enabled: "true"
+        port: "all"
+        protocol: "udp"
+        rule_type: "allowed"
+        source_ranges:
+        - "0.0.0.0/0"
+    exemptions:
+      - //compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all
+      - //compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all-port-range0
