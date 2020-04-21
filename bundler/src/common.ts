@@ -25,7 +25,8 @@ import * as glob from "glob";
 import { KubernetesObject, getAnnotation } from "kpt-functions";
 import * as path from "path";
 
-export const BUNDLE_ANNOTATION_REGEX = /bundles.validator.forsetisecurity.org\/(.+)/;
+export const BUNDLE_ANNOTATION_PREFIX = 'bundles.validator.forsetisecurity.org';
+export const BUNDLE_ANNOTATION_REGEX = new RegExp(`${BUNDLE_ANNOTATION_PREFIX}\/(.+)`);
 export const CT_KIND = "ConstraintTemplate";
 export const SUPPORTED_API_VERSIONS = /^(constraints|templates).gatekeeper.sh\/v1(.+)$/;
 

@@ -15,18 +15,19 @@
  */
 
 import { Configs } from "kpt-functions";
-import { PolicyLibrary } from "./common";
+import { PolicyLibrary, BUNDLE_ANNOTATION_PREFIX } from "./common";
 
 export const ANNOTATION_NAME = "bundle";
 
 export async function getPolicyBundle(configs: Configs) {
   // Get the paramters
-  const annotationName = configs.getFunctionConfigValueOrThrow(ANNOTATION_NAME);
+  const bundleName = configs.getFunctionConfigValueOrThrow(ANNOTATION_NAME);
 
   // Build the policy library
   const library = new PolicyLibrary(configs.getAll());
 
   // Get bundle
+  const annotationName = `${BUNDLE_ANNOTATION_PREFIX}/${bundleName}`;
   const bundle = library.bundles.get(annotationName);
   if (bundle === undefined) {
     throw new Error(`bundle does not exist: ` + annotationName + `.`);
