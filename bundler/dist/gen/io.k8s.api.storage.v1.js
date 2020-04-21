@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 // StorageClass describes the parameters for a class of storage for which PersistentVolumes can be dynamically provisioned.
-// 
+//
 // StorageClasses are non-namespaced; the name of the storage class according to etcd is in ObjectMeta.Name.
 class StorageClass {
     constructor(desc) {
@@ -19,7 +19,9 @@ class StorageClass {
 }
 exports.StorageClass = StorageClass;
 function isStorageClass(o) {
-    return o && o.apiVersion === StorageClass.apiVersion && o.kind === StorageClass.kind;
+    return (o &&
+        o.apiVersion === StorageClass.apiVersion &&
+        o.kind === StorageClass.kind);
 }
 exports.isStorageClass = isStorageClass;
 (function (StorageClass) {
@@ -32,14 +34,16 @@ exports.isStorageClass = isStorageClass;
 class StorageClassList {
     constructor(desc) {
         this.apiVersion = StorageClassList.apiVersion;
-        this.items = desc.items.map((i) => new StorageClass(i));
+        this.items = desc.items.map(i => new StorageClass(i));
         this.kind = StorageClassList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.StorageClassList = StorageClassList;
 function isStorageClassList(o) {
-    return o && o.apiVersion === StorageClassList.apiVersion && o.kind === StorageClassList.kind;
+    return (o &&
+        o.apiVersion === StorageClassList.apiVersion &&
+        o.kind === StorageClassList.kind);
 }
 exports.isStorageClassList = isStorageClassList;
 (function (StorageClassList) {
@@ -49,7 +53,7 @@ exports.isStorageClassList = isStorageClassList;
     StorageClassList.kind = "StorageClassList";
 })(StorageClassList = exports.StorageClassList || (exports.StorageClassList = {}));
 // VolumeAttachment captures the intent to attach or detach the specified volume to/from the specified node.
-// 
+//
 // VolumeAttachment objects are non-namespaced.
 class VolumeAttachment {
     constructor(desc) {
@@ -62,7 +66,9 @@ class VolumeAttachment {
 }
 exports.VolumeAttachment = VolumeAttachment;
 function isVolumeAttachment(o) {
-    return o && o.apiVersion === VolumeAttachment.apiVersion && o.kind === VolumeAttachment.kind;
+    return (o &&
+        o.apiVersion === VolumeAttachment.apiVersion &&
+        o.kind === VolumeAttachment.kind);
 }
 exports.isVolumeAttachment = isVolumeAttachment;
 (function (VolumeAttachment) {
@@ -75,14 +81,16 @@ exports.isVolumeAttachment = isVolumeAttachment;
 class VolumeAttachmentList {
     constructor(desc) {
         this.apiVersion = VolumeAttachmentList.apiVersion;
-        this.items = desc.items.map((i) => new VolumeAttachment(i));
+        this.items = desc.items.map(i => new VolumeAttachment(i));
         this.kind = VolumeAttachmentList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.VolumeAttachmentList = VolumeAttachmentList;
 function isVolumeAttachmentList(o) {
-    return o && o.apiVersion === VolumeAttachmentList.apiVersion && o.kind === VolumeAttachmentList.kind;
+    return (o &&
+        o.apiVersion === VolumeAttachmentList.apiVersion &&
+        o.kind === VolumeAttachmentList.kind);
 }
 exports.isVolumeAttachmentList = isVolumeAttachmentList;
 (function (VolumeAttachmentList) {

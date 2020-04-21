@@ -1,8 +1,8 @@
-import { KubernetesObject } from 'kpt-functions';
-import * as apiCoreV1 from './io.k8s.api.core.v1';
-import * as apisMetaV1 from './io.k8s.apimachinery.pkg.apis.meta.v1';
-import * as apimachineryPkgRuntime from './io.k8s.apimachinery.pkg.runtime';
-import * as pkgUtilIntstr from './io.k8s.apimachinery.pkg.util.intstr';
+import { KubernetesObject } from "kpt-functions";
+import * as apiCoreV1 from "./io.k8s.api.core.v1";
+import * as apisMetaV1 from "./io.k8s.apimachinery.pkg.apis.meta.v1";
+import * as apimachineryPkgRuntime from "./io.k8s.apimachinery.pkg.runtime";
+import * as pkgUtilIntstr from "./io.k8s.apimachinery.pkg.util.intstr";
 
 // ControllerRevision implements an immutable snapshot of state data. Clients are responsible for serializing and deserializing the objects that contain their internal state. Once a ControllerRevision has been successfully created, it can not be updated. The API Server will fail validation of all requests that attempt to mutate the Data field. ControllerRevisions may, however, be deleted. Note that, due to its use by both the DaemonSet and StatefulSet controllers for update and rollback, this object is beta. However, it may be subject to name and representation changes in future releases, and clients should not depend on its stability. It is primarily for internal use by controllers.
 export class ControllerRevision implements KubernetesObject {
@@ -31,7 +31,11 @@ export class ControllerRevision implements KubernetesObject {
 }
 
 export function isControllerRevision(o: any): o is ControllerRevision {
-  return o && o.apiVersion === ControllerRevision.apiVersion && o.kind === ControllerRevision.kind;
+  return (
+    o &&
+    o.apiVersion === ControllerRevision.apiVersion &&
+    o.kind === ControllerRevision.kind
+  );
 }
 
 export namespace ControllerRevision {
@@ -69,14 +73,18 @@ export class ControllerRevisionList {
 
   constructor(desc: ControllerRevisionList) {
     this.apiVersion = ControllerRevisionList.apiVersion;
-    this.items = desc.items.map((i) => new ControllerRevision(i));
+    this.items = desc.items.map(i => new ControllerRevision(i));
     this.kind = ControllerRevisionList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isControllerRevisionList(o: any): o is ControllerRevisionList {
-  return o && o.apiVersion === ControllerRevisionList.apiVersion && o.kind === ControllerRevisionList.kind;
+  return (
+    o &&
+    o.apiVersion === ControllerRevisionList.apiVersion &&
+    o.kind === ControllerRevisionList.kind
+  );
 }
 
 export namespace ControllerRevisionList {
@@ -122,7 +130,9 @@ export class DaemonSet implements KubernetesObject {
 }
 
 export function isDaemonSet(o: any): o is DaemonSet {
-  return o && o.apiVersion === DaemonSet.apiVersion && o.kind === DaemonSet.kind;
+  return (
+    o && o.apiVersion === DaemonSet.apiVersion && o.kind === DaemonSet.kind
+  );
 }
 
 export namespace DaemonSet {
@@ -133,7 +143,7 @@ export namespace DaemonSet {
 
   // named constructs a DaemonSet with metadata.name set to name.
   export function named(name: string): DaemonSet {
-    return new DaemonSet({metadata: {name}});
+    return new DaemonSet({ metadata: { name } });
   }
   // DaemonSet represents the configuration of a daemon set.
   export interface Interface {
@@ -190,14 +200,18 @@ export class DaemonSetList {
 
   constructor(desc: DaemonSetList) {
     this.apiVersion = DaemonSetList.apiVersion;
-    this.items = desc.items.map((i) => new DaemonSet(i));
+    this.items = desc.items.map(i => new DaemonSet(i));
     this.kind = DaemonSetList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isDaemonSetList(o: any): o is DaemonSetList {
-  return o && o.apiVersion === DaemonSetList.apiVersion && o.kind === DaemonSetList.kind;
+  return (
+    o &&
+    o.apiVersion === DaemonSetList.apiVersion &&
+    o.kind === DaemonSetList.kind
+  );
 }
 
 export namespace DaemonSetList {
@@ -324,7 +338,9 @@ export class Deployment implements KubernetesObject {
 }
 
 export function isDeployment(o: any): o is Deployment {
-  return o && o.apiVersion === Deployment.apiVersion && o.kind === Deployment.kind;
+  return (
+    o && o.apiVersion === Deployment.apiVersion && o.kind === Deployment.kind
+  );
 }
 
 export namespace Deployment {
@@ -335,7 +351,7 @@ export namespace Deployment {
 
   // named constructs a Deployment with metadata.name set to name.
   export function named(name: string): Deployment {
-    return new Deployment({metadata: {name}});
+    return new Deployment({ metadata: { name } });
   }
   // Deployment enables declarative updates for Pods and ReplicaSets.
   export interface Interface {
@@ -396,14 +412,18 @@ export class DeploymentList {
 
   constructor(desc: DeploymentList) {
     this.apiVersion = DeploymentList.apiVersion;
-    this.items = desc.items.map((i) => new Deployment(i));
+    this.items = desc.items.map(i => new Deployment(i));
     this.kind = DeploymentList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isDeploymentList(o: any): o is DeploymentList {
-  return o && o.apiVersion === DeploymentList.apiVersion && o.kind === DeploymentList.kind;
+  return (
+    o &&
+    o.apiVersion === DeploymentList.apiVersion &&
+    o.kind === DeploymentList.kind
+  );
 }
 
 export namespace DeploymentList {
@@ -523,7 +543,9 @@ export class ReplicaSet implements KubernetesObject {
 }
 
 export function isReplicaSet(o: any): o is ReplicaSet {
-  return o && o.apiVersion === ReplicaSet.apiVersion && o.kind === ReplicaSet.kind;
+  return (
+    o && o.apiVersion === ReplicaSet.apiVersion && o.kind === ReplicaSet.kind
+  );
 }
 
 export namespace ReplicaSet {
@@ -534,7 +556,7 @@ export namespace ReplicaSet {
 
   // named constructs a ReplicaSet with metadata.name set to name.
   export function named(name: string): ReplicaSet {
-    return new ReplicaSet({metadata: {name}});
+    return new ReplicaSet({ metadata: { name } });
   }
   // ReplicaSet ensures that a specified number of pod replicas are running at any given time.
   export interface Interface {
@@ -591,14 +613,18 @@ export class ReplicaSetList {
 
   constructor(desc: ReplicaSetList) {
     this.apiVersion = ReplicaSetList.apiVersion;
-    this.items = desc.items.map((i) => new ReplicaSet(i));
+    this.items = desc.items.map(i => new ReplicaSet(i));
     this.kind = ReplicaSetList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isReplicaSetList(o: any): o is ReplicaSetList {
-  return o && o.apiVersion === ReplicaSetList.apiVersion && o.kind === ReplicaSetList.kind;
+  return (
+    o &&
+    o.apiVersion === ReplicaSetList.apiVersion &&
+    o.kind === ReplicaSetList.kind
+  );
 }
 
 export namespace ReplicaSetList {
@@ -719,7 +745,9 @@ export class StatefulSet implements KubernetesObject {
 }
 
 export function isStatefulSet(o: any): o is StatefulSet {
-  return o && o.apiVersion === StatefulSet.apiVersion && o.kind === StatefulSet.kind;
+  return (
+    o && o.apiVersion === StatefulSet.apiVersion && o.kind === StatefulSet.kind
+  );
 }
 
 export namespace StatefulSet {
@@ -730,7 +758,7 @@ export namespace StatefulSet {
 
   // named constructs a StatefulSet with metadata.name set to name.
   export function named(name: string): StatefulSet {
-    return new StatefulSet({metadata: {name}});
+    return new StatefulSet({ metadata: { name } });
   }
   // StatefulSet represents a set of pods with consistent identities. Identities are defined as:
   //  - Network: A single stable DNS and hostname.
@@ -787,14 +815,18 @@ export class StatefulSetList {
 
   constructor(desc: StatefulSetList) {
     this.apiVersion = StatefulSetList.apiVersion;
-    this.items = desc.items.map((i) => new StatefulSet(i));
+    this.items = desc.items.map(i => new StatefulSet(i));
     this.kind = StatefulSetList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isStatefulSetList(o: any): o is StatefulSetList {
-  return o && o.apiVersion === StatefulSetList.apiVersion && o.kind === StatefulSetList.kind;
+  return (
+    o &&
+    o.apiVersion === StatefulSetList.apiVersion &&
+    o.kind === StatefulSetList.kind
+  );
 }
 
 export namespace StatefulSetList {
@@ -845,7 +877,12 @@ export class StatefulSetSpec {
     this.serviceName = desc.serviceName;
     this.template = desc.template;
     this.updateStrategy = desc.updateStrategy;
-    this.volumeClaimTemplates = (desc.volumeClaimTemplates !== undefined) ? desc.volumeClaimTemplates.map((i) => new apiCoreV1.PersistentVolumeClaim(i)) : undefined;
+    this.volumeClaimTemplates =
+      desc.volumeClaimTemplates !== undefined
+        ? desc.volumeClaimTemplates.map(
+            i => new apiCoreV1.PersistentVolumeClaim(i)
+          )
+        : undefined;
   }
 }
 

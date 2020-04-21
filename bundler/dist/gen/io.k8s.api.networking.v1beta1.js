@@ -53,14 +53,14 @@ exports.IngressBackend = IngressBackend;
 class IngressList {
     constructor(desc) {
         this.apiVersion = IngressList.apiVersion;
-        this.items = desc.items.map((i) => new Ingress(i));
+        this.items = desc.items.map(i => new Ingress(i));
         this.kind = IngressList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.IngressList = IngressList;
 function isIngressList(o) {
-    return o && o.apiVersion === IngressList.apiVersion && o.kind === IngressList.kind;
+    return (o && o.apiVersion === IngressList.apiVersion && o.kind === IngressList.kind);
 }
 exports.isIngressList = isIngressList;
 (function (IngressList) {

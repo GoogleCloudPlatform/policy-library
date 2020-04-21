@@ -20,7 +20,9 @@ class ControllerRevision {
 }
 exports.ControllerRevision = ControllerRevision;
 function isControllerRevision(o) {
-    return o && o.apiVersion === ControllerRevision.apiVersion && o.kind === ControllerRevision.kind;
+    return (o &&
+        o.apiVersion === ControllerRevision.apiVersion &&
+        o.kind === ControllerRevision.kind);
 }
 exports.isControllerRevision = isControllerRevision;
 (function (ControllerRevision) {
@@ -33,14 +35,16 @@ exports.isControllerRevision = isControllerRevision;
 class ControllerRevisionList {
     constructor(desc) {
         this.apiVersion = ControllerRevisionList.apiVersion;
-        this.items = desc.items.map((i) => new ControllerRevision(i));
+        this.items = desc.items.map(i => new ControllerRevision(i));
         this.kind = ControllerRevisionList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.ControllerRevisionList = ControllerRevisionList;
 function isControllerRevisionList(o) {
-    return o && o.apiVersion === ControllerRevisionList.apiVersion && o.kind === ControllerRevisionList.kind;
+    return (o &&
+        o.apiVersion === ControllerRevisionList.apiVersion &&
+        o.kind === ControllerRevisionList.kind);
 }
 exports.isControllerRevisionList = isControllerRevisionList;
 (function (ControllerRevisionList) {
@@ -61,7 +65,7 @@ class Deployment {
 }
 exports.Deployment = Deployment;
 function isDeployment(o) {
-    return o && o.apiVersion === Deployment.apiVersion && o.kind === Deployment.kind;
+    return (o && o.apiVersion === Deployment.apiVersion && o.kind === Deployment.kind);
 }
 exports.isDeployment = isDeployment;
 (function (Deployment) {
@@ -91,14 +95,16 @@ exports.DeploymentCondition = DeploymentCondition;
 class DeploymentList {
     constructor(desc) {
         this.apiVersion = DeploymentList.apiVersion;
-        this.items = desc.items.map((i) => new Deployment(i));
+        this.items = desc.items.map(i => new Deployment(i));
         this.kind = DeploymentList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.DeploymentList = DeploymentList;
 function isDeploymentList(o) {
-    return o && o.apiVersion === DeploymentList.apiVersion && o.kind === DeploymentList.kind;
+    return (o &&
+        o.apiVersion === DeploymentList.apiVersion &&
+        o.kind === DeploymentList.kind);
 }
 exports.isDeploymentList = isDeploymentList;
 (function (DeploymentList) {
@@ -119,7 +125,9 @@ class DeploymentRollback {
 }
 exports.DeploymentRollback = DeploymentRollback;
 function isDeploymentRollback(o) {
-    return o && o.apiVersion === DeploymentRollback.apiVersion && o.kind === DeploymentRollback.kind;
+    return (o &&
+        o.apiVersion === DeploymentRollback.apiVersion &&
+        o.kind === DeploymentRollback.kind);
 }
 exports.isDeploymentRollback = isDeploymentRollback;
 (function (DeploymentRollback) {
@@ -217,7 +225,7 @@ class StatefulSet {
 }
 exports.StatefulSet = StatefulSet;
 function isStatefulSet(o) {
-    return o && o.apiVersion === StatefulSet.apiVersion && o.kind === StatefulSet.kind;
+    return (o && o.apiVersion === StatefulSet.apiVersion && o.kind === StatefulSet.kind);
 }
 exports.isStatefulSet = isStatefulSet;
 (function (StatefulSet) {
@@ -246,14 +254,16 @@ exports.StatefulSetCondition = StatefulSetCondition;
 class StatefulSetList {
     constructor(desc) {
         this.apiVersion = StatefulSetList.apiVersion;
-        this.items = desc.items.map((i) => new StatefulSet(i));
+        this.items = desc.items.map(i => new StatefulSet(i));
         this.kind = StatefulSetList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.StatefulSetList = StatefulSetList;
 function isStatefulSetList(o) {
-    return o && o.apiVersion === StatefulSetList.apiVersion && o.kind === StatefulSetList.kind;
+    return (o &&
+        o.apiVersion === StatefulSetList.apiVersion &&
+        o.kind === StatefulSetList.kind);
 }
 exports.isStatefulSetList = isStatefulSetList;
 (function (StatefulSetList) {
@@ -272,7 +282,10 @@ class StatefulSetSpec {
         this.serviceName = desc.serviceName;
         this.template = desc.template;
         this.updateStrategy = desc.updateStrategy;
-        this.volumeClaimTemplates = (desc.volumeClaimTemplates !== undefined) ? desc.volumeClaimTemplates.map((i) => new apiCoreV1.PersistentVolumeClaim(i)) : undefined;
+        this.volumeClaimTemplates =
+            desc.volumeClaimTemplates !== undefined
+                ? desc.volumeClaimTemplates.map(i => new apiCoreV1.PersistentVolumeClaim(i))
+                : undefined;
     }
 }
 exports.StatefulSetSpec = StatefulSetSpec;

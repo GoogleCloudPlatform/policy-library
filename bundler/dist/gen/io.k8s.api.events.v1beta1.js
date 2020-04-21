@@ -37,14 +37,14 @@ exports.isEvent = isEvent;
 class EventList {
     constructor(desc) {
         this.apiVersion = EventList.apiVersion;
-        this.items = desc.items.map((i) => new Event(i));
+        this.items = desc.items.map(i => new Event(i));
         this.kind = EventList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.EventList = EventList;
 function isEventList(o) {
-    return o && o.apiVersion === EventList.apiVersion && o.kind === EventList.kind;
+    return (o && o.apiVersion === EventList.apiVersion && o.kind === EventList.kind);
 }
 exports.isEventList = isEventList;
 (function (EventList) {

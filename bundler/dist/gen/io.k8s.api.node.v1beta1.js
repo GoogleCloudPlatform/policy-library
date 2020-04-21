@@ -11,7 +11,9 @@ class RuntimeClass {
 }
 exports.RuntimeClass = RuntimeClass;
 function isRuntimeClass(o) {
-    return o && o.apiVersion === RuntimeClass.apiVersion && o.kind === RuntimeClass.kind;
+    return (o &&
+        o.apiVersion === RuntimeClass.apiVersion &&
+        o.kind === RuntimeClass.kind);
 }
 exports.isRuntimeClass = isRuntimeClass;
 (function (RuntimeClass) {
@@ -24,14 +26,16 @@ exports.isRuntimeClass = isRuntimeClass;
 class RuntimeClassList {
     constructor(desc) {
         this.apiVersion = RuntimeClassList.apiVersion;
-        this.items = desc.items.map((i) => new RuntimeClass(i));
+        this.items = desc.items.map(i => new RuntimeClass(i));
         this.kind = RuntimeClassList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.RuntimeClassList = RuntimeClassList;
 function isRuntimeClassList(o) {
-    return o && o.apiVersion === RuntimeClassList.apiVersion && o.kind === RuntimeClassList.kind;
+    return (o &&
+        o.apiVersion === RuntimeClassList.apiVersion &&
+        o.kind === RuntimeClassList.kind);
 }
 exports.isRuntimeClassList = isRuntimeClassList;
 (function (RuntimeClassList) {

@@ -1,5 +1,5 @@
-import { KubernetesObject } from 'kpt-functions';
-import * as apisMetaV1 from './io.k8s.apimachinery.pkg.apis.meta.v1';
+import { KubernetesObject } from "kpt-functions";
+import * as apisMetaV1 from "./io.k8s.apimachinery.pkg.apis.meta.v1";
 
 // Describes a certificate signing request
 export class CertificateSigningRequest implements KubernetesObject {
@@ -26,8 +26,14 @@ export class CertificateSigningRequest implements KubernetesObject {
   }
 }
 
-export function isCertificateSigningRequest(o: any): o is CertificateSigningRequest {
-  return o && o.apiVersion === CertificateSigningRequest.apiVersion && o.kind === CertificateSigningRequest.kind;
+export function isCertificateSigningRequest(
+  o: any
+): o is CertificateSigningRequest {
+  return (
+    o &&
+    o.apiVersion === CertificateSigningRequest.apiVersion &&
+    o.kind === CertificateSigningRequest.kind
+  );
 }
 
 export namespace CertificateSigningRequest {
@@ -38,7 +44,7 @@ export namespace CertificateSigningRequest {
 
   // named constructs a CertificateSigningRequest with metadata.name set to name.
   export function named(name: string): CertificateSigningRequest {
-    return new CertificateSigningRequest({metadata: {name}});
+    return new CertificateSigningRequest({ metadata: { name } });
   }
   // Describes a certificate signing request
   export interface Interface {
@@ -86,14 +92,20 @@ export class CertificateSigningRequestList {
 
   constructor(desc: CertificateSigningRequestList) {
     this.apiVersion = CertificateSigningRequestList.apiVersion;
-    this.items = desc.items.map((i) => new CertificateSigningRequest(i));
+    this.items = desc.items.map(i => new CertificateSigningRequest(i));
     this.kind = CertificateSigningRequestList.kind;
     this.metadata = desc.metadata;
   }
 }
 
-export function isCertificateSigningRequestList(o: any): o is CertificateSigningRequestList {
-  return o && o.apiVersion === CertificateSigningRequestList.apiVersion && o.kind === CertificateSigningRequestList.kind;
+export function isCertificateSigningRequestList(
+  o: any
+): o is CertificateSigningRequestList {
+  return (
+    o &&
+    o.apiVersion === CertificateSigningRequestList.apiVersion &&
+    o.kind === CertificateSigningRequestList.kind
+  );
 }
 
 export namespace CertificateSigningRequestList {
@@ -112,7 +124,7 @@ export namespace CertificateSigningRequestList {
 // This information is immutable after the request is created. Only the Request and Usages fields can be set on creation, other fields are derived by Kubernetes and cannot be modified by users.
 export class CertificateSigningRequestSpec {
   // Extra information about the requesting user. See user.Info interface for details.
-  public extra?: {[key: string]: string[]};
+  public extra?: { [key: string]: string[] };
 
   // Group information about the requesting user. See user.Info interface for details.
   public groups?: string[];

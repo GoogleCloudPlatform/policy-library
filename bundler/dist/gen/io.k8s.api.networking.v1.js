@@ -19,7 +19,9 @@ class NetworkPolicy {
 }
 exports.NetworkPolicy = NetworkPolicy;
 function isNetworkPolicy(o) {
-    return o && o.apiVersion === NetworkPolicy.apiVersion && o.kind === NetworkPolicy.kind;
+    return (o &&
+        o.apiVersion === NetworkPolicy.apiVersion &&
+        o.kind === NetworkPolicy.kind);
 }
 exports.isNetworkPolicy = isNetworkPolicy;
 (function (NetworkPolicy) {
@@ -45,14 +47,16 @@ exports.NetworkPolicyIngressRule = NetworkPolicyIngressRule;
 class NetworkPolicyList {
     constructor(desc) {
         this.apiVersion = NetworkPolicyList.apiVersion;
-        this.items = desc.items.map((i) => new NetworkPolicy(i));
+        this.items = desc.items.map(i => new NetworkPolicy(i));
         this.kind = NetworkPolicyList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.NetworkPolicyList = NetworkPolicyList;
 function isNetworkPolicyList(o) {
-    return o && o.apiVersion === NetworkPolicyList.apiVersion && o.kind === NetworkPolicyList.kind;
+    return (o &&
+        o.apiVersion === NetworkPolicyList.apiVersion &&
+        o.kind === NetworkPolicyList.kind);
 }
 exports.isNetworkPolicyList = isNetworkPolicyList;
 (function (NetworkPolicyList) {

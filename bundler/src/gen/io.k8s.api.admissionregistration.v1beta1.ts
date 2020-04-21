@@ -1,5 +1,5 @@
-import { KubernetesObject } from 'kpt-functions';
-import * as apisMetaV1 from './io.k8s.apimachinery.pkg.apis.meta.v1';
+import { KubernetesObject } from "kpt-functions";
+import * as apisMetaV1 from "./io.k8s.apimachinery.pkg.apis.meta.v1";
 
 // MutatingWebhookConfiguration describes the configuration of and admission webhook that accept or reject and may change the object.
 export class MutatingWebhookConfiguration implements KubernetesObject {
@@ -23,8 +23,14 @@ export class MutatingWebhookConfiguration implements KubernetesObject {
   }
 }
 
-export function isMutatingWebhookConfiguration(o: any): o is MutatingWebhookConfiguration {
-  return o && o.apiVersion === MutatingWebhookConfiguration.apiVersion && o.kind === MutatingWebhookConfiguration.kind;
+export function isMutatingWebhookConfiguration(
+  o: any
+): o is MutatingWebhookConfiguration {
+  return (
+    o &&
+    o.apiVersion === MutatingWebhookConfiguration.apiVersion &&
+    o.kind === MutatingWebhookConfiguration.kind
+  );
 }
 
 export namespace MutatingWebhookConfiguration {
@@ -35,7 +41,7 @@ export namespace MutatingWebhookConfiguration {
 
   // named constructs a MutatingWebhookConfiguration with metadata.name set to name.
   export function named(name: string): MutatingWebhookConfiguration {
-    return new MutatingWebhookConfiguration({metadata: {name}});
+    return new MutatingWebhookConfiguration({ metadata: { name } });
   }
   // MutatingWebhookConfiguration describes the configuration of and admission webhook that accept or reject and may change the object.
   export interface Interface {
@@ -63,14 +69,20 @@ export class MutatingWebhookConfigurationList {
 
   constructor(desc: MutatingWebhookConfigurationList) {
     this.apiVersion = MutatingWebhookConfigurationList.apiVersion;
-    this.items = desc.items.map((i) => new MutatingWebhookConfiguration(i));
+    this.items = desc.items.map(i => new MutatingWebhookConfiguration(i));
     this.kind = MutatingWebhookConfigurationList.kind;
     this.metadata = desc.metadata;
   }
 }
 
-export function isMutatingWebhookConfigurationList(o: any): o is MutatingWebhookConfigurationList {
-  return o && o.apiVersion === MutatingWebhookConfigurationList.apiVersion && o.kind === MutatingWebhookConfigurationList.kind;
+export function isMutatingWebhookConfigurationList(
+  o: any
+): o is MutatingWebhookConfigurationList {
+  return (
+    o &&
+    o.apiVersion === MutatingWebhookConfigurationList.apiVersion &&
+    o.kind === MutatingWebhookConfigurationList.kind
+  );
 }
 
 export namespace MutatingWebhookConfigurationList {
@@ -101,11 +113,11 @@ export class RuleWithOperations {
   public operations?: string[];
 
   // Resources is a list of resources this rule applies to.
-  // 
+  //
   // For example: 'pods' means pods. 'pods/log' means the log subresource of pods. '*' means all resources, but not subresources. 'pods/*' means all subresources of pods. '*/scale' means all scale subresources. '*/*' means all resources and their subresources.
-  // 
+  //
   // If wildcard is present, the validation rule will ensure resources do not overlap with each other.
-  // 
+  //
   // Depending on the enclosing object, subresources might not be allowed. Required.
   public resources?: string[];
 
@@ -153,8 +165,14 @@ export class ValidatingWebhookConfiguration implements KubernetesObject {
   }
 }
 
-export function isValidatingWebhookConfiguration(o: any): o is ValidatingWebhookConfiguration {
-  return o && o.apiVersion === ValidatingWebhookConfiguration.apiVersion && o.kind === ValidatingWebhookConfiguration.kind;
+export function isValidatingWebhookConfiguration(
+  o: any
+): o is ValidatingWebhookConfiguration {
+  return (
+    o &&
+    o.apiVersion === ValidatingWebhookConfiguration.apiVersion &&
+    o.kind === ValidatingWebhookConfiguration.kind
+  );
 }
 
 export namespace ValidatingWebhookConfiguration {
@@ -165,7 +183,7 @@ export namespace ValidatingWebhookConfiguration {
 
   // named constructs a ValidatingWebhookConfiguration with metadata.name set to name.
   export function named(name: string): ValidatingWebhookConfiguration {
-    return new ValidatingWebhookConfiguration({metadata: {name}});
+    return new ValidatingWebhookConfiguration({ metadata: { name } });
   }
   // ValidatingWebhookConfiguration describes the configuration of and admission webhook that accept or reject and object without changing it.
   export interface Interface {
@@ -193,14 +211,20 @@ export class ValidatingWebhookConfigurationList {
 
   constructor(desc: ValidatingWebhookConfigurationList) {
     this.apiVersion = ValidatingWebhookConfigurationList.apiVersion;
-    this.items = desc.items.map((i) => new ValidatingWebhookConfiguration(i));
+    this.items = desc.items.map(i => new ValidatingWebhookConfiguration(i));
     this.kind = ValidatingWebhookConfigurationList.kind;
     this.metadata = desc.metadata;
   }
 }
 
-export function isValidatingWebhookConfigurationList(o: any): o is ValidatingWebhookConfigurationList {
-  return o && o.apiVersion === ValidatingWebhookConfigurationList.apiVersion && o.kind === ValidatingWebhookConfigurationList.kind;
+export function isValidatingWebhookConfigurationList(
+  o: any
+): o is ValidatingWebhookConfigurationList {
+  return (
+    o &&
+    o.apiVersion === ValidatingWebhookConfigurationList.apiVersion &&
+    o.kind === ValidatingWebhookConfigurationList.kind
+  );
 }
 
 export namespace ValidatingWebhookConfigurationList {
@@ -234,7 +258,7 @@ export class Webhook {
   public name: string;
 
   // NamespaceSelector decides whether to run the webhook on an object based on whether the namespace for that object matches the selector. If the object itself is a namespace, the matching is performed on object.metadata.labels. If the object is another cluster scoped resource, it never skips the webhook.
-  // 
+  //
   // For example, to run the webhook on any objects whose namespace is not associated with "runlevel" of "0" or "1";  you will set the selector as follows: "namespaceSelector": {
   //   "matchExpressions": [
   //     {
@@ -247,7 +271,7 @@ export class Webhook {
   //     }
   //   ]
   // }
-  // 
+  //
   // If instead you want to only run the webhook on any objects whose namespace is associated with the "environment" of "prod" or "staging"; you will set the selector as follows: "namespaceSelector": {
   //   "matchExpressions": [
   //     {
@@ -260,9 +284,9 @@ export class Webhook {
   //     }
   //   ]
   // }
-  // 
+  //
   // See https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/ for more examples of label selectors.
-  // 
+  //
   // Default to the empty LabelSelector, which matches everything.
   public namespaceSelector?: apisMetaV1.LabelSelector;
 
@@ -293,22 +317,22 @@ export class WebhookClientConfig {
   public caBundle?: string;
 
   // `service` is a reference to the service for this webhook. Either `service` or `url` must be specified.
-  // 
+  //
   // If the webhook is running within the cluster, then you should use `service`.
-  // 
+  //
   // Port 443 will be used if it is open, otherwise it is an error.
   public service?: ServiceReference;
 
   // `url` gives the location of the webhook, in standard URL form (`scheme://host:port/path`). Exactly one of `url` or `service` must be specified.
-  // 
+  //
   // The `host` should not refer to a service running in the cluster; use the `service` field instead. The host might be resolved via external DNS in some apiservers (e.g., `kube-apiserver` cannot resolve in-cluster DNS as that would be a layering violation). `host` may also be an IP address.
-  // 
+  //
   // Please note that using `localhost` or `127.0.0.1` as a `host` is risky unless you take great care to run this webhook on all hosts which run an apiserver which might need to make calls to this webhook. Such installs are likely to be non-portable, i.e., not easy to turn up in a new cluster.
-  // 
+  //
   // The scheme must be "https"; the URL must begin with "https://".
-  // 
+  //
   // A path is optional, and if present may be any string permissible in a URL. You may use the path to pass an arbitrary string to the webhook, for example, a cluster identifier.
-  // 
+  //
   // Attempting to use a user or basic auth e.g. "user:password@" is not allowed. Fragments ("#...") and query parameters ("?...") are not allowed, either.
   public url?: string;
 }

@@ -1,7 +1,7 @@
-import { KubernetesObject } from 'kpt-functions';
-import * as apiCoreV1 from './io.k8s.api.core.v1';
-import * as apisMetaV1 from './io.k8s.apimachinery.pkg.apis.meta.v1';
-import * as pkgUtilIntstr from './io.k8s.apimachinery.pkg.util.intstr';
+import { KubernetesObject } from "kpt-functions";
+import * as apiCoreV1 from "./io.k8s.api.core.v1";
+import * as apisMetaV1 from "./io.k8s.apimachinery.pkg.apis.meta.v1";
+import * as pkgUtilIntstr from "./io.k8s.apimachinery.pkg.util.intstr";
 
 // HTTPIngressPath associates a path regex with a backend. Incoming urls matching the path are forwarded to the backend.
 export class HTTPIngressPath {
@@ -65,7 +65,7 @@ export namespace Ingress {
 
   // named constructs a Ingress with metadata.name set to name.
   export function named(name: string): Ingress {
-    return new Ingress({metadata: {name}});
+    return new Ingress({ metadata: { name } });
   }
   // Ingress is a collection of rules that allow inbound connections to reach the endpoints defined by a backend. An Ingress can be configured to give services externally-reachable urls, load balance traffic, terminate SSL, offer name based virtual hosting etc.
   export interface Interface {
@@ -110,14 +110,16 @@ export class IngressList {
 
   constructor(desc: IngressList) {
     this.apiVersion = IngressList.apiVersion;
-    this.items = desc.items.map((i) => new Ingress(i));
+    this.items = desc.items.map(i => new Ingress(i));
     this.kind = IngressList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isIngressList(o: any): o is IngressList {
-  return o && o.apiVersion === IngressList.apiVersion && o.kind === IngressList.kind;
+  return (
+    o && o.apiVersion === IngressList.apiVersion && o.kind === IngressList.kind
+  );
 }
 
 export namespace IngressList {

@@ -1,5 +1,5 @@
-import { KubernetesObject } from 'kpt-functions';
-import * as apisMetaV1 from './io.k8s.apimachinery.pkg.apis.meta.v1';
+import { KubernetesObject } from "kpt-functions";
+import * as apisMetaV1 from "./io.k8s.apimachinery.pkg.apis.meta.v1";
 
 // LocalSubjectAccessReview checks whether or not a user or group can perform an action in a given namespace. Having a namespace scoped resource makes it much easier to grant namespace scoped policy that includes permissions checking.
 export class LocalSubjectAccessReview implements KubernetesObject {
@@ -26,8 +26,14 @@ export class LocalSubjectAccessReview implements KubernetesObject {
   }
 }
 
-export function isLocalSubjectAccessReview(o: any): o is LocalSubjectAccessReview {
-  return o && o.apiVersion === LocalSubjectAccessReview.apiVersion && o.kind === LocalSubjectAccessReview.kind;
+export function isLocalSubjectAccessReview(
+  o: any
+): o is LocalSubjectAccessReview {
+  return (
+    o &&
+    o.apiVersion === LocalSubjectAccessReview.apiVersion &&
+    o.kind === LocalSubjectAccessReview.kind
+  );
 }
 
 export namespace LocalSubjectAccessReview {
@@ -143,8 +149,14 @@ export class SelfSubjectAccessReview implements KubernetesObject {
   }
 }
 
-export function isSelfSubjectAccessReview(o: any): o is SelfSubjectAccessReview {
-  return o && o.apiVersion === SelfSubjectAccessReview.apiVersion && o.kind === SelfSubjectAccessReview.kind;
+export function isSelfSubjectAccessReview(
+  o: any
+): o is SelfSubjectAccessReview {
+  return (
+    o &&
+    o.apiVersion === SelfSubjectAccessReview.apiVersion &&
+    o.kind === SelfSubjectAccessReview.kind
+  );
 }
 
 export namespace SelfSubjectAccessReview {
@@ -200,7 +212,11 @@ export class SelfSubjectRulesReview implements KubernetesObject {
 }
 
 export function isSelfSubjectRulesReview(o: any): o is SelfSubjectRulesReview {
-  return o && o.apiVersion === SelfSubjectRulesReview.apiVersion && o.kind === SelfSubjectRulesReview.kind;
+  return (
+    o &&
+    o.apiVersion === SelfSubjectRulesReview.apiVersion &&
+    o.kind === SelfSubjectRulesReview.kind
+  );
 }
 
 export namespace SelfSubjectRulesReview {
@@ -252,7 +268,11 @@ export class SubjectAccessReview implements KubernetesObject {
 }
 
 export function isSubjectAccessReview(o: any): o is SubjectAccessReview {
-  return o && o.apiVersion === SubjectAccessReview.apiVersion && o.kind === SubjectAccessReview.kind;
+  return (
+    o &&
+    o.apiVersion === SubjectAccessReview.apiVersion &&
+    o.kind === SubjectAccessReview.kind
+  );
 }
 
 export namespace SubjectAccessReview {
@@ -276,7 +296,7 @@ export namespace SubjectAccessReview {
 // SubjectAccessReviewSpec is a description of the access request.  Exactly one of ResourceAuthorizationAttributes and NonResourceAuthorizationAttributes must be set
 export class SubjectAccessReviewSpec {
   // Extra corresponds to the user.Info.GetExtra() method from the authenticator.  Since that is input to the authorizer it needs a reflection here.
-  public extra?: {[key: string]: string[]};
+  public extra?: { [key: string]: string[] };
 
   // Groups is the groups you're testing for.
   public groups?: string[];

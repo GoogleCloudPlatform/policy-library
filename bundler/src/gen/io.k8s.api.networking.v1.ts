@@ -1,6 +1,6 @@
-import { KubernetesObject } from 'kpt-functions';
-import * as apisMetaV1 from './io.k8s.apimachinery.pkg.apis.meta.v1';
-import * as pkgUtilIntstr from './io.k8s.apimachinery.pkg.util.intstr';
+import { KubernetesObject } from "kpt-functions";
+import * as apisMetaV1 from "./io.k8s.apimachinery.pkg.apis.meta.v1";
+import * as pkgUtilIntstr from "./io.k8s.apimachinery.pkg.util.intstr";
 
 // IPBlock describes a particular CIDR (Ex. "192.168.1.1/24") that is allowed to the pods matched by a NetworkPolicySpec's podSelector. The except entry describes CIDRs that should not be included within this rule.
 export class IPBlock {
@@ -39,7 +39,11 @@ export class NetworkPolicy implements KubernetesObject {
 }
 
 export function isNetworkPolicy(o: any): o is NetworkPolicy {
-  return o && o.apiVersion === NetworkPolicy.apiVersion && o.kind === NetworkPolicy.kind;
+  return (
+    o &&
+    o.apiVersion === NetworkPolicy.apiVersion &&
+    o.kind === NetworkPolicy.kind
+  );
 }
 
 export namespace NetworkPolicy {
@@ -50,7 +54,7 @@ export namespace NetworkPolicy {
 
   // named constructs a NetworkPolicy with metadata.name set to name.
   export function named(name: string): NetworkPolicy {
-    return new NetworkPolicy({metadata: {name}});
+    return new NetworkPolicy({ metadata: { name } });
   }
   // NetworkPolicy describes what network traffic is allowed for a set of Pods
   export interface Interface {
@@ -96,14 +100,18 @@ export class NetworkPolicyList {
 
   constructor(desc: NetworkPolicyList) {
     this.apiVersion = NetworkPolicyList.apiVersion;
-    this.items = desc.items.map((i) => new NetworkPolicy(i));
+    this.items = desc.items.map(i => new NetworkPolicy(i));
     this.kind = NetworkPolicyList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isNetworkPolicyList(o: any): o is NetworkPolicyList {
-  return o && o.apiVersion === NetworkPolicyList.apiVersion && o.kind === NetworkPolicyList.kind;
+  return (
+    o &&
+    o.apiVersion === NetworkPolicyList.apiVersion &&
+    o.kind === NetworkPolicyList.kind
+  );
 }
 
 export namespace NetworkPolicyList {
@@ -128,12 +136,12 @@ export class NetworkPolicyPeer {
   public ipBlock?: IPBlock;
 
   // Selects Namespaces using cluster-scoped labels. This field follows standard label selector semantics; if present but empty, it selects all namespaces.
-  // 
+  //
   // If PodSelector is also set, then the NetworkPolicyPeer as a whole selects the Pods matching PodSelector in the Namespaces selected by NamespaceSelector. Otherwise it selects all Pods in the Namespaces selected by NamespaceSelector.
   public namespaceSelector?: apisMetaV1.LabelSelector;
 
   // This is a label selector which selects Pods. This field follows standard label selector semantics; if present but empty, it selects all pods.
-  // 
+  //
   // If NamespaceSelector is also set, then the NetworkPolicyPeer as a whole selects the Pods matching PodSelector in the Namespaces selected by NamespaceSelector. Otherwise it selects the Pods matching PodSelector in the policy's own Namespace.
   public podSelector?: apisMetaV1.LabelSelector;
 }

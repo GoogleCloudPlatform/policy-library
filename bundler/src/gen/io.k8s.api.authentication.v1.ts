@@ -1,5 +1,5 @@
-import { KubernetesObject } from 'kpt-functions';
-import * as apisMetaV1 from './io.k8s.apimachinery.pkg.apis.meta.v1';
+import { KubernetesObject } from "kpt-functions";
+import * as apisMetaV1 from "./io.k8s.apimachinery.pkg.apis.meta.v1";
 
 // TokenReview attempts to authenticate a token to a known user. Note: TokenReview requests may be cached by the webhook token authenticator plugin in the kube-apiserver.
 export class TokenReview implements KubernetesObject {
@@ -27,7 +27,9 @@ export class TokenReview implements KubernetesObject {
 }
 
 export function isTokenReview(o: any): o is TokenReview {
-  return o && o.apiVersion === TokenReview.apiVersion && o.kind === TokenReview.kind;
+  return (
+    o && o.apiVersion === TokenReview.apiVersion && o.kind === TokenReview.kind
+  );
 }
 
 export namespace TokenReview {
@@ -75,7 +77,7 @@ export class TokenReviewStatus {
 // UserInfo holds the information about the user needed to implement the user.Info interface.
 export class UserInfo {
   // Any additional information provided by the authenticator.
-  public extra?: {[key: string]: string[]};
+  public extra?: { [key: string]: string[] };
 
   // The names of groups this user is a part of.
   public groups?: string[];

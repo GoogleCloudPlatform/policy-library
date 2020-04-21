@@ -1,6 +1,6 @@
 "use strict";
 /**
- * Copyright 2019 Google LLC
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -31,52 +34,72 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs = __importStar(require("fs"));
-const fs_1 = require("fs");
-const glob = __importStar(require("glob"));
+const markdown_table_1 = __importDefault(require("markdown-table"));
 const path = __importStar(require("path"));
 const common_1 = require("./common");
-const kpt_functions_1 = require("kpt-functions");
-const mdTable = require('markdown-table');
-exports.SOURCE_DIR = 'sink_dir';
-exports.SINK_DIR = 'sink_dir';
-exports.BUNDLE_DIR = 'bundles';
-exports.OVERWRITE = 'overwrite';
-const CT_KIND = 'ConstraintTemplate';
-const SUPPORTED_API_VERSIONS = /^(constraints|templates).gatekeeper.sh\/v1(.+)$/g;
+exports.SOURCE_DIR = "sink_dir";
+exports.SINK_DIR = "sink_dir";
+exports.BUNDLE_DIR = "bundles";
+exports.OVERWRITE = "overwrite";
+const FILE_PATTERN_MD = "/**/*.+(md)";
 function generateDocs(configs) {
     return __awaiter(this, void 0, void 0, function* () {
-        // Get the paramters.
+        // Get the parameters
         const sinkDir = configs.getFunctionConfigValueOrThrow(exports.SINK_DIR);
-        const overwrite = configs.getFunctionConfigValue(exports.OVERWRITE) === 'true';
-        // Ensure bundle directory exists
+        const overwrite = configs.getFunctionConfigValue(exports.OVERWRITE) === "true";
+        // Create bundle dir and writer
         const bundleDir = path.join(sinkDir, exports.BUNDLE_DIR);
-        if (!fs.existsSync(bundleDir)) {
-            fs.mkdirSync(bundleDir, { recursive: true });
-        }
-        const fileWriter = new FileWriter(bundleDir, overwrite);
+        const fileWriter = new common_1.FileWriter(bundleDir, overwrite, FILE_PATTERN_MD);
         // Build the policy library
-        const library = new PolicyLibrary(configs.getAll());
-        // Document constraint templates
-        const templates = [["Template", "Samples"]];
-        library.getOfKind(CT_KIND).forEach((o) => {
-            const constraints = library.getOfKind(o.spec.crd.spec.names.kind);
-            templates.push([
-                `[${getName(o)}](${getPath(o)})`,
-                constraints.map((c) => `[${getName(c)}](${getPath(c)})`).join(', ')
-            ]);
+        const library = new common_1.PolicyLibrary(configs.getAll());
+        // Document constraint templates and samples
+        generateIndexDoc(fileWriter, library, sinkDir);
+        // Document bundles
+        generateBundleDocs(bundleDir, fileWriter, library);
+        // Remove old docs
+        fileWriter.finish();
+        // filter out non-policy objects
+        configs
+            .getAll()
+            .filter(o => {
+            return !common_1.PolicyConfig.isPolicyObject(o);
+        })
+            .forEach(o => {
+            configs.delete(o);
         });
-        const samples = [["Sample", "Template", "Description"]];
-        library.getAll().filter(o => {
-            return o.kind != CT_KIND;
-        }).forEach((o) => {
-            const name = `[${getName(o)}](${getPath(o)})`;
-            const description = getDescription(o);
-            const ct = library.getTemplate(o.kind);
-            const ctName = ct ? `[Link](${getPath(ct)})` : "";
-            samples.push([name, ctName, description]);
-        });
-        const templateDoc = `# Config Validator Policy Library
+    });
+}
+exports.generateDocs = generateDocs;
+function generateIndexDoc(fileWriter, library, sinkDir) {
+    // Templates
+    const templates = [["Template", "Samples"]];
+    library
+        .getTemplates()
+        .sort(common_1.PolicyConfig.compare)
+        .forEach(o => {
+        const constraints = library.getOfKind(o.spec.crd.spec.names.kind);
+        const templateLink = `[${common_1.PolicyConfig.getName(o)}](${common_1.PolicyConfig.getPath(o)})`;
+        const samples = constraints
+            .map(c => `[${common_1.PolicyConfig.getName(c)}](${common_1.PolicyConfig.getPath(c)})`)
+            .join(", ");
+        templates.push([templateLink, samples]);
+    });
+    // Samples
+    const samples = [["Sample", "Template", "Description"]];
+    library
+        .getAll()
+        .filter(o => {
+        return o.kind !== common_1.CT_KIND;
+    })
+        .sort(common_1.PolicyConfig.compare)
+        .forEach(o => {
+        const name = `[${common_1.PolicyConfig.getName(o)}](${common_1.PolicyConfig.getPath(o)})`;
+        const description = common_1.PolicyConfig.getDescription(o);
+        const ct = library.getTemplate(o.kind);
+        const ctName = ct ? `[Link](${common_1.PolicyConfig.getPath(ct)})` : "";
+        samples.push([name, ctName, description]);
+    });
+    const templateDoc = `# Config Validator Policy Library
 
 Constraint templates specify the logic to be used by constraints.
 This repository contains pre-defined constraint templates that you can implement or modify for your own needs. 
@@ -89,176 +112,47 @@ For instructions on how to write constraint templates, see [How to write your ow
 In addition to browsing all [Available Templates](#available-templates) and [Sample Constraints](#sample-constraints),
 you can explore these policy bundles:
 
+- [CFT Scorecard](./bundles/scorecard-v1.md)
 - [CIS v1.0](./bundles/cis-v1.0.md)
 - [CIS v1.1](./bundles/cis-v1.1.md)
+- [Forseti Security](./bundles/forseti-security.md)
 - [GKE Hardening](./bundles/gke-hardening-v2019.11.11.md)
-- [CFT Scorecard](./bundles/scorecard-v1.md)
 
 ## Available Templates
 
-${mdTable(templates)}
+${markdown_table_1.default(templates)}
 
 ## Sample Constraints
 
 The repo also contains a number of sample constraints:
 
-${mdTable(samples)}
+${markdown_table_1.default(samples)}
 `;
-        const templateDocPath = path.join(sinkDir, "index.md");
-        fileWriter.write(templateDocPath, templateDoc);
-        // Document bundles
-        library.bundles.forEach((bundle) => {
-            const constraints = [["Constraint", "Control", "Description"]];
-            bundle.getConfigs().forEach((o) => {
-                const name = `[${getName(o)}](${getPath(o, "../../")})`;
-                const control = bundle.getControl(o);
-                const description = getDescription(o);
-                constraints.push([name, control, description]);
-            });
-            const contents = `# ${bundle.getName()}
+    const templateDocPath = path.join(sinkDir, "index.md");
+    fileWriter.write(templateDocPath, templateDoc);
+}
+function generateBundleDocs(bundleDir, fileWriter, library) {
+    library.bundles.forEach(bundle => {
+        const constraints = [["Constraint", "Control", "Description"]];
+        bundle
+            .getConfigs()
+            .sort(common_1.PolicyConfig.compare)
+            .forEach(o => {
+            const name = `[${common_1.PolicyConfig.getName(o)}](${common_1.PolicyConfig.getPath(o, "../../")})`;
+            const control = bundle.getControl(o);
+            const description = common_1.PolicyConfig.getDescription(o);
+            constraints.push([name, control, description]);
+        });
+        const contents = `# ${bundle.getName()}
 
 ## Constraints
 
-${mdTable(constraints)}
+${markdown_table_1.default(constraints)}
 
 `;
-            const file = path.join(bundleDir, `${bundle.getKey()}.md`);
-            fileWriter.write(file, contents);
-        });
-        fileWriter.finish();
-        // filter out non-policy objects
-        configs.getAll().filter(o => {
-            return true;
-            // return !isPolicyObject(o);
-        }).forEach(o => {
-            configs.delete(o);
-        });
+        const file = path.join(bundleDir, `${bundle.getKey()}.md`);
+        fileWriter.write(file, contents);
     });
-}
-exports.generateDocs = generateDocs;
-class PolicyLibrary {
-    constructor(configs) {
-        this.bundles = new Map();
-        this.configs = new Array();
-        configs.filter(o => {
-            return isPolicyObject(o);
-        }).forEach(o => {
-            const annotations = o.metadata.annotations || {};
-            Object.keys(annotations).forEach(annotation => {
-                const result = annotation.match(common_1.BUNDLE_ANNOTATION_REGEX);
-                if (!result) {
-                    return;
-                }
-                const bundle = result[0];
-                const control = annotations[annotation];
-                this.bundlePolicy(bundle, control, o);
-            });
-            this.configs.push(o);
-        });
-    }
-    getAll() {
-        return this.configs;
-    }
-    getTemplates() {
-        return this.getOfKind(CT_KIND);
-    }
-    getTemplate(kind) {
-        const matches = this.getTemplates().filter((o) => {
-            return o.spec.crd.spec.names.kind === kind;
-        });
-        return matches[0] || null;
-    }
-    getOfKind(kind) {
-        return this.configs.filter((o) => {
-            return o.kind === kind;
-        });
-    }
-    bundlePolicy(bundleKey, control, policy) {
-        let bundle = this.bundles.get(bundleKey);
-        if (bundle === undefined) {
-            bundle = new PolicyBundle(bundleKey);
-            this.bundles.set(bundleKey, bundle);
-        }
-        bundle.addPolicy(policy);
-    }
-}
-class PolicyBundle {
-    constructor(annotation) {
-        this.key = annotation;
-        this.configs = new Array();
-    }
-    getName() {
-        const matches = this.key.match(common_1.BUNDLE_ANNOTATION_REGEX);
-        return matches ? matches[1] : "Unknown";
-    }
-    getKey() {
-        return this.getName();
-    }
-    addPolicy(policy) {
-        this.configs.push(policy);
-    }
-    getConfigs() {
-        return this.configs;
-    }
-    getControl(policy) {
-        return kpt_functions_1.getAnnotation(policy, this.key) || "";
-    }
-}
-function isPolicyObject(o) {
-    return (o &&
-        o.apiVersion != '' &&
-        SUPPORTED_API_VERSIONS.test(o.apiVersion));
-}
-function getName(o) {
-    if (o.kind === CT_KIND) {
-        return o.spec.crd.spec.names.kind;
-    }
-    return o.metadata.name;
-}
-function getDescription(o) {
-    return kpt_functions_1.getAnnotation(o, "description") || "";
-}
-function getPath(o, root = '../') {
-    let targetPath = path.join(root, "samples");
-    if (o.kind === CT_KIND) {
-        targetPath = path.join(root, "policies");
-    }
-    return path.join(targetPath, kpt_functions_1.getAnnotation(o, "config.kubernetes.io/path") || "");
-}
-class FileWriter {
-    constructor(bundleDir, overwrite) {
-        // If bundle diretory is not empty, require 'overwrite' parameter to be set.
-        const docFiles = this.listDocFiles(bundleDir);
-        if (!overwrite && docFiles.length > 0) {
-            throw new Error(`sink dir contains files and overwrite is not set to string 'true'.`);
-        }
-        this.filesToDelete = new Set(docFiles);
-    }
-    finish() {
-        // Delete files that are missing from the new docs.
-        // Other file types are ignored.
-        this.filesToDelete.forEach((file) => {
-            fs.unlinkSync(file);
-        });
-    }
-    listDocFiles(dir) {
-        if (!fs_1.existsSync(dir)) {
-            fs_1.mkdirSync(dir, { recursive: true });
-        }
-        return glob.sync(dir + '/**/*.+(md)');
-    }
-    write(file, contents) {
-        this.filesToDelete.delete(file);
-        if (fs.existsSync(file)) {
-            this.filesToDelete.delete(file);
-            const currentContents = fs.readFileSync(file).toString();
-            if (contents == currentContents) {
-                // No changes to make.
-                return;
-            }
-        }
-        fs.writeFileSync(file, contents, 'utf8');
-    }
 }
 generateDocs.usage = `
 Creates a directory of markdown documentation.

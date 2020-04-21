@@ -1,8 +1,8 @@
-import { KubernetesObject } from 'kpt-functions';
-import * as apiCoreV1 from './io.k8s.api.core.v1';
-import * as apisMetaV1 from './io.k8s.apimachinery.pkg.apis.meta.v1';
-import * as apimachineryPkgRuntime from './io.k8s.apimachinery.pkg.runtime';
-import * as pkgUtilIntstr from './io.k8s.apimachinery.pkg.util.intstr';
+import { KubernetesObject } from "kpt-functions";
+import * as apiCoreV1 from "./io.k8s.api.core.v1";
+import * as apisMetaV1 from "./io.k8s.apimachinery.pkg.apis.meta.v1";
+import * as apimachineryPkgRuntime from "./io.k8s.apimachinery.pkg.runtime";
+import * as pkgUtilIntstr from "./io.k8s.apimachinery.pkg.util.intstr";
 
 // DEPRECATED - This group version of ControllerRevision is deprecated by apps/v1beta2/ControllerRevision. See the release notes for more information. ControllerRevision implements an immutable snapshot of state data. Clients are responsible for serializing and deserializing the objects that contain their internal state. Once a ControllerRevision has been successfully created, it can not be updated. The API Server will fail validation of all requests that attempt to mutate the Data field. ControllerRevisions may, however, be deleted. Note that, due to its use by both the DaemonSet and StatefulSet controllers for update and rollback, this object is beta. However, it may be subject to name and representation changes in future releases, and clients should not depend on its stability. It is primarily for internal use by controllers.
 export class ControllerRevision implements KubernetesObject {
@@ -31,7 +31,11 @@ export class ControllerRevision implements KubernetesObject {
 }
 
 export function isControllerRevision(o: any): o is ControllerRevision {
-  return o && o.apiVersion === ControllerRevision.apiVersion && o.kind === ControllerRevision.kind;
+  return (
+    o &&
+    o.apiVersion === ControllerRevision.apiVersion &&
+    o.kind === ControllerRevision.kind
+  );
 }
 
 export namespace ControllerRevision {
@@ -69,14 +73,18 @@ export class ControllerRevisionList {
 
   constructor(desc: ControllerRevisionList) {
     this.apiVersion = ControllerRevisionList.apiVersion;
-    this.items = desc.items.map((i) => new ControllerRevision(i));
+    this.items = desc.items.map(i => new ControllerRevision(i));
     this.kind = ControllerRevisionList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isControllerRevisionList(o: any): o is ControllerRevisionList {
-  return o && o.apiVersion === ControllerRevisionList.apiVersion && o.kind === ControllerRevisionList.kind;
+  return (
+    o &&
+    o.apiVersion === ControllerRevisionList.apiVersion &&
+    o.kind === ControllerRevisionList.kind
+  );
 }
 
 export namespace ControllerRevisionList {
@@ -122,7 +130,9 @@ export class Deployment implements KubernetesObject {
 }
 
 export function isDeployment(o: any): o is Deployment {
-  return o && o.apiVersion === Deployment.apiVersion && o.kind === Deployment.kind;
+  return (
+    o && o.apiVersion === Deployment.apiVersion && o.kind === Deployment.kind
+  );
 }
 
 export namespace Deployment {
@@ -133,7 +143,7 @@ export namespace Deployment {
 
   // named constructs a Deployment with metadata.name set to name.
   export function named(name: string): Deployment {
-    return new Deployment({metadata: {name}});
+    return new Deployment({ metadata: { name } });
   }
   // DEPRECATED - This group version of Deployment is deprecated by apps/v1beta2/Deployment. See the release notes for more information. Deployment enables declarative updates for Pods and ReplicaSets.
   export interface Interface {
@@ -194,14 +204,18 @@ export class DeploymentList {
 
   constructor(desc: DeploymentList) {
     this.apiVersion = DeploymentList.apiVersion;
-    this.items = desc.items.map((i) => new Deployment(i));
+    this.items = desc.items.map(i => new Deployment(i));
     this.kind = DeploymentList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isDeploymentList(o: any): o is DeploymentList {
-  return o && o.apiVersion === DeploymentList.apiVersion && o.kind === DeploymentList.kind;
+  return (
+    o &&
+    o.apiVersion === DeploymentList.apiVersion &&
+    o.kind === DeploymentList.kind
+  );
 }
 
 export namespace DeploymentList {
@@ -235,7 +249,7 @@ export class DeploymentRollback {
   public rollbackTo: RollbackConfig;
 
   // The annotations to be updated to a deployment
-  public updatedAnnotations?: {[key: string]: string};
+  public updatedAnnotations?: { [key: string]: string };
 
   constructor(desc: DeploymentRollback) {
     this.apiVersion = DeploymentRollback.apiVersion;
@@ -247,7 +261,11 @@ export class DeploymentRollback {
 }
 
 export function isDeploymentRollback(o: any): o is DeploymentRollback {
-  return o && o.apiVersion === DeploymentRollback.apiVersion && o.kind === DeploymentRollback.kind;
+  return (
+    o &&
+    o.apiVersion === DeploymentRollback.apiVersion &&
+    o.kind === DeploymentRollback.kind
+  );
 }
 
 export namespace DeploymentRollback {
@@ -265,7 +283,7 @@ export namespace DeploymentRollback {
     rollbackTo: RollbackConfig;
 
     // The annotations to be updated to a deployment
-    updatedAnnotations?: {[key: string]: string};
+    updatedAnnotations?: { [key: string]: string };
   }
 }
 
@@ -406,7 +424,7 @@ export namespace Scale {
 
   // named constructs a Scale with metadata.name set to name.
   export function named(name: string): Scale {
-    return new Scale({metadata: {name}});
+    return new Scale({ metadata: { name } });
   }
   // Scale represents a scaling request for a resource.
   export interface Interface {
@@ -433,7 +451,7 @@ export class ScaleStatus {
   public replicas: number;
 
   // label query over pods that should match the replicas count. More info: http://kubernetes.io/docs/user-guide/labels#label-selectors
-  public selector?: {[key: string]: string};
+  public selector?: { [key: string]: string };
 
   // label selector for pods that should match the replicas count. This is a serializated version of both map-based and more expressive set-based selectors. This is done to avoid introspection in the clients. The string will be in the same format as the query-param syntax. If the target type only supports map-based selectors, both this field and map-based selector field are populated. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors
   public targetSelector?: string;
@@ -474,7 +492,9 @@ export class StatefulSet implements KubernetesObject {
 }
 
 export function isStatefulSet(o: any): o is StatefulSet {
-  return o && o.apiVersion === StatefulSet.apiVersion && o.kind === StatefulSet.kind;
+  return (
+    o && o.apiVersion === StatefulSet.apiVersion && o.kind === StatefulSet.kind
+  );
 }
 
 export namespace StatefulSet {
@@ -485,7 +505,7 @@ export namespace StatefulSet {
 
   // named constructs a StatefulSet with metadata.name set to name.
   export function named(name: string): StatefulSet {
-    return new StatefulSet({metadata: {name}});
+    return new StatefulSet({ metadata: { name } });
   }
   // DEPRECATED - This group version of StatefulSet is deprecated by apps/v1beta2/StatefulSet. See the release notes for more information. StatefulSet represents a set of pods with consistent identities. Identities are defined as:
   //  - Network: A single stable DNS and hostname.
@@ -542,14 +562,18 @@ export class StatefulSetList {
 
   constructor(desc: StatefulSetList) {
     this.apiVersion = StatefulSetList.apiVersion;
-    this.items = desc.items.map((i) => new StatefulSet(i));
+    this.items = desc.items.map(i => new StatefulSet(i));
     this.kind = StatefulSetList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isStatefulSetList(o: any): o is StatefulSetList {
-  return o && o.apiVersion === StatefulSetList.apiVersion && o.kind === StatefulSetList.kind;
+  return (
+    o &&
+    o.apiVersion === StatefulSetList.apiVersion &&
+    o.kind === StatefulSetList.kind
+  );
 }
 
 export namespace StatefulSetList {
@@ -600,7 +624,12 @@ export class StatefulSetSpec {
     this.serviceName = desc.serviceName;
     this.template = desc.template;
     this.updateStrategy = desc.updateStrategy;
-    this.volumeClaimTemplates = (desc.volumeClaimTemplates !== undefined) ? desc.volumeClaimTemplates.map((i) => new apiCoreV1.PersistentVolumeClaim(i)) : undefined;
+    this.volumeClaimTemplates =
+      desc.volumeClaimTemplates !== undefined
+        ? desc.volumeClaimTemplates.map(
+            i => new apiCoreV1.PersistentVolumeClaim(i)
+          )
+        : undefined;
   }
 }
 

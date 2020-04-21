@@ -11,7 +11,9 @@ class MutatingWebhookConfiguration {
 }
 exports.MutatingWebhookConfiguration = MutatingWebhookConfiguration;
 function isMutatingWebhookConfiguration(o) {
-    return o && o.apiVersion === MutatingWebhookConfiguration.apiVersion && o.kind === MutatingWebhookConfiguration.kind;
+    return (o &&
+        o.apiVersion === MutatingWebhookConfiguration.apiVersion &&
+        o.kind === MutatingWebhookConfiguration.kind);
 }
 exports.isMutatingWebhookConfiguration = isMutatingWebhookConfiguration;
 (function (MutatingWebhookConfiguration) {
@@ -29,14 +31,16 @@ exports.isMutatingWebhookConfiguration = isMutatingWebhookConfiguration;
 class MutatingWebhookConfigurationList {
     constructor(desc) {
         this.apiVersion = MutatingWebhookConfigurationList.apiVersion;
-        this.items = desc.items.map((i) => new MutatingWebhookConfiguration(i));
+        this.items = desc.items.map(i => new MutatingWebhookConfiguration(i));
         this.kind = MutatingWebhookConfigurationList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.MutatingWebhookConfigurationList = MutatingWebhookConfigurationList;
 function isMutatingWebhookConfigurationList(o) {
-    return o && o.apiVersion === MutatingWebhookConfigurationList.apiVersion && o.kind === MutatingWebhookConfigurationList.kind;
+    return (o &&
+        o.apiVersion === MutatingWebhookConfigurationList.apiVersion &&
+        o.kind === MutatingWebhookConfigurationList.kind);
 }
 exports.isMutatingWebhookConfigurationList = isMutatingWebhookConfigurationList;
 (function (MutatingWebhookConfigurationList) {
@@ -69,7 +73,9 @@ class ValidatingWebhookConfiguration {
 }
 exports.ValidatingWebhookConfiguration = ValidatingWebhookConfiguration;
 function isValidatingWebhookConfiguration(o) {
-    return o && o.apiVersion === ValidatingWebhookConfiguration.apiVersion && o.kind === ValidatingWebhookConfiguration.kind;
+    return (o &&
+        o.apiVersion === ValidatingWebhookConfiguration.apiVersion &&
+        o.kind === ValidatingWebhookConfiguration.kind);
 }
 exports.isValidatingWebhookConfiguration = isValidatingWebhookConfiguration;
 (function (ValidatingWebhookConfiguration) {
@@ -87,14 +93,16 @@ exports.isValidatingWebhookConfiguration = isValidatingWebhookConfiguration;
 class ValidatingWebhookConfigurationList {
     constructor(desc) {
         this.apiVersion = ValidatingWebhookConfigurationList.apiVersion;
-        this.items = desc.items.map((i) => new ValidatingWebhookConfiguration(i));
+        this.items = desc.items.map(i => new ValidatingWebhookConfiguration(i));
         this.kind = ValidatingWebhookConfigurationList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.ValidatingWebhookConfigurationList = ValidatingWebhookConfigurationList;
 function isValidatingWebhookConfigurationList(o) {
-    return o && o.apiVersion === ValidatingWebhookConfigurationList.apiVersion && o.kind === ValidatingWebhookConfigurationList.kind;
+    return (o &&
+        o.apiVersion === ValidatingWebhookConfigurationList.apiVersion &&
+        o.kind === ValidatingWebhookConfigurationList.kind);
 }
 exports.isValidatingWebhookConfigurationList = isValidatingWebhookConfigurationList;
 (function (ValidatingWebhookConfigurationList) {

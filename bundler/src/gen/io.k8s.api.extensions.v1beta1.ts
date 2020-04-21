@@ -1,7 +1,7 @@
-import { KubernetesObject } from 'kpt-functions';
-import * as apiCoreV1 from './io.k8s.api.core.v1';
-import * as apisMetaV1 from './io.k8s.apimachinery.pkg.apis.meta.v1';
-import * as pkgUtilIntstr from './io.k8s.apimachinery.pkg.util.intstr';
+import { KubernetesObject } from "kpt-functions";
+import * as apiCoreV1 from "./io.k8s.api.core.v1";
+import * as apisMetaV1 from "./io.k8s.apimachinery.pkg.apis.meta.v1";
+import * as pkgUtilIntstr from "./io.k8s.apimachinery.pkg.util.intstr";
 
 // AllowedCSIDriver represents a single inline CSI Driver that is allowed to be used.
 export class AllowedCSIDriver {
@@ -26,7 +26,7 @@ export class AllowedFlexVolume {
 // AllowedHostPath defines the host volume conditions that will be enabled by a policy for pods to use. It requires the path prefix to be defined. Deprecated: use AllowedHostPath from policy API Group instead.
 export class AllowedHostPath {
   // pathPrefix is the path prefix that the host volume must match. It does not support `*`. Trailing slashes are trimmed when validating the path prefix with a host path.
-  // 
+  //
   // Examples: `/foo` would allow `/foo`, `/foo/` and `/foo/bar` `/foo` would not allow `/food` or `/etc/foo`
   public pathPrefix?: string;
 
@@ -61,7 +61,9 @@ export class DaemonSet implements KubernetesObject {
 }
 
 export function isDaemonSet(o: any): o is DaemonSet {
-  return o && o.apiVersion === DaemonSet.apiVersion && o.kind === DaemonSet.kind;
+  return (
+    o && o.apiVersion === DaemonSet.apiVersion && o.kind === DaemonSet.kind
+  );
 }
 
 export namespace DaemonSet {
@@ -72,7 +74,7 @@ export namespace DaemonSet {
 
   // named constructs a DaemonSet with metadata.name set to name.
   export function named(name: string): DaemonSet {
-    return new DaemonSet({metadata: {name}});
+    return new DaemonSet({ metadata: { name } });
   }
   // DEPRECATED - This group version of DaemonSet is deprecated by apps/v1beta2/DaemonSet. See the release notes for more information. DaemonSet represents the configuration of a daemon set.
   export interface Interface {
@@ -129,14 +131,18 @@ export class DaemonSetList {
 
   constructor(desc: DaemonSetList) {
     this.apiVersion = DaemonSetList.apiVersion;
-    this.items = desc.items.map((i) => new DaemonSet(i));
+    this.items = desc.items.map(i => new DaemonSet(i));
     this.kind = DaemonSetList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isDaemonSetList(o: any): o is DaemonSetList {
-  return o && o.apiVersion === DaemonSetList.apiVersion && o.kind === DaemonSetList.kind;
+  return (
+    o &&
+    o.apiVersion === DaemonSetList.apiVersion &&
+    o.kind === DaemonSetList.kind
+  );
 }
 
 export namespace DaemonSetList {
@@ -266,7 +272,9 @@ export class Deployment implements KubernetesObject {
 }
 
 export function isDeployment(o: any): o is Deployment {
-  return o && o.apiVersion === Deployment.apiVersion && o.kind === Deployment.kind;
+  return (
+    o && o.apiVersion === Deployment.apiVersion && o.kind === Deployment.kind
+  );
 }
 
 export namespace Deployment {
@@ -277,7 +285,7 @@ export namespace Deployment {
 
   // named constructs a Deployment with metadata.name set to name.
   export function named(name: string): Deployment {
-    return new Deployment({metadata: {name}});
+    return new Deployment({ metadata: { name } });
   }
   // DEPRECATED - This group version of Deployment is deprecated by apps/v1beta2/Deployment. See the release notes for more information. Deployment enables declarative updates for Pods and ReplicaSets.
   export interface Interface {
@@ -338,14 +346,18 @@ export class DeploymentList {
 
   constructor(desc: DeploymentList) {
     this.apiVersion = DeploymentList.apiVersion;
-    this.items = desc.items.map((i) => new Deployment(i));
+    this.items = desc.items.map(i => new Deployment(i));
     this.kind = DeploymentList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isDeploymentList(o: any): o is DeploymentList {
-  return o && o.apiVersion === DeploymentList.apiVersion && o.kind === DeploymentList.kind;
+  return (
+    o &&
+    o.apiVersion === DeploymentList.apiVersion &&
+    o.kind === DeploymentList.kind
+  );
 }
 
 export namespace DeploymentList {
@@ -379,7 +391,7 @@ export class DeploymentRollback {
   public rollbackTo: RollbackConfig;
 
   // The annotations to be updated to a deployment
-  public updatedAnnotations?: {[key: string]: string};
+  public updatedAnnotations?: { [key: string]: string };
 
   constructor(desc: DeploymentRollback) {
     this.apiVersion = DeploymentRollback.apiVersion;
@@ -391,7 +403,11 @@ export class DeploymentRollback {
 }
 
 export function isDeploymentRollback(o: any): o is DeploymentRollback {
-  return o && o.apiVersion === DeploymentRollback.apiVersion && o.kind === DeploymentRollback.kind;
+  return (
+    o &&
+    o.apiVersion === DeploymentRollback.apiVersion &&
+    o.kind === DeploymentRollback.kind
+  );
 }
 
 export namespace DeploymentRollback {
@@ -409,7 +425,7 @@ export namespace DeploymentRollback {
     rollbackTo: RollbackConfig;
 
     // The annotations to be updated to a deployment
-    updatedAnnotations?: {[key: string]: string};
+    updatedAnnotations?: { [key: string]: string };
   }
 }
 
@@ -604,7 +620,7 @@ export namespace Ingress {
 
   // named constructs a Ingress with metadata.name set to name.
   export function named(name: string): Ingress {
-    return new Ingress({metadata: {name}});
+    return new Ingress({ metadata: { name } });
   }
   // Ingress is a collection of rules that allow inbound connections to reach the endpoints defined by a backend. An Ingress can be configured to give services externally-reachable urls, load balance traffic, terminate SSL, offer name based virtual hosting etc. DEPRECATED - This group version of Ingress is deprecated by networking.k8s.io/v1beta1 Ingress. See the release notes for more information.
   export interface Interface {
@@ -649,14 +665,16 @@ export class IngressList {
 
   constructor(desc: IngressList) {
     this.apiVersion = IngressList.apiVersion;
-    this.items = desc.items.map((i) => new Ingress(i));
+    this.items = desc.items.map(i => new Ingress(i));
     this.kind = IngressList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isIngressList(o: any): o is IngressList {
-  return o && o.apiVersion === IngressList.apiVersion && o.kind === IngressList.kind;
+  return (
+    o && o.apiVersion === IngressList.apiVersion && o.kind === IngressList.kind
+  );
 }
 
 export namespace IngressList {
@@ -738,7 +756,11 @@ export class NetworkPolicy implements KubernetesObject {
 }
 
 export function isNetworkPolicy(o: any): o is NetworkPolicy {
-  return o && o.apiVersion === NetworkPolicy.apiVersion && o.kind === NetworkPolicy.kind;
+  return (
+    o &&
+    o.apiVersion === NetworkPolicy.apiVersion &&
+    o.kind === NetworkPolicy.kind
+  );
 }
 
 export namespace NetworkPolicy {
@@ -749,7 +771,7 @@ export namespace NetworkPolicy {
 
   // named constructs a NetworkPolicy with metadata.name set to name.
   export function named(name: string): NetworkPolicy {
-    return new NetworkPolicy({metadata: {name}});
+    return new NetworkPolicy({ metadata: { name } });
   }
   // DEPRECATED 1.9 - This group version of NetworkPolicy is deprecated by networking/v1/NetworkPolicy. NetworkPolicy describes what network traffic is allowed for a set of Pods
   export interface Interface {
@@ -795,14 +817,18 @@ export class NetworkPolicyList {
 
   constructor(desc: NetworkPolicyList) {
     this.apiVersion = NetworkPolicyList.apiVersion;
-    this.items = desc.items.map((i) => new NetworkPolicy(i));
+    this.items = desc.items.map(i => new NetworkPolicy(i));
     this.kind = NetworkPolicyList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isNetworkPolicyList(o: any): o is NetworkPolicyList {
-  return o && o.apiVersion === NetworkPolicyList.apiVersion && o.kind === NetworkPolicyList.kind;
+  return (
+    o &&
+    o.apiVersion === NetworkPolicyList.apiVersion &&
+    o.kind === NetworkPolicyList.kind
+  );
 }
 
 export namespace NetworkPolicyList {
@@ -827,12 +853,12 @@ export class NetworkPolicyPeer {
   public ipBlock?: IPBlock;
 
   // Selects Namespaces using cluster-scoped labels. This field follows standard label selector semantics; if present but empty, it selects all namespaces.
-  // 
+  //
   // If PodSelector is also set, then the NetworkPolicyPeer as a whole selects the Pods matching PodSelector in the Namespaces selected by NamespaceSelector. Otherwise it selects all Pods in the Namespaces selected by NamespaceSelector.
   public namespaceSelector?: apisMetaV1.LabelSelector;
 
   // This is a label selector which selects Pods. This field follows standard label selector semantics; if present but empty, it selects all pods.
-  // 
+  //
   // If NamespaceSelector is also set, then the NetworkPolicyPeer as a whole selects the Pods matching PodSelector in the Namespaces selected by NamespaceSelector. Otherwise it selects the Pods matching PodSelector in the policy's own Namespace.
   public podSelector?: apisMetaV1.LabelSelector;
 }
@@ -891,7 +917,11 @@ export class PodSecurityPolicy implements KubernetesObject {
 }
 
 export function isPodSecurityPolicy(o: any): o is PodSecurityPolicy {
-  return o && o.apiVersion === PodSecurityPolicy.apiVersion && o.kind === PodSecurityPolicy.kind;
+  return (
+    o &&
+    o.apiVersion === PodSecurityPolicy.apiVersion &&
+    o.kind === PodSecurityPolicy.kind
+  );
 }
 
 export namespace PodSecurityPolicy {
@@ -902,7 +932,7 @@ export namespace PodSecurityPolicy {
 
   // named constructs a PodSecurityPolicy with metadata.name set to name.
   export function named(name: string): PodSecurityPolicy {
-    return new PodSecurityPolicy({metadata: {name}});
+    return new PodSecurityPolicy({ metadata: { name } });
   }
   // PodSecurityPolicy governs the ability to make requests that affect the Security Context that will be applied to a pod and container. Deprecated: use PodSecurityPolicy from policy API Group instead.
   export interface Interface {
@@ -930,14 +960,18 @@ export class PodSecurityPolicyList {
 
   constructor(desc: PodSecurityPolicyList) {
     this.apiVersion = PodSecurityPolicyList.apiVersion;
-    this.items = desc.items.map((i) => new PodSecurityPolicy(i));
+    this.items = desc.items.map(i => new PodSecurityPolicy(i));
     this.kind = PodSecurityPolicyList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isPodSecurityPolicyList(o: any): o is PodSecurityPolicyList {
-  return o && o.apiVersion === PodSecurityPolicyList.apiVersion && o.kind === PodSecurityPolicyList.kind;
+  return (
+    o &&
+    o.apiVersion === PodSecurityPolicyList.apiVersion &&
+    o.kind === PodSecurityPolicyList.kind
+  );
 }
 
 export namespace PodSecurityPolicyList {
@@ -977,7 +1011,7 @@ export class PodSecurityPolicySpec {
   public allowedProcMountTypes?: string[];
 
   // allowedUnsafeSysctls is a list of explicitly allowed unsafe sysctls, defaults to none. Each entry is either a plain sysctl name or ends in "*" in which case it is considered as a prefix of allowed sysctls. Single * means all unsafe sysctls are allowed. Kubelet has to whitelist all allowed unsafe sysctls explicitly to avoid rejection.
-  // 
+  //
   // Examples: e.g. "foo/*" allows "foo/bar", "foo/baz", etc. e.g. "foo.*" allows "foo.bar", "foo.baz", etc.
   public allowedUnsafeSysctls?: string[];
 
@@ -988,7 +1022,7 @@ export class PodSecurityPolicySpec {
   public defaultAllowPrivilegeEscalation?: boolean;
 
   // forbiddenSysctls is a list of explicitly forbidden sysctls, defaults to none. Each entry is either a plain sysctl name or ends in "*" in which case it is considered as a prefix of forbidden sysctls. Single * means all sysctls are forbidden.
-  // 
+  //
   // Examples: e.g. "foo/*" forbids "foo/bar", "foo/baz", etc. e.g. "foo.*" forbids "foo.bar", "foo.baz", etc.
   public forbiddenSysctls?: string[];
 
@@ -1085,7 +1119,9 @@ export class ReplicaSet implements KubernetesObject {
 }
 
 export function isReplicaSet(o: any): o is ReplicaSet {
-  return o && o.apiVersion === ReplicaSet.apiVersion && o.kind === ReplicaSet.kind;
+  return (
+    o && o.apiVersion === ReplicaSet.apiVersion && o.kind === ReplicaSet.kind
+  );
 }
 
 export namespace ReplicaSet {
@@ -1096,7 +1132,7 @@ export namespace ReplicaSet {
 
   // named constructs a ReplicaSet with metadata.name set to name.
   export function named(name: string): ReplicaSet {
-    return new ReplicaSet({metadata: {name}});
+    return new ReplicaSet({ metadata: { name } });
   }
   // DEPRECATED - This group version of ReplicaSet is deprecated by apps/v1beta2/ReplicaSet. See the release notes for more information. ReplicaSet ensures that a specified number of pod replicas are running at any given time.
   export interface Interface {
@@ -1153,14 +1189,18 @@ export class ReplicaSetList {
 
   constructor(desc: ReplicaSetList) {
     this.apiVersion = ReplicaSetList.apiVersion;
-    this.items = desc.items.map((i) => new ReplicaSet(i));
+    this.items = desc.items.map(i => new ReplicaSet(i));
     this.kind = ReplicaSetList.kind;
     this.metadata = desc.metadata;
   }
 }
 
 export function isReplicaSetList(o: any): o is ReplicaSetList {
-  return o && o.apiVersion === ReplicaSetList.apiVersion && o.kind === ReplicaSetList.kind;
+  return (
+    o &&
+    o.apiVersion === ReplicaSetList.apiVersion &&
+    o.kind === ReplicaSetList.kind
+  );
 }
 
 export namespace ReplicaSetList {
@@ -1325,7 +1365,7 @@ export namespace Scale {
 
   // named constructs a Scale with metadata.name set to name.
   export function named(name: string): Scale {
-    return new Scale({metadata: {name}});
+    return new Scale({ metadata: { name } });
   }
   // represents a scaling request for a resource.
   export interface Interface {
@@ -1352,7 +1392,7 @@ export class ScaleStatus {
   public replicas: number;
 
   // label query over pods that should match the replicas count. More info: http://kubernetes.io/docs/user-guide/labels#label-selectors
-  public selector?: {[key: string]: string};
+  public selector?: { [key: string]: string };
 
   // label selector for pods that should match the replicas count. This is a serializated version of both map-based and more expressive set-based selectors. This is done to avoid introspection in the clients. The string will be in the same format as the query-param syntax. If the target type only supports map-based selectors, both this field and map-based selector field are populated. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors
   public targetSelector?: string;

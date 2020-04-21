@@ -16,7 +16,7 @@ class ClusterRole {
 }
 exports.ClusterRole = ClusterRole;
 function isClusterRole(o) {
-    return o && o.apiVersion === ClusterRole.apiVersion && o.kind === ClusterRole.kind;
+    return (o && o.apiVersion === ClusterRole.apiVersion && o.kind === ClusterRole.kind);
 }
 exports.isClusterRole = isClusterRole;
 (function (ClusterRole) {
@@ -42,7 +42,9 @@ class ClusterRoleBinding {
 }
 exports.ClusterRoleBinding = ClusterRoleBinding;
 function isClusterRoleBinding(o) {
-    return o && o.apiVersion === ClusterRoleBinding.apiVersion && o.kind === ClusterRoleBinding.kind;
+    return (o &&
+        o.apiVersion === ClusterRoleBinding.apiVersion &&
+        o.kind === ClusterRoleBinding.kind);
 }
 exports.isClusterRoleBinding = isClusterRoleBinding;
 (function (ClusterRoleBinding) {
@@ -55,14 +57,16 @@ exports.isClusterRoleBinding = isClusterRoleBinding;
 class ClusterRoleBindingList {
     constructor(desc) {
         this.apiVersion = ClusterRoleBindingList.apiVersion;
-        this.items = desc.items.map((i) => new ClusterRoleBinding(i));
+        this.items = desc.items.map(i => new ClusterRoleBinding(i));
         this.kind = ClusterRoleBindingList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.ClusterRoleBindingList = ClusterRoleBindingList;
 function isClusterRoleBindingList(o) {
-    return o && o.apiVersion === ClusterRoleBindingList.apiVersion && o.kind === ClusterRoleBindingList.kind;
+    return (o &&
+        o.apiVersion === ClusterRoleBindingList.apiVersion &&
+        o.kind === ClusterRoleBindingList.kind);
 }
 exports.isClusterRoleBindingList = isClusterRoleBindingList;
 (function (ClusterRoleBindingList) {
@@ -75,14 +79,16 @@ exports.isClusterRoleBindingList = isClusterRoleBindingList;
 class ClusterRoleList {
     constructor(desc) {
         this.apiVersion = ClusterRoleList.apiVersion;
-        this.items = desc.items.map((i) => new ClusterRole(i));
+        this.items = desc.items.map(i => new ClusterRole(i));
         this.kind = ClusterRoleList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.ClusterRoleList = ClusterRoleList;
 function isClusterRoleList(o) {
-    return o && o.apiVersion === ClusterRoleList.apiVersion && o.kind === ClusterRoleList.kind;
+    return (o &&
+        o.apiVersion === ClusterRoleList.apiVersion &&
+        o.kind === ClusterRoleList.kind);
 }
 exports.isClusterRoleList = isClusterRoleList;
 (function (ClusterRoleList) {
@@ -139,7 +145,7 @@ class RoleBinding {
 }
 exports.RoleBinding = RoleBinding;
 function isRoleBinding(o) {
-    return o && o.apiVersion === RoleBinding.apiVersion && o.kind === RoleBinding.kind;
+    return (o && o.apiVersion === RoleBinding.apiVersion && o.kind === RoleBinding.kind);
 }
 exports.isRoleBinding = isRoleBinding;
 (function (RoleBinding) {
@@ -152,14 +158,16 @@ exports.isRoleBinding = isRoleBinding;
 class RoleBindingList {
     constructor(desc) {
         this.apiVersion = RoleBindingList.apiVersion;
-        this.items = desc.items.map((i) => new RoleBinding(i));
+        this.items = desc.items.map(i => new RoleBinding(i));
         this.kind = RoleBindingList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.RoleBindingList = RoleBindingList;
 function isRoleBindingList(o) {
-    return o && o.apiVersion === RoleBindingList.apiVersion && o.kind === RoleBindingList.kind;
+    return (o &&
+        o.apiVersion === RoleBindingList.apiVersion &&
+        o.kind === RoleBindingList.kind);
 }
 exports.isRoleBindingList = isRoleBindingList;
 (function (RoleBindingList) {
@@ -172,7 +180,7 @@ exports.isRoleBindingList = isRoleBindingList;
 class RoleList {
     constructor(desc) {
         this.apiVersion = RoleList.apiVersion;
-        this.items = desc.items.map((i) => new Role(i));
+        this.items = desc.items.map(i => new Role(i));
         this.kind = RoleList.kind;
         this.metadata = desc.metadata;
     }

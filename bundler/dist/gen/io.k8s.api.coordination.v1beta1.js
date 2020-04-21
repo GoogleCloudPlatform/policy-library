@@ -29,14 +29,14 @@ exports.isLease = isLease;
 class LeaseList {
     constructor(desc) {
         this.apiVersion = LeaseList.apiVersion;
-        this.items = desc.items.map((i) => new Lease(i));
+        this.items = desc.items.map(i => new Lease(i));
         this.kind = LeaseList.kind;
         this.metadata = desc.metadata;
     }
 }
 exports.LeaseList = LeaseList;
 function isLeaseList(o) {
-    return o && o.apiVersion === LeaseList.apiVersion && o.kind === LeaseList.kind;
+    return (o && o.apiVersion === LeaseList.apiVersion && o.kind === LeaseList.kind);
 }
 exports.isLeaseList = isLeaseList;
 (function (LeaseList) {

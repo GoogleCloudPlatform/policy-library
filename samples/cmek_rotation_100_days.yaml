@@ -24,6 +24,6 @@ spec:
     target: ["organization/*"]
   parameters:
     # Optionaly specify the required key rotation period.  Default is 365 days
-    # Valid time units are  "ns", "us" (or "µs"), "ms", "s", "m", "h"
+    # Valid time units are  "ns", "us", "ms", "s", "m", "h"
     # This is 100 days
     period: 2400h
