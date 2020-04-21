@@ -6,7 +6,7 @@ This bundle can be installed via kpt:
 export BUNDLE=scorecard-v1
 kpt pkg get https://github.com/forseti-security/policy-library.git ./policy-library
 kpt fn source policy-library/samples/ | \
-  kpt fn run --image gcr.io/config-validator/get_policy_bundle:latest -- bundle=$BUNDLE | \
+  kpt fn run --image gcr.io/config-validator/get-policy-bundle:latest -- bundle=$BUNDLE | \
   kpt fn sink policy-library/policies/constraints/
 ```
 
@@ -16,7 +16,7 @@ kpt fn source policy-library/samples/ | \
 | -------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------ |
 | [allow_only_private_cluster](../../samples/gke_allow_only_private_cluster.yaml)                    | security               |                                                                                      |
 | [blacklist_all_users](../../samples/iam_blacklist_public.yaml)                                     | security               | Prevent public users from having access to resources via IAM                         |
-| [blacklist_public_users](../../samples/constraints/storage_blacklist_public.yaml)                  | security               | Prevent public users from having access to resources via IAM                         |
+| [blacklist_public_users](../../samples/storage_blacklist_public.yaml)                              | security               | Prevent public users from having access to resources via IAM                         |
 | [disable_gke_dashboard](../../samples/gke_dashboard_disable.yaml)                                  | security               | Ensure Kubernetes web UI / Dashboard is disabled                                     |
 | [disable_gke_default_service_account](../../samples/gke_disable_default_service_account.yaml)      | security               | Ensure default Service account is not used for Project access in Kubernetes Clusters |
 | [disable_gke_legacy_abac](../../samples/gke_legacy_abac.yaml)                                      | security               | Ensure Legacy Authorization is set to Disabled on Kubernetes Engine Clusters         |
@@ -34,11 +34,11 @@ kpt fn source policy-library/samples/ | \
 | [gke_restrict_client_auth_methods](../../samples/gke_restrict_client_auth_methods.yaml)            | security               |                                                                                      |
 | [gke_restrict_pod_traffic](../../samples/gke_restrict_pod_traffic.yaml)                            | security               |                                                                                      |
 | [prevent-public-ip-cloudsql](../../samples/sql_public_ip.yaml)                                     | security               | Prevents a public IP from being assigned to a Cloud SQL instance.                    |
-| [require_bq_table_iam](../../samples/constraints/bigquery_world_readable.yaml)                     | security               |                                                                                      |
-| [require_bucket_policy_only](../../samples/constraints/storage_bucket_policy_only.yaml)            | security               |                                                                                      |
+| [require_bq_table_iam](../../samples/bigquery_world_readable.yaml)                                 | security               |                                                                                      |
+| [require_bucket_policy_only](../../samples/storage_bucket_policy_only.yaml)                        | security               |                                                                                      |
 | [require_sql_ssl](../../samples/sql_ssl.yaml)                                                      | security               |                                                                                      |
 | [restrict-firewall-rule-rdp-world-open](../../samples/restrict_fw_rules_rdp_world_open.yaml)       | security               |                                                                                      |
 | [restrict-firewall-rule-ssh-world-open](../../samples/restrict_fw_rules_ssh_world_open.yaml)       | security               |                                                                                      |
-| [restrict-firewall-rule-world-open](../../samples/constraints/restrict_fw_rules_world_open.yaml)   | security               |                                                                                      |
+| [restrict-firewall-rule-world-open](../../samples/restrict_fw_rules_world_open.yaml)               | security               |                                                                                      |
 | [service_versions](../../samples/appengine_versions.yaml)                                          | operational-efficiency |                                                                                      |
 
