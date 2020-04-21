@@ -15,7 +15,7 @@ Copy the `forseti-security` bundle to the constriants directory using Docker.
 
 ```
 kpt fn source ./samples/ | \
-  kpt fn run --image gcr.io/config-validator/get_policy_bundle:latest -- forseti-security | \
+  kpt fn run --image gcr.io/config-validator/get-policy-bundle:latest -- forseti-security | \
   kpt fn sink ./policies/constraints/
 ```
 
@@ -26,6 +26,6 @@ Generates markdown documentation for the templates and constraints in this repo.
 Generate the markdown docs.
 
 ```
-kpt fn source ./policy-library/samples/ ./policy-library/policies/ | 
-node ./policy-library/bundler/dist/generate_docs_run.js -d sink_dir=./policy-library/docs -d overwrite=true
+kpt fn source ./samples/ ./policies/ |
+node ./bundler/dist/generate_docs_run.js -d sink_dir=./docs -d overwrite=true
 ```

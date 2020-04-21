@@ -1,10 +1,10 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
   dir: /workspace/bundler/
-  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/generate_docs:dev', '.', '-f', 'build/generate_docs.Dockerfile']
+  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/generate-docs:dev', '.', '-f', 'build/generate_docs.Dockerfile']
 - name: 'gcr.io/cloud-builders/docker'
   dir: /workspace/bundler/
-  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/get_policy_bundle', '.', '-f', 'build/get_policy_bundle.Dockerfile']
+  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/get-policy-bundle', '.', '-f', 'build/get_policy_bundle.Dockerfile']
 images:
-  - gcr.io/$PROJECT_ID/generate_docs
-  - gcr.io/$PROJECT_ID/get_policy_bundle
+- gcr.io/$PROJECT_ID/generate-docs
+- gcr.io/$PROJECT_ID/get-policy-bundle
