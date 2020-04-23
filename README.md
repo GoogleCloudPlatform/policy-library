@@ -1,4 +1,5 @@
-# Policies
+# Config Validator Policy Library
+## [Bundles](./docs/index.md#policy-bundles) | [Templates](./docs/index.md#available-templates) | [Sample Constraints](./docs/index.md#sample-constraints)
 
 This repo contains a library of constraint templates and sample constraints.
 
