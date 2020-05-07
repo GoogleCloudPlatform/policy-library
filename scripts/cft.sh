@@ -163,8 +163,8 @@ export_cai_nonforseti(){
     type="projects"
   fi
 
-  regex_resource="gcloud asset operations describe $type/[0-9]*/operations/ExportAssets/RESOURCE/[0-9]*"
-  regex_iam="gcloud asset operations describe $type/[0-9]*/operations/ExportAssets/IAM_POLICY/[0-9]*"
+  regex_resource="gcloud asset operations describe $type/[0-9]*/operations/ExportAssets/RESOURCE/[0-9a-f\-]*"
+  regex_iam="gcloud asset operations describe $type/[0-9]*/operations/ExportAssets/IAM_POLICY/[0-9a-f\-]*"
 
   poll_resource=$(echo $output_resource | grep -oh "$regex_resource")
   poll_iam=$(echo $output_iam | grep -oh "$regex_iam")
