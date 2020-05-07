@@ -1,5 +1,5 @@
 #
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,13 +27,18 @@ deny[{
 
 	# Update params (set all missing params to their default value)
 	rules_params := update_params(params.rules[_])
+	mode := lib.get_default(params, "mode", "denylist")
 
 	asset := input.asset
 	asset.asset_type == "compute.googleapis.com/Firewall"
 
+	match_mode := lib.get_default(params, "exemptions_mode", "exact")
+	check_for_exemptions(asset.name, constraint, match_mode)
+
 	fw_rule = asset.resource.data
 
-	fw_rule_is_restricted(fw_rule, rules_params)
+	is_valid(mode, fw_rule, rules_params)
+
 	message := sprintf("%s Firewall rule is prohibited.", [asset.name])
 	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
@@ -64,6 +69,16 @@ update_params(params) = updated_params {
 		"target_service_accounts": lib.get_default(params, "target_service_accounts", ["any"]),
 		"enabled": lib.get_default(params, "enabled", "any"),
 	}
+}
+
+is_valid(mode, fw_rule, params) {
+	mode == "denylist"
+	fw_rule_is_restricted(fw_rule, params)
+}
+
+is_valid(mode, fw_rule, params) {
+	mode == "allowlist"
+	not fw_rule_is_restricted(fw_rule, params)
 }
 
 # fw_rule_is_restricted for Ingress rules
@@ -176,8 +191,33 @@ fw_rule_check_port(ip_config, port) {
 	not ip_config.ports
 }
 
+# fw_rule_check_port when port is all and there are no ports
+fw_rule_check_port(ip_config, port) {
+	port == "all"
+
+	# check if the port matches
+	not ip_config.ports
+}
+
+# fw_rule_check_port when port is all and the fw rule exposes ports 0-65535
+fw_rule_check_port(ip_config, port) {
+	port == "all"
+
+	# check if the port matches
+	range_match("0-65535", ip_config.ports[_])
+}
+
+# fw_rule_check_port when port is all and the fw rule exposes ports 1-65535
+fw_rule_check_port(ip_config, port) {
+	port == "all"
+
+	# check if the port matches
+	range_match("1-65535", ip_config.ports[_])
+}
+
 # fw_rule_check_port when port is a single number
 fw_rule_check_port(ip_config, port) {
+	port != "all"
 	port != "any"
 	not re_match("-", port)
 
@@ -190,6 +230,7 @@ fw_rule_check_port(ip_config, port) {
 
 # fw_rule_check_port when port is a range (e.g 100-200)
 fw_rule_check_port(ip_config, port) {
+	port != "all"
 	port != "any"
 	re_match("-", port)
 
@@ -457,4 +498,30 @@ fw_rule_check_enabled(fw_rule, enabled) {
 	# this is necessary as cast_boolean does not work on strings...
 	lower(enabled) == "false"
 	fw_rule.disabled
+}
+
+# Check for exempted resources in regex mode
+check_for_exemptions(asset_name, constraint, exemptions_mode) {
+	exemptions_mode == "regex"
+	lib.get_constraint_params(constraint, params)
+	exempt_list := params.exemptions
+	not re_match_name(asset_name, exempt_list)
+}
+
+# Check for exempted resources in exact mode (default)
+check_for_exemptions(asset_name, constraint, exemptions_mode) {
+	exemptions_mode == "exact"
+	lib.get_constraint_params(constraint, params)
+	exempt_list := params.exemptions
+	matches := {asset_name} & cast_set(exempt_list)
+	count(matches) == 0
+}
+
+# Check for empty exemption mode
+check_for_exemptions(asset_name, constraint, exemptions_mode) {
+	lib.has_field(constraint.spec.parameters, "exemptions") == false
+}
+
+re_match_name(name, filters) {
+	re_match(filters[_], name)
 }

@@ -31,7 +31,8 @@ spec:
           properties:
             locations:
               type: array
-              items: string
+              items:
+                type: string
               description: "List of GCP regions (or region patterns) for
               Dataproc clusters locations (i.e 'asia*', 'europe-west2' etc.)."
   targets:

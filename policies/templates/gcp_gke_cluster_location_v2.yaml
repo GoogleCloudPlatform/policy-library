@@ -32,13 +32,15 @@ spec:
               resources are allowed in all locations except those listed in the 'locations' parameter."
             exemptions:
               type: array
-              items: string
+              items:
+                type: string
               description: "Array of GKE clusters to exempt from location restriction. String values in the array
               should correspond to the full name values of exempted GKE clusters, e.g.
               //container.googleapis.com/projects/project-abc/zones/us-central1-c/clusters/my-cluster."
             locations:
               type: array
-              items: string
+              items:
+                type: string
               description: "Array of regions and/or zones in which GKE clusters can be created,
               e.g. us-central1-a, us-east1. Multiple locations can be specified. Regions and zones
               need to be specified separately, as this allows for restricting clusters to be zonal or

@@ -39,12 +39,14 @@ spec:
               resources are allowed in all locations except those listed in the 'locations' parameter."
             exemptions:
               type: array
-              items: string
+              items:
+                type: string
               description: "Array of storage buckets to exempt from location restriction. String values in the array should 
               correspond to the full name values of exempted storage buckets."
             locations:
               type: array
-              items: string
+              items:
+                type: string
               description: "Array of location names to be allowed or denied. Should be the the location name, whether regional  
               (e.g. us-west2), multi-regional (e.g. EU), or dual-region (e.g. eur4), as defined at 
               https://cloud.google.com/storage/docs/locations. Location names need to be exact match."

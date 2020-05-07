@@ -1,5 +1,5 @@
 #
-# Copyright 2018 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,8 +31,9 @@ deny[{
 	networks := lib.get_default(asset.resource.data.settings.ipConfiguration, "authorizedNetworks", [])
 	network := networks[_]
 	network.value == "0.0.0.0/0"
+
+	message := sprintf("%v is world readable", [asset.name])
 	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
-	message := sprintf("%v is world readabl", [asset.name])
 	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }

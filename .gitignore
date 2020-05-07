@@ -1,2 +1,10 @@
-.idea/
+# Build
+/build
+
+# intellij
+/policy-library.iml
+/.idea/
+
+# MacOS
 .DS_Store
+node_modules/

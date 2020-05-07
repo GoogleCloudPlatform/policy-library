@@ -23,22 +23,49 @@ deny[{
 	"details": metadata,
 }] {
 	constraint := input.constraint
+	lib.get_constraint_params(constraint, params)
+
 	asset := input.asset
 	asset.asset_type == "container.googleapis.com/Cluster"
-
 	cluster := asset.resource.data
-	master_auth_network_disabled(cluster)
-	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
-	message := sprintf("Master authorized networks is not being used in cluster %v.", [asset.name])
+	forbidden := forbidden_networks(cluster, params)
+	count(forbidden) > 0
+
+	message := sprintf("%v master is accessible from unauthorized networks: %v", [asset.name, forbidden])
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
-###########################
-# Rule Utilities
-###########################
-master_auth_network_disabled(cluster) {
-	master_auth_network_config := lib.get_default(cluster, "masterAuthorizedNetworksConfig", {})
-	enabled := lib.get_default(master_auth_network_config, "enabled", false)
+# Checks that master authorized network is enabled.
+# if it is not enabled, then the forbidden network is set
+# to 0.0.0.0/0
+forbidden_networks(cluster, params) = forbidden {
+	master_network_config := lib.get_default(cluster, "masterAuthorizedNetworksConfig", {})
+	enabled := lib.get_default(master_network_config, "enabled", false)
 	enabled == false
+	forbidden = ["0.0.0.0/0"]
+}
+
+# If authorized network parameter is not set, then no need of checking anything else
+# If it is set to anything (e.g., a list of paramters, or an empty list) then
+# enforce that only the listed networks are defined.
+forbidden_networks(cluster, params) = forbidden {
+	lib.has_field(params, "authorized_networks")
+	allowed_authorized_networks = lib.get_default(params, "authorized_networks", [])
+
+	master_network_config := lib.get_default(cluster, "masterAuthorizedNetworksConfig", {})
+	master_network_config.enabled == true
+
+	cidrBlocks = lib.get_default(master_network_config, "cidrBlocks", [])
+	configured_networks := {network |
+		network = cidrBlocks[_].cidrBlock
+	}
+
+	matched_networks := {network |
+		network = configured_networks[_]
+		net.cidr_contains(allowed_authorized_networks[_], network)
+	}
+
+	forbidden := configured_networks - matched_networks
 }

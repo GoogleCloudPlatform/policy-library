@@ -36,3 +36,5 @@ spec:
           - "target-tag"
         source_service_accounts:
           - "cf-gcp-challenge-dev-sa@cf-gcp-challenge-dev.iam.gserviceaccount.com"
+    exemptions_mode: "exact"
+    exemptions: []

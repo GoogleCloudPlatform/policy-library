@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPNetworkRestrictDefaultConstraintV1
+package templates.gcp.GCPNetworkRestrictDefaultV1
 
 import data.validator.gcp.lib as lib
 
@@ -22,7 +22,7 @@ deny[{
 	"details": metadata,
 }] {
 	a := input.asset
-	count({a.asset_type} & {"compute.googleapis.com/Network", "google.compute.Network"}) == 1
+	a.asset_type == "compute.googleapis.com/Network"
 	a.resource.data.name == "default"
 	name := a.name
 	message := sprintf("Default network in use: %v", [name])

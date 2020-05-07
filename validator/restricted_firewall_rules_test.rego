@@ -1,5 +1,5 @@
 #
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,141 +16,83 @@
 
 package templates.gcp.GCPRestrictedFirewallRulesConstraintV1
 
-#Importing the test data
+template_name := "GCPRestrictedFirewallRulesConstraintV1"
+
+import data.validator.test_utils as test_utils
+
+# Importing the test data
+import data.test.fixtures.restricted_firewall_rules.assets.exemption as exemption_fixture_assets
+import data.test.fixtures.restricted_firewall_rules.assets.protocol_and_all_ports as protocol_and_all_ports_fixture_assets
 import data.test.fixtures.restricted_firewall_rules.assets.protocol_and_port as protocol_and_port_fixture_assets
 import data.test.fixtures.restricted_firewall_rules.assets.sources as sources_fixture_assets
 import data.test.fixtures.restricted_firewall_rules.assets.targets as targets_fixture_assets
 
-# Importing the test constraints
-import data.test.fixtures.restricted_firewall_rules.constraints.all as all_fixture_constraint
-import data.test.fixtures.restricted_firewall_rules.constraints.misc.advanced as misc_advanced_fixture_constraint
-import data.test.fixtures.restricted_firewall_rules.constraints.misc.basic as misc_basic_fixture_constraint
-import data.test.fixtures.restricted_firewall_rules.constraints.protocol_and_port.advanced as protocol_and_port_advanced_fixture_constraint
-import data.test.fixtures.restricted_firewall_rules.constraints.protocol_and_port.basic as protocol_and_port_basic_fixture_constraint
-import data.test.fixtures.restricted_firewall_rules.constraints.sources.advanced as sources_advanced_fixture_constraint
-import data.test.fixtures.restricted_firewall_rules.constraints.sources.basic as sources_basic_fixture_constraint
-import data.test.fixtures.restricted_firewall_rules.constraints.targets.advanced as targets_advanced_fixture_constraint
-import data.test.fixtures.restricted_firewall_rules.constraints.targets.basic as targets_basic_fixture_constraint
+# Importing the denylist test constraints
+import data.test.fixtures.restricted_firewall_rules.constraints.all.denylist as all_fixture_constraint_denylist
+import data.test.fixtures.restricted_firewall_rules.constraints.misc.advanced.denylist as misc_advanced_fixture_constraint_denylist
+import data.test.fixtures.restricted_firewall_rules.constraints.misc.basic.denylist as misc_basic_fixture_constraint_denylist
+import data.test.fixtures.restricted_firewall_rules.constraints.protocol_and_all_ports.denylist as protocol_and_all_ports_fixture_constraint_denylist
+import data.test.fixtures.restricted_firewall_rules.constraints.protocol_and_port.advanced.denylist as protocol_and_port_advanced_fixture_constraint_denylist
+import data.test.fixtures.restricted_firewall_rules.constraints.protocol_and_port.basic.denylist as protocol_and_port_basic_fixture_constraint_denylist
+import data.test.fixtures.restricted_firewall_rules.constraints.sources.advanced.denylist as sources_advanced_fixture_constraint_denylist
+import data.test.fixtures.restricted_firewall_rules.constraints.sources.basic.denylist as sources_basic_fixture_constraint_denylist
+import data.test.fixtures.restricted_firewall_rules.constraints.targets.advanced.denylist as targets_advanced_fixture_constraint_denylist
+import data.test.fixtures.restricted_firewall_rules.constraints.targets.basic.denylist as targets_basic_fixture_constraint_denylist
 
-# Find all violations on our test cases
-find_all_violations[violation] {
-	resources := data.test_resources[_]
-	constraint := data.test_constraints[_]
-	issues := deny with input.asset as resources[_]
-		 with input.constraint as constraint
+# Importing the allowlist test constraints
+import data.test.fixtures.restricted_firewall_rules.constraints.all.allowlist as all_fixture_constraint_allowlist
+import data.test.fixtures.restricted_firewall_rules.constraints.misc.advanced.allowlist as misc_advanced_fixture_constraint_allowlist
+import data.test.fixtures.restricted_firewall_rules.constraints.misc.basic.allowlist as misc_basic_fixture_constraint_allowlist
+import data.test.fixtures.restricted_firewall_rules.constraints.protocol_and_all_ports.allowlist as protocol_and_all_ports_fixture_constraint_allowlist
+import data.test.fixtures.restricted_firewall_rules.constraints.protocol_and_port.advanced.allowlist as protocol_and_port_advanced_fixture_constraint_allowlist
+import data.test.fixtures.restricted_firewall_rules.constraints.protocol_and_port.basic.allowlist as protocol_and_port_basic_fixture_constraint_allowlist
+import data.test.fixtures.restricted_firewall_rules.constraints.sources.advanced.allowlist as sources_advanced_fixture_constraint_allowlist
+import data.test.fixtures.restricted_firewall_rules.constraints.sources.basic.allowlist as sources_basic_fixture_constraint_allowlist
+import data.test.fixtures.restricted_firewall_rules.constraints.targets.advanced.allowlist as targets_advanced_fixture_constraint_allowlist
+import data.test.fixtures.restricted_firewall_rules.constraints.targets.basic.allowlist as targets_basic_fixture_constraint_allowlist
 
-	violation := issues[_]
+# Importing the exemption test constraints
+import data.test.fixtures.restricted_firewall_rules.constraints.exemption.exact as exemption_exact_constraint
+import data.test.fixtures.restricted_firewall_rules.constraints.exemption.regex as exemption_regex_constraint
+import data.test.fixtures.restricted_firewall_rules.constraints.exemption.unset as exemption_unset_constraint
+
+# Test protocol and all ports
+test_protocol_and_all_ports_count {
+	test_utils.check_test_violations_count(protocol_and_all_ports_fixture_assets, [protocol_and_all_ports_fixture_constraint_denylist], template_name, 4)
 }
 
-fw_violations_protocol_and_port_basic[violation] {
-	constraints := [protocol_and_port_basic_fixture_constraint]
-	resources := [protocol_and_port_fixture_assets]
-
-	violations := find_all_violations with data.test_resources as resources
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
+test_protocol_and_all_ports_count_allowlist {
+	test_utils.check_test_violations_count(protocol_and_all_ports_fixture_assets, [protocol_and_all_ports_fixture_constraint_allowlist], template_name, 6)
 }
 
-fw_violations_protocol_and_port_advanced[violation] {
-	constraints := [protocol_and_port_advanced_fixture_constraint]
-	resources := [protocol_and_port_fixture_assets]
+test_protocol_and_all_ports_resources {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-udp-all",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all-port-range0",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all-port-range1",
+	}
 
-	violations := find_all_violations with data.test_resources as resources
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
+	test_utils.check_test_violations_resources(protocol_and_all_ports_fixture_assets, [protocol_and_all_ports_fixture_constraint_denylist], template_name, expected_resource_names)
 }
 
-fw_violations_sources_basic[violation] {
-	constraints := [sources_basic_fixture_constraint]
-	resources := [sources_fixture_assets]
+test_protocol_and_all_ports_resources_allowlist {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-udp-all",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all-port-range0",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all-port-range1",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all-port-range-no-violation",
+	}
 
-	violations := find_all_violations with data.test_resources as resources
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
-}
-
-fw_violations_sources_advanced[violation] {
-	constraints := [sources_advanced_fixture_constraint]
-	resources := [sources_fixture_assets]
-
-	violations := find_all_violations with data.test_resources as resources
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
-}
-
-fw_violations_targets_basic[violation] {
-	constraints := [targets_basic_fixture_constraint]
-	resources := [targets_fixture_assets]
-	violations := find_all_violations with data.test_resources as resources
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
-}
-
-fw_violations_targets_advanced[violation] {
-	constraints := [targets_advanced_fixture_constraint]
-	resources := [targets_fixture_assets]
-
-	violations := find_all_violations with data.test_resources as resources
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
-}
-
-fw_violations_misc_advanced[violation] {
-	constraints := [misc_advanced_fixture_constraint]
-	resources := [
-		protocol_and_port_fixture_assets,
-		sources_fixture_assets,
-		targets_fixture_assets,
-	]
-
-	violations := find_all_violations with data.test_resources as resources
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
-}
-
-fw_violations_misc_basic[violation] {
-	constraints := [misc_basic_fixture_constraint]
-	resources := [
-		protocol_and_port_fixture_assets,
-		sources_fixture_assets,
-		targets_fixture_assets,
-	]
-
-	violations := find_all_violations with data.test_resources as resources
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
-}
-
-fw_violations_all[violation] {
-	constraints := [all_fixture_constraint]
-	resources := [
-		protocol_and_port_fixture_assets,
-		sources_fixture_assets,
-		targets_fixture_assets,
-	]
-
-	violations := find_all_violations with data.test_resources as resources
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
+	test_utils.check_test_violations_resources(protocol_and_all_ports_fixture_assets, [protocol_and_all_ports_fixture_constraint_allowlist], template_name, expected_resource_names)
 }
 
 # Tests sources constraint on port and protocol test data
-test_restricted_firewall_rule_protocol_and_port_violations {
+test_restricted_firewall_rule_protocol_and_port_violations_basic {
 	# Basic constraint violations
-	basic_violations := fw_violations_protocol_and_port_basic
-	count(basic_violations) == 5
 
-	resource_names_protocol_and_port_basic := {x | x = basic_violations[_].details.resource}
-	expected_resource_name_protocol_and_port_basic := {
+	expected_resource_names := {
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-2",
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-3",
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-4",
@@ -158,19 +100,30 @@ test_restricted_firewall_rule_protocol_and_port_violations {
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-6",
 	}
 
-	resource_names_protocol_and_port_basic == expected_resource_name_protocol_and_port_basic
+	test_utils.check_test_violations(protocol_and_port_fixture_assets, [protocol_and_port_basic_fixture_constraint_denylist], template_name, expected_resource_names)
+}
 
+test_restricted_firewall_rule_protocol_and_port_violations_basic_allowlist {
+	# Basic constraint violations
+
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-0",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-1",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-7",
+	}
+
+	test_utils.check_test_violations(protocol_and_port_fixture_assets, [protocol_and_port_basic_fixture_constraint_allowlist], template_name, expected_resource_names)
+}
+
+test_restricted_firewall_rule_protocol_and_port_violations_advanced {
 	# Advanced constraint violations
-	advanced_violations := fw_violations_protocol_and_port_advanced
 
 	# Note: the following resources raise 2 violations for the advanced constraint:
 	# * cf-test-fw-rule-2
 	# * cf-test-fw-rule-3
 	# * cf-test-fw-rule-5
-	count(advanced_violations) == 9
 
-	resource_names_protocol_and_port_advanced := {x | x = advanced_violations[_].details.resource}
-	expected_resource_name_protocol_and_port_advanced := {
+	expected_resource_names := {
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-0",
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-2",
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-3",
@@ -179,23 +132,32 @@ test_restricted_firewall_rule_protocol_and_port_violations {
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-6",
 	}
 
-	resource_names_protocol_and_port_advanced == expected_resource_name_protocol_and_port_advanced
+	test_utils.check_test_violations_count(protocol_and_port_fixture_assets, [protocol_and_port_advanced_fixture_constraint_denylist], template_name, 9)
+	test_utils.check_test_violations_resources(protocol_and_port_fixture_assets, [protocol_and_port_advanced_fixture_constraint_denylist], template_name, expected_resource_names)
+	test_utils.check_test_violations_signature(protocol_and_port_fixture_assets, [protocol_and_port_advanced_fixture_constraint_denylist], template_name)
+}
 
-	violations := [basic_violations, advanced_violations]
-	violation := violations[_][_]
-	is_string(violation.msg)
-	is_object(violation.details)
+test_restricted_firewall_rule_protocol_and_port_violations_advanced_allowlist {
+	# Advanced constraint violations
+
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-0",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-1",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-4",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-6",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-7",
+	}
+
+	test_utils.check_test_violations_count(protocol_and_port_fixture_assets, [protocol_and_port_advanced_fixture_constraint_allowlist], template_name, 7)
+	test_utils.check_test_violations_resources(protocol_and_port_fixture_assets, [protocol_and_port_advanced_fixture_constraint_allowlist], template_name, expected_resource_names)
+	test_utils.check_test_violations_signature(protocol_and_port_fixture_assets, [protocol_and_port_advanced_fixture_constraint_allowlist], template_name)
 }
 
 # Tests sources constraint on sources test data
-test_restricted_firewall_rule_sources_violations {
+test_restricted_firewall_rule_sources_violations_basic {
 	# Basic constraint violations
-	basic_violations := fw_violations_sources_basic
 
-	count(basic_violations) == 6
-
-	resource_names_sources_basic := {x | x = basic_violations[_].details.resource}
-	expected_resource_names_sources_basic := {
+	expected_resource_names := {
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-0",
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-1",
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-2",
@@ -204,35 +166,61 @@ test_restricted_firewall_rule_sources_violations {
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-7",
 	}
 
-	resource_names_sources_basic == expected_resource_names_sources_basic
+	test_utils.check_test_violations(sources_fixture_assets, [sources_basic_fixture_constraint_denylist], template_name, expected_resource_names)
+}
 
+# Tests sources constraint on sources test data
+test_restricted_firewall_rule_sources_violations_basic_allowlist {
+	# Basic constraint violations
+
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-5",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-6",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-8",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-9",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-10",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-11",
+	}
+
+	test_utils.check_test_violations(sources_fixture_assets, [sources_basic_fixture_constraint_allowlist], template_name, expected_resource_names)
+}
+
+test_restricted_firewall_rule_sources_violations_advanced {
 	# Advanced constraint violations
-	advanced_violations := fw_violations_sources_advanced
 
-	count(advanced_violations) == 2
-
-	resource_names_sources_advanced := {x | x = advanced_violations[_].details.resource}
-	expected_resource_name_sources_advanced := {
+	expected_resource_names := {
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-7",
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-6",
 	}
 
-	resource_names_sources_advanced == expected_resource_name_sources_advanced
+	test_utils.check_test_violations(sources_fixture_assets, [sources_advanced_fixture_constraint_denylist], template_name, expected_resource_names)
+}
 
-	violations := [basic_violations, advanced_violations]
-	violation := violations[_][_]
-	is_string(violation.msg)
-	is_object(violation.details)
+test_restricted_firewall_rule_sources_violations_advanced_allowlist {
+	# Advanced constraint violations
+
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-0",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-1",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-2",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-3",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-4",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-5",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-6",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-7",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-8",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-9",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-10",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-11",
+	}
+
+	test_utils.check_test_violations_count(sources_fixture_assets, [sources_advanced_fixture_constraint_allowlist], template_name, 22)
+	test_utils.check_test_violations_resources(sources_fixture_assets, [sources_advanced_fixture_constraint_allowlist], template_name, expected_resource_names)
 }
 
 # Test targets constraint on targets test data
-test_restricted_firewall_rule_targets_violations {
-	basic_violations := fw_violations_targets_basic
-
-	count(basic_violations) == 8
-
-	resource_names_target_basic_allowed := {x | x = basic_violations[_].details.resource}
-	expected_resource_name_targets__allowed := {
+test_restricted_firewall_rule_targets_violations_basic {
+	expected_resource_names := {
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-0",
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-1",
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-2",
@@ -243,85 +231,307 @@ test_restricted_firewall_rule_targets_violations {
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-11",
 	}
 
-	resource_names_target_basic_allowed == expected_resource_name_targets__allowed
+	test_utils.check_test_violations(targets_fixture_assets, [targets_basic_fixture_constraint_denylist], template_name, expected_resource_names)
+}
 
-	advanced_violations := fw_violations_targets_advanced
+test_restricted_firewall_rule_targets_violations_basic_allowlist {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-7",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-8",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-9",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-10",
+	}
 
-	count(advanced_violations) == 2
+	test_utils.check_test_violations(targets_fixture_assets, [targets_basic_fixture_constraint_allowlist], template_name, expected_resource_names)
+}
 
-	resource_names_targets_advanced := {x | x = advanced_violations[_].details.resource}
-	expected_resource_name_targets_advanced := {
+test_restricted_firewall_rule_targets_violations_advanced {
+	expected_resource_names := {
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-7",
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-9",
 	}
 
-	resource_names_targets_advanced == expected_resource_name_targets_advanced
+	test_utils.check_test_violations(targets_fixture_assets, [targets_advanced_fixture_constraint_denylist], template_name, expected_resource_names)
+}
 
-	violations := [basic_violations, advanced_violations]
-	violation := violations[_][_]
-	is_string(violation.msg)
-	is_object(violation.details)
+test_restricted_firewall_rule_targets_violations_advanced_allowlist {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-0",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-1",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-2",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-3",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-4",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-5",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-6",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-7",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-8",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-9",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-10",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-11",
+	}
+
+	test_utils.check_test_violations_count(targets_fixture_assets, [targets_advanced_fixture_constraint_allowlist], template_name, 22)
+	test_utils.check_test_violations_resources(targets_fixture_assets, [targets_advanced_fixture_constraint_allowlist], template_name, expected_resource_names)
 }
 
 # Tests the misc constraint on misc test data
-test_restricted_firewall_rule_misc_violations {
-	allowed_violations := fw_violations_misc_advanced
+test_restricted_firewall_rule_misc_violations_advanced_protocol_and_ports {
+	test_utils.check_test_violations_count(protocol_and_port_fixture_assets, [misc_advanced_fixture_constraint_denylist], template_name, 0)
+}
 
-	count(allowed_violations) == 4
+test_restricted_firewall_rule_misc_violations_advanced_protocol_and_ports_allowlist {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-0",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-1",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-2",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-3",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-4",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-5",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-6",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-7",
+	}
 
-	resource_names_misc_advanced := {x | x = allowed_violations[_].details.resource}
-	expected_resource_name_misc_advanced := {
-		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-8",
-		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-11",
+	test_utils.check_test_violations_count(protocol_and_port_fixture_assets, [misc_advanced_fixture_constraint_allowlist], template_name, 16)
+	test_utils.check_test_violations_resources(protocol_and_port_fixture_assets, [misc_advanced_fixture_constraint_allowlist], template_name, expected_resource_names)
+}
+
+test_restricted_firewall_rule_misc_violations_advanced_sources {
+	expected_resource_names := {
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-8",
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-11",
 	}
 
-	resource_names_misc_advanced == expected_resource_name_misc_advanced
+	test_utils.check_test_violations(sources_fixture_assets, [misc_advanced_fixture_constraint_denylist], template_name, expected_resource_names)
+}
 
-	basic_violations := fw_violations_misc_basic
-
-	count(basic_violations) == 4
-
-	resource_names_misc_basic := {x | x = basic_violations[_].details.resource}
-	expected_resource_name_misc_basic := {
+test_restricted_firewall_rule_misc_violations_advanced_sources_allowlist {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-0",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-1",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-2",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-3",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-4",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-5",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-6",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-7",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-8",
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-9",
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-10",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-11",
+	}
+
+	test_utils.check_test_violations_resources(sources_fixture_assets, [misc_advanced_fixture_constraint_allowlist], template_name, expected_resource_names)
+	test_utils.check_test_violations_count(sources_fixture_assets, [misc_advanced_fixture_constraint_allowlist], template_name, 22)
+}
+
+test_restricted_firewall_rule_misc_violations_advanced_targets {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-8",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-11",
+	}
+
+	test_utils.check_test_violations(targets_fixture_assets, [misc_advanced_fixture_constraint_denylist], template_name, expected_resource_names)
+}
+
+test_restricted_firewall_rule_misc_violations_advanced_targets_allowlist {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-0",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-1",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-2",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-3",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-4",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-5",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-6",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-7",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-8",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-9",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-10",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-11",
+	}
+
+	test_utils.check_test_violations_count(targets_fixture_assets, [misc_advanced_fixture_constraint_allowlist], template_name, 22)
+	test_utils.check_test_violations_resources(targets_fixture_assets, [misc_advanced_fixture_constraint_allowlist], template_name, expected_resource_names)
+}
+
+test_restricted_firewall_rule_misc_violations_basic_protocol_and_ports {
+	test_utils.check_test_violations_count(protocol_and_port_fixture_assets, [misc_basic_fixture_constraint_denylist], template_name, 0)
+}
+
+test_restricted_firewall_rule_misc_violations_basic_protocol_and_ports_allowlist {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-0",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-1",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-2",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-3",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-4",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-5",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-6",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-7",
+	}
+
+	test_utils.check_test_violations(protocol_and_port_fixture_assets, [misc_basic_fixture_constraint_allowlist], template_name, expected_resource_names)
+}
+
+test_restricted_firewall_rule_misc_violations_basic_sources {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-9",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-10",
+	}
+
+	test_utils.check_test_violations(sources_fixture_assets, [misc_basic_fixture_constraint_denylist], template_name, expected_resource_names)
+}
+
+test_restricted_firewall_rule_misc_violations_basic_sources_allowlist {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-0",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-1",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-2",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-3",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-4",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-5",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-6",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-7",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-8",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-11",
+	}
+
+	test_utils.check_test_violations(sources_fixture_assets, [misc_basic_fixture_constraint_allowlist], template_name, expected_resource_names)
+}
+
+test_restricted_firewall_rule_misc_violations_basic_targets {
+	expected_resource_names := {
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-9",
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-10",
 	}
 
-	resource_names_misc_basic == expected_resource_name_misc_basic
+	test_utils.check_test_violations(targets_fixture_assets, [misc_basic_fixture_constraint_denylist], template_name, expected_resource_names)
+}
 
-	violations := [allowed_violations, basic_violations]
-	violation := violations[_][_]
-	is_string(violation.msg)
-	is_object(violation.details)
+test_restricted_firewall_rule_misc_violations_basic_targets_allowlist {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-0",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-1",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-2",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-3",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-4",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-5",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-6",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-7",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-8",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-11",
+	}
+
+	test_utils.check_test_violations(targets_fixture_assets, [misc_basic_fixture_constraint_allowlist], template_name, expected_resource_names)
 }
 
 # Tests "all" constraint on "all" test data
-test_restricted_firewall_rule_all_violations {
-	# test "all" constraint violations
-	violations := fw_violations_all
-	count(violations) == 10
+test_restricted_firewall_rule_all_violations_protocol_and_port {
+	test_utils.check_test_violations_count(protocol_and_port_fixture_assets, [all_fixture_constraint_denylist], template_name, 0)
+}
 
-	resource_names_all := {x | x = violations[_].details.resource}
-	expected_resource_name_all := {
+test_restricted_firewall_rule_all_violations_protocol_and_port_allowlist {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-0",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-1",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-2",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-3",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-4",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-5",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-6",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-7",
+	}
+
+	test_utils.check_test_violations_count(protocol_and_port_fixture_assets, [all_fixture_constraint_allowlist], template_name, 16)
+	test_utils.check_test_violations_resources(protocol_and_port_fixture_assets, [all_fixture_constraint_allowlist], template_name, expected_resource_names)
+}
+
+test_restricted_firewall_rule_all_violations_sources {
+	expected_resource_names := {
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-0",
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-4",
-		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-8",
-		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-9",
-		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-10",
-		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-11",
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-8",
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-9",
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-10",
 		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-11",
 	}
 
-	resource_names_all == expected_resource_name_all
+	test_utils.check_test_violations(sources_fixture_assets, [all_fixture_constraint_denylist], template_name, expected_resource_names)
+}
 
-	violation := violations[_]
-	is_string(violation.msg)
-	is_object(violation.details)
+test_restricted_firewall_rule_all_violations_sources_allowlist {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-0",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-1",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-2",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-3",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-4",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-5",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-6",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-7",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-8",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-9",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-10",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-source-11",
+	}
+
+	test_utils.check_test_violations_count(sources_fixture_assets, [all_fixture_constraint_allowlist], template_name, 18)
+	test_utils.check_test_violations_resources(sources_fixture_assets, [all_fixture_constraint_allowlist], template_name, expected_resource_names)
+}
+
+test_restricted_firewall_rule_all_violations_targets {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-8",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-9",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-10",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-11",
+	}
+
+	test_utils.check_test_violations(targets_fixture_assets, [all_fixture_constraint_denylist], template_name, expected_resource_names)
+}
+
+test_restricted_firewall_rule_all_violations_targets_allowlist {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-0",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-1",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-2",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-3",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-4",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-5",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-6",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-7",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-8",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-9",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-10",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-target-11",
+	}
+
+	test_utils.check_test_violations_count(targets_fixture_assets, [all_fixture_constraint_allowlist], template_name, 20)
+	test_utils.check_test_violations_resources(targets_fixture_assets, [all_fixture_constraint_allowlist], template_name, expected_resource_names)
+}
+
+test_exemptions_unset {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-udp-all",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all-port-range1",
+	}
+
+	test_utils.check_test_violations_resources(exemption_fixture_assets, [exemption_unset_constraint], template_name, expected_resource_names)
+}
+
+test_exemptions_exact {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all-port-range0",
+	}
+
+	test_utils.check_test_violations_resources(exemption_fixture_assets, [exemption_exact_constraint], template_name, expected_resource_names)
+}
+
+test_exemptions_regex {
+	expected_resource_names := {
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all-port-range0",
+		"//compute.googleapis.com/projects/cf-gcp-challenge-dev/global/firewalls/cf-test-fw-rule-tcp-all-port-range1",
+	}
+
+	test_utils.check_test_violations_resources(exemption_fixture_assets, [exemption_regex_constraint], template_name, expected_resource_names)
 }

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+# Copyright 2020 Google LLC
+=======
 # Copyright 2019 Google LLC
+>>>>>>> c091676d7a89b6003d414a615cb791479b746b4b
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,10 +19,11 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPSQLWorldReadableConstraintV1
 metadata:
-  name: data-cloudsql-world-readable
+  name: sql-world-readable
   annotations:
     # This constraint has not been validated by the formal CIS certification process.
     bundles.validator.forsetisecurity.org/cis-v1.1: 6.02
+    bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
 spec:
   severity: high
   parameters: {}

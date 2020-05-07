@@ -40,7 +40,8 @@ spec:
               type not in the resource_type_list will not raise a violation."
             resource_type_list:
               type: array
-              items: string
+              items:
+                type: string
               description: "Array of resource types that will be either
               authorized (mode: whitelist) or denied (mode: blacklist)."
 

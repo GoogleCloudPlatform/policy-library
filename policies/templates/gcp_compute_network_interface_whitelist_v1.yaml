@@ -25,10 +25,12 @@ spec:
         kind: GCPComputeNetworkInterfaceWhitelistConstraintV1
       validation:
         openAPIV3Schema:
+          properties:
             whitelist:
               description: "A list of full object URIs of the networks allowed, for example: ['https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/global/networks/default1']"
               type: array
-              items: string
+              items:
+                type: string
   targets:
     validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/compute_network_interface_whitelist.rego")
