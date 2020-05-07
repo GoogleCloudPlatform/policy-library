@@ -32,6 +32,7 @@ import data.test.fixtures.enforce_labels.assets.dataproc.clusters as fixture_dat
 import data.test.fixtures.enforce_labels.assets.dataproc.jobs as fixture_dataproc_jobs
 import data.test.fixtures.enforce_labels.assets.gke as fixture_gke
 import data.test.fixtures.enforce_labels.assets.projects as fixture_projects
+import data.test.fixtures.enforce_labels.assets.spanner as fixture_spanner
 
 # Importing the test constraint
 import data.test.fixtures.enforce_labels.constraints as fixture_constraints
@@ -121,6 +122,14 @@ cloudsql_violations[violation] {
 gke_violations[violation] {
 	constraints := [fixture_constraints]
 	violations := find_all_violations with data.resources as fixture_gke
+		 with data.test_constraints as constraints
+
+	violation := violations[_]
+}
+
+spanner_violations[violation] {
+	constraints := [fixture_constraints]
+	violations := find_all_violations with data.resources as fixture_spanner
 		 with data.test_constraints as constraints
 
 	violation := violations[_]
@@ -406,6 +415,30 @@ test_enforce_label_bq_violations {
 		"//bigquery.googleapis.com/projects/cf-test-project-aw/datasets/test_dataset_good_labels/tables/table_no_labels",
 		"//bigquery.googleapis.com/projects/cf-test-project-aw/datasets/test_dataset_1_no_labels/tables/table_valid_labels_view_no_labels",
 		"//bigquery.googleapis.com/projects/cf-test-project-aw/datasets/test_dataset_2_wrong_labels/tables/table_valid_labels_view_wrong_labels",
+	}
+
+	resource_names == expected_resource_name
+
+	violation := violations[_]
+	is_string(violation.msg)
+	is_object(violation.details)
+}
+
+#### Testing for Spanner Instances
+# Confirm 2 violation, one for the CAI representation and one for the API
+test_enforce_label_spanner_violations {
+	violations := spanner_violations
+	trace(sprintf("violations", [violations]))
+
+	# One violation for each (resource, label) pair.
+	count(violations) == 4
+
+	resource_names := {x | x = violations[_].details.resource}
+	trace(sprintf("resource_names", [resource_names]))
+
+	expected_resource_name := {
+		"//spanner.googleapis.com/projects/foobar/instances/spanner-instance-api-nolabel",
+		"//spanner.googleapis.com/projects/foobar/instances/spanner-instance-cai-incorrectvalue",
 	}
 
 	resource_names == expected_resource_name

@@ -38,3 +38,5 @@ spec:
       - "container.googleapis.com/Cluster"
       - "bigquery.googleapis.com/Dataset"
       - "bigquery.googleapis.com/Table"
+      - "spanner.googleapis.com/Instance"
+
