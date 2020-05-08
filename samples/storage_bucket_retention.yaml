@@ -19,7 +19,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: ["organization/*"] # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
   parameters:
     minimum_retention_days: 10
     maximum_retention_days: 30

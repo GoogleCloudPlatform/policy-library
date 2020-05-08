@@ -22,7 +22,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: ["organization/*"] # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
     exclude: []
   parameters:
     mode: blacklist

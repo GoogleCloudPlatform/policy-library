@@ -24,7 +24,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: ["organization/*"] # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
   parameters:
     # Optionaly specify the required key rotation period.  Default is 365 days
     # Valid time units are  "ns", "us", "ms", "s", "m", "h"

@@ -1,0 +1,15 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+  name: .
+packageMetadata:
+  tags:
+  - kpt.dev/app=policylibraryconstraints
+  shortDescription: kpt policy library constraints package
+openAPI:
+  definitions:
+    io.k8s.cli.setters.target:
+      x-k8s-cli:
+        setter:
+          name: target
+          value: '"organization/*"'
