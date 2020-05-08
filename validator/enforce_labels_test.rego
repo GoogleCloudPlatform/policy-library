@@ -17,6 +17,7 @@
 package templates.gcp.GCPEnforceLabelConstraintV1
 
 import data.validator.gcp.lib as lib
+import data.validator.test_utils as test_utils
 
 # Importing the test data
 
@@ -37,117 +38,7 @@ import data.test.fixtures.enforce_labels.assets.spanner as fixture_spanner
 # Importing the test constraint
 import data.test.fixtures.enforce_labels.constraints as fixture_constraints
 
-# Find all violations on our test cases
-find_all_violations[violation] {
-	resources := data.resources[_]
-	constraint := data.test_constraints[_]
-	issues := deny with input.asset as resources
-		 with input.constraint as constraint
-
-	violation := issues[_]
-}
-
-bq_violations[violation] {
-	constraints := [fixture_constraints]
-	violations := find_all_violations with data.resources as fixture_bq
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
-}
-
-project_violations[violation] {
-	constraints := [fixture_constraints]
-	violations := find_all_violations with data.resources as fixture_projects
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
-}
-
-bucket_violations[violation] {
-	constraints := [fixture_constraints]
-	violations := find_all_violations with data.resources as fixture_buckets
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
-}
-
-compute_instance_violations[violation] {
-	constraints := [fixture_constraints]
-	violations := find_all_violations with data.resources as fixture_compute_instances
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
-}
-
-compute_image_violations[violation] {
-	constraints := [fixture_constraints]
-	violations := find_all_violations with data.resources as fixture_compute_images
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
-}
-
-compute_disk_violations[violation] {
-	constraints := [fixture_constraints]
-	violations := find_all_violations with data.resources as fixture_compute_disks
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
-}
-
-compute_snapshot_violations[violation] {
-	constraints := [fixture_constraints]
-	violations := find_all_violations with data.resources as fixture_compute_snapshots
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
-}
-
-bigtable_violations[violation] {
-	constraints := [fixture_constraints]
-	violations := find_all_violations with data.resources as fixture_bigtable
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
-}
-
-cloudsql_violations[violation] {
-	constraints := [fixture_constraints]
-	violations := find_all_violations with data.resources as fixture_cloudsql
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
-}
-
-gke_violations[violation] {
-	constraints := [fixture_constraints]
-	violations := find_all_violations with data.resources as fixture_gke
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
-}
-
-spanner_violations[violation] {
-	constraints := [fixture_constraints]
-	violations := find_all_violations with data.resources as fixture_spanner
-		 with data.test_constraints as constraints
-
-	violation := violations[_]
-}
-
-dataproc_violations[violation] {
-	constraints := [fixture_constraints]
-
-	job_violations := find_all_violations with data.resources as fixture_dataproc_jobs
-		 with data.test_constraints as constraints
-
-	cluster_violations := find_all_violations with data.resources as fixture_dataproc_clusters
-		 with data.test_constraints as constraints
-
-	violations := job_violations | cluster_violations
-
-	violation := violations[_]
-}
+template_name := "GCPEnforceLabelConstraintV1"
 
 ##### Testing for projects
 
@@ -156,22 +47,16 @@ dataproc_violations[violation] {
 # the other has 2 labels with invalid values)
 # confirm which 4 projects are in violation
 test_enforce_label_projects_violations {
-	violations := project_violations
-	count(violations) == 6
-
-	resource_names := {x | x = violations[_].details.resource}
-	expected_resource_name := {
+	expected_resource_names := {
 		"//cloudresourcemanager.googleapis.com/projects/169463810970",
 		"//cloudresourcemanager.googleapis.com/projects/357960133769",
 		"//cloudresourcemanager.googleapis.com/projects/357960133899",
 		"//cloudresourcemanager.googleapis.com/projects/357960133233",
 	}
 
-	resource_names == expected_resource_name
-
-	violation := violations[_]
-	is_string(violation.msg)
-	is_object(violation.details)
+	test_utils.check_test_violations_count(fixture_projects, [fixture_constraints], template_name, 6)
+	test_utils.check_test_violations_resources(fixture_projects, [fixture_constraints], template_name, expected_resource_names)
+	test_utils.check_test_violations_signature(fixture_projects, [fixture_constraints], template_name)
 }
 
 ##### Testing for buckets
@@ -181,23 +66,16 @@ test_enforce_label_projects_violations {
 # the other has 2 labels with invalid values)
 # confirm which 4 buckets are in violation
 test_enforce_label_bucket_violations {
-	violations := bucket_violations
-
-	count(violations) == 6
-
-	resource_names := {x | x = violations[_].details.resource}
-	expected_resource_name := {
+	expected_resource_names := {
 		"//storage.googleapis.com/bucket-with-no-labels",
 		"//storage.googleapis.com/bucket-with-label2-missing",
 		"//storage.googleapis.com/bucket-with-label1-missing",
 		"//storage.googleapis.com/bucket-with-label1-and-label2-bad-values",
 	}
 
-	resource_names == expected_resource_name
-
-	violation := violations[_]
-	is_string(violation.msg)
-	is_object(violation.details)
+	test_utils.check_test_violations_count(fixture_buckets, [fixture_constraints], template_name, 6)
+	test_utils.check_test_violations_resources(fixture_buckets, [fixture_constraints], template_name, expected_resource_names)
+	test_utils.check_test_violations_signature(fixture_buckets, [fixture_constraints], template_name)
 }
 
 ##### Testing for GCE resources
@@ -208,22 +86,16 @@ test_enforce_label_bucket_violations {
 # 4 instances have violations - 2 of which have 2 violations (one has 2 labels missing, the other has 2 labels with invalid values)
 # confirm which 4 instances are in violation
 test_enforce_label_compute_instance_violations {
-	violations := compute_instance_violations
-	count(violations) == 6
-
-	resource_names := {x | x = violations[_].details.resource}
-	expected_resource_name := {
+	expected_resource_names := {
 		"//compute.googleapis.com/projects/vpc-sc-pub-sub-billing-alerts/zones/us-central1-b/instances/invalid-instance-missing-labels-8hz5",
 		"//compute.googleapis.com/projects/vpc-sc-pub-sub-billing-alerts/zones/us-central1-b/instances/invalid-instance-missing-label1-8hz5",
 		"//compute.googleapis.com/projects/vpc-sc-pub-sub-billing-alerts/zones/us-central1-b/instances/invalid-instance-missing-label2-8hz5",
 		"//compute.googleapis.com/projects/vpc-sc-pub-sub-billing-alerts/zones/us-central1-b/instances/invalid-instance-with-label1-and-label2-bad-values",
 	}
 
-	resource_names == expected_resource_name
-
-	violation := violations[_]
-	is_string(violation.msg)
-	is_object(violation.details)
+	test_utils.check_test_violations_count(fixture_compute_instances, [fixture_constraints], template_name, 6)
+	test_utils.check_test_violations_resources(fixture_compute_instances, [fixture_constraints], template_name, expected_resource_names)
+	test_utils.check_test_violations_signature(fixture_compute_instances, [fixture_constraints], template_name)
 }
 
 #### Testing for GCE Images
@@ -232,22 +104,16 @@ test_enforce_label_compute_instance_violations {
 # the other has 2 labels with invalid values)
 # confirm which 4 images are in violation
 test_enforce_label_compute_image_violations {
-	violations := compute_image_violations
-	count(violations) == 6
-
-	resource_names := {x | x = violations[_].details.resource}
-	expected_resource_name := {
+	expected_resource_names := {
 		"//compute.googleapis.com/projects/my-own-project/global/images/test-invalid-image-missing-labels",
 		"//compute.googleapis.com/projects/my-own-project/global/images/test-invalid-image-missing-label2",
 		"//compute.googleapis.com/projects/my-own-project/global/images/test-invalid-image-missing-label1",
 		"//compute.googleapis.com/projects/my-own-project/global/images/test-invalid-image-label1-and-label2-bad-values",
 	}
 
-	resource_names == expected_resource_name
-
-	violation := violations[_]
-	is_string(violation.msg)
-	is_object(violation.details)
+	test_utils.check_test_violations_count(fixture_compute_images, [fixture_constraints], template_name, 6)
+	test_utils.check_test_violations_resources(fixture_compute_images, [fixture_constraints], template_name, expected_resource_names)
+	test_utils.check_test_violations_signature(fixture_compute_images, [fixture_constraints], template_name)
 }
 
 #### Testing for GCE Disks
@@ -256,22 +122,16 @@ test_enforce_label_compute_image_violations {
 # the other has 2 labels with invalid values)
 # confirm which 4 disks are in violation
 test_enforce_label_compute_disk_violations {
-	violations := compute_disk_violations
-	count(violations) == 6
-
-	resource_names := {x | x = violations[_].details.resource}
-	expected_resource_name := {
+	expected_resource_names := {
 		"//compute.googleapis.com/projects/my-test-project/zones/us-east1-b/disks/instance-1-invalid-disk-missing-labels",
 		"//compute.googleapis.com/projects/my-test-project/zones/us-east1-b/disks/instance-1-invalid-disk-missing-label1",
 		"//compute.googleapis.com/projects/my-test-project/zones/us-east1-b/disks/instance-1-invalid-disk-missing-label2",
 		"//compute.googleapis.com/projects/my-test-project/zones/us-east1-b/disks/instance-1-invalid-disk-label1-and-label2-bad-values",
 	}
 
-	resource_names == expected_resource_name
-
-	violation := violations[_]
-	is_string(violation.msg)
-	is_object(violation.details)
+	test_utils.check_test_violations_count(fixture_compute_disks, [fixture_constraints], template_name, 6)
+	test_utils.check_test_violations_resources(fixture_compute_disks, [fixture_constraints], template_name, expected_resource_names)
+	test_utils.check_test_violations_signature(fixture_compute_disks, [fixture_constraints], template_name)
 }
 
 #### Testing for GCE Snapshots
@@ -280,22 +140,16 @@ test_enforce_label_compute_disk_violations {
 # the other has 2 labels with invalid values)
 # confirm which 4 snapshots are in violation
 test_enforce_label_compute_snapshot_violations {
-	violations := compute_snapshot_violations
-	count(violations) == 6
-
-	resource_names := {x | x = violations[_].details.resource}
-	expected_resource_name := {
+	expected_resource_names := {
 		"//compute.googleapis.com/projects/my-test-project/global/snapshots/snapshot-1-invalid-missing-labels",
 		"//compute.googleapis.com/projects/my-test-project/global/snapshots/snapshot-1-invalid-missing-label1",
 		"//compute.googleapis.com/projects/my-test-project/global/snapshots/snapshot-1-invalid-missing-label2",
 		"//compute.googleapis.com/projects/my-test-project/global/snapshots/snapshot-1-invalid-label1-and-label2-bad-values",
 	}
 
-	resource_names == expected_resource_name
-
-	violation := violations[_]
-	is_string(violation.msg)
-	is_object(violation.details)
+	test_utils.check_test_violations_count(fixture_compute_snapshots, [fixture_constraints], template_name, 6)
+	test_utils.check_test_violations_resources(fixture_compute_snapshots, [fixture_constraints], template_name, expected_resource_names)
+	test_utils.check_test_violations_signature(fixture_compute_snapshots, [fixture_constraints], template_name)
 }
 
 #### Testing for BigTable Instances
@@ -303,22 +157,16 @@ test_enforce_label_compute_snapshot_violations {
 # 4 bigtable instances have violations - 2 of which have 2 violations (one has 2 labels missing, the other has 2 labels with invalid values)
 # confirm which 4 bigtable instances are in violation
 test_enforce_label_bigtable_violations {
-	violations := bigtable_violations
-	count(violations) == 6
-
-	resource_names := {x | x = violations[_].details.resource}
-	expected_resource_name := {
+	expected_resource_names := {
 		"//bigtable.googleapis.com/projects/my-test-project/instances/test-bigtable-invalid-missing-labels",
 		"//bigtable.googleapis.com/projects/my-test-project/instances/test-bigtable-invalid-missing-label1",
 		"//bigtable.googleapis.com/projects/my-test-project/instances/test-bigtable-invalid-missing-label2",
 		"//bigtable.googleapis.com/projects/my-test-project/instances/test-bigtable-invalid-label1-and-label2-bad-values",
 	}
 
-	resource_names == expected_resource_name
-
-	violation := violations[_]
-	is_string(violation.msg)
-	is_object(violation.details)
+	test_utils.check_test_violations_count(fixture_bigtable, [fixture_constraints], template_name, 6)
+	test_utils.check_test_violations_resources(fixture_bigtable, [fixture_constraints], template_name, expected_resource_names)
+	test_utils.check_test_violations_signature(fixture_bigtable, [fixture_constraints], template_name)
 }
 
 #### Testing for CloudSQL Instances
@@ -326,22 +174,16 @@ test_enforce_label_bigtable_violations {
 # 4 cloudsql instances have violations - 2 of which have 2 violations (one has 2 labels missing, the other has 2 labels with invalid values)
 # confirm which 4 cloudsql instances are in violation
 test_enforce_label_cloudsql_violations {
-	violations := cloudsql_violations
-	count(violations) == 6
-
-	resource_names := {x | x = violations[_].details.resource}
-	expected_resource_name := {
+	expected_resource_names := {
 		"//cloudsql.googleapis.com/projects/my-test-project/instances/cloudsql-instance-1-invalid-missing-labels",
 		"//cloudsql.googleapis.com/projects/my-test-project/instances/cloudsql-instance-1-invalid-missing-label1",
 		"//cloudsql.googleapis.com/projects/my-test-project/instances/cloudsql-instance-1-invalid-missing-label2",
 		"//cloudsql.googleapis.com/projects/my-test-project/instances/cloudsql-instance-1-invalid-label1-and-label2-bad-values",
 	}
 
-	resource_names == expected_resource_name
-
-	violation := violations[_]
-	is_string(violation.msg)
-	is_object(violation.details)
+	test_utils.check_test_violations_count(fixture_cloudsql, [fixture_constraints], template_name, 6)
+	test_utils.check_test_violations_resources(fixture_cloudsql, [fixture_constraints], template_name, expected_resource_names)
+	test_utils.check_test_violations_signature(fixture_cloudsql, [fixture_constraints], template_name)
 }
 
 #### Testing for GKE clusters
@@ -349,52 +191,49 @@ test_enforce_label_cloudsql_violations {
 # 4 GKE clusters have violations - 2 of which have 2 violations (one has 2 labels missing, the other has 2 labels with invalid values)
 # confirm which 4 GKE clusters are in violation
 test_enforce_label_gke_violations {
-	violations := gke_violations
-	count(violations) == 6
-
-	resource_names := {x | x = violations[_].details.resource}
-	expected_resource_name := {
+	expected_resource_names := {
 		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust1-invalid-missing-labels",
 		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2-invalid-missing-label1",
 		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust3-invalid-missing-label2",
 		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust4-invalid-label1-and-label2-bad-values",
 	}
 
-	resource_names == expected_resource_name
-
-	violation := violations[_]
-	is_string(violation.msg)
-	is_object(violation.details)
+	test_utils.check_test_violations_count(fixture_gke, [fixture_constraints], template_name, 6)
+	test_utils.check_test_violations_resources(fixture_gke, [fixture_constraints], template_name, expected_resource_names)
+	test_utils.check_test_violations_signature(fixture_gke, [fixture_constraints], template_name)
 }
 
-#### Testing for Dataproc
-# Confirm exactly 12 dataproc violations were found
-# 4 dataproc jobs have violations - 2 of which have 2 violations (one has 2 labels missing,
-# 4 dataproc clusters have violations - 2 of which have 2 violations (one has 2 labels missing,
-# the other has 2 labels with invalid values)
-# confirm which 8 dataproc jobs are in violation
-test_enforce_label_dataproc_violations {
-	violations := dataproc_violations
-
-	count(violations) == 12
-
-	resource_names := {x | x = violations[_].details.resource}
-	expected_resource_name := {
+#### Testing for Dataproc Jobs
+# 4 dataproc jobs have violations - 2 of which have 2 violations
+test_enforce_label_dataproc_job_violations {
+	expected_resource_names := {
 		"//dataproc.googleapis.com/projects/my-own-project/regions/global/jobs/job-b068791b-dataproc-job-missing-label1",
 		"//dataproc.googleapis.com/projects/my-own-project/regions/global/jobs/job-b068791b-dataproc-job-missing-label2",
 		"//dataproc.googleapis.com/projects/my-own-project/regions/global/jobs/job-b068791b-dataproc-job-missing-labels",
 		"//dataproc.googleapis.com/projects/my-own-project/regions/global/jobs/job-b068791b-dataproc-job-bad-values",
+	}
+
+	test_utils.check_test_violations_count(fixture_dataproc_jobs, [fixture_constraints], template_name, 6)
+	test_utils.check_test_violations_resources(fixture_dataproc_jobs, [fixture_constraints], template_name, expected_resource_names)
+	test_utils.check_test_violations_signature(fixture_dataproc_jobs, [fixture_constraints], template_name)
+
+	fixture_dataproc_clusters
+}
+
+#### Testing for Dataproc Clusters
+# 4 dataproc clusters have violations - 2 of which have 2 violations (one has 2 labels missing,
+# the other has 2 labels with invalid values)
+test_enforce_label_dataproc_cluster_violations {
+	expected_resource_names := {
 		"//dataproc.googleapis.com/projects/my-own-project/regions/global/clusters/cluster-a1b6-test-dataproc-missing-labels",
 		"//dataproc.googleapis.com/projects/my-own-project/regions/global/clusters/cluster-a1b6-test-dataproc-missing-label1",
 		"//dataproc.googleapis.com/projects/my-own-project/regions/global/clusters/cluster-a1b6-test-dataproc-missing-label2",
 		"//dataproc.googleapis.com/projects/my-own-project/regions/global/clusters/cluster-a1b6-test-dataproc-bad-values",
 	}
 
-	resource_names == expected_resource_name
-
-	violation := violations[_]
-	is_string(violation.msg)
-	is_object(violation.details)
+	test_utils.check_test_violations_count(fixture_dataproc_clusters, [fixture_constraints], template_name, 6)
+	test_utils.check_test_violations_resources(fixture_dataproc_clusters, [fixture_constraints], template_name, expected_resource_names)
+	test_utils.check_test_violations_signature(fixture_dataproc_clusters, [fixture_constraints], template_name)
 }
 
 #### Testing for BQ resources (Datasets, Tables and Views)
@@ -404,11 +243,7 @@ test_enforce_label_dataproc_violations {
 # 2 views have violations - both of them have 2 violations (missing or wrong labels)
 # confirm which BQ resources are in violation
 test_enforce_label_bq_violations {
-	violations := bq_violations
-	count(violations) == 12
-
-	resource_names := {x | x = violations[_].details.resource}
-	expected_resource_name := {
+	expected_resource_names := {
 		"//bigquery.googleapis.com/projects/cf-test-project-aw/datasets/test_dataset_1_no_labels",
 		"//bigquery.googleapis.com/projects/cf-test-project-aw/datasets/test_dataset_2_wrong_labels",
 		"//bigquery.googleapis.com/projects/cf-test-project-aw/datasets/test_dataset_good_labels/tables/table_wrong_labels",
@@ -417,33 +252,21 @@ test_enforce_label_bq_violations {
 		"//bigquery.googleapis.com/projects/cf-test-project-aw/datasets/test_dataset_2_wrong_labels/tables/table_valid_labels_view_wrong_labels",
 	}
 
-	resource_names == expected_resource_name
-
-	violation := violations[_]
-	is_string(violation.msg)
-	is_object(violation.details)
+	test_utils.check_test_violations_count(fixture_bq, [fixture_constraints], template_name, 12)
+	test_utils.check_test_violations_resources(fixture_bq, [fixture_constraints], template_name, expected_resource_names)
+	test_utils.check_test_violations_signature(fixture_bq, [fixture_constraints], template_name)
 }
 
 #### Testing for Spanner Instances
-# Confirm 2 violation, one for the CAI representation and one for the API
+# Confirm 2 violation, one for the CAI representation and one for the API. Each of them has 2 labels either
+# missing or with incorrect values.
 test_enforce_label_spanner_violations {
-	violations := spanner_violations
-	trace(sprintf("violations", [violations]))
-
-	# One violation for each (resource, label) pair.
-	count(violations) == 4
-
-	resource_names := {x | x = violations[_].details.resource}
-	trace(sprintf("resource_names", [resource_names]))
-
-	expected_resource_name := {
+	expected_resource_names := {
 		"//spanner.googleapis.com/projects/foobar/instances/spanner-instance-api-nolabel",
 		"//spanner.googleapis.com/projects/foobar/instances/spanner-instance-cai-incorrectvalue",
 	}
 
-	resource_names == expected_resource_name
-
-	violation := violations[_]
-	is_string(violation.msg)
-	is_object(violation.details)
+	test_utils.check_test_violations_count(fixture_spanner, [fixture_constraints], template_name, 4)
+	test_utils.check_test_violations_resources(fixture_spanner, [fixture_constraints], template_name, expected_resource_names)
+	test_utils.check_test_violations_signature(fixture_spanner, [fixture_constraints], template_name)
 }
