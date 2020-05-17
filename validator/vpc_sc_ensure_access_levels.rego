@@ -29,15 +29,37 @@ deny[{
 	lib.has_field(asset, "service_perimeter")
 
 	lib.get_constraint_params(constraint, params)
-	required_access_levels_array := lib.get_default(params, "required_access_levels", [])
-	required_access_levels := {p | p = required_access_levels_array[_]}
+	mode := lib.get_default(params, "mode", "require")
 
 	perimeter_access_levels_raw := {split(r, "/") | r = asset.service_perimeter.status.access_levels[_]}
 	perimeter_access_levels := {r[3] | r = perimeter_access_levels_raw[_]}
 
-	count(perimeter_access_levels - required_access_levels) != count(perimeter_access_levels) - count(required_access_levels)
+	# For compatibility reasons, we support the old key name required_access_levels
+	configured_access_levels := cast_set(lib.get_default(params, "access_levels", lib.get_default(params, "required_access_levels", [])))
 
-	message := sprintf("Required access levels missing from service perimeter %v.", [asset.service_perimeter.name])
+	check_access_level(perimeter_access_levels, configured_access_levels, mode)
+
+	message := sprintf("Invalid access levels in service perimeter %v.", [asset.service_perimeter.name])
 
 	metadata := {"resource": asset.name, "service_perimeter_name": asset.service_perimeter.name}
+}
+
+check_access_level(perimeter_access_levels, configured_access_levels, mode) {
+	mode == "whitelist"
+	perimeter := perimeter_access_levels[_]
+	matches := {perimeter} & configured_access_levels
+	count(matches) == 0
+}
+
+check_access_level(perimeter_access_levels, configured_access_levels, mode) {
+	mode == "blacklist"
+	perimeter := perimeter_access_levels[_]
+	matches := {perimeter} & configured_access_levels
+	count(matches) > 0
+}
+
+check_access_level(perimeter_access_levels, configured_access_levels, mode) {
+	mode == "require"
+	intersection := perimeter_access_levels & configured_access_levels
+	count(intersection) != count(configured_access_levels)
 }

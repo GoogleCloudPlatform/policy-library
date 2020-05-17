@@ -25,8 +25,18 @@ spec:
       validation:
         openAPIV3Schema:
           properties:
-            required_access_levels:
-              description: "Required access level names"
+            mode:
+              type: string
+              enum: [whitelist, blacklist, require]
+              description: "String identifying the operational mode,
+              whitelist, blacklist or reqired . In the whitelist mode, only
+              access levels from the access_levels list will be allowed (all
+              other levels will raise a violation). In the blacklist mode, any
+              access level not in the access_levels list will not raise a
+              violation. In required mode, all access levels in the
+              access_levels list will be required in the perimeter."
+            access_levels:
+              description: "Access level names"
               type: array
               items:
                 type: string
@@ -64,16 +74,38 @@ spec:
              	lib.has_field(asset, "service_perimeter")
              
              	lib.get_constraint_params(constraint, params)
-             	required_access_levels_array := lib.get_default(params, "required_access_levels", [])
-             	required_access_levels := {p | p = required_access_levels_array[_]}
+             	mode := lib.get_default(params, "mode", "require")
              
              	perimeter_access_levels_raw := {split(r, "/") | r = asset.service_perimeter.status.access_levels[_]}
              	perimeter_access_levels := {r[3] | r = perimeter_access_levels_raw[_]}
              
-             	count(perimeter_access_levels - required_access_levels) != count(perimeter_access_levels) - count(required_access_levels)
+             	# For compatibility reasons, we support the old key name required_access_levels
+             	configured_access_levels := cast_set(lib.get_default(params, "access_levels", lib.get_default(params, "required_access_levels", [])))
              
-             	message := sprintf("Required access levels missing from service perimeter %v.", [asset.service_perimeter.name])
+             	check_access_level(perimeter_access_levels, configured_access_levels, mode)
+             
+             	message := sprintf("Invalid access levels in service perimeter %v.", [asset.service_perimeter.name])
              
              	metadata := {"resource": asset.name, "service_perimeter_name": asset.service_perimeter.name}
+             }
+             
+             check_access_level(perimeter_access_levels, configured_access_levels, mode) {
+             	mode == "whitelist"
+             	perimeter := perimeter_access_levels[_]
+             	matches := {perimeter} & configured_access_levels
+             	count(matches) == 0
+             }
+             
+             check_access_level(perimeter_access_levels, configured_access_levels, mode) {
+             	mode == "blacklist"
+             	perimeter := perimeter_access_levels[_]
+             	matches := {perimeter} & configured_access_levels
+             	count(matches) > 0
+             }
+             
+             check_access_level(perimeter_access_levels, configured_access_levels, mode) {
+             	mode == "require"
+             	intersection := perimeter_access_levels & configured_access_levels
+             	count(intersection) != count(configured_access_levels)
              }
              #ENDINLINE
