@@ -25,5 +25,4 @@ metadata:
       or allAuthenticatedUsers.
 spec:
   severity: high
-
   parameters: {}
