@@ -16,6 +16,9 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPEnforceNamingConstraintV1
 metadata:
   name: enforce_naming_convention
+  annotations:
+    description: Checks defined resources that are supported by Cloud Asset Inventory
+      are named according to regular expression pattern.
 spec:
   severity: high
   parameters:
@@ -24,14 +27,14 @@ spec:
     # If you don't provide a rule for a resource, we simply ignore it. 
     # Or if you don't provide any pattern, we again ignore.
     naming_rules:
-      - resource: "compute.googleapis.com/SslCertificate" # asset_type field from inventory
-        patterns:
-          - "cert-sn-.*"
-          - "cert-self-signed-.*"
-      - resource: "compute.googleapis.com/Instance" # asset_type field from inventory
-        patterns:
-          - "^gcp-vm-(linux|windows)-v\\d+$"
-      - resource: "compute.googleapis.com/Firewall" # asset_type field from inventory
-        patterns:
-          - "^(gcp|gke)-firewall-(allow|deny)-(tcp|udp)-port-[\\d-]+$"
-          - "^(gcp|gke)-firewall-(allow|deny)-(all|icmp)$"
+    - resource: "compute.googleapis.com/SslCertificate"   # asset_type field from inventory
+      patterns:
+      - "cert-sn-.*"
+      - "cert-self-signed-.*"
+    - resource: "compute.googleapis.com/Instance"   # asset_type field from inventory
+      patterns:
+      - "^gcp-vm-(linux|windows)-v\\d+$"
+    - resource: "compute.googleapis.com/Firewall"   # asset_type field from inventory
+      patterns:
+      - "^(gcp|gke)-firewall-(allow|deny)-(tcp|udp)-port-[\\d-]+$"
+      - "^(gcp|gke)-firewall-(allow|deny)-(all|icmp)$"

@@ -16,10 +16,12 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPVPCSCIPRangeConstraintV1
 metadata:
   name: vpc_sc_ip_range
+  annotations:
+    description: Checks the CIDR notation size in VPC Service Controls access levels.
 spec:
   severity: high
   match:
     gcp:
       target: ["organization/*"]
   parameters:
-      maximum_cidr_size: 16
+    maximum_cidr_size: 16

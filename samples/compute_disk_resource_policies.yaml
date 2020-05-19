@@ -16,10 +16,13 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPComputeDiskResourcePoliciesConstraintV1
 metadata:
   name: compute_disk_resource_policies_allowlist_one
+  annotations:
+    description: Checks that Persistent Disks have correct resource policies (eg.
+      snapshot schedules) attached to them.
 spec:
   severity: high
   parameters:
     mode: "allowlist"
     resourcePolicies:
-      - https://www.googleapis.com/compute/v1/projects/my-test-project/regions/europe-north1/resourcePolicies/test-schedule
+    - https://www.googleapis.com/compute/v1/projects/my-test-project/regions/europe-north1/resourcePolicies/test-schedule
     exemptions: []

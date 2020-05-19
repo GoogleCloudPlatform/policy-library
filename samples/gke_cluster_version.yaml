@@ -16,6 +16,8 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GKEClusterVersionConstraintV1
 metadata:
   name: gke-cluster-version
+  annotations:
+    description: Checks if a GKE cluster is using a master version type other than 1.12.10-gke.17.
 spec:
   severity: high
   match:

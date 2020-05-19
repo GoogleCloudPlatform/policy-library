@@ -16,11 +16,13 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPComputeNetworkInterfaceWhitelistConstraintV1
 metadata:
   name: whitelist
+  annotations:
+    description: Checks all VM network interfaces are attached to certain VPC networks.
 spec:
   severity: high
   match:
     gcp:
       target: ["organization/*"]
   parameters:
-      whitelist:
-          - https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/global/networks/default1
+    whitelist:
+    - https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/global/networks/default1

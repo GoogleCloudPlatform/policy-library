@@ -16,6 +16,8 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPVPCSCProjectPerimeterConstraintV1
 metadata:
   name: vpc_sc_project_perimeter_blacklist
+  annotations:
+    description: Older, deprecated version of above policy.
 spec:
   severity: high
   match:
@@ -25,4 +27,4 @@ spec:
     mode: blacklist
     project_id: 179891054368
     service_perimeters:
-      - Test Service Perimeter 1
+    - Test Service Perimeter 1

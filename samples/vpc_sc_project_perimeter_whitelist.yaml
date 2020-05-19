@@ -16,6 +16,8 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPVPCSCProjectPerimeterConstraintV2
 metadata:
   name: vpc_sc_project_perimeter_whitelist
+  annotations:
+    description: Checks that only allowed VPC Service Controls perimeters exists.
 spec:
   severity: high
   match:
@@ -25,4 +27,4 @@ spec:
     mode: whitelist
     project_number: 179891054368
     service_perimeters:
-      - Test Service Perimeter 1
+    - Test Service Perimeter 1

@@ -18,6 +18,8 @@ metadata:
   name: cmek_rotation_one_hundred_days
   annotations:
     bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
+    description: Checks that CMEK rotation policy is in place and is sufficiently
+      short.
 spec:
   severity: high
   match:

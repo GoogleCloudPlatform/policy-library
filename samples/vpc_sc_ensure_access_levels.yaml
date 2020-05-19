@@ -16,12 +16,15 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPVPCSCEnsureAccessLevelsConstraintV1
 metadata:
   name: vpc_sc_ensure_access_levels
+  annotations:
+    description: Checks if a VPC Service Controls perimeter has desired access levels
+      set.
 spec:
   severity: high
   match:
     gcp:
       target: ["organization/*"]
   parameters:
-      required_access_levels:
-          - abcd
-          - efgh
+    required_access_levels:
+    - abcd
+    - efgh

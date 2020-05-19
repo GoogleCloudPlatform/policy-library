@@ -17,6 +17,8 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPStorageCMEKEncryptionConstraintV1
 metadata:
   name: storage_cmek_encryption
+  annotations:
+    description: Checks if Cloud Storage buckets have CMEK turned on.
 spec:
   severity: high
   match:

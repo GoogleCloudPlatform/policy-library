@@ -16,9 +16,11 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPSQLInstanceTypeConstraintV1
 metadata:
   name: sql_type_deny_sqlserver
+  annotations:
+    description: Checks for allowed or disallowed Cloud SQL instance types.
 spec:
   severity: high
   parameters:
     mode: "deny"
     sql_instance_types:
-      - "SQLSERVER"
+    - "SQLSERVER"

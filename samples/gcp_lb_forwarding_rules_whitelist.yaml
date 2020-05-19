@@ -16,17 +16,19 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPLBForwardingRuleWhitelistConstraintV1
 metadata:
   name: gcp_lb_forwarding_rule_whitelist
+  annotations:
+    description: Verifies load balancer forwarding rules against allowed values.
 spec:
   severity: high
   parameters:
     whitelist:
-     - target: https://www.googleapis.com/compute/v1/projects/test-project/regions/us-east1/targetHttpProxies/test-noip-target-proxy
-       load_balancing_scheme: EXTERNAL
-       port_range: 80-80
-       ip_protocol: TCP
-       ip_address: "34.95.94.170"
-     - target: https://www.googleapis.com/compute/v1/projects/test-project/regions/us-east1/targetHttpProxies/test-noip-target-proxy2
-       load_balancing_scheme: INTERNAL
-       port_range: 4500-4500
-       ip_protocol: UDP
-       ip_address: "198.51.100.99"
+    - target: https://www.googleapis.com/compute/v1/projects/test-project/regions/us-east1/targetHttpProxies/test-noip-target-proxy
+      load_balancing_scheme: EXTERNAL
+      port_range: 80-80
+      ip_protocol: TCP
+      ip_address: "34.95.94.170"
+    - target: https://www.googleapis.com/compute/v1/projects/test-project/regions/us-east1/targetHttpProxies/test-noip-target-proxy2
+      load_balancing_scheme: INTERNAL
+      port_range: 4500-4500
+      ip_protocol: UDP
+      ip_address: "198.51.100.99"
