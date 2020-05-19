@@ -45,7 +45,8 @@ deny[{
 	count(resource_policies_matches) == desired_count
 
 	message := sprintf("%v has an empty or disallowed resource policy.", [asset.name])
-	metadata := {"resource": asset.name, "resource_policies": asset_resource_policies}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "resource_policies": asset_resource_policies, "ancestry_path": ancestry_path}
 }
 
 #################

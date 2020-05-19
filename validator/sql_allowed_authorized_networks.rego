@@ -31,7 +31,8 @@ deny[{
 	check_ssl(params, asset.resource.data.settings.ipConfiguration) == false
 
 	message := sprintf("%v has networks with SSL settings in violation of policy", [asset.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 deny[{
@@ -48,7 +49,8 @@ deny[{
 	count(forbidden) > 0
 
 	message := sprintf("%v has authorized networks that are not allowed: %v", [asset.name, forbidden])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 forbidden_networks(params, ipConfiguration) = forbidden {

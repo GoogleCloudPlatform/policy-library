@@ -31,7 +31,8 @@ deny[{
 	disabled == false
 
 	message := sprintf("%v has kubernetes dashboard enabled.", [asset.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 ###########################

@@ -45,7 +45,8 @@ deny[{
 	count(version_matches) == desired_count
 
 	message := sprintf("Cluster %v has a disallowed %v field", [asset.name, target_version_type])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 ###########################

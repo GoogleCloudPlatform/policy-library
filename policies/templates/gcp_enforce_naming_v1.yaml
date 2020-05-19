@@ -77,10 +77,12 @@ spec:
            	trace(sprintf("no match name:%v, patterns:%v", [name, patterns]))
            
            	message := sprintf("%v does not obey the naming convention. Full address: %v", [name, asset.name])
+           	ancestry_path = lib.get_default(asset, "ancestry_path", "")
            	metadata := {
            		"asset_name": name,
            		"asset_full_address": asset.name,
            		"patterns": patterns,
+           		"ancestry_path": ancestry_path,
            	}
            }
            

@@ -34,7 +34,8 @@ deny[{
 	not cos_image(node_pool, containerd_allowed)
 
 	message := sprintf("Cluster %v has node pool %v without Container-Optimized OS.", [asset.name, node_pool.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 ###########################

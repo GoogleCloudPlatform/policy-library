@@ -69,7 +69,8 @@ spec:
             	check_key_type(params, keySpec)
             
             	message := sprintf("%v: DNSSEC has weak RSASHA1 algorithm enabled", [asset.name])
-            	metadata := {"resource": asset.name}
+            	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+            	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
             }
             
             check_key_type(params, keySpec) {

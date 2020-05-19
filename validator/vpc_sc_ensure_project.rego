@@ -37,6 +37,6 @@ deny[{
 	count(perimeter_resources - required_projects) != count(perimeter_resources) - count(required_projects)
 
 	message := sprintf("Required project missing from service perimeter %v.", [asset.service_perimeter.name])
-
-	metadata := {"resource": asset.name, "service_perimeter_name": asset.service_perimeter.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "service_perimeter_name": asset.service_perimeter.name, "ancestry_path": ancestry_path}
 }

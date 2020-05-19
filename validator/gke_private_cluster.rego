@@ -31,5 +31,6 @@ deny[{
 	private_cluster_config == {}
 
 	message := sprintf("Cluster %v is not private.", [asset.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }

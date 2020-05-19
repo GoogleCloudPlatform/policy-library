@@ -31,5 +31,6 @@ deny[{
 	enable_flow_logs == false
 
 	message := sprintf("Flow logs are disabled in subnetwork %v.", [asset.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }

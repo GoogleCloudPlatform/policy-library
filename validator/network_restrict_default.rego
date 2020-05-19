@@ -21,10 +21,11 @@ deny[{
 	"msg": message,
 	"details": metadata,
 }] {
-	a := input.asset
-	a.asset_type == "compute.googleapis.com/Network"
-	a.resource.data.name == "default"
-	name := a.name
+	asset := input.asset
+	asset.asset_type == "compute.googleapis.com/Network"
+	asset.resource.data.name == "default"
+	name := asset.name
 	message := sprintf("Default network in use: %v", [name])
-	metadata := {"resource": name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": name, "ancestry_path": ancestry_path}
 }

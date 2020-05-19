@@ -46,7 +46,8 @@ deny[{
 	count(zone_matches) == desired_count
 
 	message := sprintf("%v is in a disallowed zone.", [asset.name])
-	metadata := {"zone": asset_zone}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"zone": asset_zone, "ancestry_path": ancestry_path}
 }
 
 #################

@@ -64,7 +64,8 @@ spec:
             	not check_all_disabled(master_auth, cluster_version)
             
             	message := sprintf("%v has client certificate or static password authentication enabled.", [asset.name])
-            	metadata := {"resource": asset.name}
+            	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+            	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
             }
             
             ###########################

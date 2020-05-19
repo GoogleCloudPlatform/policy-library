@@ -28,7 +28,7 @@ spec:
    validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/sql_world_readable.rego")
             #
-            # Copyright 2018 Google LLC
+            # Copyright 2020 Google LLC
             #
             # Licensed under the Apache License, Version 2.0 (the "License");
             # you may not use this file except in compliance with the License.
@@ -42,26 +42,27 @@ spec:
             # See the License for the specific language governing permissions and
             # limitations under the License.
             #
-
+            
             package templates.gcp.GCPSQLWorldReadableConstraintV1
-
+            
             import data.validator.gcp.lib as lib
-
+            
             deny[{
             	"msg": message,
             	"details": metadata,
             }] {
             	constraint := input.constraint
             	lib.get_constraint_params(constraint, params)
-
+            
             	asset := input.asset
             	asset.asset_type == "sqladmin.googleapis.com/Instance"
-
+            
             	networks := lib.get_default(asset.resource.data.settings.ipConfiguration, "authorizedNetworks", [])
             	network := networks[_]
             	network.value == "0.0.0.0/0"
-
+            
             	message := sprintf("%v is world readable", [asset.name])
-            	metadata := {"resource": asset.name}
+            	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+            	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
             }
             #ENDINLINE

@@ -74,6 +74,7 @@ spec:
              	count({test_region} & allowed_regions) == 0
              
              	message := sprintf("Region %v is not allowed in access level %v", [test_region, asset.access_level.name])
-             	metadata := {"resource": asset.name, "access_level_name": asset.access_level.name}
+             	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+             	metadata := {"resource": asset.name, "access_level_name": asset.access_level.name, "ancestry_path": ancestry_path}
              }
              #ENDINLINE

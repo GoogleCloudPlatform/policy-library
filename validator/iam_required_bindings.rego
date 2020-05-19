@@ -42,11 +42,12 @@ deny[{
 	no_matches_found := no_required_match(params_member, binding)
 
 	message := sprintf("Required IAM policy member %v is absent in resource %v for role %v", [params_member, asset.name, role])
-
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 	metadata := {
 		"resource": asset.name,
 		"required_member": params_member,
 		"role": role,
+		"ancestry_path": ancestry_path,
 	}
 }
 

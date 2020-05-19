@@ -37,9 +37,11 @@ deny[{
 	not location_is_valid(asset, locations)
 
 	message := sprintf("%v is in violation.", [asset.name])
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 	metadata := {
 		"resource": asset.name,
 		"valid-locations": locations,
+		"ancestry_path": ancestry_path,
 	}
 }
 

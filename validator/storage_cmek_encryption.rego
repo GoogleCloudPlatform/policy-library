@@ -31,9 +31,11 @@ deny[{
 	kms_key_name == ""
 
 	message := sprintf("%v does not have the required CMEK encryption configured.", [asset.name])
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 	metadata := {
 		"default_kms_key_name": kms_key_name,
 		"resource": asset.name,
+		"ancestry_path": ancestry_path,
 	}
 }
 

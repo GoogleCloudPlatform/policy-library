@@ -30,5 +30,6 @@ deny[{
 	ipv4 == true
 
 	message := sprintf("%v is not allowed to have a Public IP.", [asset.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }

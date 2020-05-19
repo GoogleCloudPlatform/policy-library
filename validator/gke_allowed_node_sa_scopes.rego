@@ -47,8 +47,8 @@ deny[{
 	count(additional_scopes) != 0
 
 	message := sprintf("Additional OAuth scope %v is assigned to node pool '%v' on service account '%v'.", [additional_scopes, node_pool.name, config.serviceAccount])
-
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 ###########################

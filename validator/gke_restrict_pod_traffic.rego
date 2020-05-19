@@ -30,7 +30,8 @@ deny[{
 	not check_all_enabled(container)
 
 	message := sprintf("%v doesn't restrict traffic among pods with a network policy.", [asset.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 ###########################

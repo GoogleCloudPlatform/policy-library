@@ -28,7 +28,7 @@ spec:
    validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/sql_ssl.rego")
            #
-           # Copyright 2019 Google LLC
+           # Copyright 2020 Google LLC
            #
            # Licensed under the Apache License, Version 2.0 (the "License");
            # you may not use this file except in compliance with the License.
@@ -61,6 +61,7 @@ spec:
            	requireSsl == false
            
            	message := sprintf("%v does not require SSL", [asset.name])
-           	metadata := {"resource": asset.name}
+           	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+           	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
            }
            #ENDINLINE

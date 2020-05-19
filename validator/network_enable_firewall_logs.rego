@@ -31,5 +31,6 @@ deny[{
 	is_enabled == false
 
 	message := sprintf("Firewall logs are disabled in firewall %v.", [asset.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }

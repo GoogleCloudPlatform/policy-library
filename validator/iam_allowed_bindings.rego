@@ -45,11 +45,12 @@ deny[{
 	count(matches_found) != desired_count
 
 	message := sprintf("IAM policy for %v grants %v to %v", [asset.name, role, member])
-
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 	metadata := {
 		"resource": asset.name,
 		"member": member,
 		"role": role,
+		"ancestry_path": ancestry_path,
 	}
 }
 

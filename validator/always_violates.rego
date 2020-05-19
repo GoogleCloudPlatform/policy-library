@@ -23,5 +23,6 @@ deny[{
 	"details": metadata,
 }] {
 	message := "violates on all resources."
-	metadata := {"asset": input.asset}
+	ancestry_path = lib.get_default(input.asset, "ancestry_path", "")
+	metadata := {"asset": input.asset, "ancestry_path": ancestry_path}
 }

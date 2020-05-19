@@ -33,7 +33,8 @@ deny[{
 
 	message := sprintf("Auto upgrade is not enabled on node pool '%v'.", [node_pool.name])
 
-	metadata := {"resource": asset.name, "node_pool": node_pool.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "node_pool": node_pool.name, "ancestry_path": ancestry_path}
 }
 
 ###########################

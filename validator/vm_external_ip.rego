@@ -43,7 +43,8 @@ deny[{
 	instance_name_targeted(asset.name, target_instances, params.mode, match_mode)
 
 	message := sprintf("%v is not allowed to have an external IP.", [asset.name])
-	metadata := {"access_config": access_config}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"access_config": access_config, "ancestry_path": ancestry_path}
 }
 
 ###########################

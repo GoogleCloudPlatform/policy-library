@@ -32,7 +32,8 @@ deny[{
 	not_private_endpoint(cluster)
 
 	message := sprintf("%v has private endpoint disabled", [asset.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 not_private_endpoint(cluster) {

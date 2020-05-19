@@ -31,9 +31,11 @@ deny[{
 	destination == ""
 
 	message := sprintf("%v does not have the required logging destination.", [asset.name])
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 	metadata := {
 		"destination_bucket": destination,
 		"resource": asset.name,
+		"ancestry_path": ancestry_path,
 	}
 }
 

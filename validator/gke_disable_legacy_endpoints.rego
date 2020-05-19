@@ -32,7 +32,8 @@ deny[{
 	legacy_endpoints_enabled(node_pool)
 
 	message := sprintf("Cluster %v has node pool %v with legacy endpoints enabled.", [asset.name, node_pool.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 ###########################

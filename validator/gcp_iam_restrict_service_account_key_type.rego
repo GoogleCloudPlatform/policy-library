@@ -30,5 +30,6 @@ deny[{
 	keyType == "USER_MANAGED"
 
 	message := sprintf("%v: key should not be user managed", [asset.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }

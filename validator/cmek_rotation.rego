@@ -43,5 +43,6 @@ deny[{
 
 	rotation_period > period_to_test
 	message := sprintf("%v: CMEK Rotation Period must be at most %v.", [asset.name, period_string])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }

@@ -51,7 +51,8 @@ deny[{
 	count(hour_matches) == 0
 
 	message := sprintf("%v missing or incorrect maintenance window. Hour: '%v'", [asset.name, instance_maintenance_window_hour])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 # Rule utilities

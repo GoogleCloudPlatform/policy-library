@@ -40,7 +40,8 @@ deny[{
 	trace(sprintf("asset name:%v, target_instances: %v, mode: %v, match_mode: %v", [asset.name, target_instances, mode, match_mode]))
 	instance_name_targeted(asset.name, target_instances, mode, match_mode)
 	message := sprintf("%v is not allowed to have IP forwarding enabled.", [asset.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 ###########################

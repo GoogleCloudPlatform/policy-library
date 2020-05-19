@@ -39,5 +39,6 @@ deny[{
 	count(missing_services) > 0
 
 	message := sprintf("Required services %v missing from service perimeter: %v.", [concat(", ", missing_services), asset.service_perimeter.name])
-	metadata := {"resource": asset.name, "service_perimeter_name": asset.service_perimeter.name, "missing_services": missing_services}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "service_perimeter_name": asset.service_perimeter.name, "missing_services": missing_services, "ancestry_path": ancestry_path}
 }

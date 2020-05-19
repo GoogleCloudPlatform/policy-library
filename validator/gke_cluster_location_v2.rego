@@ -40,7 +40,8 @@ deny[{
 	count(location_matches) == desired_count
 
 	message := sprintf("Cluster %v is in a disallowed location", [asset.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 ###########################

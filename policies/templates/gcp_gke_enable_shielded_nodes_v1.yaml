@@ -67,7 +67,8 @@ spec:
             	cluster_shielded_nodes_disabled(cluster, node_pool)
             
             	message := sprintf("Cluster %v doesn't use shielded VMs with integrity and secure boot in node pool %v.", [asset.name, node_pool.name])
-            	metadata := {"resource": asset.name}
+            	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+            	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
             }
             
             ###########################

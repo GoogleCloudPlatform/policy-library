@@ -80,7 +80,8 @@ spec:
             	not is_sql_instance_type_allowed(resource, mode, params)
             
             	message := sprintf("%v is not allowed to have an instance type of %s.", [asset.name, resource.databaseVersion])
-            	metadata := {"resource": input.asset.name}
+            	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+            	metadata := {"resource": input.asset.name, "ancestry_path": ancestry_path}
             }
             
             is_sql_instance_type_allowed(resource, mode, params) {

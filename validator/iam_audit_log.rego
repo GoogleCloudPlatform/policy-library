@@ -28,12 +28,13 @@ deny[{
 		"cloudresourcemanager.googleapis.com/Project",
 	}
 
-	input.asset.asset_type == asset_types[_]
+	asset := input.asset
+	asset.asset_type == asset_types[_]
 	count(expected_audit_configs) == 0
 	lib.get_constraint_params(input.constraint, params)
 	message := sprintf("IAM policy for %v does not have correct audit logs enabled in service(s) %v", [input.asset.name, params.services])
-
-	metadata := {"resource": input.asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": input.asset.name, "ancestry_path": ancestry_path}
 }
 
 evaluate_allowed_exemptions(params, exempted_members) = result {

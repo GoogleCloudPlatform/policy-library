@@ -29,5 +29,6 @@ deny[{
 	asset.resource.data.dnssecConfig.state != "ON"
 
 	message := sprintf("%v: DNSSEC is not enabled.", [asset.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }

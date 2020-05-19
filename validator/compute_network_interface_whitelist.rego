@@ -46,5 +46,6 @@ deny[{
 	is_network_whitelisted == false
 
 	message := sprintf("Compute instance %v has interface %v with invalid access configuration.", [asset.name, interface.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }

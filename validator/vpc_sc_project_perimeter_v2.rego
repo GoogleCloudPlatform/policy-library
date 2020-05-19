@@ -39,7 +39,8 @@ deny[{
 	perimeter_is_forbidden(mode, asset.service_perimeter.title, service_perimeters)
 
 	message := sprintf("Project %v not allowed in service perimeter %v.", [project_number, asset.service_perimeter.name])
-	metadata := {"resource": asset.name, "service_perimeter_name": asset.service_perimeter.name, "project_number": project_number}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "service_perimeter_name": asset.service_perimeter.name, "project_number": project_number, "ancestry_path": ancestry_path}
 }
 
 perimeter_is_forbidden(mode, evaluating_service_perimeter, specified_service_perimeters) {

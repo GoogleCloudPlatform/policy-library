@@ -42,11 +42,12 @@ deny[{
 	count(matches_found) != desired_count
 
 	message := sprintf("Role %v grants permission %v", [asset.name, asset_permissions])
-
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 	metadata := {
 		"resource": asset.name,
 		"role_title": asset_title,
 		"permission": asset_permissions,
+		"ancestry_path": ancestry_path,
 	}
 }
 

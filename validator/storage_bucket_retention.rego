@@ -37,10 +37,11 @@ deny[{
 	count(violations) > 0
 	violation_msg := concat(" & ", violations)
 	message := sprintf("Storage bucket %v has a retention policy violation: %v", [asset.name, violation_msg])
-
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 	metadata := {
 		"resource": asset.name,
 		"violation_type": violations,
+		"ancestry_path": ancestry_path,
 	}
 }
 

@@ -41,7 +41,7 @@ spec:
    validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/vm_external_ip.rego")
             #
-            # Copyright 2018 Google LLC
+            # Copyright 2020 Google LLC
             #
             # Licensed under the Apache License, Version 2.0 (the "License");
             # you may not use this file except in compliance with the License.
@@ -85,7 +85,8 @@ spec:
             	instance_name_targeted(asset.name, target_instances, params.mode, match_mode)
             
             	message := sprintf("%v is not allowed to have an external IP.", [asset.name])
-            	metadata := {"access_config": access_config}
+            	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+            	metadata := {"access_config": access_config, "ancestry_path": ancestry_path}
             }
             
             ###########################

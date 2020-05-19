@@ -56,9 +56,11 @@ deny[{
 		rule_data.pattern,
 	])
 
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 	metadata := {
 		"resource": asset.name,
 		"mode": mode,
+		"ancestry_path": ancestry_path,
 	}
 }
 

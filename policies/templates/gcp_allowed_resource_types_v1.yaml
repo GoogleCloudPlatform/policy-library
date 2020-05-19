@@ -87,10 +87,12 @@ spec:
         	not resource_type_is_valid(mode, asset, ressource_types_list)
         
         	message := sprintf("%v is in violation.", [asset.name])
+        	ancestry_path = lib.get_default(asset, "ancestry_path", "")
         	metadata := {
         		"resource": asset.name,
         		"mode": mode,
         		"resource_type_list": ressource_types_list,
+        		"ancestry_path": ancestry_path,
         	}
         }
         

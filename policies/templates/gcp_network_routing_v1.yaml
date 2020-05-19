@@ -64,6 +64,7 @@ spec:
             	network.routingConfig.routingMode != mode
             
             	message := sprintf("%v doesn't have %v routing.", [asset.name, mode])
-            	metadata := {"resource": asset.name}
+            	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+            	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
             }
             #ENDINLINE

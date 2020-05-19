@@ -29,7 +29,8 @@ deny[{
 	invalid_key_settings(params, asset.resource.data)
 
 	message := sprintf("%v: CMEK settings are invalid.", [asset.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
 check_protection_level(params, key) = result {

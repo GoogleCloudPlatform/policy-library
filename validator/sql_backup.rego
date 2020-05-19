@@ -44,5 +44,6 @@ deny[{
 	instance_backupConfiguration_enabled != true
 
 	message := sprintf("%v backup not enabled'", [asset.name])
-	metadata := {"resource": asset.name}
+	ancestry_path = lib.get_default(asset, "ancestry_path", "")
+	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
