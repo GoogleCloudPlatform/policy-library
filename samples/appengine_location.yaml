@@ -8,11 +8,7 @@ spec:
   severity: high
   match:
     target: ["organization/*"] # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
-<<<<<<< HEAD
   parameters:
-=======
-  parameters: 
->>>>>>> b5d66aa... Create a kpt setter to set the constraint target. Add annotations to the samples.
     locations:
     - "australia*"
     - "southamerica*"

@@ -21,11 +21,7 @@ metadata:
   annotations:
     bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
     bundles.validator.forsetisecurity.org/scorecard-v1: security
-<<<<<<< HEAD
-    description: Checks that every firewall rule matches certain settings.
-=======
     description: Checks for open firewall rules allowing ingress from the internet.
->>>>>>> upstream/master
 spec:
   severity: high
   match:

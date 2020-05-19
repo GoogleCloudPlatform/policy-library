@@ -8,6 +8,11 @@ packageMetadata:
   shortDescription: kpt policy library constraints package
 openAPI:
   definitions:
+    io.k8s.cli.setters.domain:
+      x-k8s-cli:
+        setter:
+          name: domain
+          value: DOMAIN
     io.k8s.cli.setters.target:
       x-k8s-cli:
         setter:

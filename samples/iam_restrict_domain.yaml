@@ -1,4 +1,4 @@
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,12 +17,14 @@ kind: GCPIAMAllowedPolicyMemberDomainsConstraintV1
 metadata:
   name: only_my_domain
   annotations:
-    description: Only allow members from my domain to added to IAM roles
+    bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
+    description: Only allow members from my domain to be added to IAM roles
 spec:
   severity: high
   match:
     target: ["organization/*"] # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+    exclude: []
   parameters:
     domains:
-    - example.com
+    - DOMAIN # {"$ref":"#/definitions/io.k8s.cli.setters.domain"}
     - gserviceaccount.com # also allow service accounts
