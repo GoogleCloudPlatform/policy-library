@@ -20,7 +20,11 @@ metadata:
   name: restrict-firewall-rule-world-open-tcp-udp-all-ports
   annotations:
     bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
+<<<<<<< HEAD
     description: Checks that every firewall rule matches certain settings.
+=======
+    description: Checks for open firewall rules allowing TCP/UDP from the internet.
+>>>>>>> upstream/master
 spec:
   severity: high
   match:

@@ -21,9 +21,16 @@ metadata:
     bundles.validator.forsetisecurity.org/cis-v1.1: 5.03
     bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
     bundles.validator.forsetisecurity.org/scorecard-v1: security
+<<<<<<< HEAD
     description: Checks if BigQuery datasets have permissions to assigned to allUsers
       or allAuthenticatedUsers.
 spec:
   severity: high
 
+=======
+    description: Checks if BigQuery datasets are publicly readable
+      or allAuthenticatedUsers.
+spec:
+  severity: high
+>>>>>>> upstream/master
   parameters: {}

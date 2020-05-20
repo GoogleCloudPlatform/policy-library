@@ -3,7 +3,11 @@ kind: GCPAppengineLocationConstraintV1
 metadata:
   name: allow_appengine_applications_in_australia_and_south_america
   annotations:
+<<<<<<< HEAD
     description: Locations (regions) where App Engine applications are deployed.
+=======
+    description: Restrict locations (regions) where App Engine applications are deployed.
+>>>>>>> upstream/master
 spec:
   severity: high
   match:
