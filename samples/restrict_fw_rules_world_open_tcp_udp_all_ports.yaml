@@ -20,23 +20,24 @@ metadata:
   name: restrict-firewall-rule-world-open-tcp-udp-all-ports
   annotations:
     bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
+    description: Checks for open firewall rules allowing TCP/UDP from the internet.
 spec:
   severity: high
   match:
     target: ["organization/*"]
   parameters:
     rules:
-      - direction: "INGRESS"
-        enabled: "true"
-        port: "all"
-        protocol: "tcp"
-        rule_type: "allowed"
-        source_ranges:
-        - "0.0.0.0/0"
-      - direction: "INGRESS"
-        enabled: "true"
-        port: "all"
-        protocol: "udp"
-        rule_type: "allowed"
-        source_ranges:
-        - "0.0.0.0/0"
+    - direction: "INGRESS"
+      enabled: "true"
+      port: "all"
+      protocol: "tcp"
+      rule_type: "allowed"
+      source_ranges:
+      - "0.0.0.0/0"
+    - direction: "INGRESS"
+      enabled: "true"
+      port: "all"
+      protocol: "udp"
+      rule_type: "allowed"
+      source_ranges:
+      - "0.0.0.0/0"

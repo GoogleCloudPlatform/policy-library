@@ -18,10 +18,12 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPSQLBackupConstraintV1
 metadata:
   name: gcp-sql-backup-with-exemptions
+  annotations:
+    description: Checks that Cloud SQL backups are enabled.
 spec:
   severity: high
   match:
     target: ["organization/*"]
   parameters:
     exemptions:
-      - //cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv2-nomaintenance
+    - //cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv2-nomaintenance

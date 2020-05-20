@@ -16,6 +16,9 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPStorageLocationConstraintV1
 metadata:
   name: allow_some_storage_location
+  annotations:
+    description: Checks Cloud Storage bucket locations against allowed or disallowed
+      locations.
 spec:
   severity: high
   match:

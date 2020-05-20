@@ -16,6 +16,8 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPGKEEnableShieldedNodesConstraintV1
 metadata:
   name: enable_gke_shielded_nodes
+  annotations:
+    description: Checks that GKE is using Shielded nodes (secure boot).
 spec:
   severity: high
   match:

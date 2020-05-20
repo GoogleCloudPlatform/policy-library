@@ -18,6 +18,8 @@ metadata:
   name: service_versions
   annotations:
     bundles.validator.forsetisecurity.org/scorecard-v1: operational-efficiency
+    description: Limit the number App Engine application versions simultaneously running.
+      installed.
 spec:
   match:
     target: ["organization/*"]

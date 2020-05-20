@@ -16,6 +16,8 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPBigQueryDatasetLocationConstraintV1
 metadata:
   name: bq_dataset_allowed_locations
+  annotations:
+    description: Checks in which locations BigQuery datasets exist.
 spec:
   severity: high
   parameters:

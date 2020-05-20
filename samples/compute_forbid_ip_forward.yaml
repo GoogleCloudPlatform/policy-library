@@ -19,10 +19,11 @@ metadata:
   annotations:
     # This constraint is not certified by CIS.
     bundles.validator.forsetisecurity.org/cis-v1.1: 4.04
+    description: Checks if a VM has IP forwarding turned on.
 spec:
   severity: high
   parameters:
     mode: whitelist
     match_mode: regex
     instances:
-      - ".*gkestandardcluster.*"
+    - ".*gkestandardcluster.*"

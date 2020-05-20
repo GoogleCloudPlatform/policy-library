@@ -16,6 +16,9 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPVPCSCWhitelistRegionsConstraintV1
 metadata:
   name: vpc_sc_whitelist_regions
+  annotations:
+    description: Checks that only allowed geographical regions are allowed in VPC
+      Service Controls perimeters.
 spec:
   severity: high
   match:
@@ -23,5 +26,5 @@ spec:
       target: ["organization/*"]
   parameters:
     regions:
-      - US
-      - IE
+    - US
+    - IE

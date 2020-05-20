@@ -16,6 +16,9 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPCMEKSettingsConstraintV1
 metadata:
   name: cmek_rotation
+  annotations:
+    description: Checks multiple CMEK key settings (protection level, algorithm, purpose,
+      rotation period).
 spec:
   severity: high
   match:

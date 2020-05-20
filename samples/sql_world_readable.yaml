@@ -20,6 +20,7 @@ metadata:
     # This constraint has not been validated by the formal CIS certification process.
     bundles.validator.forsetisecurity.org/cis-v1.1: 6.02
     bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
+    description: Checks if Cloud SQL instances are world readable.
 spec:
   severity: high
   parameters: {}

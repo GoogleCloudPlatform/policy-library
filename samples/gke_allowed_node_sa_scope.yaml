@@ -19,6 +19,7 @@ metadata:
   annotations:
     benchmark: GKE_HARDENING_GUIDELINE
     bundles.validator.forsetisecurity.org/scorecard-v1: security
+    description: Checks that certain service account scopes are not assigned to nodes.
 spec:
   severity: high
   match:

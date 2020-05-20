@@ -16,6 +16,8 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GKEClusterLocationConstraintV2
 metadata:
   name: gke-cluster-allowed-locations
+  annotations:
+    description: Checks which zones are allowed/disallowed for GKE clusters.
 spec:
   severity: high
   match:
@@ -23,6 +25,6 @@ spec:
   parameters:
     mode: "allowlist"
     locations:
-        - us-central1
-        - us-east1-b
+    - us-central1
+    - us-east1-b
     exemptions: []

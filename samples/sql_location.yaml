@@ -16,6 +16,9 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPSQLLocationConstraintV1
 metadata:
   name: allow_some_sql_location
+  annotations:
+    description: Checks Cloud SQL instance locations against allowed or disallowed
+      locations.
 spec:
   severity: high
   match:

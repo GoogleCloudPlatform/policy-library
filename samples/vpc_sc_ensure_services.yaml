@@ -16,12 +16,14 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPVPCSCEnsureServicesConstraintV1
 metadata:
   name: vpc_sc_ensure_services
+  annotations:
+    description: Checks is a VPC Service Controls perimeter has correct services set.
 spec:
   severity: high
   match:
     gcp:
       target: ["organization/*"]
   parameters:
-      required_services:
-        - compute.googleapis.com
+    required_services:
+    - compute.googleapis.com
 
