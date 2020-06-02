@@ -17,24 +17,23 @@
 package templates.gcp.GCPGKEEnableAliasIPRangesConstraintV1
 
 import data.validator.gcp.lib as lib
+import data.validator.test_utils as test_utils
 
-all_violations[violation] {
-	resource := data.test.fixtures.gke_enable_alias_ip_ranges.assets[_]
-	constraint := data.test.fixtures.gke_enable_alias_ip_ranges.constraints.enable_alias_ip_ranges
+# Import the test data
+import data.test.fixtures.gke_enable_alias_ip_ranges.assets as fixture_data
 
-	issues := deny with input.asset as resource
-		 with input.constraint as constraint
+# Importing the test constraint
+import data.test.fixtures.gke_enable_alias_ip_ranges.constraints as fixture_constraints
 
-	violation := issues[_]
-}
+template_name := "GCPGKEEnableAliasIPRangesConstraintV1"
 
-test_alias_ip_ranges_enabled {
-	violation := all_violations[_]
-	resource_names := {x | x = all_violations[_].details.resource}
-	not resource_names["//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust"]
-}
+test_enforce_gke_enable_ip_ranges_violations {
+	expected_resource_names := {
+		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2",
+		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/route-based-3",
+	}
 
-test_alias_ip_ranges_disabled {
-	violation := all_violations[_]
-	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2"
+	test_utils.check_test_violations_count(fixture_data, [fixture_constraints], template_name, 2)
+	test_utils.check_test_violations_resources(fixture_data, [fixture_constraints], template_name, expected_resource_names)
+	test_utils.check_test_violations_signature(fixture_data, [fixture_constraints], template_name)
 }
