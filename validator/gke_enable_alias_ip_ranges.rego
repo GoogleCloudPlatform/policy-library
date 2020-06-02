@@ -37,7 +37,17 @@ deny[{
 # Rule Utilities
 ###########################
 alias_ip_ranges_disabled(cluster) {
+	# Has ipAllocationPolicyField, and useIpAliases is false
+	ipAllocationPolicyField := lib.has_field(cluster, "ipAllocationPolicy")
+	ipAllocationPolicyField == true
+
 	ipAllocationPolicy := lib.get_default(cluster, "ipAllocationPolicy", {})
-	useIpAliases := lib.get_default(ipAllocationPolicy, "useIpAliases", false)
+	useIpAliases := lib.get_default(ipAllocationPolicy, "useIpAliases", true)
 	useIpAliases != true
+}
+
+alias_ip_ranges_disabled(cluster) {
+	# Doesn't have ipAllocationPolicyField
+	ipAllocationPolicy := lib.has_field(cluster, "ipAllocationPolicy")
+	ipAllocationPolicy != true
 }
