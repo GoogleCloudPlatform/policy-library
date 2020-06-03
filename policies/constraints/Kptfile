@@ -14,7 +14,9 @@ openAPI:
           name: domain
           value: DOMAIN
     io.k8s.cli.setters.target:
+      type: array
       x-k8s-cli:
         setter:
           name: target
-          value: '"organization/*"'
+          listValues:
+          - "folder/*"

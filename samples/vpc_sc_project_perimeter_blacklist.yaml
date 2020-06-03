@@ -22,7 +22,8 @@ spec:
   severity: high
   match:
     gcp:
-      target: ["organization/*"] # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+      target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+      - "organization/*"
   parameters:
     mode: blacklist
     project_number: 179891054368

@@ -23,7 +23,8 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organization/*"] # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+    target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+    - "organization/*"
   parameters:
     exemptions:
     - //cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv2-nomaintenance
