@@ -13,18 +13,19 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPGKEDisableLegacyEndpointsConstraintV1
+kind: GCPVPCSCProjectPerimeterConstraintV1
 metadata:
-  name: disable_gke_legacy_endpoints
+  name: vpc_sc_project_perimeter_blacklist
   annotations:
-    benchmark: GKE_HARDENING_GUIDELINE
-    bundles.validator.forsetisecurity.org/scorecard-v1: security
-    description: Checks that legacy metadata endpoints are disabled (disabled by default
-      since GKE 1.12+).
+    description: Older, deprecated version of above policy.
 spec:
   severity: high
   match:
     gcp:
       target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
       - "organization/*"
-  parameters: {}
+  parameters:
+    mode: blacklist
+    project_id: 179891054368
+    service_perimeters:
+    - Test Service Perimeter 1

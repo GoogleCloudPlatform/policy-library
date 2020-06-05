@@ -22,7 +22,8 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+    - "organization/*"
   parameters:
     # required parameter: list of label objects that resources should have.
     # A label object is composed of a key value pair like: 

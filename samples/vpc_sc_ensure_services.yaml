@@ -22,7 +22,8 @@ spec:
   severity: high
   match:
     gcp:
-      target: ["organization/*"]
+      target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+      - "organization/*"
   parameters:
     required_services:
     - compute.googleapis.com
