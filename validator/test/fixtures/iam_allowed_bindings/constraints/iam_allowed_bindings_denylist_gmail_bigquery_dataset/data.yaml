@@ -13,19 +13,17 @@
 # limitations under the License.
 
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPIAMAllowedBindingsConstraintV1
+kind: GCPIAMAllowedBindingsConstraintV2
 metadata:
-  name: whitelist-gmail-specific-bigquery-dataset
+  name: denylist-gmail-bigquery-dataset
   annotations:
-    description: Enforce corporate domain by only allowing gmail.com addresses access to specific BigQuery datasets
+    description: Enforce corporate domain by banning gmail.com addresses access to BigQuery datasets
+    bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
 spec:
   severity: high
   parameters:
-    mode: whitelist
+    mode: denylist
     assetType: bigquery.googleapis.com/Dataset
-    assetNames:
-      - "//bigquery.googleapis.com/projects/12345/datasets/testdataset1"
-      - "//bigquery.googleapis.com/projects/12345/datasets/testdataset3"
     role: roles/*
     members:
       - "user:*@gmail.com"

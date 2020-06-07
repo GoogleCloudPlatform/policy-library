@@ -1,7 +1,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPIAMAllowedBindingsConstraintV1
+kind: GCPIAMAllowedBindingsConstraintV2
 metadata:
-  name: blacklist_serviceaccount_user
+  name: deny_role
   annotations:
     description: Ban any users from being granted Service Account User access
     # This constraint is not certified by CIS.
@@ -13,7 +13,7 @@ spec:
     - "organization/*"
     exclude: [] # optional, default is no exclusions
   parameters:
-    mode: blacklist
+    mode: denylist
     assetType: cloudresourcemanager.googleapis.com/Project
     role: roles/iam.serviceAccountUser
     members:

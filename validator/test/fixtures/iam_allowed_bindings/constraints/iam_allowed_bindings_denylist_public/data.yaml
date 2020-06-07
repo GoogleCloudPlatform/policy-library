@@ -1,13 +1,13 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPIAMAllowedBindingsConstraintV1
+kind: GCPIAMAllowedBindingsConstraintV2
 metadata:
-  name: blacklist_all_users
+  name: denylist_all_users
   annotations:
     description: Prevent public users from having access to resources via IAM
 spec:
   severity: high
   parameters:
-    mode: blacklist
+    mode: denylist
     role: "roles/*"
     members:
     - "allUsers"

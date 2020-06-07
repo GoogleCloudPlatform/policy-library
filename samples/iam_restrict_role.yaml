@@ -1,7 +1,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPIAMAllowedBindingsConstraintV1
+kind: GCPIAMAllowedBindingsConstraintV2
 metadata:
-  name: whitelist_owner_role
+  name: restrict_owner_role
   annotations:
     description: Only my domain members are allowed to have the Owner role on projects
 spec:
@@ -11,7 +11,7 @@ spec:
     - "organization/*"
     exclude: [] # optional, default is no exclusions
   parameters:
-    mode: whitelist
+    mode: allowlist
     role: roles/owner
     members:
     - "user:*@google.com"

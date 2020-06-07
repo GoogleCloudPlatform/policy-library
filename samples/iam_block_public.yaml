@@ -1,7 +1,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPIAMAllowedBindingsConstraintV1
+kind: GCPIAMAllowedBindingsConstraintV2
 metadata:
-  name: blacklist_all_users
+  name: block_allusers
   annotations:
     description: Prevent public users from having access to resources via IAM
     bundles.validator.forsetisecurity.org/scorecard-v1: security
@@ -12,7 +12,7 @@ spec:
     - "organization/*"
     exclude: [] # optional, default is no exclusions
   parameters:
-    mode: blacklist
+    mode: denylist
     role: "roles/*"
     members:
     - "allUsers"
