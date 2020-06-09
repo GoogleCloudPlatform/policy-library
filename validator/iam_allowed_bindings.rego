@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPIAMAllowedBindingsConstraintV1
+package templates.gcp.GCPIAMAllowedBindingsConstraintV2
 
 import data.validator.gcp.lib as lib
 
@@ -38,7 +38,7 @@ deny[{
 
 	glob.match(params.role, ["/"], role)
 
-	mode := lib.get_default(params, "mode", "whitelist")
+	mode := lib.get_default(params, "mode", "allowlist")
 
 	matches_found = [m | m = config_pattern(params.members[_]); glob.match(m, [], member)]
 	target_match_count(mode, desired_count)
@@ -59,11 +59,11 @@ deny[{
 
 # Determine the overlap between matches under test and constraint
 target_match_count(mode) = 0 {
-	mode == "blacklist"
+	mode == "denylist"
 }
 
 target_match_count(mode) = 1 {
-	mode == "whitelist"
+	mode == "allowlist"
 }
 
 check_asset_type(asset, params) {
