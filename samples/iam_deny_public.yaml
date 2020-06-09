@@ -1,7 +1,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPIAMAllowedBindingsConstraintV2
 metadata:
-  name: block_allusers
+  name: deny_allusers
   annotations:
     description: Prevent public users from having access to resources via IAM
     bundles.validator.forsetisecurity.org/scorecard-v1: security
