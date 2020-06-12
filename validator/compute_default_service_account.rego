@@ -27,17 +27,18 @@ deny[{
 	asset := input.asset
 
 	asset.asset_type == "compute.googleapis.com/Instance"
-	service_account := asset.resource.data.serviceAccount[_]
-	email := service_account.email
+	service_accounts := asset.resource.data.serviceAccounts[_]
+	email := service_accounts.email
 	re_match("-compute@developer.gserviceaccount.com$", email)
 
 	check_full_scope := lib.get_default(params, "checkfullscope", true)
 
-	scope_violation(check_full_scope, service_account.scope)
+	scopes := lib.get_default(service_accounts, "scopes", [])
+	scope_violation(check_full_scope, scopes)
 
 	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
-	message := sprintf("Instance %v uses default compute engine service account %v with access to scope %v.", [asset.name, email, concat(" ", service_account.scope)])
+	message := sprintf("Instance %v uses default compute engine service account %v with access to scope %v.", [asset.name, email, concat(" ", scopes)])
 	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
 }
 
@@ -46,16 +47,16 @@ deny[{
 #################
 
 # Determine the overlap between locations under test and constraint
-scope_violation(checkfullscope, scope) {
+scope_violation(checkfullscope, scopes) {
 	checkfullscope == false
 }
 
-scope_violation(checkfullscope, scope) {
+scope_violation(checkfullscope, scopes) {
 	checkfullscope == true
-	individual_scope := scope[_]
+	individual_scope := scopes[_]
 	individual_scope == "https://www.googleapis.com/auth/cloud-platform"
 }
 
-scope_violation(checkfullscope, scope) = false {
+scope_violation(checkfullscope, scopes) = false {
 	checkfullscope == true
 }
