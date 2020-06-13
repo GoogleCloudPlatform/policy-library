@@ -167,31 +167,31 @@ For example:
    </td>
   </tr>
   <tr>
-   <td>organization/*
+   <td>organizations/**
    </td>
    <td>All organizations
    </td>
   </tr>
   <tr>
-   <td>organization/123/*
+   <td>organizations/123/**
    </td>
    <td>Everything in organization 123
    </td>
   </tr>
   <tr>
-   <td>organization/123/folder/*
+   <td>organizations/123/folders/**
    </td>
    <td>Everything in organization 123 that is under a folder
    </td>
   </tr>
   <tr>
-   <td>organization/123/folder/456
+   <td>organizations/123/folders/456
    </td>
    <td>Everything in folder 456 in organization 123
    </td>
   </tr>
   <tr>
-   <td>organization/123/folder/456/project/789
+   <td>organizations/123/folders/456/projects/789
    </td>
    <td>Everything in project 789 in folder 456 in organization 123
    </td>
@@ -245,7 +245,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: ["organizations/**"]
   parameters:
     mode: "whitelist"
     instances:
@@ -390,7 +390,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: ["organizations/**"]
   parameters:
     domains:
       - gserviceaccount.com
@@ -457,7 +457,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: ["organizations/**"]
   parameters:
     domains:
       - gserviceaccount.com

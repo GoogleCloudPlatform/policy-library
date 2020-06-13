@@ -20,7 +20,7 @@ spec:
   severity: high
   match:
     gcp:
-      target: ["organization/*"]
+      target: ["organizations/**"]
   parameters:
     mode: blacklist
     project_id: 179891054368

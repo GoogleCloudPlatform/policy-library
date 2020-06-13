@@ -18,5 +18,5 @@ metadata:
   name: service_versions
 spec:
   match:
-    target: ["organization/*"]
+    target: ["organizations/**"]
   parameters: {}

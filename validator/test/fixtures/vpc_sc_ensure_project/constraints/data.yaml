@@ -20,7 +20,7 @@ spec:
   severity: high
   match:
     gcp:
-      target: ["organization/*"]
+      target: ["organizations/**"]
   parameters:
       required_projects:
         - "179891054369"

@@ -5,7 +5,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: ["organizations/**"]
   parameters: 
     locations:
       - "australia*"
