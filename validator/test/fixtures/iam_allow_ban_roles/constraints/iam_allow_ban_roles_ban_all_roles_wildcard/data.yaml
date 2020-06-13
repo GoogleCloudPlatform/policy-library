@@ -7,7 +7,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: ["organizations/**"]
     exclude: [] # optional, default is no exclusions
   parameters:
     mode: "ban"

@@ -21,7 +21,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: ["organizations/**"]
   parameters:
     hours: # UTC time, 
       - 20

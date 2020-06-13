@@ -20,7 +20,7 @@ spec:
   severity: high
   match:
     target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
-    - "organization/*"
+    - "organizations/**"
   parameters:
     minimum_retention_days: 10
     maximum_retention_days: 30

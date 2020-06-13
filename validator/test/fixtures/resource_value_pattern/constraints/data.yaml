@@ -21,7 +21,7 @@ list:
       severity: high
       match:
         gcp:
-          target: ["organization/*"]
+          target: ["organizations/**"]
           exclude: [] # optional, default is no exclusions
       parameters:
         mode: allowlist
@@ -38,7 +38,7 @@ list:
       severity: high
       match:
         gcp:
-          target: ["organization/*"]
+          target: ["organizations/**"]
           exclude: [] # optional, default is no exclusions
       parameters:
         mode: allowlist
@@ -57,7 +57,7 @@ list:
       severity: high
       match:
         gcp:
-          target: ["organization/*"]
+          target: ["organizations/**"]
           exclude: [] # optional, default is no exclusions
       parameters:
         mode: allowlist
@@ -73,7 +73,7 @@ list:
       severity: high
       match:
         gcp:
-          target: ["organization/*"]
+          target: ["organizations/**"]
           exclude: [] # optional, default is no exclusions
       parameters:
         mode: denylist
@@ -90,7 +90,7 @@ list:
       severity: high
       match:
         gcp:
-          target: ["organization/*"]
+          target: ["organizations/**"]
           exclude: [] # optional, default is no exclusions
       parameters:
         mode: denylist
@@ -109,7 +109,7 @@ list:
       severity: high
       match:
         gcp:
-          target: ["organization/*"]
+          target: ["organizations/**"]
           exclude: [] # optional, default is no exclusions
       parameters:
         mode: denylist

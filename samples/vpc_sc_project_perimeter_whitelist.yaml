@@ -23,7 +23,7 @@ spec:
   match:
     gcp:
       target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
-      - "organization/*"
+      - "organizations/**"
   parameters:
     mode: whitelist
     project_number: 179891054368

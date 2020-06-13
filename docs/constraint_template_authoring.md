@@ -208,7 +208,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: ["organizations/**"]
   parameters:
     mode: "whitelist"
     instances:
