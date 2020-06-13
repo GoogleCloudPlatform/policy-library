@@ -21,7 +21,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: ["organizations/**"]
   parameters:
     exemptions:
       - //cloudsql.googleapis.com/projects/brunore-db-test/instances/mysqlv2-nomaintenance

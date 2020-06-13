@@ -23,7 +23,7 @@ spec:
   match:
     gcp:
       target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
-      - "organization/*"
+      - "organizations/**"
   parameters:
     required_services:
     - compute.googleapis.com

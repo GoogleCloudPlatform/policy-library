@@ -23,6 +23,6 @@ spec:
   match:
     gcp:
       target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
-      - "organization/*"
+      - "organizations/**"
   parameters:
     maximum_cidr_size: 16

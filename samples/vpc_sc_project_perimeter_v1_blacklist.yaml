@@ -23,7 +23,7 @@ spec:
   match:
     gcp:
       target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
-      - "organization/*"
+      - "organizations/**"
   parameters:
     mode: blacklist
     project_id: 179891054368

@@ -21,7 +21,7 @@ eetadata:
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: ["organizations/**"]
   parameters:
     mode: "allowlist"
     rules:
