@@ -15,7 +15,7 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPGKEMasterAuthorizedNetworksEnabledConstraintV1
 metadata:
-  name: gke_master_authorized_network_enabled_whitelist
+  name: gke_master_authorized_network_enabled_allowlist
 spec:
   severity: high
   parameters:

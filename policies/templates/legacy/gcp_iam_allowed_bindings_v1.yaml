@@ -50,7 +50,7 @@ spec:
                 type: string
   targets:
    validation.gcp.forsetisecurity.org:
-      rego: | #INLINE("validator/iam_allowed_bindings.rego")
+      rego: |
             #
             # Copyright 2020 Google LLC
             #
@@ -146,4 +146,3 @@ spec:
             config_pattern(old_pattern) = old_pattern {
             	old_pattern != "*"
             }
-            #ENDINLINE

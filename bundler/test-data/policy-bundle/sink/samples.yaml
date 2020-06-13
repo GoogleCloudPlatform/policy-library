@@ -4,7 +4,7 @@ items:
 - apiVersion: constraints.gatekeeper.sh/v1alpha1
   kind: GCPStorageBucketWorldReadableConstraintV1
   metadata:
-    name: blacklist_public_users
+    name: denylist_public_users
     annotations:
       description: Prevent public users from having access to resources via IAM
       bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
@@ -36,7 +36,7 @@ items:
 - apiVersion: constraints.gatekeeper.sh/v1alpha1
   kind: GCPIAMAllowedBindingsConstraintV1
   metadata:
-    name: blacklist-gmail-bigquery-dataset
+    name: denylist-gmail-bigquery-dataset
     annotations:
       description: Enforce corporate domain by banning gmail.com addresses access to BigQuery datasets
       bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
@@ -46,7 +46,7 @@ items:
       target: ["organization/*"]
       exclude: []
     parameters:
-      mode: blacklist
+      mode: denylist
       assetType: bigquery.googleapis.com/Dataset
       role: roles/*
       members:

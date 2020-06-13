@@ -37,7 +37,7 @@ spec:
                 type: string
   targets:
     validation.gcp.forsetisecurity.org:
-      rego: | #INLINE("validator/gke_cluster_location.rego")
+      rego: |
            #
            # Copyright 2019 Google LLC
            #
@@ -78,4 +78,3 @@ spec:
            ###########################
            # Rule Utilities
            ###########################
-           #ENDINLINE

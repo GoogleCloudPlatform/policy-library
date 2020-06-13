@@ -31,14 +31,14 @@ test_gke_master_authorized_networks_default {
 	test_utils.check_test_violations(fixture_assets, [fixture_constraints.enable_master_authorized_networks], template_name, expected_resource_names)
 }
 
-test_gke_master_authorized_networks_whitelist {
+test_gke_master_authorized_networks_allowlist {
 	expected_resource_names = {
 		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/private-endpoint-public",
 		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/public",
 		"//container.googleapis.com/projects/gkeexposure/zones/us-central1-c/clusters/private-endpoint-restricted-bad",
 	}
 
-	test_utils.check_test_violations(fixture_assets, [fixture_constraints.whitelist], template_name, expected_resource_names)
+	test_utils.check_test_violations(fixture_assets, [fixture_constraints.allowlist], template_name, expected_resource_names)
 }
 
 test_gke_master_authorized_networks_nonetworks {

@@ -13,9 +13,9 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPComputeExternalIpAccessConstraintV1
+kind: GCPComputeExternalIpAccessConstraintV2
 metadata:
-  name: forbid_external_ip_whitelist
+  name: forbid_external_ip
   annotations:
     # This constraint is not certified by CIS.
     bundles.validator.forsetisecurity.org/cis-v1.1: 4.08
@@ -23,8 +23,8 @@ metadata:
 spec:
   severity: high
   parameters:
-    # modes can be [whitelist, blacklist]
-    mode: whitelist
+    # modes can be [allowlist, denylist]
+    mode: allowlist
     # match_mode can be [exact, regex], default is exact.
     match_mode: regex
     instances:

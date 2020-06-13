@@ -44,7 +44,7 @@ spec:
               description: "The project number you are matching (eg 175918267)"
   targets:
     validation.gcp.forsetisecurity.org:
-      rego: | #INLINE("validator/vpc_sc_project_perimeter.rego")
+      rego: |
              # Copyright 2019 Google LLC
              #
              # Licensed under the Apache License, Version 2.0 (the "License");
@@ -98,4 +98,3 @@ spec:
              	mode == "whitelist"
              	count(specified_service_perimeters) == count(specified_service_perimeters - {evaluating_service_perimeter})
              }
-             #ENDINLINE

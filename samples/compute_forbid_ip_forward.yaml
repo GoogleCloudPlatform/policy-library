@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPComputeIpForwardConstraintV1
+kind: GCPComputeIpForwardConstraintV2
 metadata:
   name: forbid_ip_forward
   annotations:
@@ -23,7 +23,7 @@ metadata:
 spec:
   severity: high
   parameters:
-    mode: whitelist
+    mode: allowlist
     match_mode: regex
     instances:
     - ".*gkestandardcluster.*"

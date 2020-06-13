@@ -14,12 +14,12 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPComputeIpForwardConstraintV1
+package templates.gcp.GCPComputeIpForwardConstraintV2
 
 import data.validator.gcp.lib as lib
 
 ###########################
-# Find Whitelist/Blacklist Violations
+# Find allowlist/denylist Violations
 ###########################
 deny[{
 	"msg": message,
@@ -33,9 +33,9 @@ deny[{
 	instance := asset.resource.data
 	lib.get_default(instance, "canIpForward", false) == true
 
-	# Check if instance is in blacklist/whitelist
+	# Check if instance is in denylist/allowlist
 	match_mode := lib.get_default(params, "match_mode", "exact")
-	mode := lib.get_default(params, "mode", "whitelist")
+	mode := lib.get_default(params, "mode", "allowlist")
 	target_instances := lib.get_default(params, "instances", [])
 	trace(sprintf("asset name:%v, target_instances: %v, mode: %v, match_mode: %v", [asset.name, target_instances, mode, match_mode]))
 	instance_name_targeted(asset.name, target_instances, mode, match_mode)
@@ -47,27 +47,27 @@ deny[{
 # Rule Utilities
 ###########################
 instance_name_targeted(asset_name, instance_filters, mode, match_mode) {
-	mode == "whitelist"
+	mode == "allowlist"
 	match_mode == "exact"
 	matches := {asset_name} & cast_set(instance_filters)
 	count(matches) == 0
 }
 
 instance_name_targeted(asset_name, instance_filters, mode, match_mode) {
-	mode == "blacklist"
+	mode == "denylist"
 	match_mode == "exact"
 	matches := {asset_name} & cast_set(instance_filters)
 	count(matches) > 0
 }
 
 instance_name_targeted(asset_name, instance_filters, mode, match_mode) {
-	mode == "whitelist"
+	mode == "allowlist"
 	match_mode == "regex"
 	not re_match_name(asset_name, instance_filters)
 }
 
 instance_name_targeted(asset_name, instance_filters, mode, match_mode) {
-	mode == "blacklist"
+	mode == "denylist"
 	match_mode == "regex"
 	re_match_name(asset_name, instance_filters)
 }

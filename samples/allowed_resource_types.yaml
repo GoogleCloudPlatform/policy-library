@@ -1,5 +1,5 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPAllowedResourceTypesConstraintV1
+kind: GCPAllowedResourceTypesConstraintV2
 metadata:
   name: deny_some_resource_types
   annotations:
@@ -10,7 +10,7 @@ spec:
     target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
     - "organizations/**"
   parameters:
-    mode: "blacklist"
+    mode: "denylist"
     resource_type_list:
     - sqladmin.googleapis.com/Instance
     - compute.googleapis.com/Instance

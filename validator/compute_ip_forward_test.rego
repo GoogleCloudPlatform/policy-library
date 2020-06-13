@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPComputeIpForwardConstraintV1
+package templates.gcp.GCPComputeIpForwardConstraintV2
 
 import data.test.fixtures.compute_ip_forward.assets as fixture_instances
 import data.test.fixtures.compute_ip_forward.constraints as fixture_constraints
@@ -61,8 +61,8 @@ test_ip_forward_default {
 	count(found_violations) = 2
 }
 
-whitelist_violations[violation] {
-	constraints := [fixture_constraints.forbid_ip_forward_whitelist]
+allowlist_violations[violation] {
+	constraints := [fixture_constraints.forbid_ip_forward_allowlist]
 
 	found_violations := find_violations with data.instances as fixture_instances
 		 with data.test_constraints as constraints
@@ -70,9 +70,9 @@ whitelist_violations[violation] {
 	violation := found_violations[_]
 }
 
-# Confirm only a single violation was found (whitelist constraint)
-test_ip_forward_whitelist_violates_one {
-	found_violations := whitelist_violations
+# Confirm only a single violation was found (allowlist constraint)
+test_ip_forward_allowlist_violates_one {
+	found_violations := allowlist_violations
 
 	count(found_violations) = 1
 
@@ -83,8 +83,8 @@ test_ip_forward_whitelist_violates_one {
 	is_object(violation.details)
 }
 
-no_violation_due_to_whitelist[violation] {
-	constraints := [fixture_constraints.forbid_ip_forward_whitelist_all]
+no_violation_due_to_allowlist[violation] {
+	constraints := [fixture_constraints.forbid_ip_forward_allowlist_all]
 
 	found_violations := find_violations with data.instances as fixture_instances
 		 with data.test_constraints as constraints
@@ -92,15 +92,15 @@ no_violation_due_to_whitelist[violation] {
 	violation := found_violations[_]
 }
 
-# Confirm no violation when both VMs with exernal IP are whitelisted.
-test_ip_forward_whitelist_all {
-	found_violations := no_violation_due_to_whitelist
+# Confirm no violation when both VMs with exernal IP are allowlisted.
+test_ip_forward_allowlist_all {
+	found_violations := no_violation_due_to_allowlist
 
 	count(found_violations) = 0
 }
 
-blacklist_violations[violation] {
-	constraints := [fixture_constraints.forbid_ip_forward_blacklist]
+denylist_violations[violation] {
+	constraints := [fixture_constraints.forbid_ip_forward_denylist]
 
 	found_violations := find_violations with data.instances as fixture_instances
 		 with data.test_constraints as constraints
@@ -108,14 +108,14 @@ blacklist_violations[violation] {
 	violation := found_violations[_]
 }
 
-test_ip_forward_blacklist_violates_one {
-	found_violations := blacklist_violations
+test_ip_forward_denylist_violates_one {
+	found_violations := denylist_violations
 
 	count(found_violations) = 1
 }
 
-two_blacklist_violations[violation] {
-	constraints := [fixture_constraints.forbid_ip_forward_blacklist_all]
+two_denylist_violations[violation] {
+	constraints := [fixture_constraints.forbid_ip_forward_denylist_all]
 
 	found_violations := find_violations with data.instances as fixture_instances
 		 with data.test_constraints as constraints
@@ -123,15 +123,15 @@ two_blacklist_violations[violation] {
 	violation := found_violations[_]
 }
 
-# Confirm we get 2 violations when both VMs with external IP are blacklisted.
-test_ip_forward_blacklist_all {
-	found_violations := two_blacklist_violations
+# Confirm we get 2 violations when both VMs with external IP are denylisted.
+test_ip_forward_denylist_all {
+	found_violations := two_denylist_violations
 
 	count(found_violations) = 2
 }
 
-test_blacklist_violations_regex {
-	constraints := [fixture_constraints.forbid_ip_forward_regex_blacklist_all]
+test_denylist_violations_regex {
+	constraints := [fixture_constraints.forbid_ip_forward_regex_denylist_all]
 
 	found_violations := find_violations with data.instances as fixture_instances
 		 with data.test_constraints as constraints
@@ -139,8 +139,8 @@ test_blacklist_violations_regex {
 	count(found_violations) == 2
 }
 
-test_whitelist_violations_regex {
-	constraints := [fixture_constraints.forbid_ip_forward_regex_whitelist_all]
+test_allowlist_violations_regex {
+	constraints := [fixture_constraints.forbid_ip_forward_regex_allowlist_all]
 
 	found_violations := find_violations with data.instances as fixture_instances
 		 with data.test_constraints as constraints
@@ -148,17 +148,17 @@ test_whitelist_violations_regex {
 	count(found_violations) == 0
 }
 
-test_instance_name_targeted_whitelist {
-	not instance_name_targeted("//compute/vm1", ["//compute/vm.*", "//compute/nomatch"], "whitelist", "regex")
-	not instance_name_targeted("//compute/vm1", ["//compute/vm1", "//compute/nomatch"], "whitelist", "exact")
+test_instance_name_targeted_allowlist {
+	not instance_name_targeted("//compute/vm1", ["//compute/vm.*", "//compute/nomatch"], "allowlist", "regex")
+	not instance_name_targeted("//compute/vm1", ["//compute/vm1", "//compute/nomatch"], "allowlist", "exact")
 }
 
-test_instance_name_targeted_whitelist_nomatch {
-	instance_name_targeted("//compute/vm1", ["//compute/nomatch1", "//compute/nomatch2"], "whitelist", "regex")
-	instance_name_targeted("//compute/vm1", ["//compute/nomatch1", "//compute/nomatch2"], "whitelist", "exact")
+test_instance_name_targeted_allowlist_nomatch {
+	instance_name_targeted("//compute/vm1", ["//compute/nomatch1", "//compute/nomatch2"], "allowlist", "regex")
+	instance_name_targeted("//compute/vm1", ["//compute/nomatch1", "//compute/nomatch2"], "allowlist", "exact")
 }
 
-test_instance_name_targeted_blacklist {
-	instance_name_targeted("//compute/vm1", ["//compute/vm.*", "//compute/nomatch"], "blacklist", "regex")
-	instance_name_targeted("//compute/vm1", ["//compute/vm1", "//compute/nomatch"], "blacklist", "exact")
+test_instance_name_targeted_denylist {
+	instance_name_targeted("//compute/vm1", ["//compute/vm.*", "//compute/nomatch"], "denylist", "regex")
+	instance_name_targeted("//compute/vm1", ["//compute/vm1", "//compute/nomatch"], "denylist", "exact")
 }
