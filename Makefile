@@ -35,16 +35,16 @@ test: ## Test constraint templates via OPA
 .PHONY: docker_test_opa_v15
 docker_test_opa_v15: ## Run tests using CV rego docker image v0.15.x
 	docker run -it --rm \
-  	-v "$(CURDIR):/workspace" \
-  	-w=/workspace \
+		-v "$(CURDIR):/workspace" \
+		-w=/workspace \
 		$(CV_IMAGE_URL)/$(REGO_IMAGE_V15):$(REGO_IMAGE_TAG) \
 		test
 
 .PHONY: docker_test_opa_v16
 docker_test_opa_v16: ## Run tests using CV rego docker image v0.16.x
 	docker run -it --rm \
-  	-v "$(CURDIR):/workspace" \
-  	-w=/workspace \
+		-v "$(CURDIR):/workspace" \
+		-w=/workspace \
 		$(CV_IMAGE_URL)/$(REGO_IMAGE_V16):$(REGO_IMAGE_TAG) \
 		test
 
@@ -55,8 +55,8 @@ docker_test: docker_test_opa_v15 docker_test_opa_v16
 .PHONY: docker_test_lint
 docker_test_lint: # Run lint tests using policy tool docker image
 	docker run -it --rm \
-  	-v "$(CURDIR):/workspace" \
-  	-w=/workspace \
+		-v "$(CURDIR):/workspace" \
+		-w=/workspace \
 		$(CV_IMAGE_URL)/$(POLICY_TOOL_IMAGE):$(POLICY_TOOL_IMAGE_TAG) \
 		lint \
 		--policies /workspace/policies \
@@ -85,8 +85,8 @@ check_sample_files: ## Make sure each template in policies/templates has one sam
 .PHONY: check_sample_files
 docker_check_sample_files: ## Make sure each template in policies/templates has one sample file using it in samples/
 	docker run -it --rm \
-  	-v "$(CURDIR):/workspace" \
-  	-w=/workspace \
+		-v "$(CURDIR):/workspace" \
+		-w=/workspace \
 		--entrypoint python3 \
 		$(CV_IMAGE_URL)/$(REGO_IMAGE_V15):$(REGO_IMAGE_TAG) \
 		/workspace/scripts/check_samples.py
@@ -98,10 +98,22 @@ check_format: ## Check that files have been formatted using opa fmt
 .PHONY: docker_check_format
 docker_check_format: ## Check format of rego using CV rego docker image
 	docker run -it --rm \
-  	-v "$(CURDIR):/workspace" \
-  	-w=/workspace \
+		-v "$(CURDIR):/workspace" \
+		-w=/workspace \
 		$(CV_IMAGE_URL)/$(REGO_IMAGE_V15):$(REGO_IMAGE_TAG) \
 		check_format
+
+.PHONY: check_build
+check_build: ## Check that templates have been built
+	@./scripts/check_build.sh
+
+.PHONY: docker_check_build
+docker_check_build: ## Check that templates have been built using CV rego docker image
+	docker run -it --rm \
+		-v "$(CURDIR):/workspace" \
+		-w=/workspace \
+		$(CV_IMAGE_URL)/$(REGO_IMAGE_V15):$(REGO_IMAGE_TAG) \
+		check_build
 
 .PHONY: audit
 audit: ## Run audit against real CAI dump data
