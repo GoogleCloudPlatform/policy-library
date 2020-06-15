@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPVPCSCProjectPerimeterConstraintV1
+package templates.gcp.GCPVPCSCProjectPerimeterConstraintV3
 
 import data.validator.gcp.lib as lib
 
@@ -43,11 +43,11 @@ deny[{
 }
 
 perimeter_is_forbidden(mode, evaluating_service_perimeter, specified_service_perimeters) {
-	mode == "blacklist"
+	mode == "denylist"
 	evaluating_service_perimeter == specified_service_perimeters[_]
 }
 
 perimeter_is_forbidden(mode, evaluating_service_perimeter, specified_service_perimeters) {
-	mode == "whitelist"
+	mode == "allowlist"
 	count(specified_service_perimeters) == count(specified_service_perimeters - {evaluating_service_perimeter})
 }

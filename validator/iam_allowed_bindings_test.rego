@@ -14,9 +14,9 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPIAMAllowedBindingsConstraintV2
+package templates.gcp.GCPIAMAllowedBindingsConstraintV3
 
-template_name := "GCPIAMAllowedBindingsConstraintV2"
+template_name := "GCPIAMAllowedBindingsConstraintV3"
 
 import data.validator.test_utils as test_utils
 

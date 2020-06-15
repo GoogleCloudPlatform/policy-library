@@ -14,13 +14,13 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPVPCSCProjectPerimeterConstraintV1
+package templates.gcp.GCPVPCSCProjectPerimeterConstraintV3
 
 import data.validator.gcp.lib as lib
 
-whitelist_violations[violation] {
+allowlist_violations[violation] {
 	resource := data.test.fixtures.vpc_sc_project_perimeter_v2.assets[_]
-	constraint := data.test.fixtures.vpc_sc_project_perimeter_v2.constraints.whitelist
+	constraint := data.test.fixtures.vpc_sc_project_perimeter_v2.constraints.allowlist
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
@@ -28,9 +28,9 @@ whitelist_violations[violation] {
 	violation := issues[_]
 }
 
-blacklist_violations[violation] {
+denylist_violations[violation] {
 	resource := data.test.fixtures.vpc_sc_project_perimeter_v2.assets[_]
-	constraint := data.test.fixtures.vpc_sc_project_perimeter_v2.constraints.blacklist
+	constraint := data.test.fixtures.vpc_sc_project_perimeter_v2.constraints.denylist
 
 	issues := deny with input.asset as resource
 		 with input.constraint as constraint
@@ -38,12 +38,12 @@ blacklist_violations[violation] {
 	violation := issues[_]
 }
 
-test_violations_whitelist {
-	violation_resources := {r | r = whitelist_violations[_].details.service_perimeter_name}
+test_violations_allowlist {
+	violation_resources := {r | r = allowlist_violations[_].details.service_perimeter_name}
 	violation_resources == {"accessPolicies/1008882730433/servicePerimeters/Test_Service_Perimeter_2"}
 }
 
-test_violations_blacklist {
-	violation_resources := {r | r = blacklist_violations[_].details.service_perimeter_name}
+test_violations_denylist {
+	violation_resources := {r | r = denylist_violations[_].details.service_perimeter_name}
 	violation_resources == {"accessPolicies/1008882730433/servicePerimeters/Test_Service_Perimeter_1"}
 }

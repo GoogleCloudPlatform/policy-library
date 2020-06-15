@@ -16,8 +16,6 @@
 
 package validator.test_utils
 
-# package templates.gcp.GCPAllowedResourceTypesConstraintV1
-
 get_test_violations(test_assets, test_constraints, test_template) = violations {
 	violations := [violation |
 		violations := data.templates.gcp[test_template].deny with input.asset as test_assets[_]

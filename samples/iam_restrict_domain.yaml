@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPIAMAllowedPolicyMemberDomainsConstraintV1
+kind: GCPIAMAllowedPolicyMemberDomainsConstraintV2
 metadata:
   name: only_my_domain
   annotations:

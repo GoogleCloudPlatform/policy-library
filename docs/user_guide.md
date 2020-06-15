@@ -226,14 +226,14 @@ should contain a string named `mode` and a string array named
 
 ```
 parameters:
-  mode: whitelist
+  mode: allowlist
   instances:
     - //compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/one
     - //compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/two
 ```
 
 These parameters specify that two VM instances may have external IP addresses.
-The are exempt from the constraint since they are whitelisted.
+The are exempt from the constraint since they are allowlisted.
 
 Here is a complete example of a sample external IP address constraint file:
 
@@ -241,13 +241,13 @@ Here is a complete example of a sample external IP address constraint file:
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPExternalIpAccessConstraintV1
 metadata:
-  name: forbid-external-ip-whitelist
+  name: forbid-external-ip-allowlist
 spec:
   severity: high
   match:
     target: ["organizations/**"]
   parameters:
-    mode: "whitelist"
+    mode: "allowlist"
     instances:
     - //compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/one
     - //compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/two
@@ -447,7 +447,7 @@ chmod 755 terraform-validator-linux-amd64
 The Terraform validator should return a violation. As a test, you can relax the
 constraint to make the violation go away. Edit the
 `policy-library/policies/constraints/iam_service_accounts_only.yaml` file and
-append your email domain to the domains whitelist:
+append your email domain to the domains allowlist:
 
 ```
 apiVersion: constraints.gatekeeper.sh/v1alpha1

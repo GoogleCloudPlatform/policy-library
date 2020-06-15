@@ -13,7 +13,7 @@
 # limitations under the License.
 
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPIAMAllowedBindingsConstraintV2
+kind: GCPIAMAllowedBindingsConstraintV3
 metadata:
   name: denylist-gmail-specific-bigquery-dataset
   annotations:

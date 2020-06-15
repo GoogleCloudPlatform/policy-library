@@ -14,12 +14,12 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPComputeExternalIpAccessConstraintV1
+package templates.gcp.GCPComputeExternalIpAccessConstraintV2
 
 import data.validator.gcp.lib as lib
 
 ###########################
-# Find Whitelist/Blacklist Violations
+# Find allowlist/denylist Violations
 ###########################
 deny[{
 	"msg": message,
@@ -35,7 +35,7 @@ deny[{
 	access_config := instance.networkInterfaces[_].accessConfigs
 	count(access_config) > 0
 
-	# Check if instance is in blacklist/whitelist
+	# Check if instance is in denylist/allowlist
 	match_mode := lib.get_default(params, "match_mode", "exact")
 	target_instances := params.instances
 	trace(sprintf("asset name:%v, target_instances: %v, mode: %v, match_mode: %v", [asset.name, target_instances, params.mode, match_mode]))
@@ -50,27 +50,27 @@ deny[{
 # Rule Utilities
 ###########################
 instance_name_targeted(asset_name, instance_filters, mode, match_mode) {
-	mode == "whitelist"
+	mode == "allowlist"
 	match_mode == "exact"
 	matches := {asset_name} & cast_set(instance_filters)
 	count(matches) == 0
 }
 
 instance_name_targeted(asset_name, instance_filters, mode, match_mode) {
-	mode == "blacklist"
+	mode == "denylist"
 	match_mode == "exact"
 	matches := {asset_name} & cast_set(instance_filters)
 	count(matches) > 0
 }
 
 instance_name_targeted(asset_name, instance_filters, mode, match_mode) {
-	mode == "whitelist"
+	mode == "allowlist"
 	match_mode == "regex"
 	not re_match_name(asset_name, instance_filters)
 }
 
 instance_name_targeted(asset_name, instance_filters, mode, match_mode) {
-	mode == "blacklist"
+	mode == "denylist"
 	match_mode == "regex"
 	re_match_name(asset_name, instance_filters)
 }

@@ -19,7 +19,7 @@ package templates.gcp.GCPEnforceNamingConstraintV1
 import data.validator.gcp.lib as lib
 
 ###########################
-# Find Whitelist Violations
+# Find allowlist Violations
 ###########################
 deny[{
 	"msg": message,
