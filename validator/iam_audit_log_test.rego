@@ -15,7 +15,7 @@ test_audit_log_skip_good_project {
 }
 
 test_audit_log_skip_irrelevant_asset_type {
-	not resources_in_violation["//cloudresourcemanager.googleapis.com/ignore-asset-type"]
+	not resources_in_violation["//cloudresourcemanager.googleapis.com/projects/ignore-asset-type"]
 }
 
 test_audit_log_missing_service {
