@@ -28,14 +28,14 @@ spec:
         openAPIV3Schema:
           properties:
             services:
-              description: "The services that should have audit logging enabled. 
+              description: "The services that should have audit logging enabled.
                 Example: 'storage.googleapis.com' for Cloud Storage.
                 'allServices' is a special value that covers all services"
               type: array
               items:
                 type: string
             log_types:
-              description: "The log types that should be enabled. 
+              description: "The log types that should be enabled.
                 Valid values are ADMIN_READ, DATA_WRITE, and DATA_READ."
               type: array
               items:
