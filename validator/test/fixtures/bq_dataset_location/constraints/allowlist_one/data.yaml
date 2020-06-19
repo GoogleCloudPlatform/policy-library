@@ -22,4 +22,3 @@ spec:
     mode: "allowlist"
     locations:
     - us-west2
-    exemptions: []
