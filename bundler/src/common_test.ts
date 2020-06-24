@@ -125,7 +125,7 @@ describe('FileWriter', () => {
     const sinkDir = path.resolve(tmpDir, 'foo');
     const fileToDelete = path.resolve(sinkDir, 'delete_me.yaml');
     fs.createFileSync(fileToDelete);
-    const fileWriter = new FileWriter(sinkDir, true);
+    const fileWriter = new FileWriter(sinkDir, true, undefined, undefined, true);
 
     fileWriter.finish();
 

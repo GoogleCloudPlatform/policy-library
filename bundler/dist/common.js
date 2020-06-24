@@ -26,6 +26,8 @@ const fs_1 = require("fs");
 const glob = __importStar(require("glob"));
 const kpt_functions_1 = require("kpt-functions");
 const path = __importStar(require("path"));
+const _ = __importStar(require("lodash"));
+const types_1 = require("./types");
 exports.BUNDLE_ANNOTATION_PREFIX = 'bundles.validator.forsetisecurity.org';
 exports.BUNDLE_ANNOTATION_REGEX = new RegExp(`${exports.BUNDLE_ANNOTATION_PREFIX}\/(.+)`);
 exports.CT_KIND = "ConstraintTemplate";
@@ -125,10 +127,23 @@ class PolicyConfig {
     static isPolicyObject(o) {
         return (o && o.apiVersion !== "" && exports.SUPPORTED_API_VERSIONS.test(o.apiVersion));
     }
+    static getParams(o) {
+        var _a, _b, _c, _d, _e, _f, _g;
+        const result = new PolicyParams();
+        if (!types_1.isConstraintTemplate(o) || ((_c = (_b = (_a = o.spec.crd) === null || _a === void 0 ? void 0 : _a.spec) === null || _b === void 0 ? void 0 : _b.validation) === null || _c === void 0 ? void 0 : _c.openAPIV3Schema) === undefined) {
+            return result;
+        }
+        _.each((_g = (_f = (_e = (_d = o.spec.crd) === null || _d === void 0 ? void 0 : _d.spec) === null || _e === void 0 ? void 0 : _e.validation) === null || _f === void 0 ? void 0 : _f.openAPIV3Schema) === null || _g === void 0 ? void 0 : _g.properties, (prop, key) => {
+            result[key] = prop.type || "unknown";
+        });
+        return result;
+    }
 }
 exports.PolicyConfig = PolicyConfig;
+class PolicyParams {
+}
 class FileWriter {
-    constructor(sinkDir, overwrite, filePattern = "/**/*", create = true) {
+    constructor(sinkDir, overwrite, filePattern = "/**/*", create = true, prune = false) {
         if (create && !fs_1.existsSync(sinkDir)) {
             fs_1.mkdirSync(sinkDir, { recursive: true });
         }
@@ -137,27 +152,33 @@ class FileWriter {
         if (!overwrite && files.length > 0) {
             throw new Error(`sink dir contains files and overwrite is not set to string 'true'.`);
         }
-        this.filesToDelete = new Set(files);
+        this.filesToDelete = new Set(files.map((file) => path.resolve(file)));
+        this.prune = prune;
     }
     finish() {
-        // Delete files that are missing from the new configs.
-        this.filesToDelete.forEach((file) => {
-            fs_1.unlinkSync(file);
-        });
+        if (this.prune) {
+            // Delete files that are missing from the new configs.
+            this.filesToDelete.forEach((file) => {
+                fs_1.unlinkSync(file);
+            });
+        }
     }
     listFiles(dir, filePattern) {
         return glob.sync(dir + filePattern);
     }
     write(file, contents) {
-        this.filesToDelete.delete(file);
+        const dir = path.dirname(file);
+        if (!fs_1.existsSync(dir)) {
+            fs_1.mkdirSync(dir, { recursive: true });
+        }
         if (fs_1.existsSync(file)) {
-            this.filesToDelete.delete(file);
             const currentContents = fs_1.readFileSync(file).toString();
             if (contents === currentContents) {
                 // No changes to make.
                 return;
             }
         }
+        this.filesToDelete.delete(path.resolve(file));
         fs_1.writeFileSync(file, contents, "utf8");
     }
 }

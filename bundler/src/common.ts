@@ -24,6 +24,8 @@ import {
 import * as glob from "glob";
 import { KubernetesObject, getAnnotation } from "kpt-functions";
 import * as path from "path";
+import * as _ from "lodash";
+import { isConstraintTemplate } from "./types";
 
 export const BUNDLE_ANNOTATION_PREFIX = 'bundles.validator.forsetisecurity.org';
 export const BUNDLE_ANNOTATION_REGEX = new RegExp(`${BUNDLE_ANNOTATION_PREFIX}\/(.+)`);
@@ -152,16 +154,35 @@ class PolicyConfig {
       o && o.apiVersion !== "" && SUPPORTED_API_VERSIONS.test(o.apiVersion)
     );
   }
+
+  static getParams(o: any): PolicyParams {
+    const result = new PolicyParams();
+    if (!isConstraintTemplate(o) || o.spec.crd?.spec?.validation?.openAPIV3Schema === undefined) {
+      return result;
+    }
+
+    _.each(o.spec.crd?.spec?.validation?.openAPIV3Schema?.properties, (prop, key) => {
+      result[key] = prop.type || "unknown";
+    });
+
+    return result;
+  }
+}
+
+class PolicyParams {
+  [index: string]: string;
 }
 
 class FileWriter {
   filesToDelete: Set<string>;
+  prune: boolean;
 
   constructor(
     sinkDir: string,
     overwrite: boolean,
     filePattern = "/**/*",
-    create = true
+    create = true,
+    prune = false
   ) {
     if (create && !existsSync(sinkDir)) {
       mkdirSync(sinkDir, { recursive: true });
@@ -175,14 +196,17 @@ class FileWriter {
       );
     }
 
-    this.filesToDelete = new Set(files);
+    this.filesToDelete = new Set(files.map((file) => path.resolve(file)));
+    this.prune = prune;
   }
 
   finish() {
-    // Delete files that are missing from the new configs.
-    this.filesToDelete.forEach((file: any) => {
-      unlinkSync(file);
-    });
+    if (this.prune) {
+      // Delete files that are missing from the new configs.
+      this.filesToDelete.forEach((file: any) => {
+        unlinkSync(file);
+      });
+    }
   }
 
   listFiles(dir: string, filePattern: string): string[] {
@@ -190,10 +214,12 @@ class FileWriter {
   }
 
   write(file: any, contents: string) {
-    this.filesToDelete.delete(file);
+    const dir = path.dirname(file);
+    if (!existsSync(dir)) {
+      mkdirSync(dir, { recursive: true });
+    }
 
     if (existsSync(file)) {
-      this.filesToDelete.delete(file);
       const currentContents = readFileSync(file).toString();
       if (contents === currentContents) {
         // No changes to make.
@@ -201,6 +227,7 @@ class FileWriter {
       }
     }
 
+    this.filesToDelete.delete(path.resolve(file));
     writeFileSync(file, contents, "utf8");
   }
 }
