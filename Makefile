@@ -145,11 +145,12 @@ build/rego-%/Dockerfile: cloudbuild/Dockerfile
 generate_docs: # Generate docs
 	@echo "Generating docs with kpt..."
 	@kpt fn source ./samples/ ./policies/ | \
-	 docker run -v $(shell pwd)/docs:/docs -i gcr.io/config-validator/generate-docs:dev  -d overwrite=true -d sink_dir=/docs/
+	 docker run -v $(shell pwd)/docs:/docs -i gcr.io/config-validator/generate-docs:dev -f /docs/func.yaml
 
 .PHONY: docker_build_kpt
-docker_build_kpt_bundle: ## Build docker image for get policy bundle KPT function
-	docker build -f ./bundler/build/get_policy_bundle.Dockerfile -t gcr.io/config-validator/get-policy-bundle:latest ./bundler/
+docker_build_kpt: ## Build docker image for KPT functions
+	docker build -f ./bundler/build/get_policy_bundle.Dockerfile -t gcr.io/config-validator/get-policy-bundle:dev ./bundler/
+	docker build -f ./bundler/build/generate_docs.Dockerfile -t gcr.io/config-validator/generate-docs:dev ./bundler/
 
 .PHONY: docker_test_kpt
 docker_test_kpt: ## Run npm test for KPT functions

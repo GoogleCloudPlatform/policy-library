@@ -36,98 +36,143 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const markdown_table_1 = __importDefault(require("markdown-table"));
 const path = __importStar(require("path"));
+const _ = __importStar(require("lodash"));
 const common_1 = require("./common");
 exports.SOURCE_DIR = "sink_dir";
 exports.SINK_DIR = "sink_dir";
 exports.BUNDLE_DIR = "bundles";
 exports.OVERWRITE = "overwrite";
+exports.INDEX_TEXT = "index";
+exports.LIST_MODE = "template_list_mode";
+exports.LIST_GROUPING = "template_list_grouping";
 const FILE_PATTERN_MD = "/**/*.+(md)";
 function generateDocs(configs) {
     return __awaiter(this, void 0, void 0, function* () {
         // Get the parameters
         const sinkDir = configs.getFunctionConfigValueOrThrow(exports.SINK_DIR);
         const overwrite = configs.getFunctionConfigValue(exports.OVERWRITE) === "true";
+        const indexText = configs.getFunctionConfigValue(exports.INDEX_TEXT) || "";
+        const listMode = (configs.getFunctionConfigValue(exports.LIST_MODE) || "samples");
+        const listGrouping = (configs.getFunctionConfigValue(exports.LIST_GROUPING) || "all");
         // Create bundle dir and writer
-        const bundleDir = path.join(sinkDir, exports.BUNDLE_DIR);
-        const fileWriter = new common_1.FileWriter(bundleDir, overwrite, FILE_PATTERN_MD);
+        const fileWriter = new common_1.FileWriter(sinkDir, overwrite, FILE_PATTERN_MD, true, false);
         // Build the policy library
         const library = new common_1.PolicyLibrary(configs.getAll());
         // Document constraint templates and samples
-        generateIndexDoc(fileWriter, library, sinkDir);
+        generateIndexDoc(indexText, fileWriter, library, sinkDir, listMode, listGrouping);
         // Document bundles
+        const bundleDir = path.join(sinkDir, exports.BUNDLE_DIR);
         generateBundleDocs(bundleDir, fileWriter, library);
         // Remove old docs
         fileWriter.finish();
-        // filter out non-policy objects
-        configs
-            .getAll()
-            .filter(o => {
-            return !common_1.PolicyConfig.isPolicyObject(o);
-        })
-            .forEach(o => {
-            configs.delete(o);
-        });
     });
 }
 exports.generateDocs = generateDocs;
-function generateIndexDoc(fileWriter, library, sinkDir) {
-    // Templates
-    const templates = [["Template", "Samples"]];
-    library
-        .getTemplates()
-        .sort(common_1.PolicyConfig.compare)
-        .forEach(o => {
-        const constraints = library.getOfKind(o.spec.crd.spec.names.kind);
-        const templateLink = `[${common_1.PolicyConfig.getName(o)}](${common_1.PolicyConfig.getPath(o)})`;
-        const samples = constraints
-            .map(c => `[${common_1.PolicyConfig.getName(c)}](${common_1.PolicyConfig.getPath(c)})`)
-            .join(", ");
-        templates.push([templateLink, samples]);
+var ListMode;
+(function (ListMode) {
+    ListMode["SAMPLES"] = "samples";
+    ListMode["PROPS"] = "table";
+    ListMode["DETAILS"] = "details";
+})(ListMode || (ListMode = {}));
+var ListGrouping;
+(function (ListGrouping) {
+    ListGrouping["ALL"] = "all";
+    ListGrouping["DIRECTORY"] = "directory";
+})(ListGrouping || (ListGrouping = {}));
+function generateIndexDoc(indexText, fileWriter, library, sinkDir, listMode, listGrouping) {
+    const header = listMode === ListMode.SAMPLES ?
+        ["Template", "Samples"] :
+        ["Template", "Description", "Parameters"];
+    const templateSections = listGrouping === ListGrouping.ALL ? [{
+            name: "Available Templates",
+            templates: library.getTemplates().sort(common_1.PolicyConfig.compare),
+            table: [header],
+            markdown: [],
+        }] : _.map(_.groupBy(library.getTemplates(), (o) => {
+        return path.basename(path.dirname(path.dirname(common_1.PolicyConfig.getPath(o))));
+    }), (templates, key) => {
+        return {
+            name: key,
+            templates: templates.sort(common_1.PolicyConfig.compare),
+            table: [header],
+            markdown: [],
+        };
     });
-    // Samples
-    const samples = [["Sample", "Template", "Description"]];
-    library
-        .getAll()
-        .filter(o => {
-        return o.kind !== common_1.CT_KIND;
-    })
-        .sort(common_1.PolicyConfig.compare)
-        .forEach(o => {
-        const name = `[${common_1.PolicyConfig.getName(o)}](${common_1.PolicyConfig.getPath(o)})`;
-        const description = common_1.PolicyConfig.getDescription(o);
-        const ct = library.getTemplate(o.kind);
-        const ctName = ct ? `[Link](${common_1.PolicyConfig.getPath(ct)})` : "";
-        samples.push([name, ctName, description]);
+    // Template Sections
+    _.each(templateSections, (section) => {
+        section.templates.forEach(o => {
+            const constraints = library.getOfKind(o.spec.crd.spec.names.kind);
+            const name = common_1.PolicyConfig.getName(o);
+            const description = common_1.PolicyConfig.getDescription(o);
+            const templateLink = `[${name}](${common_1.PolicyConfig.getPath(o)})`;
+            const samples = constraints
+                .map(c => `[${common_1.PolicyConfig.getName(c)}](${common_1.PolicyConfig.getPath(c)})`)
+                .join(", ");
+            const props = common_1.PolicyConfig.getParams(o);
+            const propDoc = (Object.keys(props).length === 0) ? undefined : [
+                '<table>', '<thead>',
+                '<th>Name</th>',
+                '<th>Type</th>',
+                '</thead>', '<tbody>',
+                ..._.map(Object.keys(props), (name) => {
+                    return `<tr><td>${name}</td><td>${props[name]}</td></tr>`;
+                }),
+                '</tbody>', '</table>',
+            ].join("");
+            if (listMode === ListMode.SAMPLES) {
+                section.table.push([templateLink, samples]);
+            }
+            else if (listMode === ListMode.PROPS) {
+                section.table.push([name, description, propDoc || ""]);
+            }
+            else {
+                section.markdown.push(`### ${name}`);
+                section.markdown.push(description);
+                if (Object.keys(props).length >= 1) {
+                    const propTable = [
+                        ["Name", "Type"],
+                        ..._.map(Object.keys(props), (name) => {
+                            return [name, props[name]];
+                        }),
+                    ];
+                    section.markdown.push(markdown_table_1.default(propTable));
+                }
+            }
+        });
+        if (listMode !== ListMode.DETAILS) {
+            section.markdown.push(markdown_table_1.default(section.table));
+        }
     });
-    const templateDoc = `# Config Validator Policy Library
+    const docSections = [
+        indexText,
+        ...templateSections.map(section => `
+## ${section.name}
 
-Constraint templates specify the logic to be used by constraints.
-This repository contains pre-defined constraint templates that you can implement or modify for your own needs. 
+${section.markdown.join("\n\n")}`),
+    ];
+    if (listMode === ListMode.SAMPLES) {
+        // Samples
+        const samples = [["Sample", "Template", "Description"]];
+        library
+            .getAll()
+            .filter(o => {
+            return o.kind !== common_1.CT_KIND;
+        })
+            .sort(common_1.PolicyConfig.compare)
+            .forEach(o => {
+            const name = `[${common_1.PolicyConfig.getName(o)}](${common_1.PolicyConfig.getPath(o)})`;
+            const description = common_1.PolicyConfig.getDescription(o);
+            const ct = library.getTemplate(o.kind);
+            const ctName = ct ? `[Link](${common_1.PolicyConfig.getPath(ct)})` : "";
+            samples.push([name, ctName, description]);
+        });
+        docSections.push(`## Sample Constraints
 
-## Creating a constraint template
-You can create and implement your own custom constraint templates.
-For instructions on how to write constraint templates, see [How to write your own constraint templates](./constraint_template_authoring.md).
+    The repo also contains a number of sample constraints:
 
-## Policy Bundles
-In addition to browsing all [Available Templates](#available-templates) and [Sample Constraints](#sample-constraints),
-you can explore these policy bundles:
-
-- [CFT Scorecard](./bundles/scorecard-v1.md)
-- [CIS v1.0](./bundles/cis-v1.0.md)
-- [CIS v1.1](./bundles/cis-v1.1.md)
-- [Forseti Security](./bundles/forseti-security.md)
-- [GKE Hardening](./bundles/gke-hardening-v2019.11.11.md)
-
-## Available Templates
-
-${markdown_table_1.default(templates)}
-
-## Sample Constraints
-
-The repo also contains a number of sample constraints:
-
-${markdown_table_1.default(samples)}
-`;
+    ${markdown_table_1.default(samples)}`);
+    }
+    const templateDoc = docSections.join("\n");
     const templateDocPath = path.join(sinkDir, "index.md");
     fileWriter.write(templateDocPath, templateDoc);
 }
