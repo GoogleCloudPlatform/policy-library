@@ -16,46 +16,25 @@
 
 package templates.gcp.GCPServiceUsageConstraintV1
 
-all_violations_allow[violation] {
-	resource := data.test.fixtures.serviceusage_service.assets[_]
-	constraint := data.test.fixtures.serviceusage_service.constraints.serviceusage_allow_compute
+template_name := "GCPServiceUsageConstraintV1"
 
-	issues := deny with input.asset as resource
-		 with input.constraint as constraint
+import data.validator.test_utils as test_utils
 
-	violation := issues[_]
+#Importing the test data
+import data.test.fixtures.serviceusage_service.assets as fixture_assets
+
+# Importing the test constraints
+import data.test.fixtures.serviceusage_service.constraints.serviceusage_allow_compute as fixture_constraint_allow
+import data.test.fixtures.serviceusage_service.constraints.serviceusage_deny_cloudvisionapi as fixture_constraint_deny
+
+test_allowed_resource_types_allowlist_violations {
+	expected_resource_names := {"//serviceusage.googleapis.com/projects/123/services/cloudvision.googleapis.com"}
+
+	test_utils.check_test_violations(fixture_assets, [fixture_constraint_allow], template_name, expected_resource_names)
 }
 
-all_violations_deny[violation] {
-	resource := data.test.fixtures.serviceusage_service.assets[_]
-	constraint := data.test.fixtures.serviceusage_service.constraints.serviceusage_deny_cloudvisionapi
+test_allowed_resource_types_denylist_violations {
+	expected_resource_names := {"//serviceusage.googleapis.com/projects/123/services/cloudvision.googleapis.com"}
 
-	issues := deny with input.asset as resource
-		 with input.constraint as constraint
-
-	violation := issues[_]
-}
-
-# Confirm total allow violations count
-test_serviceusage_allow_violations_count {
-	count(all_violations_allow) == 1
-}
-
-# Confirm that cloudvision violates because it is not on the allowed list
-test_serviceusage_allow_violations_basic {
-	violation := all_violations_allow[_]
-	violation.details.resource == "//serviceusage.googleapis.com/projects/123/services/cloudvision.googleapis.com"
-	violation.details.mode == "allow"
-}
-
-# Confirm total deny violations count
-test_serviceusage_deny_violations_count {
-	count(all_violations_deny) == 1
-}
-
-# Confirm that cloudvision violates because is on the deny list
-test_serviceusage_deny_violations_basic {
-	violation := all_violations_deny[_]
-	violation.details.resource == "//serviceusage.googleapis.com/projects/123/services/cloudvision.googleapis.com"
-	violation.details.mode == "deny"
+	test_utils.check_test_violations(fixture_assets, [fixture_constraint_deny], template_name, expected_resource_names)
 }

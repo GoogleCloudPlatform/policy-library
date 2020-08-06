@@ -30,7 +30,7 @@ deny[{
 	service_usage := asset.resource.data
 	parent := service_usage.parent
 	state := service_usage.state
-	service := extract_service(service_usage.name)
+	service := service_usage.name
 
 	mode := lib.get_default(params, "mode", "allow")
 
@@ -50,11 +50,6 @@ deny[{
 ###########################
 # Rule Utilities
 ###########################
-
-extract_service(name) = service {
-	array := split(name, "/")
-	service := array[3]
-}
 
 target_match_count(mode) = 0 {
 	mode == "deny"
