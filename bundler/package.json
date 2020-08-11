@@ -21,7 +21,7 @@
     "@types/markdown-table": "^2.0.0",
     "glob": "^7.1.6",
     "kpt-functions": "^0.12.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "markdown-table": "^2.0.0"
   },
   "devDependencies": {
