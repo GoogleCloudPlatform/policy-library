@@ -4,6 +4,7 @@ metadata:
   name: allow_appengine_applications_in_australia_and_south_america
   annotations:
     description: Restrict locations (regions) where App Engine applications are deployed.
+    bundles.validator.forsetisecurity.org/healthcare-best-practices-v1: security
 spec:
   severity: high
   match:

@@ -18,6 +18,7 @@ metadata:
   name: only_my_domain
   annotations:
     bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
+    bundles.validator.forsetisecurity.org/healthcare-best-practices-v1: security
     description: Only allow members from my domain to be added to IAM roles
 spec:
   severity: high

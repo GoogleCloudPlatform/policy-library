@@ -20,6 +20,7 @@ metadata:
     description: Ensure stackdriver logging is enabled on a GKE cluster
     # This constraint has not been validated by the formal CIS certification process.
     bundles.validator.forsetisecurity.org/cis-v1.0: 7.01
+    bundles.validator.forsetisecurity.org/healthcare-best-practices-v1: security
 spec:
   severity: high
   match:
