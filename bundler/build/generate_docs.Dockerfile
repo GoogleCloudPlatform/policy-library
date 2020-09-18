@@ -3,6 +3,8 @@ FROM node:10-alpine as builder
 RUN mkdir -p /home/node/app && \
     chown -R node:node /home/node/app
 
+# Run as non-root user as a best-practices:
+# https://github.com/nodejs/docker-node/blob/master/docs/BestPractices.md
 USER node
 
 WORKDIR /home/node/app
@@ -22,9 +24,7 @@ RUN npm run build && \
 
 FROM node:10-alpine
 
-# Run as non-root user as a best-practices:
-# https://github.com/nodejs/docker-node/blob/master/docs/BestPractices.md
-USER node
+USER root
 
 WORKDIR /home/node/app
 
