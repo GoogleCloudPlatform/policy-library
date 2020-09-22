@@ -1,9 +1,9 @@
-# healthcare-best-practices-v1
+# healthcare-baseline-v1
 
 This bundle can be installed via kpt:
 
 ```
-export BUNDLE=healthcare-best-practices-v1
+export BUNDLE=healthcare-baseline-v1
 kpt pkg get https://github.com/forseti-security/policy-library.git ./policy-library
 kpt fn source policy-library/samples/ | \
   kpt fn run --image gcr.io/config-validator/get-policy-bundle:latest -- bundle=$BUNDLE | \

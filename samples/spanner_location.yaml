@@ -4,7 +4,7 @@ metadata:
   name: allow_spanner_clusters_in_asia_and_europe
   annotations:
     description: Checks Cloud Spanner locations.
-    bundles.validator.forsetisecurity.org/healthcare-best-practices-v1: security
+    bundles.validator.forsetisecurity.org/healthcare-baseline-v1: security
 spec:
   severity: high
   match:
