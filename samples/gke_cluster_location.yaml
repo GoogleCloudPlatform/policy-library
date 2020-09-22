@@ -18,6 +18,7 @@ metadata:
   name: gke-cluster-allowed-locations
   annotations:
     description: Checks which zones are allowed/disallowed for GKE clusters.
+    bundles.validator.forsetisecurity.org/healthcare-baseline-v1: security
 spec:
   severity: high
   match:

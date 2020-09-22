@@ -18,6 +18,7 @@ metadata:
   name: enable-network-firewall-logs
   annotations:
     description: Ensure Firewall logs is enabled for every firewall in VPC Network
+    bundles.validator.forsetisecurity.org/healthcare-baseline-v1: security
 spec:
   severity: high
   match:
