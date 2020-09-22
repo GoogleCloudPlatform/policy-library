@@ -24,4 +24,4 @@ data:
     - [CIS v1.1](./bundles/cis-v1.1.md)
     - [Forseti Security](./bundles/forseti-security.md)
     - [GKE Hardening](./bundles/gke-hardening-v2019.11.11.md)
-    - [Healthcare Best Practices](./bundles/healthcare-best-practices-v1.md)
+    - [Healthcare Baseline](./bundles/healthcare-baseline-v1.md)
