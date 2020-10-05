@@ -15,7 +15,7 @@ spec:
     mode: allow
     services:
     - "compute.googleapis.com"
-    - "bigquery-json.googleapis.com"
+    - "bigquery.googleapis.com"
     - "cloudapis.googleapis.com"
     - "cloudasset.googleapis.com"
     - "clouddebugger.googleapis.com"
