@@ -25,4 +25,5 @@ spec:
   match:
     gcp:
       target: ["organization/*"]
-  parameters: {}
+  parameters:
+    cos_containerd_allowed: true
