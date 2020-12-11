@@ -27,4 +27,3 @@ spec:
       target: ["organization/*"]
   parameters:
     cos_containerd_allowed: true
-
