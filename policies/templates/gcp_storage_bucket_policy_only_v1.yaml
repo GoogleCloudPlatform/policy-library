@@ -81,8 +81,8 @@ spec:
            }
 
            uniform_bucket_level_access_enabled(bucket) = uniform_bucket_level_access_enabled {
-          	iam_configuration := lib.get_default(bucket, "iamConfiguration", {})
-          	uniform_bucket_level_access := lib.get_default(iam_configuration, "uniformBucketLevelAccess", {})
-          	uniform_bucket_level_access_enabled := lib.get_default(uniform_bucket_level_access, "enabled", null)
+           	iam_configuration := lib.get_default(bucket, "iamConfiguration", {})
+           	uniform_bucket_level_access := lib.get_default(iam_configuration, "uniformBucketLevelAccess", {})
+           	uniform_bucket_level_access_enabled := lib.get_default(uniform_bucket_level_access, "enabled", null)
            }
            #ENDINLINE
