@@ -377,7 +377,7 @@ session open, the next step is to copy over the sample IAM domain restriction
 constraint:
 
 ```
-cp policy-library/samples/iam_service_accounts_only.yaml policy-library/policies/constraints
+cp samples/iam_service_accounts_only.yaml policies/constraints
 ```
 
 Let's take a look at this constraint:
