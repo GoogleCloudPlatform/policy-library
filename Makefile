@@ -120,6 +120,15 @@ audit: ## Run audit against real CAI dump data
 	@echo "Running config-validator audit ..."
 	@bash scripts/cft.sh -o "$(ORG_ID)" -f "$(FOLDER_ID)" -p "$(PROJECT_ID)" -b "$(BUCKET_NAME)" -e "$(EXPORT)"
 
+.PHONY: create_new_rule
+create_new_rule: ## Creates a new rule template with rego, template and sample files.
+	@echo "Creating files to start with. The files are copied from vm-external-ip rule."
+	@read -p "Enter resource name, like: vm, gke-node, cloud-dataproc: " resource; \
+	read -p "Enter feature name, like external-ip, image-version, top-level-component-jupyter:" feature; \
+	read -p "Enter version like v1,v2:" version; \
+	read -p "Enter human readable definition, dataproc_jupyter_should_exist:" human_definition; \
+	python3 scripts/create_new_rule.py $$resource $$feature $$version $$human_definition
+
 help: ## Prints help for targets with comments
 	@grep -E '^[a-zA-Z._-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "make \033[36m%- 30s\033[0m %s\n", $$1, $$2}'
 
