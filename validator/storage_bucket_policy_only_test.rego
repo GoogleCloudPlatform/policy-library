@@ -29,6 +29,10 @@ test_storage_bucket_policy_only_enabled {
 	not resources_in_violation["//storage.googleapis.com/my-storage-bucket-with-bucketpolicyonly"]
 }
 
+test_storage_uniform_bucket_level_access_enabled {
+	not resources_in_violation["//storage.googleapis.com/my-storage-bucketwithuniformbucketlevelaccess"]
+}
+
 test_storage_bucket_policy_only_violations_no_data {
 	resources_in_violation["//storage.googleapis.com/my-storage-bucket-with-no-bucketpolicyonly-data"]
 }

@@ -28,6 +28,7 @@ deny[{
 
 	bucket := asset.resource.data
 	bucket_policy_enabled(bucket) != true
+	uniform_bucket_level_access_enabled(bucket) != true
 
 	message := sprintf("%v does not have bucket policy only enabled.", [asset.name])
 	metadata := {"resource": asset.name}
@@ -40,4 +41,10 @@ bucket_policy_enabled(bucket) = bucket_policy_enabled {
 	iam_configuration := lib.get_default(bucket, "iamConfiguration", {})
 	bucket_policy_only := lib.get_default(iam_configuration, "bucketPolicyOnly", {})
 	bucket_policy_enabled := lib.get_default(bucket_policy_only, "enabled", null)
+}
+
+uniform_bucket_level_access_enabled(bucket) = uniform_bucket_level_access_enabled {
+	iam_configuration := lib.get_default(bucket, "iamConfiguration", {})
+	uniform_bucket_level_access := lib.get_default(iam_configuration, "uniformBucketLevelAccess", {})
+	uniform_bucket_level_access_enabled := lib.get_default(uniform_bucket_level_access, "enabled", null)
 }
