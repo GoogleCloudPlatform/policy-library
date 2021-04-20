@@ -19,12 +19,15 @@ metadata:
   annotations:
     # This constraint is not certified by CIS.
     bundles.validator.forsetisecurity.org/cis-v1.1: 1.08
+    description: Checks that CMEK rotation policy is in place and is sufficiently
+      short.
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+    - "organizations/**"
   parameters:
     # Optionaly specify the required key rotation period.  Default is 365 days
-    # Valid time units are  "ns", "us" (or "µs"), "ms", "s", "m", "h"
+    # Valid time units are  "ns", "us", "ms", "s", "m", "h"
     # This is 365 days
     period: 8760h

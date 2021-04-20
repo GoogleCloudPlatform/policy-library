@@ -16,13 +16,17 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPVPCSCEnsureProjectConstraintV1
 metadata:
   name: vpc_sc_ensure_project
+  annotations:
+    description: Checks if a VPC Service Controls perimeter has correct projects in
+      them.
 spec:
   severity: high
   match:
     gcp:
-      target: ["organization/*"]
+      target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+      - "organizations/**"
   parameters:
-      required_projects:
-        - "179891054369"
-        - "179891054370"
+    required_projects:
+    - "179891054369"
+    - "179891054370"
 

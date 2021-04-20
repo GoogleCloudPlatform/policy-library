@@ -31,7 +31,7 @@ all_violations[violation] {
 test_dashboard_disable_violations_basic {
 	count(all_violations) == 1
 	violation := all_violations[_]
-	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust"
+	violation.details.resource == "//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust-bad"
 }
 
 test_dashboard_disable_no_violation {

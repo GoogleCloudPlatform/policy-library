@@ -46,8 +46,8 @@ test_sql_allowed_authorized_networks_ssl_enabled {
 	violation.details.resource == "//cloudsql.googleapis.com/projects/noble-history-87417/instances/authorized-networks-35"
 }
 
-test_sql_allowed_authorized_networks_whitelist {
-	constraints := [fixture_constraints.whitelist]
+test_sql_allowed_authorized_networks_allowlist {
+	constraints := [fixture_constraints.allowlist]
 	violations := find_violations with data.test_constraints as constraints
 	count(violations) == 0
 }

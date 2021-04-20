@@ -16,6 +16,8 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPDNSSECConstraintV1
 metadata:
   name: require_dnssec
+  annotations:
+    description: Checks that DNSSEC is enabled for a Cloud DNS managed zone.
 spec:
   severity: high
   parameters: {}

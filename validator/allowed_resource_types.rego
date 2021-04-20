@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPAllowedResourceTypesConstraintV1
+package templates.gcp.GCPAllowedResourceTypesConstraintV2
 
 import data.validator.gcp.lib as lib
 
@@ -27,8 +27,8 @@ deny[{
 
 	asset := input.asset
 
-	# Retrieve the current mode if passed, use "whitelist" as a default
-	mode := lower(lib.get_default(params, "mode", "whitelist"))
+	# Retrieve the current mode if passed, use "allowlist" as a default
+	mode := lower(lib.get_default(params, "mode", "allowlist"))
 
 	# Retrieve the resource types list - default to empty set
 	ressource_types_list := cast_set(lib.get_default(params, "resource_type_list", {}))
@@ -49,8 +49,8 @@ deny[{
 ###########################
 
 resource_type_is_valid(mode, asset, resource_type_list) {
-	# anything other than blacklist is treated as "whitelist"
-	mode != "blacklist"
+	# anything other than denylist is treated as "allowlist"
+	mode != "denylist"
 
 	# Retrieve the asset type
 	asset_type := asset.asset_type
@@ -60,8 +60,8 @@ resource_type_is_valid(mode, asset, resource_type_list) {
 }
 
 resource_type_is_valid(mode, asset, resource_type_list) {
-	# "if we are in a blacklist mode"
-	mode == "blacklist"
+	# "if we are in a denylist mode"
+	mode == "denylist"
 
 	# Retrieve the asset type
 	asset_type := asset.asset_type

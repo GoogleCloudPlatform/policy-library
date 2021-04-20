@@ -4,16 +4,18 @@ metadata:
   name: allow_basic_set_of_apis
   annotations:
     description: Only a basic set of APIS
+    bundles.validator.forsetisecurity.org/healthcare-baseline-v1: security
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+    - "organizations/**"
     exclude: []
   parameters:
     mode: allow
     services:
     - "compute.googleapis.com"
-    - "bigquery-json.googleapis.com"
+    - "bigquery.googleapis.com"
     - "cloudapis.googleapis.com"
     - "cloudasset.googleapis.com"
     - "clouddebugger.googleapis.com"

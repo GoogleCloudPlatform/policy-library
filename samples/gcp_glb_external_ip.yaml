@@ -16,9 +16,11 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPGLBExternalIpAccessConstraintV1
 metadata:
   name: glb_external_ip_allowlist
+  annotations:
+    description: Checks if Global Load Balancers have external IPs.
 spec:
   severity: high
   parameters:
     mode: "allowlist"
     instances:
-      - //compute.googleapis.com/projects/test-project/global/forwardingRules/ext-ip
+    - //compute.googleapis.com/projects/test-project/global/forwardingRules/ext-ip

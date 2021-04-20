@@ -39,12 +39,14 @@ spec:
               resources are allowed in all locations except those listed in the 'locations' parameter."
             exemptions:
               type: array
-              items: string
+              items:
+                type: string
               description: "Array of Cloud SQL instances to exempt from location restriction. String values in the array
               should correspond to the full name values of exempted Cloud SQL instances."
             locations:
               type: array
-              items: string
+              items:
+                type: string
               description: "Array of location names to be allowed or denied. Should be the region names (e.g. us-west2),
               as defined at https://cloud.google.com/sql/docs/mysql/locations and https://cloud.google.com/sql/docs/postgres/locations.
               Location names need to be exact match."
@@ -86,7 +88,7 @@ spec:
          	asset.asset_type == "sqladmin.googleapis.com/Instance"
          
          	# Check if resource is in exempt list
-         	exempt_list := params.exemptions
+         	exempt_list := lib.get_default(params, "exemptions", [])
          	matches := {asset.name} & cast_set(exempt_list)
          	count(matches) == 0
          

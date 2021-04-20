@@ -15,7 +15,9 @@
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPSQLAllowedAuthorizedNetworksConstraintV1
 metadata:
-  name: sql_allowed_authorized_networks_whitelist
+  name: sql_allowed_authorized_networks_allowlist
+  annotations:
+    description: Checks Cloud SQL master authorized networks list against a allowlist.
 spec:
   severity: high
   parameters:

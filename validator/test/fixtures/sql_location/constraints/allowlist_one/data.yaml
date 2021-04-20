@@ -22,4 +22,3 @@ spec:
     mode: "allowlist"
     locations:
     - asia-southeast1
-    exemptions: []

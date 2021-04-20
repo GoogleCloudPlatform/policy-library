@@ -16,10 +16,13 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPBigQueryTableRetentionConstraintV1
 metadata:
   name: bq_table_minimum_maximum_retention
+  annotations:
+    description: Checks if a BigQuery table violates retention policy.
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+    - "organizations/**"
   parameters:
     minimum_retention_days: 100
     maximum_retention_days: 200

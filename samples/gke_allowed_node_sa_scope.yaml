@@ -19,10 +19,12 @@ metadata:
   annotations:
     benchmark: GKE_HARDENING_GUIDELINE
     bundles.validator.forsetisecurity.org/scorecard-v1: security
+    description: Checks that certain service account scopes are not assigned to nodes.
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+    - "organizations/**"
   # By default, the scopes listed here is being used:
   # https://cloud.google.com/kubernetes-engine/docs/how-to/hardening-your-cluster#reduce_node_sa_scopes
   parameters: {}

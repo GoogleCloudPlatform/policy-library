@@ -45,7 +45,8 @@ spec:
               an expirationTime will generate a violation."
             exemptions:
               type: array
-              items: string
+              items:
+                type: string
               description: "Array of BigQuery tables to exempt from retention restriction. String values in the array
               should correspond to the full name values of exempted BigQuery tables, e.g.
               //bigquery.googleapis.com/projects/project-abc/datasets/my-dataset/tables/my-table."

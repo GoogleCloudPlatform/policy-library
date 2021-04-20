@@ -15,6 +15,9 @@ steps:
 - name: 'gcr.io/config-validator/rego-v0.15.0'
   args: ['check_format']
   waitFor: ['-']
-- name: 'gcr.io/config-validator/policy-tool'
+- name: 'gcr.io/config-validator/rego-v0.15.0'
+  args: ['check_build']
+  waitFor: ['-']
+- name: 'gcr.io/config-validator/policy-tool:commit-8bad818'
   args: ['lint', '--policies', './policies', '--policies', './samples', '--libs', './lib']
   waitFor: ['-']

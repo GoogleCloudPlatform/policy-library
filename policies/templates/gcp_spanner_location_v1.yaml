@@ -31,7 +31,8 @@ spec:
           properties:
             locations:
               type: array
-              items: string
+              items:
+                type: string
               description: "List of GCP regions (or region patterns) for
               Spanner instance locations (i.e 'asia*', 'nam3', etc.)."
   targets:

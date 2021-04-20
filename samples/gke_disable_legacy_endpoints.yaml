@@ -19,9 +19,12 @@ metadata:
   annotations:
     benchmark: GKE_HARDENING_GUIDELINE
     bundles.validator.forsetisecurity.org/scorecard-v1: security
+    description: Checks that legacy metadata endpoints are disabled (disabled by default
+      since GKE 1.12+).
 spec:
   severity: high
   match:
     gcp:
-      target: ["organization/*"]
+      target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+      - "organizations/**"
   parameters: {}

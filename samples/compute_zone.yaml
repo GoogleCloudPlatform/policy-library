@@ -16,10 +16,12 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPComputeZoneConstraintV1
 metadata:
   name: compute_zone_allowlist_one
+  annotations:
+    description: Checks the instances and Persistent Disks are in desired zones.
 spec:
   severity: high
   parameters:
     mode: "allowlist"
     zones:
-      - asia-east1-b
+    - asia-east1-b
     exemptions: []

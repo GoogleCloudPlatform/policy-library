@@ -21,6 +21,8 @@ metadata:
     bundles.validator.forsetisecurity.org/scorecard-v1: security
     # This constraint is not certified by CIS.
     bundles.validator.forsetisecurity.org/cis-v1.1: 7.12
+    description: Checks that client certificate and password authentication methods
+      are disabled for GKE clusters.
 spec:
   severity: high
   parameters: {}

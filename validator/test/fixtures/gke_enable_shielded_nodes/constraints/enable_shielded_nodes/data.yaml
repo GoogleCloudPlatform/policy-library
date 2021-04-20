@@ -20,5 +20,5 @@ spec:
   severity: high
   match:
     gcp:
-      target: ["organization/*"]
+      target: ["organizations/**"]
   parameters: {}

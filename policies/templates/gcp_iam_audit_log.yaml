@@ -28,20 +28,23 @@ spec:
         openAPIV3Schema:
           properties:
             services:
-              description: "The services that should have audit logging enabled. 
+              description: "The services that should have audit logging enabled.
                 Example: 'storage.googleapis.com' for Cloud Storage.
                 'allServices' is a special value that covers all services"
               type: array
-              items: string
+              items:
+                type: string
             log_types:
-              description: "The log types that should be enabled. 
+              description: "The log types that should be enabled.
                 Valid values are ADMIN_READ, DATA_WRITE, and DATA_READ."
               type: array
-              items: string
+              items:
+                type: string
             allowed_exemptions:
               description: "Allowed exemptions from the rule"
               type: array
-              items: string
+              items:
+                type: string
   targets:
    validation.gcp.forsetisecurity.org:
       rego: | #INLINE("validator/iam_audit_log.rego")

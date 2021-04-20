@@ -1,4 +1,4 @@
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,16 +13,20 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPIAMAllowedPolicyMemberDomainsConstraintV1
+kind: GCPIAMAllowedPolicyMemberDomainsConstraintV2
 metadata:
   name: only_my_domain
   annotations:
-    description: Only allow members from my domain to added to IAM roles
+    bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
+    bundles.validator.forsetisecurity.org/healthcare-baseline-v1: security
+    description: Only allow members from my domain to be added to IAM roles
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+    - "organizations/**"
+    exclude: []
   parameters:
     domains:
-    - example.com
+    - DOMAIN # {"$ref":"#/definitions/io.k8s.cli.setters.domain"}
     - gserviceaccount.com # also allow service accounts

@@ -1,5 +1,5 @@
 #
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GKEClusterLocationConstraintV1
+package templates.gcp.GKEClusterLocationConstraintV3
 
 import data.validator.gcp.lib as lib
 
@@ -27,14 +27,33 @@ deny[{
 	asset := input.asset
 	asset.asset_type == "container.googleapis.com/Cluster"
 
-	cluster_location := asset.resource.data.location
-	target_location := params.allowed_locations
-	count({cluster_location} & cast_set(target_location)) == 0
+	# Check if resource is in exempt list
+	exempt_list := params.exemptions
+	matches := {asset.name} & cast_set(exempt_list)
+	count(matches) == 0
 
-	message := sprintf("Cluster %v is not allowed in the specified location", [asset.name])
+	# Check that location is in allowlist/denylist
+	target_location := asset.resource.data.location
+	asset_location := params.locations
+	location_matches := {target_location} & cast_set(asset_location)
+	target_location_match_count(params.mode, desired_count)
+	count(location_matches) == desired_count
+
+	message := sprintf("Cluster %v is in a disallowed location", [asset.name])
 	metadata := {"resource": asset.name}
 }
 
 ###########################
 # Rule Utilities
 ###########################
+
+# Determine the overlap between locations under test and constraint
+# By default (allowlist), we violate if there isn't overlap.
+
+target_location_match_count(mode) = 0 {
+	mode != "denylist"
+}
+
+target_location_match_count(mode) = 1 {
+	mode == "denylist"
+}

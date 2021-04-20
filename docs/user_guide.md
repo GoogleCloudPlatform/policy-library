@@ -14,9 +14,8 @@
   * [For Production Environments](#for-production-environments)
 * [How to Use Forseti Config Validator](#how-to-use-forseti-config-validator)
   * [Deploy Forseti](#deploy-forseti)
-  * [Policy Library Sync from Git Repository](#policy-library-sync-from-git-repository)
-  * [Policy Library Sync from GCS](#policy-library-sync-from-gcs)
-  * [How to connect violation results with Cloud Security Command Center (CSCC)](#how-to-connect-violation-results-with-cloud-security-command-center-cscc)
+  * [Policy Library Sync from Git Repository](https://forsetisecurity.org/docs/latest/configure/config-validator/policy-library-sync-from-git-repo.html)
+  * [Policy Library Sync from GCS](https://forsetisecurity.org/docs/latest/configure/config-validator/policy-library-sync-from-gcs.html)
 * [End to end workflow with sample constraint](#end-to-end-workflow-with-sample-constraint)
 * [Contact Info](#contact-info)
 
@@ -168,31 +167,31 @@ For example:
    </td>
   </tr>
   <tr>
-   <td>organization/*
+   <td>organizations/**
    </td>
    <td>All organizations
    </td>
   </tr>
   <tr>
-   <td>organization/123/*
+   <td>organizations/123/**
    </td>
    <td>Everything in organization 123
    </td>
   </tr>
   <tr>
-   <td>organization/123/folder/*
+   <td>organizations/123/folders/**
    </td>
    <td>Everything in organization 123 that is under a folder
    </td>
   </tr>
   <tr>
-   <td>organization/123/folder/456
+   <td>organizations/123/folders/456
    </td>
    <td>Everything in folder 456 in organization 123
    </td>
   </tr>
   <tr>
-   <td>organization/123/folder/456/project/789
+   <td>organizations/123/folders/456/projects/789
    </td>
    <td>Everything in project 789 in folder 456 in organization 123
    </td>
@@ -227,14 +226,14 @@ should contain a string named `mode` and a string array named
 
 ```
 parameters:
-  mode: whitelist
+  mode: allowlist
   instances:
     - //compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/one
     - //compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/two
 ```
 
 These parameters specify that two VM instances may have external IP addresses.
-The are exempt from the constraint since they are whitelisted.
+The are exempt from the constraint since they are allowlisted.
 
 Here is a complete example of a sample external IP address constraint file:
 
@@ -242,13 +241,13 @@ Here is a complete example of a sample external IP address constraint file:
 apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPExternalIpAccessConstraintV1
 metadata:
-  name: forbid-external-ip-whitelist
+  name: forbid-external-ip-allowlist
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: ["organizations/**"]
   parameters:
-    mode: "whitelist"
+    mode: "allowlist"
     instances:
     - //compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/one
     - //compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/two
@@ -344,12 +343,10 @@ found. Therefore, you should configure your CI to only proceed to the next step
 
 ### Deploy Forseti
 
-Follow the [documentation on the Forseti Security website](https://forsetisecurity.org/docs/latest/setup/install.html)
-to deploy Forseti. As part of the Terraform configuration, you will need to enable
-Config Validator and choose how to provide policies to Forseti Server.
-
-To enable Config Validator in the Forseti Terraform configuration, set the
-`config_validator_enabled` variable to `true`.
+Follow the [documentation on the Forseti Security website](https://forsetisecurity.org/docs/latest/setup/install/index.html)
+to deploy Forseti on GCE. As part of the Terraform configuration, you will need to enable
+Config Validator. Follow the [documentation on the Forseti Security website](https://forsetisecurity.org/docs/latest/configure/config-validator/index.html)
+to set up Config Validator.
 
 #### Provide Policies to Forseti Server
 
@@ -362,105 +359,10 @@ Server to be used by future scans.
 
 The default behavior of Forseti is to sync the Policy Library from the Forseti
 Server GCS bucket. This requires little setup, but involves manual work to
-create the folder and copy the policies to GCS.
+create the folder and copy the policies to GCS. 
 
-
-### Policy Library Sync from Git Repository
-
-As part of the Terraform configuration, you will need to include a few
-additional variables to enable the git-sync feature. Here are some details
-about these options which can be supplied in your main.tf:
-
-- `policy_library_sync_enabled`: Set to `true` to enable git-sync
-- `policy_library_repository_url`: Provide the URL for your Policy Library
-repository; git protocol is recommended. Example: `git@github.com:forseti-security/policy-library`
-- (OPTIONAL) `policy_library_sync_ssh_known_hosts`: Provide the [known host keys](https://www.ssh.com/ssh/host-key)
-for the git repository. This can be obtained by running `ssh-keyscan ${YOUR_GIT_HOST}`.
-
-You should also setup an outputs.tf configuration file for Terraform to obtain
-the auto-generated public SSH key.
-
-```
-output "forseti-server-git-public-key-openssh" {
-  description = "The public OpenSSH key generated to allow the Forseti Server to clone the policy library repository."
-  value       = module.server.forseti-server-git-public-key-openssh
-}
-```
-
-__IMPORTANT:__ After applying the Terraform configuration, you will need to add the generated
-SSH key to the git user account. The SSH key will be provided as an
-output from Terraform. If the Policy Library repository is hosted on GitHub, you
-can [follow these steps to add the SSH key to your account](https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account).
-
-To obtain the generated SSH key from Terraform run this command:
-
-```
-terraform output forseti-server-git-public-key-openssh
-```
-
-You can view any logs related to this process from Stackdriver Logging by
-searching for `git-sync`.
-
-### Policy Library Sync from GCS
-
-To sync policies from GCS to the Forseti server, you will need to
-create the GCS folder.
-
-Open the Forseti project in the [Google Cloud Console](https://console.cloud.google.com)
-and go to Storage in the menu. The Forseti Server bucket will be named
-`forseti-server-{SUFFIX}` where `{SUFFIX}` is a random 8 character suffix setup
-at the time Forseti is deployed. Create a folder with the name `policy-library`
-inside the Forseti Server bucket and make note of the suffix.
-
-Assuming you have a local copy of your policy library repository, you can follow
-these steps to copy them to GCS (replace `{SUFFIX}` with the suffix noted above):
-
-```
-export FORSETI_BUCKET=forseti-server-{SUFFIX}
-export POLICY_LIBRARY_PATH=path/to/local/policy-library
-gsutil -m rsync -d -r ${POLICY_LIBRARY_PATH}/policies gs://${FORSETI_BUCKET}/policy-library/policies
-gsutil -m rsync -d -r ${POLICY_LIBRARY_PATH}/lib gs://${FORSETI_BUCKET}/policy-library/lib
-```
-
-Example result: ![GCS Bucket Content](user_guide_bucket.png)
-
-After this is done, Forseti will pick up the new policy library content in the
-next scanner run.
-
-### How to connect violation results with Cloud Security Command Center (CSCC)
-
-Forseti has a plugin with Cloud Security Command Center (CSCC) which allows you
-to receive PubSubs with CSCC. By subscribing to the PubSub feed, you have
-control of remediating manually or programmatically with Cloud Functions.
-
-To connect to CSCC, you need the following roles:
-
-*   Organization Admin
-*   Security Center Admin
-*   Service Account Admin
-
-Follow step 1-4 listed
-[here](https://forsetisecurity.org/docs/latest/configure/notifier/index.html#setup)
-to set CSCC up for Forseti.
-
-Once you have CSCC set up, you can navigate to the CSCC settings page from the
-Google Cloud Platform (GCP) UI. For example:
-![CSCC Integration](user_guide_cscc.png)
-
-In **main.tf**, under module "forseti", include _cscc_source_id_ and
-_cscc_violations_enabled_. Set _cscc_source_id_ to the source ID generated by
-CSCC for Forseti, and _cscc_violations_enabled** **_to** _true_**.
-
-```
-   module "forseti" {
-      …..
-      cscc_source_id = "YOUR_CSCC_SOURCE_ID_FOR_FORSETI"
-      cscc_violations_enabled = true
-    }
-```
-
-Run _terraform plan_ command to see the change and _terraform apply_ command to
-apply the change.
+Follow the documentation on the Forseti Security website to sync policies
+from the [GCS to the Forseti server](https://forsetisecurity.org/docs/latest/configure/config-validator/policy-library-sync-from-gcs.html), and from [Git Repository to the Forseti server](https://forsetisecurity.org/docs/latest/configure/config-validator/policy-library-sync-from-git-repo.html).
 
 ## End to end workflow with sample constraint
 
@@ -475,7 +377,7 @@ session open, the next step is to copy over the sample IAM domain restriction
 constraint:
 
 ```
-cp policy-library/samples/iam_service_accounts_only.yaml policy-library/policies/constraints
+cp samples/iam_service_accounts_only.yaml policies/constraints
 ```
 
 Let's take a look at this constraint:
@@ -488,7 +390,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: ["organizations/**"]
   parameters:
     domains:
       - gserviceaccount.com
@@ -545,7 +447,7 @@ chmod 755 terraform-validator-linux-amd64
 The Terraform validator should return a violation. As a test, you can relax the
 constraint to make the violation go away. Edit the
 `policy-library/policies/constraints/iam_service_accounts_only.yaml` file and
-append your email domain to the domains whitelist:
+append your email domain to the domains allowlist:
 
 ```
 apiVersion: constraints.gatekeeper.sh/v1alpha1
@@ -555,7 +457,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: ["organizations/**"]
   parameters:
     domains:
       - gserviceaccount.com

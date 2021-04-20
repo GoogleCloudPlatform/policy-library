@@ -14,9 +14,9 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPAllowedResourceTypesConstraintV1
+package templates.gcp.GCPAllowedResourceTypesConstraintV2
 
-template_name := "GCPAllowedResourceTypesConstraintV1"
+template_name := "GCPAllowedResourceTypesConstraintV2"
 
 import data.validator.test_utils as test_utils
 
@@ -24,15 +24,15 @@ import data.validator.test_utils as test_utils
 import data.test.fixtures.allowed_resource_types.assets as fixture_assets
 
 # Importing the test constraints
-import data.test.fixtures.allowed_resource_types.constraints.basic.blacklist as fixture_constraint_basic_blacklist
-import data.test.fixtures.allowed_resource_types.constraints.basic.whitelist as fixture_constraint_basic_whitelist
+import data.test.fixtures.allowed_resource_types.constraints.basic.allowlist as fixture_constraint_basic_allowlist
+import data.test.fixtures.allowed_resource_types.constraints.basic.denylist as fixture_constraint_basic_denylist
 
-test_allowed_resource_types_whitelist_violations {
+test_allowed_resource_types_allowlist_violations {
 	expected_resource_names := {
 		"//bigtable.googleapis.com/projects/my-test-project/instances/test-bigtable-id-valid-labels",
 		"//compute.googleapis.com/projects/my-test-project/zones/us-east1-b/disks/instance-1-valid-disk",
 		"//storage.googleapis.com/bucket-with-valid-labels",
 	}
 
-	test_utils.check_test_violations(fixture_assets, [fixture_constraint_basic_whitelist], template_name, expected_resource_names)
+	test_utils.check_test_violations(fixture_assets, [fixture_constraint_basic_allowlist], template_name, expected_resource_names)
 }

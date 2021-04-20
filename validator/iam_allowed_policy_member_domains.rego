@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPIAMAllowedPolicyMemberDomainsConstraintV1
+package templates.gcp.GCPIAMAllowedPolicyMemberDomainsConstraintV2
 
 import data.validator.gcp.lib as lib
 
@@ -26,9 +26,9 @@ deny[{
 	lib.get_constraint_params(constraint, params)
 	asset := input.asset
 	unique_members := {m | m = asset.iam_policy.bindings[_].members[_]}
-	member_type_whitelist := lib.get_default(params, "member_type_whitelist", ["projectOwner", "projectEditor", "projectViewer"])
+	member_type_allowlist := lib.get_default(params, "member_type_allowlist", ["projectOwner", "projectEditor", "projectViewer"])
 
-	members_to_check := [m | m = unique_members[_]; not starts_with_whitelisted_type(member_type_whitelist, m)]
+	members_to_check := [m | m = unique_members[_]; not starts_with_allowlisted_type(member_type_allowlist, m)]
 	member := members_to_check[_]
 	allow_sub_domains := lib.get_default(params, "allow_sub_domains", true)
 	no_match(allow_sub_domains, params.domains, member)
@@ -50,7 +50,7 @@ no_match(allow_sub_domains, domains, member) {
 	count(matched_domains) == 0
 }
 
-starts_with_whitelisted_type(whitelist, member) {
-	member_type := whitelist[_]
+starts_with_allowlisted_type(allowlist, member) {
+	member_type := allowlist[_]
 	startswith(member, sprintf("%v:", [member_type]))
 }

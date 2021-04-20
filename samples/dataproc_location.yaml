@@ -17,10 +17,14 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPDataprocLocationConstraintV1
 metadata:
   name: allow_dataproc_clusters_in_asia
+  annotations:
+    description: Checks that Dataproc clusters are in correct regions.
+    bundles.validator.forsetisecurity.org/healthcare-baseline-v1: security
 spec:
   severity: high
   match:
-    target: ["organization/*"]
-  parameters: 
+    target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+    - "organizations/**"
+  parameters:
     locations:
-      - "asia*"
+    - "asia*"

@@ -21,8 +21,10 @@ metadata:
     bundles.validator.forsetisecurity.org/scorecard-v1: security
     # This constraint has not been validated by the formal CIS certification process.
     bundles.validator.forsetisecurity.org/cis-v1.1: 6.05
+    bundles.validator.forsetisecurity.org/healthcare-baseline-v1: security
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+    - "organizations/**"
     exclude: [] # optional, default is no exclusions

@@ -97,7 +97,7 @@
         }
     },
     {
-        "name": "//cloudresourcemanager.googleapis.com/ignore-asset-type",
+        "name": "//cloudresourcemanager.googleapis.com/projects/ignore-asset-type",
         "asset_type": "storage.googleapis.com/Bucket",
         "iam_policy": {
             "version": 1,

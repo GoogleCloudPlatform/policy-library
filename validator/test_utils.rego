@@ -16,8 +16,6 @@
 
 package validator.test_utils
 
-# package templates.gcp.GCPAllowedResourceTypesConstraintV1
-
 get_test_violations(test_assets, test_constraints, test_template) = violations {
 	violations := [violation |
 		violations := data.templates.gcp[test_template].deny with input.asset as test_assets[_]
@@ -38,6 +36,13 @@ check_test_violations_resources(test_assets, test_constraints, test_template, ex
 	violations := get_test_violations(test_assets, test_constraints, test_template)
 	resource_names := {x | x = violations[_].details.resource}
 	resource_names == expected_resource_names
+}
+
+# This is to check for other field names from violations besides resource
+check_test_violations_metadata(test_assets, test_constraints, test_template, field_name, field_values) {
+	violations := get_test_violations(test_assets, test_constraints, test_template)
+	resource_names := {x | x = violations[_].details[field_name]}
+	resource_names == field_values
 }
 
 check_test_violations_signature(test_assets, test_constraints, test_template) {

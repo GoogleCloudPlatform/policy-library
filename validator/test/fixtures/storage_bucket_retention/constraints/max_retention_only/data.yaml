@@ -19,7 +19,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: ["organizations/**"]
   parameters:
     maximum_retention_days: 60
     exemptions: []

@@ -19,8 +19,10 @@ metadata:
   annotations:
     benchmark: GKE_HARDENING_GUIDELINE
     bundles.validator.forsetisecurity.org/scorecard-v1: security
+    description: Checks that GKE clusters have a Network Policy installed.
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+    - "organizations/**"
   parameters: {}

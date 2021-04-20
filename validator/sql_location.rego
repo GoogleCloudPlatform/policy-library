@@ -33,7 +33,7 @@ deny[{
 	asset.asset_type == "sqladmin.googleapis.com/Instance"
 
 	# Check if resource is in exempt list
-	exempt_list := params.exemptions
+	exempt_list := lib.get_default(params, "exemptions", [])
 	matches := {asset.name} & cast_set(exempt_list)
 	count(matches) == 0
 

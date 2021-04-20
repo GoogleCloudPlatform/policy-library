@@ -16,10 +16,15 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPSQLLocationConstraintV1
 metadata:
   name: allow_some_sql_location
+  annotations:
+    description: Checks Cloud SQL instance locations against allowed or disallowed
+      locations.
+    bundles.validator.forsetisecurity.org/healthcare-baseline-v1: security
 spec:
   severity: high
   match:
-    target: ["organization/*"]
+    target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+    - "organizations/**"
   parameters:
     mode: "allowlist"
     locations:
