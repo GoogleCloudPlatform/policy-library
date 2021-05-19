@@ -287,13 +287,14 @@ Generate a Terraform plan for the current environment by running:
 
 ```
 terraform plan -out=tfplan.tfplan
+terraform show -json ./tfplan.tfplan > ./tfplan.json
 ```
 
 To validate the Terraform plan based on the constraints specified under your
 local policy library repository, run:
 
 ```
-terraform-validator-linux-amd64 validate tfplan.tfplan --policy-path=${POLICY_PATH}
+terraform-validator-linux-amd64 validate tfplan.json --policy-path=${POLICY_PATH}
 ```
 
 The policy-path flag is set to the local clone of your Git repository that
@@ -432,6 +433,7 @@ and email address. Then initialize Terraform and generate a Terraform plan:
 ```
 terraform init
 terraform plan -out=test.tfplan
+terraform show -json ./test.tfplan > ./tfplan.json
 ```
 
 Since your email address is in the IAM policy binding, the plan should result in
@@ -440,7 +442,7 @@ a violation. Let's try this out:
 ```
 gsutil cp gs://terraform-validator/releases/2019-03-28/terraform-validator-linux-amd64 .
 chmod 755 terraform-validator-linux-amd64
-./terraform-validator-linux-amd64 validate test.tfplan --policy-path=policy-library
+./terraform-validator-linux-amd64 validate tfplan.json --policy-path=policy-library
 ```
 
 The Terraform validator should return a violation. As a test, you can relax the
@@ -467,7 +469,8 @@ Then run Terraform plan and validate the output again:
 
 ```
 terraform plan -out=test.tfplan
-./terraform-validator-linux-amd64 validate test.tfplan --policy-path=policy-library
+terraform show -json ./test.tfplan > ./tfplan.json
+./terraform-validator-linux-amd64 validate tfplan.json --policy-path=policy-library
 ```
 
 The command above should result in no violations found.
