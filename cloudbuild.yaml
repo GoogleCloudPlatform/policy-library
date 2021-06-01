@@ -5,10 +5,9 @@ steps:
 - name: 'gcr.io/config-validator/rego-v0.16.0'
   args: ['test']
   waitFor: ['-']
-# 0.17.0 has some errors on the library, this needs more investigation before we migrate.
-#- name: 'gcr.io/config-validator/rego-v0.17.0'
-#  args: ['test']
-#  waitFor: ['-']
+- name: 'gcr.io/config-validator/rego-v0.24.0'
+  args: ['test']
+  waitFor: ['-']
 - name: 'gcr.io/config-validator/rego-v0.15.0'
   args: ['check_sample_files']
   waitFor: ['-']
