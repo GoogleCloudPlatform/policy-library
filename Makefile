@@ -125,7 +125,7 @@ help: ## Prints help for targets with comments
 
 # Cloudbuild doesn't allow us to use the Dockerfile "ARG" feature so we have to
 # template the dockerfile, expand for each version then build.
-REGO_VERSIONS := v0.15.0 v0.16.0 v0.24.0
+REGO_VERSIONS := v0.15.0 v0.16.0 v0.24.0 v0.29.3
 CI_IMAGES := $(foreach v,$(REGO_VERSIONS),ci-image-$v)
 .PHONY: ci-images
 ci-images: $(CI_IMAGES)
