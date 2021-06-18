@@ -8,6 +8,9 @@ steps:
 - name: 'gcr.io/config-validator/rego-v0.24.0'
   args: ['test']
   waitFor: ['-']
+- name: 'gcr.io/config-validator/rego-v0.29.3'
+  args: ['test']
+  waitFor: ['-']
 - name: 'gcr.io/config-validator/rego-v0.15.0'
   args: ['check_sample_files']
   waitFor: ['-']

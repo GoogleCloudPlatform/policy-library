@@ -22,6 +22,7 @@ POLICY_TOOL_IMAGE_TAG := latest
 
 REGO_IMAGE_V15 := rego-v0.15.0
 REGO_IMAGE_V16 := rego-v0.16.0
+REGO_IMAGE_V29 := rego-v0.29.3
 REGO_IMAGE_TAG := latest
 
 
@@ -48,9 +49,17 @@ docker_test_opa_v16: ## Run tests using CV rego docker image v0.16.x
 		$(CV_IMAGE_URL)/$(REGO_IMAGE_V16):$(REGO_IMAGE_TAG) \
 		test
 
+.PHONY: docker_test_opa_v29
+docker_test_opa_v29: ## Run tests using CV rego docker image v0.29.x
+	docker run -it --rm \
+		-v "$(CURDIR):/workspace" \
+		-w=/workspace \
+		$(CV_IMAGE_URL)/$(REGO_IMAGE_V29):$(REGO_IMAGE_TAG) \
+		test
+
 # Run tests using CV rego docker image
 .PHONY: docker_test
-docker_test: docker_test_opa_v15 docker_test_opa_v16
+docker_test: docker_test_opa_v15 docker_test_opa_v16 docker_test_opa_v29
 
 .PHONY: docker_test_lint
 docker_test_lint: # Run lint tests using policy tool docker image
@@ -125,7 +134,7 @@ help: ## Prints help for targets with comments
 
 # Cloudbuild doesn't allow us to use the Dockerfile "ARG" feature so we have to
 # template the dockerfile, expand for each version then build.
-REGO_VERSIONS := v0.15.0 v0.16.0 v0.24.0
+REGO_VERSIONS := v0.15.0 v0.16.0 v0.24.0 v0.29.3
 CI_IMAGES := $(foreach v,$(REGO_VERSIONS),ci-image-$v)
 .PHONY: ci-images
 ci-images: $(CI_IMAGES)
