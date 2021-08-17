@@ -1,0 +1,123 @@
+{
+  "canIpForward": false,
+  "cpuPlatform": "Intel Haswell",
+  "creationTimestamp": "2021-06-06T05:07:07.189-07:00",
+  "deletionProtection": false,
+  "disks": [
+    {
+      "autoDelete": true,
+      "boot": true,
+      "deviceName": "persistent-disk-0",
+      "diskSizeGb": "20",
+      "guestOsFeatures": [
+        {
+          "type": "UEFI_COMPATIBLE"
+        },
+        {
+          "type": "VIRTIO_SCSI_MULTIQUEUE"
+        },
+        {
+          "type": "SEV_CAPABLE"
+        }
+      ],
+      "index": 0,
+      "interface": "SCSI",
+      "kind": "compute#attachedDisk",
+      "licenses": [
+        "https://www.googleapis.com/compute/v1/projects/centos-cloud/global/licenses/centos-8"
+      ],
+      "mode": "READ_WRITE",
+      "source": "https://www.googleapis.com/compute/v1/projects/prj-dev-palani-ram/zones/us-central1-f/disks/pals-jumphost",
+      "type": "PERSISTENT"
+    }
+  ],
+  "fingerprint": "3yO3zonqEK8=",
+  "id": "1384066644687520901",
+  "kind": "compute#instance",
+  "labelFingerprint": "42WmSpB8rSM=",
+  "lastStartTimestamp": "2021-06-09T03:24:12.046-07:00",
+  "lastStopTimestamp": "2021-06-08T22:16:36.143-07:00",
+  "machineType": "https://www.googleapis.com/compute/v1/projects/prj-dev-palani-ram/zones/us-central1-f/machineTypes/e2-micro",
+  "metadata": {
+    "fingerprint": "5_5FO_6FrgA=",
+    "items": [
+      {
+        "key": "block-project-ssh-keys",
+        "value": "true"
+      },
+      {
+        "key": "enable-oslogin",
+        "value": "false"
+      },
+      {
+        "key": "environment",
+        "value": "dev"
+      },
+      {
+        "key": "name",
+        "value": "pals-jumphost"
+      },
+      {
+        "key": "serial-port-enable",
+        "value": "false"
+      },
+      {
+        "key": "startup-script",
+        "value": "echo instance created through terraform > /readme.txt"
+      }
+    ],
+    "kind": "compute#metadata"
+  },
+  "name": "pals-jumphost",
+  "networkInterfaces": [
+    {
+      "accessConfigs": [
+        {
+          "kind": "compute#accessConfig",
+          "name": "external-nat",
+          "natIP": "34.134.200.232",
+          "networkTier": "PREMIUM",
+          "type": "ONE_TO_ONE_NAT"
+        }
+      ],
+      "fingerprint": "ixgiHAEBXKQ=",
+      "kind": "compute#networkInterface",
+      "name": "nic0",
+      "network": "https://www.googleapis.com/compute/v1/projects/prj-dev-palani-ram/global/networks/primary-vpc",
+      "networkIP": "10.10.10.49",
+      "subnetwork": "https://www.googleapis.com/compute/v1/projects/prj-dev-palani-ram/regions/us-central1/subnetworks/primary-dmz-subnet"
+    }
+  ],
+  "scheduling": {
+    "automaticRestart": true,
+    "onHostMaintenance": "MIGRATE",
+    "preemptible": false
+  },
+  "selfLink": "https://www.googleapis.com/compute/v1/projects/prj-dev-palani-ram/zones/us-central1-f/instances/pals-jumphost",
+  "serviceAccounts": [
+    {
+      "email": "srv-acct-admin@prj-dev-palani-ram.iam.gserviceaccount.com",
+      "scopes": [
+        "https://www.googleapis.com/auth/cloud-platform"
+      ]
+    }
+  ],
+  "shieldedInstanceConfig": {
+    "enableIntegrityMonitoring": true,
+    "enableSecureBoot": false,
+    "enableVtpm": true
+  },
+  "shieldedInstanceIntegrityPolicy": {
+    "updateAutoLearnPolicy": true
+  },
+  "startRestricted": false,
+  "status": "RUNNING",
+  "tags": {
+    "fingerprint": "vC5BGPmEymc=",
+    "items": [
+      "egress-inet",
+      "ingress-inet"
+    ]
+  },
+  "zone": "https://www.googleapis.com/compute/v1/projects/prj-dev-palani-ram/zones/us-central1-f"
+}
