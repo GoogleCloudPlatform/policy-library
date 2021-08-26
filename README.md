@@ -11,13 +11,13 @@ You can easily set up a new (local) policy library by downloading a [bundle](./d
 Download the full policy library and install the [Forseti bundle](./docs/bundles/forseti-security.md):
 ```
 export BUNDLE=forseti-security
-kpt pkg get https://github.com/forseti-security/policy-library.git ./policy-library
+kpt pkg get https://github.com/GoogleCloudPlatform/policy-library.git ./policy-library
 kpt fn source policy-library/samples/ | \
   kpt fn run --image gcr.io/config-validator/get-policy-bundle:latest -- bundle=$BUNDLE | \
   kpt fn sink policy-library/policies/constraints/
 ```
 
-Once you have initialized a library, you might want to save it to [git](./docs/user_guide.md#https://github.com/forseti-security/policy-library/blob/master/docs/user_guide.md#get-started-with-the-policy-library-repository).
+Once you have initialized a library, you might want to save it to [git](./docs/user_guide.md#https://github.com/GoogleCloudPlatform/policy-library/blob/master/docs/user_guide.md#get-started-with-the-policy-library-repository).
 
 ## Developing a Constraint
 
@@ -59,10 +59,10 @@ Replaced:
 ```
 
 ### Linting Policies
-FCV provides a policy linter.  You can invoke it as:
+Config Validator provides a policy linter.  You can invoke it as:
 
 ```
-go get github.com/forseti-security/config-validator/cmd/policy-tool
+go get github.com/GoogleCloudPlatform/config-validator/cmd/policy-tool
 policy-tool --policies ./policies --policies ./samples --libs ./lib
 ```
 
