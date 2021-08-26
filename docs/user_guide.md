@@ -12,7 +12,7 @@
   * [Install Terraform Validator](#install-terraform-validator)
   * [For local development environments](#for-local-development-environments)
   * [For Production Environments](#for-production-environments)
-* [How to Use Forseti Config Validator](#how-to-use-forseti-config-validator)
+* [How to Use Config Validator with Forseti](#how-to-use-config-validator-with-Forseti)
   * [Deploy Forseti](#deploy-forseti)
   * [Policy Library Sync from Git Repository](https://forsetisecurity.org/docs/latest/configure/config-validator/policy-library-sync-from-git-repo.html)
   * [Policy Library Sync from GCS](https://forsetisecurity.org/docs/latest/configure/config-validator/policy-library-sync-from-gcs.html)
@@ -54,8 +54,8 @@ details, [check out Terraform Validator](#how-to-use-terraform-validator).
 
 Frequently scan the platform for constraint violations and send notifications
 when a violation is found. The monitoring logic that Config Validator uses will
-be built into a number of monitoring tools. For details,
-[check out Forseti Validator](#how-to-use-forseti-config-validator).
+be built into a number of monitoring tools. For example,
+[check out How to Use Config Validator with Forseti](#how-to-use-config-validator-with-forseti).
 
 The following guide will walk you through initial setup steps and instructions
 on how to use Config Validator. By the end, you will have a proof-of-concept to
@@ -81,9 +81,12 @@ Google provides a sample repository with a set of pre-defined constraint
 templates. You can duplicate this repository into a private repository. First
 you should create a new **private** git repository. For example, if you use
 GitHub then you can use the [GitHub UI](https://github.com/new). Then follow the
-steps below to get everything setup. If you are planning on using the [Policy
-Library Sync feature of Forseti](#policy-library-sync), then you should also add
-a read-only user to the private repository which will be used by Forseti.
+steps below to get everything setup. 
+
+_Note: If you are planning on using the
+[Policy Library Sync feature of Forseti](#policy-library-sync),
+then you should also add a read-only user to the private repository which will
+be used by Forseti._
 
 This policy library can also be made public, but it is not recommended. By
 making your policy library public, it would be allowing others to see what you
@@ -98,7 +101,7 @@ providers offer this feature as well.
 
 ```
 export GIT_REPO_ADDR="git@github.com:${YOUR_GITHUB_USERNAME}/policy-library.git"
-git clone --bare https://github.com/forseti-security/policy-library.git
+git clone --bare https://github.com/GoogleCloudPlatform/policy-library.git
 cd policy-library.git
 git push --mirror ${GIT_REPO_ADDR}
 cd ..
@@ -130,7 +133,7 @@ Periodically you should pull any changes from the public repository, which might
 contain new templates and Rego files.
 
 ```
-git remote add public https://github.com/forseti-security/policy-library.git
+git remote add public https://github.com/GoogleCloudPlatform/policy-library.git
 git pull public master
 git push origin master
 ```
@@ -342,7 +345,7 @@ return a `2` exit code if violations are found or `0` if no violations were
 found. Therefore, you should configure your CI to only proceed to the next step
 (for example, `terraform apply`) or merge if the validator exits successfully.
 
-## How to Use Forseti Config Validator
+## How to Use Config Validator with Forseti
 
 ### Deploy Forseti
 
@@ -373,7 +376,7 @@ In this section, you will apply a constraint that enforces IAM policy member
 domain restriction using [Cloud Shell](https://cloud.google.com/shell/).
 
 First click on this
-[link](https://console.cloud.google.com/cloudshell/open?cloudshell_image=gcr.io/graphite-cloud-shell-images/terraform:latest&cloudshell_git_repo=https://github.com/forseti-security/policy-library.git)
+[link](https://console.cloud.google.com/cloudshell/open?cloudshell_image=gcr.io/graphite-cloud-shell-images/terraform:latest&cloudshell_git_repo=https://github.com/GoogleCloudPlatform/policy-library.git)
 to open a new Cloud Shell session. The Cloud Shell session has Terraform
 pre-installed and the Policy Library repository cloned. Once you have the
 session open, the next step is to copy over the sample IAM domain restriction

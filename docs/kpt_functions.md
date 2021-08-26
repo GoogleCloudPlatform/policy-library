@@ -4,7 +4,7 @@ This repo contains several [KPT](https://googlecontainertools.github.io/kpt-func
 These functions are meant to be run against this repo. Before running one of the below functions run `kpt get`:
 
 ```
-kpt pkg get https://github.com/forseti-security/policy-library.git ./policy-library
+kpt pkg get https://github.com/GoogleCloudPlatform/policy-library.git ./policy-library
 ```
 
 ## Get Policy Bundle
