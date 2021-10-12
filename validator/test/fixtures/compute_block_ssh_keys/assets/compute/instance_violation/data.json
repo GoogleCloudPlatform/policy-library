@@ -1,0 +1,90 @@
+[
+  {
+    "name": "//compute.googleapis.com/projects/prj-dev-palani-ram/zones/us-central1-f/instances/pals-jumphost",
+    "asset_type": "compute.googleapis.com/Instance",
+    "ancestry_path": "organization/614830067722/folder/561421552790/project/prj-dev-palani-ram",
+    "resource": {
+      "version": "v1",
+      "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+      "discovery_name": "Instance",
+      "parent": "//cloudresourcemanager.googleapis.com/projects/prj-dev-palani-ram",
+      "data": {
+        "canIpForward": false,
+        "deletionProtection": false,
+        "disks": [
+          {
+            "autoDelete": true,
+            "boot": true,
+            "initializeParams": {
+              "diskSizeGb": "20",
+              "diskType": "projects/prj-dev-palani-ram/zones/us-central1-f/diskTypes/pd-standard",
+              "sourceImage": "projects/centos-cloud/global/images/centos-8-v20210512"
+            },
+            "mode": "READ_WRITE"
+          }
+        ],
+        "displayDevice": {
+          "enableDisplay": false
+        },
+        "machineType": "projects/prj-dev-palani-ram/zones/us-central1-f/machineTypes/e2-micro",
+        "metadata": {
+          "items": [
+            {
+              "key": "enable-oslogin",
+              "value": "false"
+            },
+            {
+              "key": "environment",
+              "value": "dev"
+            },
+            {
+              "key": "name",
+              "value": "pals-jumphost"
+            },
+            {
+              "key": "serial-port-enable",
+              "value": "false"
+            },
+            {
+              "key": "startup-script",
+              "value": "echo instance created through terraform \u003e /readme.txt"
+            }
+          ]
+        },
+        "name": "pals-jumphost",
+        "networkInterfaces": [
+          {
+            "accessConfigs": [
+              {
+                "type": "ONE_TO_ONE_NAT"
+              }
+            ],
+            "subnetwork": "projects/prj-dev-palani-ram/regions/us-central1/subnetworks/primary-dmz-subnet"
+          }
+        ],
+        "scheduling": {
+          "automaticRestart": true
+        },
+        "serviceAccounts": [
+          {
+            "email": "default",
+            "scopes": [
+              "https://www.googleapis.com/auth/cloud-platform"
+            ]
+          }
+        ],
+        "shieldedInstanceConfig": {
+          "enableIntegrityMonitoring": true,
+          "enableSecureBoot": false,
+          "enableVtpm": true
+        },
+        "tags": {
+          "items": [
+            "ingress-inet",
+            "egress-inet"
+          ]
+        }
+      }
+    }
+  }
+]
