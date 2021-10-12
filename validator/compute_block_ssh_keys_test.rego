@@ -39,7 +39,7 @@ test_block_ssh_keys_compute_no_instances {
 
 #2. One instance with correct key
 test_block_ssh_keys_compute_instance_no_violations {
-	expected_resource_names := {"//compute.googleapis.com/projects/prj-dev-palani-ram/zones/us-central1-f/instances/pals-jumphost"}
+	expected_resource_names := {"//compute.googleapis.com/projects/my-test-project/zones/us-central1-f/instances/test-jumphost"}
 	test_utils.check_test_violations_count(fixture_compute_instance_no_violation, [fixture_constraints], template_name, 0)
 	test_utils.check_test_violations_resources(fixture_compute_instance_violation, [fixture_constraints], template_name, expected_resource_names)
 	test_utils.check_test_violations_signature(fixture_compute_instance_violation, [fixture_constraints], template_name)
@@ -47,7 +47,7 @@ test_block_ssh_keys_compute_instance_no_violations {
 
 #3. One instance without correct key
 test_block_ssh_keys_compute_instance_violations {
-	expected_resource_names := {"//compute.googleapis.com/projects/prj-dev-palani-ram/zones/us-central1-f/instances/pals-jumphost"}
+	expected_resource_names := {"//compute.googleapis.com/projects/my-test-project/zones/us-central1-f/instances/test-jumphost"}
 	test_utils.check_test_violations_count(fixture_compute_instance_violation, [fixture_constraints], template_name, 1)
 	test_utils.check_test_violations_resources(fixture_compute_instance_violation, [fixture_constraints], template_name, expected_resource_names)
 	test_utils.check_test_violations_signature(fixture_compute_instance_violation, [fixture_constraints], template_name)
@@ -55,7 +55,7 @@ test_block_ssh_keys_compute_instance_violations {
 
 #4. An instance without metadata configured at all (metadata_config doesn't exist).
 test_block_ssh_keys_compute_instance_no_metadata {
-	expected_resource_names := {"//compute.googleapis.com/projects/prj-dev-palani-ram/zones/us-central1-f/instances/pals-jumphost"}
+	expected_resource_names := {"//compute.googleapis.com/projects/my-test-project/zones/us-central1-f/instances/test-jumphost"}
 	expected_field_name := "key_in_violation"
 	expected_field_values := {"block-project-ssh-keys"}
 	test_utils.check_test_violations_count(fixture_compute_instance_no_metadata, [fixture_constraints], template_name, 1)

@@ -1,13 +1,13 @@
 [
   {
-    "name": "//compute.googleapis.com/projects/prj-dev-palani-ram/zones/us-central1-f/instances/pals-jumphost",
+    "name": "//compute.googleapis.com/projects/my-test-project/zones/us-central1-f/instances/test-jumphost",
     "asset_type": "compute.googleapis.com/Instance",
-    "ancestry_path": "organization/614830067722/folder/561421552790/project/prj-dev-palani-ram",
+    "ancestry_path": "organization/614830067722/folder/561421552790/project/my-test-project",
     "resource": {
       "version": "v1",
       "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
       "discovery_name": "Instance",
-      "parent": "//cloudresourcemanager.googleapis.com/projects/prj-dev-palani-ram",
+      "parent": "//cloudresourcemanager.googleapis.com/projects/my-test-project",
       "data": {
         "canIpForward": false,
         "deletionProtection": false,
@@ -17,7 +17,7 @@
             "boot": true,
             "initializeParams": {
               "diskSizeGb": "20",
-              "diskType": "projects/prj-dev-palani-ram/zones/us-central1-f/diskTypes/pd-standard",
+              "diskType": "projects/my-test-project/zones/us-central1-f/diskTypes/pd-standard",
               "sourceImage": "projects/centos-cloud/global/images/centos-8-v20210512"
             },
             "mode": "READ_WRITE"
@@ -26,7 +26,7 @@
         "displayDevice": {
           "enableDisplay": false
         },
-        "machineType": "projects/prj-dev-palani-ram/zones/us-central1-f/machineTypes/e2-micro",
+        "machineType": "projects/my-test-project/zones/us-central1-f/machineTypes/e2-micro",
         "metadata": {
           "items": [
             {
@@ -43,7 +43,7 @@
             },
             {
               "key": "name",
-              "value": "pals-jumphost"
+              "value": "test-jumphost"
             },
             {
               "key": "serial-port-enable",
@@ -55,7 +55,7 @@
             }
           ]
         },
-        "name": "pals-jumphost",
+        "name": "test-jumphost",
         "networkInterfaces": [
           {
             "accessConfigs": [
@@ -63,7 +63,7 @@
                 "type": "ONE_TO_ONE_NAT"
               }
             ],
-            "subnetwork": "projects/prj-dev-palani-ram/regions/us-central1/subnetworks/primary-dmz-subnet"
+            "subnetwork": "projects/my-test-project/regions/us-central1/subnetworks/primary-dmz-subnet"
           }
         ],
         "scheduling": {
