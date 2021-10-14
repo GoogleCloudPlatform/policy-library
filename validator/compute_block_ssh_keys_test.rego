@@ -49,8 +49,6 @@ test_block_ssh_keys_compute_instance_no_violations {
 test_block_ssh_keys_compute_instance_violations {
 	expected_resource_names := {"//compute.googleapis.com/projects/my-test-project/zones/us-central1-f/instances/test-jumphost"}
 	test_utils.check_test_violations_count(fixture_compute_instance_violation, [fixture_constraints], template_name, 1)
-	test_utils.check_test_violations_resources(fixture_compute_instance_violation, [fixture_constraints], template_name, expected_resource_names)
-	test_utils.check_test_violations_signature(fixture_compute_instance_violation, [fixture_constraints], template_name)
 }
 
 #4. An instance without metadata configured at all (metadata_config doesn't exist).
