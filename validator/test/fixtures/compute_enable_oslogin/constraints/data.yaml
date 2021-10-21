@@ -1,0 +1,9 @@
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: GCPComputeEnableOSLoginProjectConstraintV1
+metadata:
+  name: compute-enable-oslogin-project
+  annotations:
+    description: checks if "oslogin" is enabled for a Project
+spec:
+  severity: high
+  parameters: {}
