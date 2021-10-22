@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPComputeEnableOSLoginProjectConstraintV1
+package templates.gcp.GCPComputeRequireOSLoginConstraintV1
 
 import data.validator.gcp.lib as lib
 
@@ -33,7 +33,7 @@ deny[{
 	# check if key is available and values are as expected
 	not metadata_enable_oslogin(meta)
 
-	message := sprintf("On this resource %v check the required key '%v' is in violation.", [asset.name, key])
+	message := sprintf("On this resource %v Ensure that required key '%v' is present and value is true.", [asset.name, key])
 	metadata := {"resource": asset.name, "key_in_violation": key}
 }
 

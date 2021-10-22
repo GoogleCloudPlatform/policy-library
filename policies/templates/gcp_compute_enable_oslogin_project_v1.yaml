@@ -20,7 +20,7 @@ spec:
   crd:
     spec:
       names:
-        kind: GCPComputeEnableOSLoginProjectConstraintV1
+        kind: GCPComputeRequireOSLoginConstraintV1
       validation:
         openAPIV3Schema:
           properties: {}
@@ -44,7 +44,7 @@ spec:
             # limitations under the License.
             #
             
-            package templates.gcp.GCPComputeEnableOSLoginProjectConstraintV1
+            package templates.gcp.GCPComputeRequireOSLoginConstraintV1
             
             import data.validator.gcp.lib as lib
             

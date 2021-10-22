@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPComputeEnableOSLoginProjectConstraintV1
+kind: GCPComputeRequireOSLoginConstraintV1
 metadata:
   name: compute-enable-oslogin-project
   annotations:
