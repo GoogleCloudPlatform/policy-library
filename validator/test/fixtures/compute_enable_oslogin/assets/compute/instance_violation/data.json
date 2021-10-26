@@ -1,0 +1,145 @@
+[
+	{
+	"name": "//compute.googleapis.com/projects/my-test-project/zones/us-central1-f/instances/test-jumphost",
+	"asset_type": "compute.googleapis.com/Instance",
+	"ancestry_path": "organization/614830067722/folder/561421552790/project/my-test-project",
+	"resource": {
+		"version": "v1",
+		"discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+		"discovery_name": "Instance",
+		"parent": "//cloudresourcemanager.googleapis.com/projects/my-test-project",
+		"data": {
+			"canIpForward": false,
+			"deletionProtection": false,
+			"disks": [{
+				"autoDelete": true,
+				"boot": true,
+				"initializeParams": {
+					"diskSizeGb": "20",
+					"diskType": "projects/my-test-project/zones/us-central1-f/diskTypes/pd-standard",
+					"sourceImage": "projects/centos-cloud/global/images/centos-8-v20210512"
+				},
+				"mode": "READ_WRITE"
+			}],
+			"displayDevice": {
+				"enableDisplay": false
+			},
+			"machineType": "projects/my-test-project/zones/us-central1-f/machineTypes/e2-micro",
+			"metadata": {
+				"items": [{
+					"key": "block-project-ssh-keys",
+					"value": "true"
+				}, {
+					"key": "enable-oslogin",
+					"value": "true"
+				}, {
+					"key": "environment",
+					"value": "dev"
+				}, {
+					"key": "name",
+					"value": "test-jumphost"
+				}, {
+					"key": "serial-port-enable",
+					"value": "false"
+				}, {
+					"key": "startup-script",
+					"value": "echo instance created through terraform \u003e /readme.txt"
+				}]
+			},
+			"name": "test-jumphost",
+			"networkInterfaces": [{
+				"accessConfigs": [{
+					"type": "ONE_TO_ONE_NAT"
+				}],
+				"subnetwork": "projects/my-test-project/regions/us-central1/subnetworks/primary-dmz-subnet"
+			}],
+			"scheduling": {
+				"automaticRestart": true
+			},
+			"serviceAccounts": [{
+				"email": "default",
+				"scopes": ["https://www.googleapis.com/auth/cloud-platform"]
+			}],
+			"shieldedInstanceConfig": {
+				"enableIntegrityMonitoring": true,
+				"enableSecureBoot": false,
+
+				"enableVtpm": true
+			},
+			"tags": {
+				"items": ["ingress-inet", "egress-inet"]
+			}
+		}
+	}
+  },
+  {
+	"name": "//compute.googleapis.com/projects/my-test-project/zones/us-central1-f/instances/test-jumphost-violation",
+	"asset_type": "compute.googleapis.com/Instance",
+	"ancestry_path": "organization/614830067722/folder/561421552790/project/my-test-project",
+	"resource": {
+		"version": "v1",
+		"discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+		"discovery_name": "Instance",
+		"parent": "//cloudresourcemanager.googleapis.com/projects/my-test-project",
+		"data": {
+			"canIpForward": false,
+			"deletionProtection": false,
+			"disks": [{
+				"autoDelete": true,
+				"boot": true,
+				"initializeParams": {
+					"diskSizeGb": "20",
+					"diskType": "projects/my-test-project/zones/us-central1-f/diskTypes/pd-standard",
+					"sourceImage": "projects/centos-cloud/global/images/centos-8-v20210512"
+				},
+				"mode": "READ_WRITE"
+			}],
+			"displayDevice": {
+				"enableDisplay": false
+			},
+			"machineType": "projects/my-test-project/zones/us-central1-f/machineTypes/e2-micro",
+			"metadata": {
+				"items": [{
+					"key": "block-project-ssh-keys",
+					"value": "true"
+				}, {
+					"key": "environment",
+					"value": "dev"
+				}, {
+					"key": "name",
+					"value": "test-jumphost-violation"
+				}, {
+					"key": "serial-port-enable",
+					"value": "false"
+				}, {
+					"key": "startup-script",
+					"value": "echo instance created through terraform \u003e /readme.txt"
+				}]
+			},
+			"name": "test-jumphost-violation",
+			"networkInterfaces": [{
+				"accessConfigs": [{
+					"type": "ONE_TO_ONE_NAT"
+				}],
+				"subnetwork": "projects/my-test-project/regions/us-central1/subnetworks/primary-dmz-subnet"
+			}],
+			"scheduling": {
+				"automaticRestart": true
+			},
+			"serviceAccounts": [{
+				"email": "default",
+				"scopes": ["https://www.googleapis.com/auth/cloud-platform"]
+			}],
+			"shieldedInstanceConfig": {
+				"enableIntegrityMonitoring": true,
+				"enableSecureBoot": false,
+
+				"enableVtpm": true
+			},
+			"tags": {
+				"items": ["ingress-inet", "egress-inet"]
+			}
+		}
+	}
+  }
+]
