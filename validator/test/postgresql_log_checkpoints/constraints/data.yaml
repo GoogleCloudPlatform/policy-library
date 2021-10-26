@@ -13,16 +13,11 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPComputeRequireOSLoginConstraintV1
+kind: GCPPostgreSQLCheckpointsConstraintV1
 metadata:
-  name: compute-enable-oslogin-project
+  name:  postgresql-log-checkpoints-v1
   annotations:
-    bundles.validator.forsetisecurity.org/cis-v1.1: 4.04
-    description: Verifies that all VMs in a project have OS login enabled.
-
+    description: Ensure that the 'log_checkpoints' database flag for Cloud SQL PostgreSQL instance is set to 'on'
 spec:
   severity: high
-  match:
-      gcp:
-        target: ["organization/*"]
   parameters: {}

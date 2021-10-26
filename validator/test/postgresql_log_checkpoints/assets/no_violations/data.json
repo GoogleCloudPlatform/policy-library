@@ -1,0 +1,78 @@
+[
+  {
+	"name": "//cloudsql.googleapis.com/projects/prj-dev-palani-ram/instances/tf-pg-ha-62380f9c",
+	"asset_type": "sqladmin.googleapis.com/Instance",
+	"ancestry_path": "organization/614830067722/folder/561421552790/project/prj-dev-palani-ram",
+	"resource": {
+		"version": "v1beta4",
+		"discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/sqladmin/v1beta4/rest",
+		"discovery_name": "DatabaseInstance",
+		"parent": "//cloudresourcemanager.googleapis.com/projects/prj-dev-palani-ram",
+		"data": {
+			"databaseVersion": "POSTGRES_13",
+			"name": "tf-pg-ha-62380f9c",
+			"project": "prj-dev-palani-ram",
+			"region": "us-central1",
+			"settings": {
+				"activationPolicy": "ALWAYS",
+				"availabilityType": "REGIONAL",
+				"backupConfiguration": {
+					"enabled": true,
+					"startTime": "20:55"
+				},
+				"dataDiskSizeGb": "10",
+				"dataDiskType": "PD_SSD",
+				"databaseFlags": [{
+					"name": "autovacuum",
+					"value": "off"
+				}, {
+					"name": "log_checkpoints",
+					"value": "on"
+				}, {
+					"name": "log_connections",
+					"value": "on"
+				}, {
+					"name": "log_disconnections",
+					"value": "on"
+				}, {
+					"name": "log_lock_waits",
+					"value": "on"
+				}, {
+					"name": "log_min_messages",
+					"value": "ERROR"
+				}, {
+					"name": "log_min_duration_statement",
+					"value": "-1"
+				}, {
+					"name": "log_temp_files",
+					"value": "0"
+				}],
+				"ipConfiguration": {
+					"authorizedNetworks": [{
+						"name": "public-cidr",
+						"value": "0.0.0.0/0"
+					}],
+					"ipv4Enabled": true,
+					"requireSsl": true
+				},
+				"locationPreference": {
+					"zone": "us-central1-c"
+				},
+				"maintenanceWindow": {
+					"day": 7,
+					"hour": 12,
+					"updateTrack": "stable"
+				},
+				"pricingPlan": "PER_USE",
+				"replicationType": "SYNCHRONOUS",
+				"settingsVersion": "36",
+				"storageAutoResize": true,
+				"tier": "db-custom-2-13312",
+				"userLabels": {
+					"foo": "bar"
+				}
+			}
+		}
+	}
+  }
+]

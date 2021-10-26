@@ -3,7 +3,7 @@ kind: GCPComputeRequireOSLoginConstraintV1
 metadata:
   name: compute-enable-oslogin-project
   annotations:
-    description: checks if "oslogin" is enabled for a Project
+    description: Verifies that all VMs in a project have OS login enabled.
 spec:
   severity: high
   parameters: {}

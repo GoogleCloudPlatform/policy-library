@@ -1,0 +1,22 @@
+[
+  {
+	"name": "//cloudsql.googleapis.com/projects/prj-dev-palani-ram/instances/tf-pg-ha-62380f9c",
+	"asset_type": "sqladmin.googleapis.com/Instance",
+	"ancestry_path": "organization/614830067722/folder/561421552790/project/prj-dev-palani-ram",
+	"resource": {
+		"version": "v1beta4",
+		"discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/sqladmin/v1beta4/rest",
+		"discovery_name": "DatabaseInstance",
+		"parent": "//cloudresourcemanager.googleapis.com/projects/prj-dev-palani-ram",
+		"data": {
+			"databaseVersion": "POSTGRES_13",
+			"name": "tf-pg-ha-62380f9c",
+			"project": "prj-dev-palani-ram",
+			"region": "us-central1",
+			"settings": {
+
+			}
+		}
+	}
+  }
+]
