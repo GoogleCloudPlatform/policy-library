@@ -1,0 +1,167 @@
+[
+  {
+	"name": "//cloudsql.googleapis.com/projects/my-test-project/instances/tf-pg-ha-62380f9c-violation",
+	"asset_type": "sqladmin.googleapis.com/Instance",
+	"ancestry_path": "organization/614830067722/folder/561421552790/project/my-test-project",
+	"resource": {
+		"version": "v1beta4",
+		"discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/sqladmin/v1beta4/rest",
+		"discovery_name": "DatabaseInstance",
+		"parent": "//cloudresourcemanager.googleapis.com/projects/my-test-project",
+		"data": {
+			"databaseVersion": "POSTGRES_13",
+			"name": "tf-pg-ha-62380f9c-violation",
+			"project": "my-test-project",
+			"region": "us-central1",
+			"settings": {
+				"activationPolicy": "ALWAYS",
+				"availabilityType": "REGIONAL",
+				"backupConfiguration": {
+					"enabled": true,
+					"startTime": "20:55"
+				},
+				"dataDiskSizeGb": "10",
+				"dataDiskType": "PD_SSD",
+				"databaseFlags": [{
+					"name": "autovacuum",
+					"value": "off"
+				}, {
+					"name": "log_connections",
+					"value": "on"
+				}, {
+					"name": "log_disconnections",
+					"value": "on"
+				}, {
+					"name": "log_lock_waits",
+					"value": "on"
+				}, {
+					"name": "log_min_messages",
+					"value": "ERROR"
+				}, {
+					"name": "log_min_duration_statement",
+					"value": "-1"
+				}, {
+					"name": "log_temp_files",
+					"value": "0"
+				}],
+				"ipConfiguration": {
+					"authorizedNetworks": [{
+						"name": "public-cidr",
+						"value": "0.0.0.0/0"
+					}],
+					"ipv4Enabled": true,
+					"requireSsl": true
+				},
+				"locationPreference": {
+					"zone": "us-central1-c"
+				},
+				"maintenanceWindow": {
+					"day": 7,
+					"hour": 12,
+					"updateTrack": "stable"
+				},
+				"pricingPlan": "PER_USE",
+				"replicationType": "SYNCHRONOUS",
+				"settingsVersion": "36",
+				"storageAutoResize": true,
+				"tier": "db-custom-2-13312",
+				"userLabels": {
+					"foo": "bar"
+				}
+			}
+		}
+	}
+  },
+{
+    "name": "//compute.googleapis.com/projects/my-test-project/zones/us-central1-f/instances/test-jumphost",
+    "asset_type": "compute.googleapis.com/Instance",
+    "ancestry_path": "organization/614830067722/folder/561421552790/project/my-test-project",
+    "resource": {
+      "version": "v1",
+      "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+      "discovery_name": "Instance",
+      "parent": "//cloudresourcemanager.googleapis.com/projects/my-test-project",
+      "data": {
+        "canIpForward": false,
+        "deletionProtection": false,
+        "disks": [
+          {
+            "autoDelete": true,
+            "boot": true,
+            "initializeParams": {
+              "diskSizeGb": "20",
+              "diskType": "projects/my-test-project/zones/us-central1-f/diskTypes/pd-standard",
+              "sourceImage": "projects/centos-cloud/global/images/centos-8-v20210512"
+            },
+            "mode": "READ_WRITE"
+          }
+        ],
+        "displayDevice": {
+          "enableDisplay": false
+        },
+        "machineType": "projects/my-test-project/zones/us-central1-f/machineTypes/e2-micro",
+        "metadata": {
+          "items": [
+            {
+              "key": "block-project-ssh-keys",
+              "value": "true"
+            },
+            {
+              "key": "enable-oslogin",
+              "value": "false"
+            },
+            {
+              "key": "environment",
+              "value": "dev"
+            },
+            {
+              "key": "name",
+              "value": "test-jumphost"
+            },
+            {
+              "key": "serial-port-enable",
+              "value": "false"
+            },
+            {
+              "key": "startup-script",
+              "value": "echo instance created through terraform \u003e /readme.txt"
+            }
+          ]
+        },
+        "name": "test-jumphost",
+        "networkInterfaces": [
+          {
+            "accessConfigs": [
+              {
+                "type": "ONE_TO_ONE_NAT"
+              }
+            ],
+            "subnetwork": "projects/my-test-project/regions/us-central1/subnetworks/primary-dmz-subnet"
+          }
+        ],
+        "scheduling": {
+          "automaticRestart": true
+        },
+        "serviceAccounts": [
+          {
+            "email": "default",
+            "scopes": [
+              "https://www.googleapis.com/auth/cloud-platform"
+            ]
+          }
+        ],
+        "shieldedInstanceConfig": {
+          "enableIntegrityMonitoring": true,
+          "enableSecureBoot": false,
+          "enableVtpm": true
+        },
+        "tags": {
+          "items": [
+            "ingress-inet",
+            "egress-inet"
+          ]
+        }
+      }
+    }
+  }
+]
