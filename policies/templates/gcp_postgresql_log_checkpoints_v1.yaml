@@ -69,9 +69,6 @@ spec:
         	metadata := {"resource": asset.name, "key_in_violation": key}
         }
         
-        # All other cases for settings databaseflags are violations
-        default settings_databaseflags(settings) = false
-        
         # check for log_checkpoints under settings databaseflags - no violation
         settings_databaseflags(settings) {
         	setdata := settings.databaseFlags[_]
