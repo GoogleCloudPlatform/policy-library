@@ -42,6 +42,6 @@ deny[{
 
 	maximum_size > ip_network_size
 
-	message := sprintf("IP range %v too broad in acess level %v.", [ip_network, asset.access_level.name])
+	message := sprintf("IP range %v too broad in access level %v.", [ip_network, asset.access_level.name])
 	metadata := {"resource": asset.name, "access_level": asset.access_level.name}
 }
