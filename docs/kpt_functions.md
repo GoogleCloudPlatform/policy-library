@@ -11,7 +11,7 @@ kpt pkg get https://github.com/forseti-security/policy-library.git ./policy-libr
 Filters the [samples](../samples) in this repo for a given [policy bundle](./index.md).
 
 ### Run with Docker
-Copy the `forseti-security` bundle to the constriants directory using Docker.
+Copy the `forseti-security` bundle to the constraints directory using Docker.
 
 ```
 kpt fn source ./samples/ | \
