@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPGKERestrictPodTrafficConstraintV1
+package templates.gcp.GCPGKERestrictPodTrafficConstraintV2
 
 import data.validator.gcp.lib as lib
 

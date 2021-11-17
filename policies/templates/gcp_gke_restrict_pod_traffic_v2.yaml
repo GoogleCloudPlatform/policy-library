@@ -17,12 +17,12 @@
 apiVersion: templates.gatekeeper.sh/v1alpha1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-restrict-pod-traffic-v1
+  name: gcp-restrict-pod-traffic-v2
 spec:
   crd:
     spec:
       names:
-        kind: GCPGKERestrictPodTrafficConstraintV1
+        kind: GCPGKERestrictPodTrafficConstraintV2
       validation:
         openAPIV3Schema:
           properties: {}
@@ -45,7 +45,7 @@ spec:
          # limitations under the License.
          #
          
-         package templates.gcp.GCPGKERestrictPodTrafficConstraintV1
+         package templates.gcp.GCPGKERestrictPodTrafficConstraintV2
          
          import data.validator.gcp.lib as lib
          
