@@ -1,7 +1,7 @@
 apiVersion: kpt.dev/v1
 kind: Kptfile
 metadata:
-  name: .
+  name: constraints
 info:
   description: kpt policy library constraints package
   keywords:
