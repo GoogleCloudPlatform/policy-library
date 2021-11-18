@@ -157,12 +157,17 @@ generate_docs: # Generate docs
 	@cp -R ./samples/ $(TMP_DIR)
 	@cp -R ./policies/ $(TMP_DIR)
 	@kpt fn eval $(TMP_DIR) --image gcr.io/config-validator/generate-docs:dev --mount type=bind,src="$(shell pwd)/docs",dst=/docs,rw=true --fn-config docs/func.yaml
-	rm -rf $(TMP_DIR)
+	@rm -rf $(TMP_DIR)
 
 .PHONY: docker_build_kpt
 docker_build_kpt: ## Build docker image for KPT functions
 	docker build -f ./bundler/build/get_policy_bundle.Dockerfile -t gcr.io/config-validator/get-policy-bundle:dev ./bundler/
 	docker build -f ./bundler/build/generate_docs.Dockerfile -t gcr.io/config-validator/generate-docs:dev ./bundler/
+
+.PHONY: docker_push_kpt
+docker_push_kpt: ## Push docker image for KPT functions
+	docker push gcr.io/config-validator/get-policy-bundle:dev
+	docker push gcr.io/config-validator/generate-docs:dev
 
 .PHONY: docker_test_kpt
 docker_test_kpt: ## Run npm test for KPT functions
