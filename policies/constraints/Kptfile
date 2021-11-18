@@ -7,6 +7,4 @@ info:
   keywords:
   - kpt.dev/app=policylibraryconstraints
 pipeline:
-  mutators:
-  - image: gcr.io/kpt-fn/apply-setters:v0.2
-    configPath: setters.yaml
+  mutators: []
