@@ -153,8 +153,11 @@ build/rego-%/Dockerfile: cloudbuild/Dockerfile
 .PHONY: generate_docs
 generate_docs: # Generate docs
 	@echo "Generating docs with kpt..."
-	@cat <(kpt fn source --output=unwrap ./samples/) <(echo "---") <(kpt fn source --output=unwrap ./policies/) | \
-		kpt fn eval - --image gcr.io/config-validator/generate-docs:dev --mount type=bind,src="$(shell pwd)/docs",dst=/docs,rw=true --fn-config docs/func.yaml
+	$(eval TMP_DIR := $(shell mktemp -d))
+	@cp -R ./samples/ $(TMP_DIR)
+	@cp -R ./policies/ $(TMP_DIR)
+	@kpt fn eval $(TMP_DIR) --image gcr.io/config-validator/generate-docs:dev --mount type=bind,src="$(shell pwd)/docs",dst=/docs,rw=true --fn-config docs/func.yaml
+	rm -rf $(TMP_DIR)
 
 .PHONY: docker_build_kpt
 docker_build_kpt: ## Build docker image for KPT functions
