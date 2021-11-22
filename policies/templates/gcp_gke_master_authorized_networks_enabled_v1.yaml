@@ -85,7 +85,7 @@ spec:
             }
             
             # If authorized network parameter is not set, then no need of checking anything else
-            # If it is set to anything (e.g., a list of paramters, or an empty list) then
+            # If it is set to anything (e.g., a list of parameters, or an empty list) then
             # enforce that only the listed networks are defined.
             forbidden_networks(cluster, params) = forbidden {
             	lib.has_field(params, "authorized_networks")

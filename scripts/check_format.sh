@@ -9,7 +9,7 @@ if [[ "$diff" == "" ]]; then
   exit
 fi
 
-echo "Formating error:"
+echo "Formatting error:"
 echo "$diff"
 echo ""
 echo "Run \"make format\" in your client to fix."

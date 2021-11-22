@@ -58,8 +58,8 @@ spec:
                     enum: ["allowed", "denied", "any"]
                   port:
                     description: |
-                      "Port of the rules to restrict. This parameter is tighly coupled with the
-                      protocol paramter: the rule will be marked as in violation if the parameter
+                      "Port of the rules to restrict. This parameter is tightly coupled with the
+                      protocol parameter: the rule will be marked as in violation if the parameter
                       protocol:port pair matches (denylist) / does not match (allowlist) one of its
                       protocol:port listed.
                       Valid values are:
@@ -72,8 +72,8 @@ spec:
                     type: string
                   protocol:
                     description: |
-                      "Protocol of the rules to restrict. This parameter is tighly coupled with
-                      the port paramter: the rule will be marked as in violation if the parameter
+                      "Protocol of the rules to restrict. This parameter is tightly coupled with
+                      the port parameter: the rule will be marked as in violation if the parameter
                       protocol:port pair matches (denylist) / does not match (allowlist)
                       one of its protocol:port listed.
                       Valid values are:

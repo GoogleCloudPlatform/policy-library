@@ -36,7 +36,7 @@ deny[{
 
 	world_readable_checks[_] == true
 
-	message := sprintf("%v is publicly accessable", [asset.name])
+	message := sprintf("%v is publicly accessible", [asset.name])
 	metadata := {"resource": asset.name}
 }
 
