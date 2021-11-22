@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-package templates.gcp.GCPGKERestrictPodTrafficConstraintV1
+package templates.gcp.GCPGKERestrictPodTrafficConstraintV2
 
 import data.validator.gcp.lib as lib
 
@@ -42,20 +42,16 @@ good_config_no_violations[violation] {
 
 test_violations_basic {
 	# 3 violation cases in the test fixtures:
-	#   1. network_policy_config disabled
-	#   2. network_policy does not exist
-	#   3. network_policy exists and set to false
-	#   4. podsecurityconfig does not exist
-	#   5. podsecurityconfig exists and set to false
-	count(all_violations) == 5
+	#   1. network_policy_config enabled and network_policy does not exist
+	#   2. network_policy_config disabled
+	#   3. network_policy_config enabled and network_policy disabled
+	count(all_violations) == 3
 	violation := all_violations[_]
 	resource_names := {x | x = all_violations[_].details.resource}
 	expected_resource_name := {
 		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust",
 		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust2",
-		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust3",
 		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust5",
-		"//container.googleapis.com/projects/transfer-repos/zones/us-central1-c/clusters/joe-clust6",
 	}
 
 	resource_names == expected_resource_name
