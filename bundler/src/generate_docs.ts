@@ -167,9 +167,9 @@ ${section.markdown.join("\n\n")}`),
       });
     docSections.push(`## Sample Constraints
 
-    The repo also contains a number of sample constraints:
+The repo also contains a number of sample constraints:
 
-    ${mdTable(samples)}`);
+${mdTable(samples)}`);
   }
 
   const templateDoc = docSections.join("\n");
