@@ -27,14 +27,14 @@ import data.test.fixtures.postgresql_log_checkpoints.constraints as fixture_cons
 template_name := "GCPPostgreSQLCheckpointsConstraintV1"
 
 #1. postgresql with correct key
-test_postgresql_log_checkpoints_no_violations {
+test_postgresql_log_checkpoints_with_correctkey {
 	expected_resource_names := {"//cloudsql.googleapis.com/projects/my-test-project/instances/tf-pg-ha-62380f9c-no-violation"}
 	test_utils.check_test_violations_count(fixture_no_violation, [fixture_constraint], template_name, 1)
 	test_utils.check_test_violations_resources(fixture_no_violation, [fixture_constraint], template_name, expected_resource_names)
 }
 
 #2. postgresql without correct key
-test_postgresql_log_checkpoints_violations {
+test_postgresql_log_checkpoints_without_correctkey {
 	expected_resource_names := {"//cloudsql.googleapis.com/projects/my-test-project/instances/tf-pg-ha-62380f9c-violation"}
 	test_utils.check_test_violations_count(fixture_violation, [fixture_constraint], template_name, 1)
 	test_utils.check_test_violations_resources(fixture_violation, [fixture_constraint], template_name, expected_resource_names)

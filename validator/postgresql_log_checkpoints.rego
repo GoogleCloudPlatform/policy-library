@@ -40,7 +40,7 @@ deny[{
 	metadata := {"resource": asset.name, "key_in_violation": key}
 }
 
-# check for log_checkpoints under settings databaseflags - no violation
+# check for log_checkpoints under settings databaseflags
 settings_databaseflags(settings) {
 	setdata := settings.databaseFlags[_]
 	setdata.name == "log_checkpoints"
