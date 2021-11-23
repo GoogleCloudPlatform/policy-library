@@ -43,6 +43,6 @@ deny[{
 # check for log_checkpoints under settings databaseflags
 settings_databaseflags(settings) {
 	setdata := settings.databaseFlags[_]
-	setdata.name == "log_checkpoints"
-	setdata.value != "on"
+	setdata.key == "log_checkpoints"
+	setdata.value == "on"
 }
