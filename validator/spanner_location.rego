@@ -53,11 +53,11 @@ location_is_valid(asset, locations) {
 
 	# Retrieve the location 
 	instance_config_parts := split(resource.config, "/")
-	resouce_location := instance_config_parts[3]
+	resource_location := instance_config_parts[3]
 
 	# iterate through the locations
 	location := locations[_]
 
 	# the resource location is valid if it matches one of the passed locations
-	re_match(location, resouce_location)
+	re_match(location, resource_location)
 }
