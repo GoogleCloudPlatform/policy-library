@@ -19,28 +19,20 @@ import data.validator.gcp.lib as lib
 import data.validator.test_utils as test_utils
 
 import data.test.fixtures.postgresql_log_checkpoints.assets.no_settings as fixture_no_settings
-import data.test.fixtures.postgresql_log_checkpoints.assets.no_violations as fixture_no_violation
 import data.test.fixtures.postgresql_log_checkpoints.assets.violations as fixture_violation
 
 import data.test.fixtures.postgresql_log_checkpoints.constraints as fixture_constraint
 
 template_name := "GCPPostgreSQLCheckpointsConstraintV1"
 
-#1. postgresql with correct key
-test_postgresql_log_checkpoints_with_correctkey {
-	expected_resource_names := {"//cloudsql.googleapis.com/projects/my-test-project/instances/tf-pg-ha-62380f9c-no-violation"}
-	test_utils.check_test_violations_count(fixture_no_violation, [fixture_constraint], template_name, 1)
-	test_utils.check_test_violations_resources(fixture_no_violation, [fixture_constraint], template_name, expected_resource_names)
-}
-
-#2. postgresql without correct key
+#1. postgresql without correct key
 test_postgresql_log_checkpoints_without_correctkey {
 	expected_resource_names := {"//cloudsql.googleapis.com/projects/my-test-project/instances/tf-pg-ha-62380f9c-violation"}
 	test_utils.check_test_violations_count(fixture_violation, [fixture_constraint], template_name, 1)
 	test_utils.check_test_violations_resources(fixture_violation, [fixture_constraint], template_name, expected_resource_names)
 }
 
-#3. An instance without settings configured at all (settings doesn't exist).
+#2. An instance without settings configured at all (settings doesn't exist).
 test_postgresql_log_checkpoints_no_settings {
 	expected_resource_names := {"//cloudsql.googleapis.com/projects/my-test-project/instances/tf-pg-ha-62380f9c-no-settings"}
 	expected_field_name := "key_in_violation"
