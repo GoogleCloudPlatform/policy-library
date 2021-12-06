@@ -35,15 +35,22 @@ deny[{
 	metadata := {"resource": asset.name}
 }
 
-check_key_not_expired(key) = check_key_not_expired {
+check_key_not_expired(key) {
 	expiry_time := time.parse_rfc3339_ns(lib.get_default(key, "validBeforeTime", "1900-01-01T01:00:006Z"))
+	expiry_time >= 0
 	now := time.now_ns()
-	check_key_not_expired := now < expiry_time
+	now < expiry_time
 }
 
-check_key_age(key, max_age) = check_key_age {
+# Workaround for dates in the far future - https://github.com/open-policy-agent/opa/issues/4098
+check_key_not_expired(key) {
+	expiry_time := time.parse_rfc3339_ns(lib.get_default(key, "validBeforeTime", "1900-01-01T01:00:006Z"))
+	expiry_time < 0
+}
+
+check_key_age(key, max_age) {
 	created_time := time.parse_rfc3339_ns(lib.get_default(key, "validAfterTime", "2200-01-01T01:00:006Z"))
 	max_age_parsed := time.parse_duration_ns(max_age)
 	key_age := time.now_ns() - created_time
-	check_key_age := key_age > max_age_parsed
+	key_age > max_age_parsed
 }

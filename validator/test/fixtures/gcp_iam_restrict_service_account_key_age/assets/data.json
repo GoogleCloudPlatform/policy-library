@@ -27,7 +27,7 @@
     "resource": {
       "data": {
             "validAfterTime": "2018-03-24T10:00:00Z",
-            "validBeforeTime": "2200-08-22T19:55:36Z",
+            "validBeforeTime": "2999-08-22T19:55:36Z",
             "keyAlgorithm": "KEY_ALG_RSA_2048"
           }
       }
