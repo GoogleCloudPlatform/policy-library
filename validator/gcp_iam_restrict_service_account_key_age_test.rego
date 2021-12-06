@@ -24,20 +24,30 @@ import data.test.fixtures.gcp_iam_restrict_service_account_key_age.constraints a
 
 # Confirm total violations count
 test_service_account_key_age_ninety_days_violations_count {
-	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.ninety_days], template_name, 2)
+	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.ninety_days], template_name, 3)
 }
 
 test_service_account_key_age_one_hundred_days_violations_count {
-	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.one_hundred_days], template_name, 2)
+	test_utils.check_test_violations_count(fixture_assets, [fixture_constraints.one_hundred_days], template_name, 3)
 }
 
 # Confirm violation resources
 test_service_account_key_age_ninety_days_resources {
-	resource_names := {"//iam.googleapis.com/projects/forseti-system-test/serviceAccounts/111111-compute@developer.gserviceaccount.com/keys/testkeyageover90days", "//iam.googleapis.com/projects/forseti-system-test/serviceAccounts/111111-compute@developer.gserviceaccount.com/keys/testkeyageover100days"}
+	resource_names := {
+		"//iam.googleapis.com/projects/forseti-system-test/serviceAccounts/111111-compute@developer.gserviceaccount.com/keys/testkeyageover90days",
+		"//iam.googleapis.com/projects/forseti-system-test/serviceAccounts/111111-compute@developer.gserviceaccount.com/keys/testkeyageover100days",
+		"//iam.googleapis.com/projects/forseti-system-test/serviceAccounts/111111-compute@developer.gserviceaccount.com/keys/testkeyageover100000days",
+	}
+
 	test_utils.check_test_violations(fixture_assets, [fixture_constraints.ninety_days], template_name, resource_names)
 }
 
 test_service_account_key_age_one_hundred_days_resources {
-	resource_names := {"//iam.googleapis.com/projects/forseti-system-test/serviceAccounts/111111-compute@developer.gserviceaccount.com/keys/testkeyageover90days", "//iam.googleapis.com/projects/forseti-system-test/serviceAccounts/111111-compute@developer.gserviceaccount.com/keys/testkeyageover100days"}
+	resource_names := {
+		"//iam.googleapis.com/projects/forseti-system-test/serviceAccounts/111111-compute@developer.gserviceaccount.com/keys/testkeyageover90days",
+		"//iam.googleapis.com/projects/forseti-system-test/serviceAccounts/111111-compute@developer.gserviceaccount.com/keys/testkeyageover100days",
+		"//iam.googleapis.com/projects/forseti-system-test/serviceAccounts/111111-compute@developer.gserviceaccount.com/keys/testkeyageover100000days",
+	}
+
 	test_utils.check_test_violations(fixture_assets, [fixture_constraints.one_hundred_days], template_name, resource_names)
 }
