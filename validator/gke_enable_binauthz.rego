@@ -30,8 +30,7 @@ deny[{
 	bin_authz := lib.get_default(cluster, "binaryAuthorization", {})
 	bin_authz_enabled := lib.get_default(bin_authz, "enabled", false)
 	bin_authz_enabled == false
-	ancestry_path = lib.get_default(asset, "ancestry_path", "")
 
 	message := sprintf("Binary authorization is not enabled in cluster %v.", [asset.name])
-	metadata := {"resource": asset.name, "ancestry_path": ancestry_path}
+	metadata := {"resource": asset.name}
 }
