@@ -24,12 +24,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const kpt_functions_1 = require("kpt-functions");
 const common_1 = require("./common");
 exports.ANNOTATION_NAME = "bundle";
+exports.EXPORT_FLAG_NAME = "export";
+const ANNOTATION_PATH = "internal.config.kubernetes.io/path";
 function getPolicyBundle(configs) {
     return __awaiter(this, void 0, void 0, function* () {
         // Get the paramters
         const bundleName = configs.getFunctionConfigValueOrThrow(exports.ANNOTATION_NAME);
+        const exportFlagValue = configs.getFunctionConfigValue(exports.EXPORT_FLAG_NAME);
         // Build the policy library
         const library = new common_1.PolicyLibrary(configs.getAll());
         // Get bundle
@@ -37,6 +41,13 @@ function getPolicyBundle(configs) {
         const bundle = library.bundles.get(annotationName);
         if (bundle === undefined) {
             throw new Error(`bundle does not exist: ` + annotationName + `.`);
+        }
+        if (exportFlagValue && exportFlagValue === "flat") {
+            bundle.configs.forEach(p => {
+                var _a;
+                const policyPath = kpt_functions_1.getAnnotation(p, ANNOTATION_PATH);
+                kpt_functions_1.addAnnotation(p, ANNOTATION_PATH, ((_a = policyPath) === null || _a === void 0 ? void 0 : _a.substring(policyPath.lastIndexOf("/") + 1)) || "");
+            });
         }
         // Return the bundle
         configs.deleteAll();

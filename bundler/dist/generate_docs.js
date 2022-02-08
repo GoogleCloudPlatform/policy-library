@@ -168,9 +168,9 @@ ${section.markdown.join("\n\n")}`),
         });
         docSections.push(`## Sample Constraints
 
-    The repo also contains a number of sample constraints:
+The repo also contains a number of sample constraints:
 
-    ${markdown_table_1.default(samples)}`);
+${markdown_table_1.default(samples)}`);
     }
     const templateDoc = docSections.join("\n");
     const templateDocPath = path.join(sinkDir, "index.md");

@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-import { Configs } from "kpt-functions";
+import { Configs, getAnnotation, addAnnotation } from "kpt-functions";
 import { PolicyLibrary, BUNDLE_ANNOTATION_PREFIX } from "./common";
 
 export const ANNOTATION_NAME = "bundle";
+export const EXPORT_FLAG_NAME = "export";
+const ANNOTATION_PATH = "internal.config.kubernetes.io/path";
 
 export async function getPolicyBundle(configs: Configs) {
   // Get the paramters
   const bundleName = configs.getFunctionConfigValueOrThrow(ANNOTATION_NAME);
+  const exportFlagValue = configs.getFunctionConfigValue(EXPORT_FLAG_NAME);
 
   // Build the policy library
   const library = new PolicyLibrary(configs.getAll());
@@ -31,6 +34,13 @@ export async function getPolicyBundle(configs: Configs) {
   const bundle = library.bundles.get(annotationName);
   if (bundle === undefined) {
     throw new Error(`bundle does not exist: ` + annotationName + `.`);
+  }
+
+  if (exportFlagValue && exportFlagValue === "flat") {
+    bundle.configs.forEach(p => {
+      const policyPath = getAnnotation(p, ANNOTATION_PATH);
+      addAnnotation(p, ANNOTATION_PATH, policyPath?.substring(policyPath.lastIndexOf("/")+1) || "");
+    });
   }
 
   // Return the bundle
