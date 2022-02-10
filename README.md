@@ -6,15 +6,15 @@ This repo contains a library of constraint templates and sample constraints.
 For information on setting up Config Validator to secure your environment, see the [User Guide](./docs/user_guide.md).
 
 ## Initializing a policy library
-You can easily set up a new (local) policy library by downloading a [bundle](./docs/index.md#policy-bundles) using [kpt](https://googlecontainertools.github.io/kpt/).
+You can easily set up a new (local) policy library by downloading a [bundle](./docs/index.md#policy-bundles) using [kpt](https://kpt.dev/).
 
 Download the full policy library and install the [Forseti bundle](./docs/bundles/forseti-security.md):
 ```
 export BUNDLE=forseti-security
 kpt pkg get https://github.com/GoogleCloudPlatform/policy-library.git ./policy-library
 kpt fn source policy-library/samples/ | \
-  kpt fn run --image gcr.io/config-validator/get-policy-bundle:latest -- bundle=$BUNDLE | \
-  kpt fn sink policy-library/policies/constraints/
+  kpt fn eval - --image gcr.io/config-validator/get-policy-bundle:latest -- bundle=$BUNDLE | \
+  kpt fn sink policy-library/policies/constraints/$BUNDLE
 ```
 
 Once you have initialized a library, you might want to save it to [git](./docs/user_guide.md#https://github.com/GoogleCloudPlatform/policy-library/blob/master/docs/user_guide.md#get-started-with-the-policy-library-repository).

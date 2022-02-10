@@ -37,9 +37,12 @@ const io_k8s_api_core_v1_1 = require("./gen/io.k8s.api.core.v1");
 const get_policy_bundle_1 = require("./get_policy_bundle");
 const kpt_functions_1 = require("kpt-functions");
 const FORSETI_BUNDLE = "forseti-security";
+const EXPORT_STRAEGY = "flat";
 const RUNNER = new kpt_functions_1.TestRunner(get_policy_bundle_1.getPolicyBundle);
 const SOURCE_SAMPLES_FILE = path.resolve(__dirname, "..", "test-data", "policy-bundle", "source", "samples.yaml");
 const SINK_SAMPLES_FILE = path.resolve(__dirname, "..", "test-data", "policy-bundle", "sink", "samples.yaml");
+const SOURCE_SAMPLES_FILE_FOR_FLAT_EXPORT = path.resolve(__dirname, "..", "test-data", "policy-bundle-flat-export", "source", "samples.yaml");
+const SINK_SAMPLES_FILE_WITH_FLAT_EXPORT = path.resolve(__dirname, "..", "test-data", "policy-bundle-flat-export", "sink", "samples.yaml");
 describe("getPolicyBundle", () => {
     const functionConfig = io_k8s_api_core_v1_1.ConfigMap.named("config");
     beforeEach(() => {
@@ -50,6 +53,21 @@ describe("getPolicyBundle", () => {
         functionConfig.data[get_policy_bundle_1.ANNOTATION_NAME] = FORSETI_BUNDLE;
         const configs = new kpt.Configs(input.getAll(), functionConfig);
         const expectedConfigs = yield readTestConfigs(SINK_SAMPLES_FILE);
+        yield get_policy_bundle_1.getPolicyBundle(configs);
+        yield RUNNER.assert(configs, expectedConfigs);
+    }));
+});
+describe("getPolicyBundle with export flag", () => {
+    const functionConfig = io_k8s_api_core_v1_1.ConfigMap.named("config");
+    beforeEach(() => {
+        functionConfig.data = {};
+    });
+    it("replicates test dir", () => __awaiter(void 0, void 0, void 0, function* () {
+        const input = yield readTestConfigs(SOURCE_SAMPLES_FILE_FOR_FLAT_EXPORT);
+        functionConfig.data[get_policy_bundle_1.ANNOTATION_NAME] = FORSETI_BUNDLE;
+        functionConfig.data[get_policy_bundle_1.EXPORT_FLAG_NAME] = EXPORT_STRAEGY;
+        const configs = new kpt.Configs(input.getAll(), functionConfig);
+        const expectedConfigs = yield readTestConfigs(SINK_SAMPLES_FILE_WITH_FLAT_EXPORT);
         yield get_policy_bundle_1.getPolicyBundle(configs);
         yield RUNNER.assert(configs, expectedConfigs);
     }));

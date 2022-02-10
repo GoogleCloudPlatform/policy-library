@@ -17,10 +17,11 @@
 import * as kpt from "kpt-functions";
 import * as path from "path";
 import { ConfigMap } from "./gen/io.k8s.api.core.v1";
-import { getPolicyBundle, ANNOTATION_NAME } from "./get_policy_bundle";
+import { getPolicyBundle, ANNOTATION_NAME, EXPORT_FLAG_NAME } from "./get_policy_bundle";
 import { TestRunner } from "kpt-functions";
 
 const FORSETI_BUNDLE = "forseti-security";
+const EXPORT_STRAEGY = "flat";
 const RUNNER = new TestRunner(getPolicyBundle);
 
 const SOURCE_SAMPLES_FILE = path.resolve(
@@ -41,6 +42,24 @@ const SINK_SAMPLES_FILE = path.resolve(
   "samples.yaml"
 );
 
+const SOURCE_SAMPLES_FILE_FOR_FLAT_EXPORT = path.resolve(
+  __dirname,
+  "..",
+  "test-data",
+  "policy-bundle-flat-export",
+  "source",
+  "samples.yaml"
+);
+
+const SINK_SAMPLES_FILE_WITH_FLAT_EXPORT = path.resolve(
+  __dirname,
+  "..",
+  "test-data",
+  "policy-bundle-flat-export",
+  "sink",
+  "samples.yaml"
+);
+
 describe("getPolicyBundle", () => {
   const functionConfig = ConfigMap.named("config");
 
@@ -53,6 +72,26 @@ describe("getPolicyBundle", () => {
     functionConfig.data![ANNOTATION_NAME] = FORSETI_BUNDLE;
     const configs = new kpt.Configs(input.getAll(), functionConfig);
     const expectedConfigs = await readTestConfigs(SINK_SAMPLES_FILE);
+
+    await getPolicyBundle(configs);
+
+    await RUNNER.assert(configs, expectedConfigs);
+  });
+});
+
+describe("getPolicyBundle with export flag", () => {
+  const functionConfig = ConfigMap.named("config");
+
+  beforeEach(() => {
+    functionConfig.data = {};
+  });
+
+  it("replicates test dir", async () => {
+    const input = await readTestConfigs(SOURCE_SAMPLES_FILE_FOR_FLAT_EXPORT);
+    functionConfig.data![ANNOTATION_NAME] = FORSETI_BUNDLE;
+    functionConfig.data![EXPORT_FLAG_NAME] = EXPORT_STRAEGY;
+    const configs = new kpt.Configs(input.getAll(), functionConfig);
+    const expectedConfigs = await readTestConfigs(SINK_SAMPLES_FILE_WITH_FLAT_EXPORT);
 
     await getPolicyBundle(configs);
 
