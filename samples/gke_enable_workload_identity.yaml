@@ -18,6 +18,7 @@ metadata:
   name: enable_gke_workload_identity
   annotations:
     description: Ensure Workload Identity is enabled on a GKE cluster
+    bundles.validator.forsetisecurity.org/gke-hardening-v2022.03: ENABLE_WORKLOAD_IDENTITY
 spec:
   severity: high
   match:
