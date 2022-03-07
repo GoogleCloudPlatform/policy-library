@@ -1,9 +1,9 @@
-# gke-hardening-v2022.03
+# gke-hardening-v2022
 
 This bundle can be installed via kpt:
 
 ```
-export BUNDLE=gke-hardening-v2022.03
+export BUNDLE=gke-hardening-v2022
 kpt pkg get https://github.com/GoogleCloudPlatform/policy-library.git ./policy-library
 kpt fn source policy-library/samples/ | \
   kpt fn eval - --image gcr.io/config-validator/get-policy-bundle:latest -- bundle=$BUNDLE | \
