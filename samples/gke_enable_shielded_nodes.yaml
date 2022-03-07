@@ -18,6 +18,7 @@ metadata:
   name: enable_gke_shielded_nodes
   annotations:
     description: Checks that GKE is using Shielded nodes (secure boot).
+    bundles.validator.forsetisecurity.org/gke-hardening-v2022: ENABLE_SHIELDED_GKE_NODES
 spec:
   severity: high
   match:

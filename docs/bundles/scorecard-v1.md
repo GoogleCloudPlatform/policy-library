@@ -6,7 +6,7 @@ This bundle can be installed via kpt:
 export BUNDLE=scorecard-v1
 kpt pkg get https://github.com/GoogleCloudPlatform/policy-library.git ./policy-library
 kpt fn source policy-library/samples/ | \
-  kpt fn run --image gcr.io/config-validator/get-policy-bundle:latest -- bundle=$BUNDLE | \
+  kpt fn eval - --image gcr.io/config-validator/get-policy-bundle:latest -- bundle=$BUNDLE | \
   kpt fn sink policy-library/policies/constraints/
 ```
 
@@ -33,6 +33,7 @@ kpt fn source policy-library/samples/ | \
 | [gke_container_optimized_os](../../samples/gke_container_optimized_os.yaml)                        | security               | Ensure Container-Optimized OS (cos) is used for Kubernetes Engine Clusters                        |
 | [gke_restrict_client_auth_methods](../../samples/gke_restrict_client_auth_methods.yaml)            | security               | Checks that client certificate and password authentication methods are disabled for GKE clusters. |
 | [gke_restrict_pod_traffic](../../samples/gke_restrict_pod_traffic.yaml)                            | security               | Checks that GKE clusters have a Network Policy installed.                                         |
+| [gke_restrict_pod_traffic](../../samples/legacy/gke_restrict_pod_traffic_v1.yaml)                  | security               | Checks that GKE clusters have a Network Policy installed.                                         |
 | [prevent-public-ip-cloudsql](../../samples/sql_public_ip.yaml)                                     | security               | Prevents a public IP from being assigned to a Cloud SQL instance.                                 |
 | [require_bq_table_iam](../../samples/bigquery_world_readable.yaml)                                 | security               | Checks if BigQuery datasets are publicly readable or allAuthenticatedUsers.                       |
 | [require_bucket_policy_only](../../samples/storage_bucket_policy_only.yaml)                        | security               | Checks if Cloud Storage buckets have Bucket Only Policy turned on.                                |

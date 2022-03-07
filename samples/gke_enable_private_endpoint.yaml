@@ -16,6 +16,9 @@ apiVersion: constraints.gatekeeper.sh/v1alpha1
 kind: GCPGKEEnablePrivateEndpointConstraintV1
 metadata:
   name: gke_enable_private_endpoint
+  annotations:
+    description: Enable a private endpoint for the cluster to be accessible from an internal network only.
+    bundles.validator.forsetisecurity.org/gke-hardening-v2022: ENABLE_PRIVATE_ENDPOINT
 spec:
   severity: high
   parameters: {}

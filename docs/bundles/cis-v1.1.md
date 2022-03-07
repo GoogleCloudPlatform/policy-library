@@ -6,7 +6,7 @@ This bundle can be installed via kpt:
 export BUNDLE=cis-v1.1
 kpt pkg get https://github.com/GoogleCloudPlatform/policy-library.git ./policy-library
 kpt fn source policy-library/samples/ | \
-  kpt fn run --image gcr.io/config-validator/get-policy-bundle:latest -- bundle=$BUNDLE | \
+  kpt fn eval - --image gcr.io/config-validator/get-policy-bundle:latest -- bundle=$BUNDLE | \
   kpt fn sink policy-library/policies/constraints/
 ```
 
@@ -16,6 +16,8 @@ kpt fn source policy-library/samples/ | \
 | ----------------------------------------------------------------------------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------- |
 | [block_serviceaccount_token_creator](../../samples/iam_block_service_account_creator_role.yaml)                               | 1.0X    | Ban any users from being granted Service Account Token Creator access                             |
 | [cmek_rotation](../../samples/cmek_rotation.yaml)                                                                             | 1.08    | Checks that CMEK rotation policy is in place and is sufficiently short.                           |
+| [compute-enable-oslogin-project](../../samples/compute_enable_oslogin_project.yaml)                                           | 4.04    | Verifies that all VMs in a project have OS login enabled.                                         |
+| [compute_block_ssh_keys](../../samples/compute_block_ssh_keys.yaml)                                                           | 4.03    | Checks if "Block Project-wide SSH keys" is enabled for VM instances                               |
 | [deny_role](../../samples/iam_deny_role.yaml)                                                                                 | 1.05    | Ban any users from being granted Service Account User access                                      |
 | [disable_gke_dashboard](../../samples/gke_dashboard_disable.yaml)                                                             | 7.06    | Ensure Kubernetes web UI / Dashboard is disabled                                                  |
 | [disable_gke_default_service_account](../../samples/gke_disable_default_service_account.yaml)                                 | 7.17    | Ensure default Service account is not used for Project access in Kubernetes Clusters              |
