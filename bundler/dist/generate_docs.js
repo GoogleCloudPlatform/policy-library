@@ -196,7 +196,7 @@ This bundle can be installed via kpt:
 export BUNDLE=${bundle.getName()}
 kpt pkg get https://github.com/GoogleCloudPlatform/policy-library.git ./policy-library
 kpt fn source policy-library/samples/ | \\
-  kpt fn run --image gcr.io/config-validator/get-policy-bundle:latest -- bundle=$BUNDLE | \\
+  kpt fn eval - --image gcr.io/config-validator/get-policy-bundle:latest -- bundle=$BUNDLE | \\
   kpt fn sink policy-library/policies/constraints/
 \`\`\`
 
