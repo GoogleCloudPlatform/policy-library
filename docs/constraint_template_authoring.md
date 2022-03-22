@@ -124,55 +124,48 @@ using Rego and Open Policy Agent.
 
 To store a rule for your constraint template, create a new Rego file (for
 example, <code><em>vm_external_ip.rego</em></code>). This file should include a
-single <code><em>deny</em></code> rule which returns violations by evaluating
-whether a given <code><em>input.asset</em></code> violates the constraint
-provided in <code><em>input.constraint</em></code>.
+single <code><em>violation</em></code> rule which returns violations by evaluating
+whether a given <code><em>input.review</em></code> (an asset) violates the
+<code><em>input.parameters</em></code> defined in a constraint.
 
 As you develop the Rego rule, keep these principles in mind:
 
 *   Logic can be externalized into additional rules and functions which should
-    be defined below the deny rule in a utilities section.
+    be defined below the <code><em>violation</em></code> rule in a utilities section.
 *   If your rule only applies to particular resource types, you should check
-    that the given <code><em>input.asset</em></code> is of the required type
-    early on. (for example, <code><em>input.asset.asset_type ==
+    that the given <code><em>input.review</em></code> is of the required type
+    early on. (for example, <code><em>input.review.asset_type ==
     "google.compute.Instance"</em></code>).
 *   If your rule requires input parameters, they will be present under
-    <code>input.constraint</code>. You can retrieve it using the library
-    function <code>get_constraint_params</code> in the
-    <code>data.validator.gcp.lib</code> package.
+    <code>input.parameters</code>.
 *   Comments should be included for any complicated logic and all helper
     functions and rules should have a comment explaining their intent.
 *   Equality comparison should be done using <code><em>==</em></code> to
     differentiate it from assignment.
 *   A violation is generated only when the rule body evaluates to true. In other
     words, you should look for the negative condition.
-*   There are helpful functions available in the GCP library which you can
-    import into your rule. For example, <code><em>import data.validator.gcp.lib
-    as lib</em></code>.
 
 For example, this rule checks whether a VM with external IP address should be
 exempted (allowlist) or treated as a violation (denylist):
 
-```
+```rego
 package validator.gcp.GCPExternalIpAccessConstraintV1
-import data.validator.gcp.lib as lib
 
-deny[{
+violation[{
         "msg": message,
         "details": metadata,
 }] {
-        constraint := input.constraint
-        lib.get_constraint_params(constraint, params)
-        asset := input.asset
+        parameters := input.parameters
+        asset := input.review
         asset.asset_type == "google.compute.Instance"
         # Find network access config block w/ external IP
         instance := asset.resource.data
         access_config := instance.networkInterface[_].accessConfig
         external_ip := access_config[_].externalIp
         # Check if instance is in allowlist/denylist
-        target_instances := params.instances
+        target_instances := parameters.instances
         matches := {asset.name} & cast_set(target_instances)
-        target_instance_match_count(params.mode, desired_count)
+        target_instance_match_count(parameters.mode, desired_count)
         count(matches) == desired_count
         message := sprintf("%v is not allowed to have an external IP.", [asset.name])
         metadata := {"external_ip": external_ip}
@@ -193,15 +186,15 @@ target_instance_match_count(mode) = 1 {
 To test your rule, create fixtures of the expected resources and constraints
 leveraging your rule. To implement your test cases, gather resource fixtures
 from CAI and place them in a
-<code><em>test/fixtures/resources/<resource_type>/data.json</em></code> file.
+<code><em>test/fixtures/resources/&lt;resource_type&gt;/data.json</em></code> file.
 You can also write a constraint fixture using your constraint template and place
 it in
-<code><em>test/fixtures/constraints/<constraint_name/data.yaml</em></code>.
+<code><em>test/fixtures/constraints/&lt;constraint_name&gt;/data.yaml</em></code>.
 
 For example, here is a sample constraint used for external IP rule:
 
 ```
-apiVersion: constraints.gatekeeper.sh/v1alpha1
+apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: GCPExternalIpAccessConstraintV1
 metadata:
   name: forbid-external-ip-allowlist
@@ -239,22 +232,22 @@ For example, here are the tests for the above external IP constraint:
 package validator.gcp.GCPExternalIpAccessConstraintV1
 
 import data.test.fixtures.assets.compute_instances as fixture_instances
-import data.test.fixtures.constraints as fixture_constraints
+import data.test.fixtures.parameters as fixture_parameters
 
 # Find all violations on our test cases
 find_violations[violation] {
         instance := data.instances[_]
-        constraint := data.test_constraints[_]
-        issues := deny with input.asset as instance
-                 with input.constraint as constraint
+        parameters := data.test_parameters[_]
+        issues := violation with input.review as instance
+                 with input.parameters as parameters
         total_issues := count(issues)
         violation := issues[_]
 }
 
 allowlist_violations[violation] {
-        constraints := [fixture_constraints.forbid_external_ip_allowlist]
+        parameters := [fixture_parameters.forbid_external_ip_allowlist]
         found_violations := find_violations with data.instances as fixture_instances
-                 with data.test_constraints as constraints
+                 with data.test_parameters as parameters
         violation := found_violations[_]
 }
 
@@ -281,10 +274,10 @@ This example shows the external IP constraint template, with the italicized
 portions changing for your template:
 
 ```
-apiVersion: templates.gatekeeper.sh/v1alpha1
+apiVersion: templates.gatekeeper.sh/v1beta1
 kind: ConstraintTemplate
 metadata:
-  name: gcp-external-ip-access
+  name: gcpexternalipaccessconstraintv1
   annotations:
     # Example of tying a template to a CIS benchmark
     benchmark: CIS11_5.03
@@ -303,7 +296,7 @@ spec:
               type: array
               items: string
   targets:
-   validation.gcp.forsetisecurity.org:
+    - target: validation.gcp.forsetisecurity.org
       rego: |
             #INLINE("validator/vm_external_ip.rego")
             #ENDINLINE
