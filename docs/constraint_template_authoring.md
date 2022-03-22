@@ -306,6 +306,41 @@ The Rego rule is supposed to be inlined in the YAML file. To do that, run `make
 build`. That will format the rego rules and inline them in the YAML files under
 the `#INLINE` directive.
 
+### Updating from v1alpha1 templates
+
+To upgrade old templates from v1alpha1 to v1beta1, make the following changes:
+
+1. Update the constraint template rego:
+   - Rename the `deny` rule to `violation`
+   - Replace `input.asset` with `input.review`
+   - Replace `input.constraint.spec.parameters` (or `lib.get_constraint_params(constraint, params)`) with `input.parameters`. For example:
+     ```rego
+     # Old
+     import data.validator.gcp.lib as lib
+     constraint := input.constraint
+     lib.get_constraint_params(constraint, params)
+
+     # New - no lib required
+     params := input.parameters
+     ```
+2. Update constraint template yaml:
+   - Change spec.targets to take a list of objects with `target` and `rego` keys
+     ```yaml
+     # Old
+     spec:
+      targets:
+        validation.gcp.forsetisecurity.org:
+          rego: # rego goes here
+
+     # New
+     spec:
+      targets:
+        - target: validation.gcp.forsetisecurity.org
+          rego: # rego goes here
+     ```
+   - Ensure that `metadata.name` contains the lowercased content of `spec.crd.spec.names.kind`
+3. Update `apiVersion` for constraints and constraint templates to be `v1beta1` instead of `v1alpha1`
+
 ### Contact Info
 
 Questions or comments? Please contact validator-support@google.com.
