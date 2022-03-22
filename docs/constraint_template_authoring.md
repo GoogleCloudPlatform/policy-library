@@ -323,6 +323,15 @@ To upgrade old templates from v1alpha1 to v1beta1, make the following changes:
      # New - no lib required
      params := input.parameters
      ```
+   - If you were using `lib.get_default`, you can now use the built-in `object.get` instead
+     ```rego
+     # Old
+     import data.validator.gcp.lib as lib
+     destination := lib.get_default(bucket, "logging", "default")
+
+     # New - no lib required
+     destination := object.get(bucket, "logging", "default")
+     ```
 2. Update constraint template yaml:
    - Change spec.targets to take a list of objects with `target` and `rego` keys
      ```yaml
