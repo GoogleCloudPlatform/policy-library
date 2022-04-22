@@ -4,20 +4,24 @@
 
 **Table of Contents**
 
-* [Overview](#overview)
-* [How to set up constraints with Policy Library](#how-to-set-up-constraints-with-policy-library)
-  * [Get started with the Policy Library repository](#get-started-with-the-policy-library-repository)
-  * [Instantiate constraints](#instantiate-constraints)
-* [How to use Terraform Validator](#how-to-use-terraform-validator)
-  * [Install Terraform Validator](#install-terraform-validator)
-  * [For local development environments](#for-local-development-environments)
-  * [For Production Environments](#for-production-environments)
-* [How to Use Config Validator with Forseti](#how-to-use-config-validator-with-Forseti)
-  * [Deploy Forseti](#deploy-forseti)
-  * [Policy Library Sync from Git Repository](https://forsetisecurity.org/docs/latest/configure/config-validator/policy-library-sync-from-git-repo.html)
-  * [Policy Library Sync from GCS](https://forsetisecurity.org/docs/latest/configure/config-validator/policy-library-sync-from-gcs.html)
-* [End to end workflow with sample constraint](#end-to-end-workflow-with-sample-constraint)
-* [Contact Info](#contact-info)
+- [Config Validator | Setup & User Guide](#config-validator--setup--user-guide)
+  - [Go from setup to proof-of-concept in under 1 hour](#go-from-setup-to-proof-of-concept-in-under-1-hour)
+- [Overview](#overview)
+- [How to set up constraints with Policy Library](#how-to-set-up-constraints-with-policy-library)
+  - [Get started with the Policy Library repository](#get-started-with-the-policy-library-repository)
+    - [Duplicate Policy Library Repository](#duplicate-policy-library-repository)
+    - [Setup Constraints](#setup-constraints)
+    - [Pull in latest changes from Public Repository](#pull-in-latest-changes-from-public-repository)
+  - [Instantiate constraints](#instantiate-constraints)
+- [How to use Terraform Validator](#how-to-use-terraform-validator)
+  - [Install gcloud](#install-gcloud)
+  - [For local development environments](#for-local-development-environments)
+  - [For Production Environments](#for-production-environments)
+- [How to Use Config Validator with Forseti](#how-to-use-config-validator-with-forseti)
+  - [Deploy Forseti](#deploy-forseti)
+    - [Provide Policies to Forseti Server](#provide-policies-to-forseti-server)
+- [End to end workflow with sample constraint](#end-to-end-workflow-with-sample-constraint)
+- [Contact Info](#contact-info)
 
 ## Overview
 
@@ -81,7 +85,7 @@ Google provides a sample repository with a set of pre-defined constraint
 templates. You can duplicate this repository into a private repository. First
 you should create a new **private** git repository. For example, if you use
 GitHub then you can use the [GitHub UI](https://github.com/new). Then follow the
-steps below to get everything setup. 
+steps below to get everything setup.
 
 _Note: If you are planning on using the
 [Policy Library Sync feature of Forseti](#policy-library-sync),
@@ -258,32 +262,10 @@ spec:
 
 ## How to use Terraform Validator
 
-### Install Terraform Validator
+### Install gcloud
 
-The released binaries are available under the `gs://terraform-validator` Google
-Cloud Storage bucket for Linux, Windows, and Mac. They are organized by release,
-for example:
-
-```
-$ gsutil ls -r "gs://terraform-validator/releases/v*"
-...
-gs://terraform-validator/releases/v0.1.0/:
-gs://terraform-validator/releases/v0.1.0/terraform-validator-darwin-amd64
-gs://terraform-validator/releases/v0.1.0/terraform-validator-linux-amd64
-gs://terraform-validator/releases/v0.1.0/terraform-validator-windows-amd64
-```
-
-To download the binary, you need to
-[install](https://cloud.google.com/storage/docs/gsutil_install#install) the
-`gsutil` tool first. The following command downloads the Linux version of
-Terraform Validator from vX.X.X release to your local directory:
-
-```
-gsutil cp gs://terraform-validator/releases/vX.X.X/terraform-validator-linux-amd64 .
-chmod 755 terraform-validator-linux-amd64
-```
-
-The full list of releases, with release notes, is available [on Github](https://github.com/GoogleCloudPlatform/terraform-validator/releases).
+Follow [instructions](https://cloud.google.com/sdk/docs/install) to install
+gcloud.
 
 ### For local development environments
 
@@ -300,10 +282,12 @@ To validate the Terraform plan based on the constraints specified under your
 local policy library repository, run:
 
 ```
-terraform-validator-linux-amd64 validate tfplan.json --policy-path=${POLICY_PATH}
+gcloud beta terraform vet tfplan.json --policy-library=${POLICY_PATH}
 ```
+Note that it may prompt you to install google-cloud-sdk-terraform-tools. Follow
+the instructions to install the tools and try the command again in that case.
 
-The policy-path flag is set to the local clone of your Git repository that
+The --policy-library flag is set to the local clone of your Git repository that
 contains the constraints and templates. This is described in the
 ["How to set up constraints with Policy Library"](#how-to-set-up-constraints-with-policy-library)
 section.
@@ -365,7 +349,7 @@ Server to be used by future scans.
 
 The default behavior of Forseti is to sync the Policy Library from the Forseti
 Server GCS bucket. This requires little setup, but involves manual work to
-create the folder and copy the policies to GCS. 
+create the folder and copy the policies to GCS.
 
 Follow the documentation on the Forseti Security website to sync policies
 from the [GCS to the Forseti server](https://forsetisecurity.org/docs/latest/configure/config-validator/policy-library-sync-from-gcs.html), and from [Git Repository to the Forseti server](https://forsetisecurity.org/docs/latest/configure/config-validator/policy-library-sync-from-git-repo.html).
@@ -446,9 +430,7 @@ Since your email address is in the IAM policy binding, the plan should result in
 a violation. Let's try this out:
 
 ```
-gsutil cp gs://terraform-validator/releases/v0.1.0/terraform-validator-linux-amd64 .
-chmod 755 terraform-validator-linux-amd64
-./terraform-validator-linux-amd64 validate tfplan.json --policy-path=policy-library
+gcloud beta terraform vet tfplan.json --policy-library=policy-library
 ```
 
 The Terraform validator should return a violation. As a test, you can relax the
@@ -476,7 +458,7 @@ Then run Terraform plan and validate the output again:
 ```
 terraform plan -out=test.tfplan
 terraform show -json ./test.tfplan > ./tfplan.json
-./terraform-validator-linux-amd64 validate tfplan.json --policy-path=policy-library
+gcloud beta terraform vet tfplan.json --policy-library=policy-library
 ```
 
 The command above should result in no violations found.
