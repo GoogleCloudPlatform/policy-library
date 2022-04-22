@@ -4,24 +4,20 @@
 
 **Table of Contents**
 
-- [Config Validator | Setup & User Guide](#config-validator--setup--user-guide)
-  - [Go from setup to proof-of-concept in under 1 hour](#go-from-setup-to-proof-of-concept-in-under-1-hour)
-- [Overview](#overview)
-- [How to set up constraints with Policy Library](#how-to-set-up-constraints-with-policy-library)
-  - [Get started with the Policy Library repository](#get-started-with-the-policy-library-repository)
-    - [Duplicate Policy Library Repository](#duplicate-policy-library-repository)
-    - [Setup Constraints](#setup-constraints)
-    - [Pull in latest changes from Public Repository](#pull-in-latest-changes-from-public-repository)
-  - [Instantiate constraints](#instantiate-constraints)
-- [How to use Terraform Validator](#how-to-use-terraform-validator)
-  - [Install gcloud](#install-gcloud)
-  - [For local development environments](#for-local-development-environments)
-  - [For Production Environments](#for-production-environments)
-- [How to Use Config Validator with Forseti](#how-to-use-config-validator-with-forseti)
-  - [Deploy Forseti](#deploy-forseti)
-    - [Provide Policies to Forseti Server](#provide-policies-to-forseti-server)
-- [End to end workflow with sample constraint](#end-to-end-workflow-with-sample-constraint)
-- [Contact Info](#contact-info)
+* [Overview](#overview)
+* [How to set up constraints with Policy Library](#how-to-set-up-constraints-with-policy-library)
+  * [Get started with the Policy Library repository](#get-started-with-the-policy-library-repository)
+  * [Instantiate constraints](#instantiate-constraints)
+* [How to use Terraform Validator](#how-to-use-terraform-validator)
+  * [Install gcloud](#install-gcloud)
+  * [For local development environments](#for-local-development-environments)
+  * [For Production Environments](#for-production-environments)
+* [How to Use Config Validator with Forseti](#how-to-use-config-validator-with-Forseti)
+  * [Deploy Forseti](#deploy-forseti)
+  * [Policy Library Sync from Git Repository](https://forsetisecurity.org/docs/latest/configure/config-validator/policy-library-sync-from-git-repo.html)
+  * [Policy Library Sync from GCS](https://forsetisecurity.org/docs/latest/configure/config-validator/policy-library-sync-from-gcs.html)
+* [End to end workflow with sample constraint](#end-to-end-workflow-with-sample-constraint)
+* [Contact Info](#contact-info)
 
 ## Overview
 
@@ -287,7 +283,7 @@ gcloud beta terraform vet tfplan.json --policy-library=${POLICY_PATH}
 Note that it may prompt you to install google-cloud-sdk-terraform-tools. Follow
 the instructions to install the tools and try the command again in that case.
 
-The --policy-library flag is set to the local clone of your Git repository that
+The `--policy-library` flag is set to the local clone of your Git repository that
 contains the constraints and templates. This is described in the
 ["How to set up constraints with Policy Library"](#how-to-set-up-constraints-with-policy-library)
 section.
