@@ -8,7 +8,7 @@
 * [How to set up constraints with Policy Library](#how-to-set-up-constraints-with-policy-library)
   * [Get started with the Policy Library repository](#get-started-with-the-policy-library-repository)
   * [Instantiate constraints](#instantiate-constraints)
-* [How to use Terraform Validator](#how-to-use-terraform-validator)
+* [Add policy validation](#add-policy-validation)
   * [Install gcloud](#install-gcloud)
   * [For local development environments](#for-local-development-environments)
   * [For Production Environments](#for-production-environments)
@@ -256,7 +256,7 @@ spec:
     - //compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/two
 ```
 
-## How to use Terraform Validator
+## Add policy validation
 
 ### Install gcloud
 
