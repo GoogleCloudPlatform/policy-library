@@ -8,10 +8,7 @@
 * [How to set up constraints with Policy Library](#how-to-set-up-constraints-with-policy-library)
   * [Get started with the Policy Library repository](#get-started-with-the-policy-library-repository)
   * [Instantiate constraints](#instantiate-constraints)
-* [Add policy validation](#add-policy-validation)
-  * [Install gcloud](#install-gcloud)
-  * [For local development environments](#for-local-development-environments)
-  * [For Production Environments](#for-production-environments)
+* [How to validate policies](#how-to-validate-policies)
 * [How to Use Config Validator with Forseti](#how-to-use-config-validator-with-Forseti)
   * [Deploy Forseti](#deploy-forseti)
   * [Policy Library Sync from Git Repository](https://forsetisecurity.org/docs/latest/configure/config-validator/policy-library-sync-from-git-repo.html)
@@ -256,74 +253,11 @@ spec:
     - //compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/two
 ```
 
-## Add policy validation
+## How to validate policies
 
-### Install gcloud
+Follow the [instructions](https://cloud.google.com/docs/terraform/policy-validation/validate-policies)
+to validate policies in your local or production environments.
 
-Follow [instructions](https://cloud.google.com/sdk/docs/install) to install
-gcloud.
-
-### For local development environments
-
-These instructions assume you have forked a branch and is working locally.
-
-Generate a Terraform plan for the current environment by running:
-
-```
-terraform plan -out=tfplan.tfplan
-terraform show -json ./tfplan.tfplan > ./tfplan.json
-```
-
-To validate the Terraform plan based on the constraints specified under your
-local policy library repository, run:
-
-```
-gcloud beta terraform vet tfplan.json --policy-library=${POLICY_PATH}
-```
-Note that it may prompt you to install google-cloud-sdk-terraform-tools. Follow
-the instructions to install the tools and try the command again in that case.
-
-The `--policy-library` flag is set to the local clone of your Git repository that
-contains the constraints and templates. This is described in the
-["How to set up constraints with Policy Library"](#how-to-set-up-constraints-with-policy-library)
-section.
-
-Terraform Validator also accepts an optional --project flag which is set to the
-Terraform Google provider project. See the
-[provider docs](https://www.terraform.io/docs/providers/google/index.html) for
-more info. If it is not set, Terraform Validator will attempt to parse the
-provider project from the provider configuration.
-
-If violations are found, a list will be returned of the affected resources and a
-brief message about the violations:
-
-```
-Found Violations:
-
-Constraint iam_domain_restriction on resource //cloudresourcemanager.googleapis.com/projects/299388503561: IAM policy for //cloudresourcemanager.googleapis.com/projects/299388503561 contains member from unexpected domain: user:foo@example.com
-
-Constraint iam_domain_restriction on resource //cloudresourcemanager.googleapis.com/projects/299388503561: IAM policy for //cloudresourcemanager.googleapis.com/projects/299388503561 contains member from unexpected domain: group:bar@example.com
-```
-
-If all constraints are validated, the command will return "`No violations
-found`." You can then apply a plan locally on a development environment:
-
-```
-terraform apply
-```
-
-### For Production Environments
-
-These instructions assume that the developer has merged their local branch back
-with master. We want to make sure the master deployment into production is
-validated.
-
-In your continuous integration (CI) tool, you should install Terraform
-validator. Then you can add a step to any workflow which will validate a
-Terraform plan and reject it if violations are found. Terraform validator will
-return a `2` exit code if violations are found or `0` if no violations were
-found. Therefore, you should configure your CI to only proceed to the next step
-(for example, `terraform apply`) or merge if the validator exits successfully.
 
 ## How to Use Config Validator with Forseti
 
