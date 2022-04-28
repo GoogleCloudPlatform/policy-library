@@ -8,10 +8,7 @@
 * [How to set up constraints with Policy Library](#how-to-set-up-constraints-with-policy-library)
   * [Get started with the Policy Library repository](#get-started-with-the-policy-library-repository)
   * [Instantiate constraints](#instantiate-constraints)
-* [How to use Terraform Validator](#how-to-use-terraform-validator)
-  * [Install Terraform Validator](#install-terraform-validator)
-  * [For local development environments](#for-local-development-environments)
-  * [For Production Environments](#for-production-environments)
+* [How to validate policies](#how-to-validate-policies)
 * [How to Use Config Validator with Forseti](#how-to-use-config-validator-with-Forseti)
   * [Deploy Forseti](#deploy-forseti)
   * [Policy Library Sync from Git Repository](https://forsetisecurity.org/docs/latest/configure/config-validator/policy-library-sync-from-git-repo.html)
@@ -81,7 +78,7 @@ Google provides a sample repository with a set of pre-defined constraint
 templates. You can duplicate this repository into a private repository. First
 you should create a new **private** git repository. For example, if you use
 GitHub then you can use the [GitHub UI](https://github.com/new). Then follow the
-steps below to get everything setup. 
+steps below to get everything setup.
 
 _Note: If you are planning on using the
 [Policy Library Sync feature of Forseti](#policy-library-sync),
@@ -256,94 +253,11 @@ spec:
     - //compute.googleapis.com/projects/test-project/zones/us-east1-b/instances/two
 ```
 
-## How to use Terraform Validator
+## How to validate policies
 
-### Install Terraform Validator
+Follow the [instructions](https://cloud.google.com/docs/terraform/policy-validation/validate-policies)
+to validate policies in your local or production environments.
 
-The released binaries are available under the `gs://terraform-validator` Google
-Cloud Storage bucket for Linux, Windows, and Mac. They are organized by release,
-for example:
-
-```
-$ gsutil ls -r "gs://terraform-validator/releases/v*"
-...
-gs://terraform-validator/releases/v0.1.0/:
-gs://terraform-validator/releases/v0.1.0/terraform-validator-darwin-amd64
-gs://terraform-validator/releases/v0.1.0/terraform-validator-linux-amd64
-gs://terraform-validator/releases/v0.1.0/terraform-validator-windows-amd64
-```
-
-To download the binary, you need to
-[install](https://cloud.google.com/storage/docs/gsutil_install#install) the
-`gsutil` tool first. The following command downloads the Linux version of
-Terraform Validator from vX.X.X release to your local directory:
-
-```
-gsutil cp gs://terraform-validator/releases/vX.X.X/terraform-validator-linux-amd64 .
-chmod 755 terraform-validator-linux-amd64
-```
-
-The full list of releases, with release notes, is available [on Github](https://github.com/GoogleCloudPlatform/terraform-validator/releases).
-
-### For local development environments
-
-These instructions assume you have forked a branch and is working locally.
-
-Generate a Terraform plan for the current environment by running:
-
-```
-terraform plan -out=tfplan.tfplan
-terraform show -json ./tfplan.tfplan > ./tfplan.json
-```
-
-To validate the Terraform plan based on the constraints specified under your
-local policy library repository, run:
-
-```
-terraform-validator-linux-amd64 validate tfplan.json --policy-path=${POLICY_PATH}
-```
-
-The policy-path flag is set to the local clone of your Git repository that
-contains the constraints and templates. This is described in the
-["How to set up constraints with Policy Library"](#how-to-set-up-constraints-with-policy-library)
-section.
-
-Terraform Validator also accepts an optional --project flag which is set to the
-Terraform Google provider project. See the
-[provider docs](https://www.terraform.io/docs/providers/google/index.html) for
-more info. If it is not set, Terraform Validator will attempt to parse the
-provider project from the provider configuration.
-
-If violations are found, a list will be returned of the affected resources and a
-brief message about the violations:
-
-```
-Found Violations:
-
-Constraint iam_domain_restriction on resource //cloudresourcemanager.googleapis.com/projects/299388503561: IAM policy for //cloudresourcemanager.googleapis.com/projects/299388503561 contains member from unexpected domain: user:foo@example.com
-
-Constraint iam_domain_restriction on resource //cloudresourcemanager.googleapis.com/projects/299388503561: IAM policy for //cloudresourcemanager.googleapis.com/projects/299388503561 contains member from unexpected domain: group:bar@example.com
-```
-
-If all constraints are validated, the command will return "`No violations
-found`." You can then apply a plan locally on a development environment:
-
-```
-terraform apply
-```
-
-### For Production Environments
-
-These instructions assume that the developer has merged their local branch back
-with master. We want to make sure the master deployment into production is
-validated.
-
-In your continuous integration (CI) tool, you should install Terraform
-validator. Then you can add a step to any workflow which will validate a
-Terraform plan and reject it if violations are found. Terraform validator will
-return a `2` exit code if violations are found or `0` if no violations were
-found. Therefore, you should configure your CI to only proceed to the next step
-(for example, `terraform apply`) or merge if the validator exits successfully.
 
 ## How to Use Config Validator with Forseti
 
@@ -365,7 +279,7 @@ Server to be used by future scans.
 
 The default behavior of Forseti is to sync the Policy Library from the Forseti
 Server GCS bucket. This requires little setup, but involves manual work to
-create the folder and copy the policies to GCS. 
+create the folder and copy the policies to GCS.
 
 Follow the documentation on the Forseti Security website to sync policies
 from the [GCS to the Forseti server](https://forsetisecurity.org/docs/latest/configure/config-validator/policy-library-sync-from-gcs.html), and from [Git Repository to the Forseti server](https://forsetisecurity.org/docs/latest/configure/config-validator/policy-library-sync-from-git-repo.html).
@@ -446,9 +360,7 @@ Since your email address is in the IAM policy binding, the plan should result in
 a violation. Let's try this out:
 
 ```
-gsutil cp gs://terraform-validator/releases/v0.1.0/terraform-validator-linux-amd64 .
-chmod 755 terraform-validator-linux-amd64
-./terraform-validator-linux-amd64 validate tfplan.json --policy-path=policy-library
+gcloud beta terraform vet tfplan.json --policy-library=policy-library
 ```
 
 The Terraform validator should return a violation. As a test, you can relax the
@@ -476,7 +388,7 @@ Then run Terraform plan and validate the output again:
 ```
 terraform plan -out=test.tfplan
 terraform show -json ./test.tfplan > ./tfplan.json
-./terraform-validator-linux-amd64 validate tfplan.json --policy-path=policy-library
+gcloud beta terraform vet tfplan.json --policy-library=policy-library
 ```
 
 The command above should result in no violations found.
