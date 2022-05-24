@@ -23,8 +23,7 @@ metadata:
 spec:
   severity: high
   match:
-    gcp:
-      target: ["organizations/**"]
+    target: ["organizations/**"]
   parameters:
     cos_containerd_allowed: true
 

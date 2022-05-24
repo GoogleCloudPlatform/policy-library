@@ -20,9 +20,8 @@ list:
     spec:
       severity: high
       match:
-        gcp:
-          target: ["organizations/**"]
-          exclude: [] # optional, default is no exclusions
+        target: ["organizations/**"]
+        exclude: [] # optional, default is no exclusions
       parameters:
         mode: allowlist
         asset_types:
@@ -37,9 +36,8 @@ list:
     spec:
       severity: high
       match:
-        gcp:
-          target: ["organizations/**"]
-          exclude: [] # optional, default is no exclusions
+        target: ["organizations/**"]
+        exclude: [] # optional, default is no exclusions
       parameters:
         mode: allowlist
         asset_types:
@@ -56,9 +54,8 @@ list:
     spec:
       severity: high
       match:
-        gcp:
-          target: ["organizations/**"]
-          exclude: [] # optional, default is no exclusions
+        target: ["organizations/**"]
+        exclude: [] # optional, default is no exclusions
       parameters:
         mode: allowlist
         asset_types:
@@ -72,9 +69,8 @@ list:
     spec:
       severity: high
       match:
-        gcp:
-          target: ["organizations/**"]
-          exclude: [] # optional, default is no exclusions
+        target: ["organizations/**"]
+        exclude: [] # optional, default is no exclusions
       parameters:
         mode: denylist
         asset_types:
@@ -89,9 +85,8 @@ list:
     spec:
       severity: high
       match:
-        gcp:
-          target: ["organizations/**"]
-          exclude: [] # optional, default is no exclusions
+        target: ["organizations/**"]
+        exclude: [] # optional, default is no exclusions
       parameters:
         mode: denylist
         asset_types:
@@ -108,9 +103,8 @@ list:
     spec:
       severity: high
       match:
-        gcp:
-          target: ["organizations/**"]
-          exclude: [] # optional, default is no exclusions
+        target: ["organizations/**"]
+        exclude: [] # optional, default is no exclusions
       parameters:
         mode: denylist
         asset_types:

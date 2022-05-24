@@ -21,9 +21,8 @@ metadata:
 spec:
   severity: high
   match:
-    gcp:
-      target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
-      - "organizations/**"
+    target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+    - "organizations/**"
   parameters:
     allowed:
     - https://www.googleapis.com/compute/v1/projects/vpc-sc-pub-sub-billing-alerts/global/networks/default1

@@ -19,7 +19,6 @@ metadata:
 spec:
   severity: high
   match:
-    gcp:
-      target: ["organizations/**"]
+    target: ["organizations/**"]
   parameters:
       maximum_cidr_size: 16
