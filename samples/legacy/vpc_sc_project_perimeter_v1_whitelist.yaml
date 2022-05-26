@@ -19,8 +19,7 @@ metadata:
 spec:
   severity: high
   match:
-    gcp:
-      target: ["organizations/**"]
+    target: ["organizations/**"]
   parameters:
     mode: whitelist
     project_id: 179891054368

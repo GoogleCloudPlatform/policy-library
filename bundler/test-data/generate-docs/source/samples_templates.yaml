@@ -23,8 +23,7 @@ items:
   spec:
     severity: high
     match:
-      gcp:
-        target: ["organization/*"]
+      target: ["organization/*"]
     parameters: {}
 # Templates
 - apiVersion: templates.gatekeeper.sh/v1alpha1

@@ -21,8 +21,7 @@ metadata:
 spec:
   severity: high
   match:
-    gcp:
-      target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
-      - "organizations/**"
+    target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+    - "organizations/**"
   parameters:
     maximum_cidr_size: 16
