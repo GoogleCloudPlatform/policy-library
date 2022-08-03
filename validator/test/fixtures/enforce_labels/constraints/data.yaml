@@ -19,7 +19,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organizations/**"]
+    ancestries: ["organizations/**"]
   parameters:
     mandatory_labels:
       - "label1": "^label1-value$"

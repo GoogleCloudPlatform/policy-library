@@ -23,7 +23,7 @@ items:
   spec:
     severity: high
     match:
-      target: ["organization/*"]
+      ancestries: ["organization/*"]
     parameters: {}
 # Templates
 - apiVersion: templates.gatekeeper.sh/v1alpha1
@@ -39,7 +39,7 @@ items:
           openAPIV3Schema:
             properties: {}
     targets:
-    validation.gcp.forsetisecurity.org:
+      - target: "validation.gcp.forsetisecurity.org"
         rego: | #INLINE("validator/always_violates.rego")
             #
             # Copyright 2018 Google LLC

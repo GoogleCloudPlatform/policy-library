@@ -22,6 +22,6 @@ spec:
   constraintVersion: 0.1.0
   severity: high
   match:
-    target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+    ancestries:
     - "organizations/**"
   parameters: {}

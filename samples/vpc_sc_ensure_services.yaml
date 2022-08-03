@@ -21,8 +21,8 @@ metadata:
 spec:
   severity: high
   match:
-    target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
-    - "organizations/**"
+    ancestries:
+      - "organizations/**"
   parameters:
     required_services:
     - compute.googleapis.com
