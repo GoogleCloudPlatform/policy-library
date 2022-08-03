@@ -23,5 +23,5 @@ spec:
   severity: high
   match:
     ancestries:
-      - "organizations/**"
+    - "organizations/**"
   parameters: {}

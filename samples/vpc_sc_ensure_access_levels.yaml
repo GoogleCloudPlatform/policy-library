@@ -23,7 +23,7 @@ spec:
   severity: high
   match:
     ancestries:
-      - "organizations/**"
+    - "organizations/**"
   parameters:
     required_access_levels:
     - abcd

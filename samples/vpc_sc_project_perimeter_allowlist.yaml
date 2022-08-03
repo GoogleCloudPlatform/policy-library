@@ -22,7 +22,7 @@ spec:
   severity: high
   match:
     ancestries:
-      - "organizations/**"
+    - "organizations/**"
   parameters:
     mode: allowlist
     project_number: 179891054368

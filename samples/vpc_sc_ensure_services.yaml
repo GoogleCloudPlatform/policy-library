@@ -22,7 +22,7 @@ spec:
   severity: high
   match:
     ancestries:
-      - "organizations/**"
+    - "organizations/**"
   parameters:
     required_services:
     - compute.googleapis.com
