@@ -18,33 +18,31 @@ package templates.gcp.GCPNetworkEnableFlowLogsConstraintV1
 
 import data.validator.gcp.lib as lib
 
-all_violations[violation] {
-	resource := data.test.fixtures.network_enable_flow_logs.assets[_]
+resources_in_violation[resource] {
+	asset := data.test.fixtures.network_enable_flow_logs.assets[_]
 	constraint := data.test.fixtures.network_enable_flow_logs.constraints
-
-	issues := deny with input.asset as resource
+	issues := deny with input.asset as asset
 		 with input.constraint as constraint
-		 with data.inventory as data.test.fixtures.network_enable_flow_logs.assets
 
-	violation := issues[_]
+	resource := issues[_].details.resource
 }
 
 test_flow_logs_enabled {
-	violation := all_violations[_]
-	resource_names := {x | x = violation.details.resource}
-	not resource_names["//compute.googleapis.com/projects/pso-cicd8/regions/us-west1/subnetworks/correct"]
+	not resources_in_violation["//compute.googleapis.com/projects/pso-cicd8/regions/us-west1/subnetworks/correct"]
 }
 
 test_flow_logs_disabled {
-	count(all_violations) == 1
+	resources_in_violation["//compute.googleapis.com/projects/pso-cicd8/regions/us-west1/subnetworks/bad"]
+}
 
-	resource_names := {x | x = all_violations[_].details.resource}
+test_flow_logs_disabled_for_both {
+	resources_in_violation["//compute.googleapis.com/projects/pso-cicd8/regions/us-west1/subnetworks/both_false"]
+}
 
-	expected_resource_name := {"//compute.googleapis.com/projects/pso-cicd8/regions/us-west1/subnetworks/bad"}
+test_flow_logs_enabled_for_both {
+	not resources_in_violation["//compute.googleapis.com/projects/pso-cicd8/regions/us-west1/subnetworks/both_correct"]
+}
 
-	resource_names == expected_resource_name
-
-	violation := all_violations[_]
-	is_string(violation.msg)
-	is_object(violation.details)
+test_flow_logs_enabled_for_log_config {
+	not resources_in_violation["//compute.googleapis.com/projects/pso-cicd8/regions/us-west1/subnetworks/only_log_config"]
 }
