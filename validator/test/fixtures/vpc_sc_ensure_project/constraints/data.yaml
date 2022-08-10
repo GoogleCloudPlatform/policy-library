@@ -19,7 +19,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organizations/**"]
+    ancestries: ["organizations/**"]
   parameters:
       required_projects:
         - "179891054369"

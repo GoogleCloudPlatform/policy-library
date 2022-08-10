@@ -23,7 +23,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organizations/**"]
+    ancestries: ["organizations/**"]
   parameters:
     cos_containerd_allowed: true
 

@@ -27,6 +27,6 @@ metadata:
 spec:
   severity: high
   match:
-    target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+    ancestries:
     - "organizations/**"
   parameters: {}

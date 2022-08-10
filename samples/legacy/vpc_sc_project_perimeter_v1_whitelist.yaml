@@ -19,7 +19,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organizations/**"]
+    ancestries: ["organizations/**"]
   parameters:
     mode: whitelist
     project_id: 179891054368

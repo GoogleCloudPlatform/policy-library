@@ -5,7 +5,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organizations/**"]
+    ancestries: ["organizations/**"]
   parameters: 
     mode: "denylist"
     resource_type_list:

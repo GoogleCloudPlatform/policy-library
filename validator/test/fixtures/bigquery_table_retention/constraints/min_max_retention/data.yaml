@@ -19,7 +19,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organizations/**"]
+    ancestries: ["organizations/**"]
   parameters:
     minimum_retention_days: 31
     maximum_retention_days: 60

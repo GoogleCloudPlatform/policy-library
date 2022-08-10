@@ -22,9 +22,9 @@ metadata:
 spec:
   severity: high
   match:
-    target: # {"$ref":"#/definitions/io.k8s.cli.setters.target"}
+    ancestries:
     - "organizations/**"
-    exclude: []
+    excludedAncestries: []
   parameters:
     mode: denylist
     assetType: bigquery.googleapis.com/Dataset

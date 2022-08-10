@@ -150,12 +150,12 @@ metadata:
 spec:
   severity: # low, medium, or high
   match:
-    target: [] # put the constraint application target here
-    exclude: [] # optional, default is no exclusions
+    ancestries: [] # put the constraint application ancestries here
+    excludedAncestries: [] # optional, default is no exclusions
   parameters: # put the parameters defined in constraint template here
 ```
 
-The <code><em>target</em></code> field is specified in a path-like format. It
+The <code><em>ancestries</em></code> field is specified in a path-like format. It
 specifies where in the GCP resources hierarchy the constraint is to be applied.
 For example:
 
@@ -198,8 +198,8 @@ For example:
   </tr>
 </table>
 
-The <code><em>exclude</em></code> field follows the same pattern and has
-precedence over the <code><em>target</em></code> field. If a resource is in
+The <code><em>excludedAncestries</em></code> field follows the same pattern and has
+precedence over the <code><em>ancestries</em></code> field. If a resource is in
 both, it will be excluded.
 
 The schema of the <code><em>parameters</em></code> field is defined in the
@@ -245,7 +245,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organizations/**"]
+    ancestries: ["organizations/**"]
   parameters:
     mode: "allowlist"
     instances:
@@ -310,7 +310,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organizations/**"]
+    ancestries: ["organizations/**"]
   parameters:
     domains:
       - gserviceaccount.com
@@ -376,7 +376,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organizations/**"]
+    ancestries: ["organizations/**"]
   parameters:
     domains:
       - gserviceaccount.com

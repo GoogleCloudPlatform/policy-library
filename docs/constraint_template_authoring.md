@@ -201,7 +201,7 @@ metadata:
 spec:
   severity: high
   match:
-    target: ["organizations/**"]
+    ancestries: ["organizations/**"]
   parameters:
     mode: "allowlist"
     instances:
