@@ -12,8 +12,8 @@ items:
   spec:
     severity: high
     match:
-      target: ["organization/*"]
-      exclude: [] # optional, default is no exclusions
+      ancestries: ["organization/*"]
+      excludedAncestries: [] # optional, default is no exclusions
     parameters: {}
 - kind: GCPRestrictedFirewallRulesConstraintV1
   metadata:
@@ -24,7 +24,7 @@ items:
   spec:
     severity: high
     match:
-      target: ["organization/*"]
+      ancestries: ["organization/*"]
     parameters:
       rules:
         - direction: "INGRESS"
@@ -41,8 +41,8 @@ items:
   spec:
     severity: high
     match:
-      target: ["organization/*"]
-      exclude: []
+      ancestries: ["organization/*"]
+      excludedAncestries: []
     parameters:
       mode: denylist
       assetType: bigquery.googleapis.com/Dataset
