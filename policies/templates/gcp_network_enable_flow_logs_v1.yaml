@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Ensure flow logs are enabled
+# Ensure flow logs are enabled 
 # https://cloud.google.com/vpc/docs/using-flow-logs
 
 apiVersion: templates.gatekeeper.sh/v1alpha1
@@ -45,11 +45,11 @@ spec:
             # See the License for the specific language governing permissions and
             # limitations under the License.
             #
-
+            
             package templates.gcp.GCPNetworkEnableFlowLogsConstraintV1
-
+            
             import data.validator.gcp.lib as lib
-
+            
             deny[{
             	"msg": message,
             	"details": metadata,
@@ -57,15 +57,15 @@ spec:
             	constraint := input.constraint
             	asset := input.asset
             	asset.asset_type == "compute.googleapis.com/Subnetwork"
-
+            
             	network := asset.resource.data
             	legacy_enable_flow_logs := lib.get_default(network, "enableFlowLogs", false)
             	log_config := lib.get_default(network, "logConfig", {})
             	log_config_enable_flow_logs := lib.get_default(log_config, "enable", false)
-
+            
             	log_config_enable_flow_logs != true
             	legacy_enable_flow_logs != true
-
+            
             	message := sprintf("Flow logs are disabled in subnetwork %v.", [asset.name])
             	metadata := {"resource": asset.name}
             }
