@@ -39,6 +39,14 @@ test_flow_logs_disabled_for_both {
 	resources_in_violation["//compute.googleapis.com/projects/pso-cicd8/regions/us-west1/subnetworks/both_false"]
 }
 
+test_flow_logs_regional_managed_proxy {
+	not resources_in_violation["//compute.googleapis.com/projects/pso-cicd8/regions/us-west1/subnetworks/regional_managed_proxy"]
+}
+
+test_flow_logs_internal_https_load_balancer {
+	not resources_in_violation["//compute.googleapis.com/projects/pso-cicd8/regions/us-west1/subnetworks/internal_https_load_balancer"]
+}
+
 test_flow_logs_enabled_for_both {
 	not resources_in_violation["//compute.googleapis.com/projects/pso-cicd8/regions/us-west1/subnetworks/both_correct"]
 }
