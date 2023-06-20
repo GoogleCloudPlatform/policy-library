@@ -100,7 +100,7 @@
   },
 
   {
-    "name": "//compute.googleapis.com/projects/pso-cicd8/regions/us-west1/subnetworks/internal_https_load_balance",
+    "name": "//compute.googleapis.com/projects/pso-cicd8/regions/us-west1/subnetworks/internal_https_load_balancer",
     "asset_type": "compute.googleapis.com/Subnetwork",
     "resource": {
       "version": "v1",
@@ -115,7 +115,7 @@
         "ipCidrRange": "10.140.0.0/20",
         "name": "default",
         "network": "https://www.googleapis.com/compute/v1/projects/pso-cicd8/global/networks/default",
-        "purpose": "INTERNAL_HTTPS_LOAD_BALANCE",
+        "purpose": "INTERNAL_HTTPS_LOAD_BALANCER",
         "privateIpGoogleAccess": true,
         "enableFlowLogs": false,
         "logConfig": {

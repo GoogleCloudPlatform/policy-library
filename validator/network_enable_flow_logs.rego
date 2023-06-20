@@ -35,7 +35,7 @@ deny[{
 	log_config_enable_flow_logs != true
 	legacy_enable_flow_logs != true
 	purpose != "REGIONAL_MANAGED_PROXY"
-	purpose != "INTERNAL_HTTPS_LOAD_BALANCE"
+	purpose != "INTERNAL_HTTPS_LOAD_BALANCER"
 
 	message := sprintf("Flow logs are disabled in subnetwork %v.", [asset.name])
 	metadata := {"resource": asset.name}
