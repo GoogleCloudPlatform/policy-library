@@ -28,7 +28,12 @@ deny[{
 
 	cluster := asset.resource.data
 	private_cluster_config := lib.get_default(cluster, "privateClusterConfig", {})
-	private_cluster_config == {}
+	private_cluster_config != {}
+
+	#Still considering if the goal for the policy is to check both private endpoint AND/OR private nodes only. For example:
+	#OR: (private_cluster_config.enable_private_nodes == false) || (private_cluster_config.enable_private_endpoint == false)
+	#AND: (private_cluster_config.enable_private_nodes == true && private_cluster_config.enable_private_endpoint == true)
+	private_cluster_config.enable_private_nodes == false
 
 	message := sprintf("Cluster %v is not private.", [asset.name])
 	metadata := {"resource": asset.name}
