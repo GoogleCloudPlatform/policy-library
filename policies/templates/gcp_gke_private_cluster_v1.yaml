@@ -60,7 +60,8 @@ spec:
             
             	cluster := asset.resource.data
             	private_cluster_config := lib.get_default(cluster, "privateClusterConfig", {})
-            	private_cluster_config == {}
+            	private_cluster_config != {}
+            	private_cluster_config.enable_private_nodes == false
             
             	message := sprintf("Cluster %v is not private.", [asset.name])
             	metadata := {"resource": asset.name}
