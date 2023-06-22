@@ -45,7 +45,7 @@ governance requirements. You can obtain constraints from the
 Check for constraint violations during pre-deployment and provide warnings or
 halt invalid deployments before they reach production. The pre-deployment logic
 that Config Validator uses will be built into a number of deployment tools. For
-details, [check out Terraform Validator](#how-to-use-terraform-validator).
+details, [check out how to validate policies](#how-to-validate-policies).
 
 **Ongoing monitoring**
 
