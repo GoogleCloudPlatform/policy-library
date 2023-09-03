@@ -49,3 +49,9 @@ test_get_default_has_false {
 	obj := {"a": false}
 	false == get_default(obj, "a", "b")
 }
+
+test_get_resource {
+	inv := [{"name": "Test", "asset_type": "foo", "secret": "a"}, {"name": "Test3", "asset_type": "foo", "secret": "b"}, {"name": "Test2", "asset_type": "bar", "secret": "c"}, {"name": "Test3", "asset_type": "bar", "secret": "d"}]
+	r := get_resource(inv, "bar", "Test3")
+	"d" == r.secret
+}

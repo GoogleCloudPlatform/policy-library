@@ -44,3 +44,11 @@ get_default(object, field, _default) = output {
 	has_field(object, field) == false
 	output = _default
 }
+
+# gets a resource with a specific type and name from the inventory
+get_resource(inventory, asset_type, name) = output {
+	resource := inventory[_]
+	resource.asset_type == asset_type
+	resource.name == name
+	output = resource
+}
