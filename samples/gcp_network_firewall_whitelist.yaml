@@ -1,0 +1,183 @@
+# Copyright 2019 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+
+
+# This template enables you to create a list of "whitelist" rules that are 
+# compliant with your regulations. 
+# Each firewall rule in your GCP projects is checked against these whitelist rules. 
+# If there is a match, then no alerts are triggered. If there is no match, then 
+# that firewall is alerted.
+# Match is basically defined as: whitelist rule should be a superset of the actual allowed rules.
+
+# It is possible to use regex, port ranges and IP CIDR ranges to define whitelists.
+# For instance:
+#   - port: "1-100" covers "80" but not "443"
+#   - sourceRange: "10.128.0.0/16" covers "10.128.1.0/24" but not "10.0.0.0/24". 0.0.0.0/0 covers all the ranges
+#   - sourceTags, targetTags, sourceServiceAccounts, targetServiceAccounts can be defined via regular expression statements
+#   - IPProtocol can be a list of protocols.
+
+# The overall logic is as follows:
+# Raise an alert if a firewall rule is not a subset by any of the whitelist rules defined in this constraint file:
+#  1. Does the direction (ingress/egress) match?
+#  2. Do both firewall rule and whitelist rule have the same fields defined? No more no less.
+#  3. Do the IPProtocol and its ports match? IPProtocols are checked by equality while ports are checked via ranges. See above.
+#  4. Check whether whitelist sourceRange/destinationRange CIDR overlap the whole firewall rule's source range if a source range/destination range exist.
+#  5. Check regex match for sourceServiceAccounts, sourceTags, targetTags, and targetServiceAccounts. 
+#     All the SAs,Tags in a firewall rule should be whitelisted. PARTIAL overlaps are NOT enough. For instance, if 2 out of 3 targetTags are matched, it is a NO.
+
+
+# WARNINGS: 
+#   - partial matches are NOT good enough. A firewall rule should be fully covered by the whitelist rules.
+#   - some fields like sourceTags and sourceServiceAccounts 
+#     can NOT exist at the same time in a GCP firewall rule. Therefore, please create separate rules for each.
+#   - As hinted above, to have a match every defined field should exist in both firewall rule and whitelist rule. 
+#     If you try to create a rule for ingress, tcp, 22, from 0.0.0.0/0, 
+#     it does NOT cover ingress, tcp, 22, from 0.0.0.0/0, targetTags = ["https"] since targetTags is not defined in 
+#     whitelisting.
+
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: GCPNetworkFirewallWhitelistConstraintV1
+metadata:
+  name: forbid-firewalls-that-are-not-listed
+spec:
+  severity: high
+  parameters:
+    #### HINT: Asset inventory output, which is used by this policy library as input, 
+    # shows firewalls in JSON format. 
+    # You may refer them to see the naming and fields. 
+    # The goal is to create a whitelist rule that is superset of the actual allowed firewall rules. 
+
+    rules:
+      # Allow SSH (22) to the bastion VMs only
+      # the bastion VM is defined by a service account
+      - direction: ingress
+        allowed: 
+          -  IPProtocol: "tcp"
+             ports: 
+               - "22"
+        targetServiceAccounts:
+          - "bastion-sa@PROJECT.iam.gserviceaccount.com"
+        sourceRanges:
+          - "0.0.0.0/0"
+
+      # Allow SSH (22) to the bastion VMs only
+      # the bastion VM is defined by a target tag
+      - direction: ingress
+        allowed: 
+          -  IPProtocol: "tcp"
+             ports: 
+               - "22"
+        targetTags:
+          - "^bastion$"
+        sourceRanges:
+          - "0.0.0.0/0"
+      
+      # allow SSH over IAP (35.235.240.0/20)
+      - direction: ingress
+        allowed: 
+          -  IPProtocol: "tcp"
+             ports: 
+               - "22"
+        sourceRanges:
+          - "35.235.240.0/20"
+
+      # allow all traffic
+      # from public internet and private network, 0.0.0.0/0
+      # to VMs with taged as "tags.*" or "test.*"
+      - direction: ingress
+        allowed: 
+          -  IPProtocol: "tcp"
+             ports: 
+               - "1-65535"
+          -  IPProtocol: "udp"
+             ports: 
+               - "1-65535"
+          -  IPProtocol: "icmp"
+          -  IPProtocol: "esp"
+          -  IPProtocol: "ah"
+          -  IPProtocol: "sctp"
+        targetTags:
+          - "tags.*"
+          - "test.*"
+        sourceRanges:
+          - "0.0.0.0/0"
+
+      # allow only 22 (SSH) and 80 (HTTP) traffic
+      # from public internet and private network, 0.0.0.0/0
+      # to VMs with taged as "tags.*" or "test.*"
+      - direction: ingress
+        allowed: 
+          -  IPProtocol: "tcp"
+             ports: 
+               - "22"
+               - "80"
+        targetTags:
+          - "tags.*"
+          - "test.*"
+        sourceRanges:
+          - "0.0.0.0/0"
+      
+      # allow only source service account based ingress rules to ALL instances.
+      - direction: ingress
+        allowed: 
+          - IPProtocol: "tcp"
+            ports: 
+              - "1-65535"
+          - IPProtocol: "tcp" # we provide this line since when it is ALL port, we may not see ports
+          - IPProtocol: "udp"
+            ports: 
+              - "1-65535"
+          - IPProtocol: "udp"
+          - IPProtocol: "icmp"
+        sourceServiceAccounts:
+          - ".*@.*gserviceaccount.com"
+      # As a complementary to the above rule, you may use this one, so that you allow
+      # SA -> SA traffic firewall rules.
+      - direction: egress
+        allowed: 
+          - IPProtocol: "tcp"
+            ports: 
+              - "1-65535"
+          - IPProtocol: "tcp" # we provide this line since when it is ALL port, we may not see ports
+          - IPProtocol: "udp"
+            ports: 
+              - "1-65535"
+          - IPProtocol: "udp"
+          - IPProtocol: "icmp"
+        sourceServiceAccounts:
+          - ".*@.*gserviceaccount.com"
+        targetServiceAccounts:
+          - ".*@.*gserviceaccount.com"
+      # allow all protocols, ports from internet
+      # to VMs tagged with ".*public_vm" or "public_service.*"
+      - direction: ingress
+        allowed: 
+          -  IPProtocol: "ALL"
+        sourceRanges:
+          - "0.0.0.0/0"
+        targetTags:
+          - ".*public_vm"
+          - "public_service.*"
+      # allow all all protocols/ports from Internet
+      # this rule does not cover the previous rule with tag
+      # since targetTag is not mentioned.
+      - direction: ingress
+        allowed: 
+          -  IPProtocol: "ALL"
+        sourceRanges:
+          - "0.0.0.0/0"
+      
+      

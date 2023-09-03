@@ -1,0 +1,160 @@
+[
+  {
+    "name": "//compute.googleapis.com/projects/self-perimeter-yunusd/global/firewalls/forseti-test",
+    "asset_type": "compute.googleapis.com/Firewall",
+    "resource": {
+      "version": "v1",
+      "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+      "discovery_name": "Firewall",
+      "parent": "//cloudresourcemanager.googleapis.com/projects/873162022610",
+      "data": {
+        "allowed": [
+          {
+            "IPProtocol": "tcp",
+            "ipProtocol": "tcp",
+            "port": [
+              "22"
+            ],
+            "ports": [
+              "22"
+            ]
+          },
+          {
+            "IPProtocol": "tcp",
+            "ipProtocol": "tcp",
+            "port": [
+              "22"
+            ],
+            "ports": [
+              "22"
+            ]
+          }
+        ],
+        "creationTimestamp": "2019-10-29T15:10:31.890-07:00",
+        "description": "",
+        "direction": "INGRESS",
+        "disabled": false,
+        "id": "3344227225818170936",
+        "logConfig": {
+          "enable": false
+        },
+        "name": "forseti-test",
+        "network": "https://www.googleapis.com/compute/v1/projects/self-perimeter-yunusd/global/networks/default",
+        "priority": 1000,
+        "selfLink": "https://www.googleapis.com/compute/v1/projects/self-perimeter-yunusd/global/firewalls/forseti-test",
+        "sourceRange": [
+          "0.0.0.0/0"
+        ],
+        "sourceRanges": [
+          "0.0.0.0/0"
+        ],
+        "targetTag": [
+          "tag1",
+          "test2"
+        ],
+        "targetTags": [
+          "tag1",
+          "test2"
+        ]
+      }
+    },
+    "ancestors": [
+      "projects/873162022610",
+      "folders/1009515865153",
+      "organizations/416234700201"
+    ]
+  },
+  {
+    "name": "//compute.googleapis.com/projects/spark-dicle/global/firewalls/default-allow-ssh",
+    "asset_type": "compute.googleapis.com/Firewall",
+    "resource": {
+      "version": "v1",
+      "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+      "discovery_name": "Firewall",
+      "parent": "//cloudresourcemanager.googleapis.com/projects/101190804177",
+      "data": {
+        "allowed": [
+          {
+            "IPProtocol": "tcp",
+            "ipProtocol": "tcp",
+            "port": [
+              "22"
+            ],
+            "ports": [
+              "22"
+            ]
+          }
+        ],
+        "creationTimestamp": "2019-07-31T11:50:18.875-07:00",
+        "description": "Allow SSH from anywhere",
+        "direction": "INGRESS",
+        "disabled": false,
+        "id": "5458400829766392837",
+        "logConfig": {
+          "enable": false
+        },
+        "name": "default-allow-ssh",
+        "network": "https://www.googleapis.com/compute/v1/projects/spark-dicle/global/networks/default",
+        "priority": 65534,
+        "selfLink": "https://www.googleapis.com/compute/v1/projects/spark-dicle/global/firewalls/default-allow-ssh",
+        "sourceRange": [
+          "0.0.0.0/0"
+        ],
+        "sourceRanges": [
+          "0.0.0.0/0"
+        ]
+      }
+    },
+    "ancestors": [
+      "projects/101190804177",
+      "organizations/416234700201"
+    ]
+  },
+  {
+    "name": "//compute.googleapis.com/projects/self-perimeter-yunusd/global/firewalls/forseti-test-egress",
+    "asset_type": "compute.googleapis.com/Firewall",
+    "resource": {
+      "version": "v1",
+      "discovery_document_uri": "https://www.googleapis.com/discovery/v1/apis/compute/v1/rest",
+      "discovery_name": "Firewall",
+      "parent": "//cloudresourcemanager.googleapis.com/projects/873162022610",
+      "data": {
+        "allowed": [
+          {
+            "IPProtocol": "all",
+            "ipProtocol": "all"
+          }
+        ],
+        "creationTimestamp": "2019-11-02T01:51:11.570-07:00",
+        "description": "",
+        "destinationRange": [
+          "192.168.0.0/16"
+        ],
+        "destinationRanges": [
+          "192.168.0.0/16"
+        ],
+        "direction": "EGRESS",
+        "disabled": false,
+        "id": "6131219834766163344",
+        "logConfig": {
+          "enable": false
+        },
+        "name": "forseti-test-egress",
+        "network": "https://www.googleapis.com/compute/v1/projects/self-perimeter-yunusd/global/networks/default",
+        "priority": 1000,
+        "selfLink": "https://www.googleapis.com/compute/v1/projects/self-perimeter-yunusd/global/firewalls/forseti-test-egress",
+        "targetServiceAccount": [
+          "873162022610-compute@developer.gserviceaccount.com"
+        ],
+        "targetServiceAccounts": [
+          "873162022610-compute@developer.gserviceaccount.com"
+        ]
+      }
+    },
+    "ancestors": [
+      "projects/873162022610",
+      "folders/1009515865153",
+      "organizations/416234700201"
+    ]
+  }
+]
