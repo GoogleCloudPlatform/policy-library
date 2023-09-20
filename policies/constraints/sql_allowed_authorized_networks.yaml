@@ -13,22 +13,12 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPStorageLocationConstraintV1
+kind: GCPSQLAllowedAuthorizedNetworksConstraintV1
 metadata:
-  name: allow_some_storage_location
+  name: sql_allowed_authorized_networks_allowlist
   annotations:
-    description: Checks Cloud Storage bucket locations against allowed or disallowed
-      locations.
-    bundles.validator.forsetisecurity.org/healthcare-baseline-v1: security
+    description: Checks Cloud SQL master authorized networks list against a allowlist.
 spec:
   severity: high
-  match:
-    ancestries:
-    - "organizations/**"
   parameters:
-    mode: "allowlist"
-    locations:
-    - asia-southeast1
-    - southamerica-east1
-    - us-central1
-    exemptions: []
+    authorized_networks: ["35.187.118.0/24"]

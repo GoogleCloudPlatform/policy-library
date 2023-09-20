@@ -97,7 +97,7 @@ spec:
            	target_resource_policies_match_count(params.mode, desired_count)
            	count(resource_policies_matches) == desired_count
            
-           	message := sprintf("%v has an empty or disallowed resource policy.", [asset.name])
+           	message := sprintf("It has an empty or disallowed resource policy - %v", [asset.name])
            	metadata := {"resource": asset.name, "resource_policies": asset_resource_policies}
            }
            

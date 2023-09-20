@@ -77,7 +77,7 @@ spec:
             	target_match_count(mode, desired_count)
             	count(matches_found) != desired_count
             
-            	message := sprintf("%v violates a service constraint", [asset.name])
+            	message := sprintf("Violates a service constraint - %v", [asset.name])
             	metadata := {
             		"resource": asset.name,
             		"mode": mode,

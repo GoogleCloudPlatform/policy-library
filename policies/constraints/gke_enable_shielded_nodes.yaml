@@ -13,22 +13,15 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPStorageLocationConstraintV1
+kind: GCPGKEEnableShieldedNodesConstraintV1
 metadata:
-  name: allow_some_storage_location
+  name: enable_gke_shielded_nodes
   annotations:
-    description: Checks Cloud Storage bucket locations against allowed or disallowed
-      locations.
-    bundles.validator.forsetisecurity.org/healthcare-baseline-v1: security
+    description: Checks that GKE is using Shielded nodes (secure boot).
+    bundles.validator.forsetisecurity.org/gke-hardening-v2022: ENABLE_SHIELDED_GKE_NODES
 spec:
   severity: high
   match:
     ancestries:
     - "organizations/**"
-  parameters:
-    mode: "allowlist"
-    locations:
-    - asia-southeast1
-    - southamerica-east1
-    - us-central1
-    exemptions: []
+  parameters: {}

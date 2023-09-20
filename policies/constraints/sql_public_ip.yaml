@@ -13,13 +13,14 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPStorageBucketWorldReadableConstraintV1
+kind: GCPSQLPublicIpConstraintV1
 metadata:
-  name: denylist_public_users
+  name: prevent-public-ip-cloudsql
   annotations:
-    description: Prevent public users from having access to resources via IAM
-    bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
+    description: Prevents a public IP from being assigned to a Cloud SQL instance.
     bundles.validator.forsetisecurity.org/scorecard-v1: security
+    # This constraint has not been validated by the formal CIS certification process.
+    bundles.validator.forsetisecurity.org/cis-v1.1: 6.05
     bundles.validator.forsetisecurity.org/healthcare-baseline-v1: security
 spec:
   severity: high
@@ -27,7 +28,3 @@ spec:
     ancestries:
     - "organizations/**"
     excludedAncestries: [] # optional, default is no exclusions
-  parameters:
-    exemptions: [] # optional, default is no exemptions
-    userDenylist:
-    - "*@fireeye.com"

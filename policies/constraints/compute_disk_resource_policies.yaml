@@ -1,4 +1,4 @@
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,22 +13,16 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPStorageLocationConstraintV1
+kind: GCPComputeDiskResourcePoliciesConstraintV1
 metadata:
-  name: allow_some_storage_location
+  name: compute_disk_resource_policies_allowlist_one
   annotations:
-    description: Checks Cloud Storage bucket locations against allowed or disallowed
-      locations.
-    bundles.validator.forsetisecurity.org/healthcare-baseline-v1: security
+    description: Checks that Persistent Disks have correct resource policies (eg.
+      snapshot schedules) attached to them.
 spec:
   severity: high
-  match:
-    ancestries:
-    - "organizations/**"
   parameters:
     mode: "allowlist"
-    locations:
-    - asia-southeast1
-    - southamerica-east1
-    - us-central1
+    resourcePolicies:
+    - https://www.googleapis.com/compute/v1/projects/my-test-project/regions/europe-north1/resourcePolicies/test-schedule
     exemptions: []

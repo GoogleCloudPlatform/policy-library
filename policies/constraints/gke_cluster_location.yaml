@@ -1,4 +1,4 @@
-# Copyright 2019 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,12 +13,11 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPStorageLocationConstraintV1
+kind: GKEClusterLocationConstraintV3
 metadata:
-  name: allow_some_storage_location
+  name: gke-cluster-allowed-locations
   annotations:
-    description: Checks Cloud Storage bucket locations against allowed or disallowed
-      locations.
+    description: Checks which zones are allowed/disallowed for GKE clusters.
     bundles.validator.forsetisecurity.org/healthcare-baseline-v1: security
 spec:
   severity: high
@@ -28,7 +27,6 @@ spec:
   parameters:
     mode: "allowlist"
     locations:
-    - asia-southeast1
-    - southamerica-east1
     - us-central1
+    - us-east1-b
     exemptions: []

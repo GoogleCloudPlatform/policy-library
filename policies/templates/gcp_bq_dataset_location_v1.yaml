@@ -144,7 +144,7 @@ spec:
            
            
            
-           	message := sprintf("%v is in a disallowed location.", [asset.name])
+           	message := sprintf("It is in a disallowed location - %v", [asset.name])
            
            	metadata := {
            

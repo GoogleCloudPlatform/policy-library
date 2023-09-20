@@ -73,7 +73,7 @@ spec:
              
              	count({test_region} & allowed_regions) == 0
              
-             	message := sprintf("Region %v is not allowed in access level %v", [test_region, asset.access_level.name])
+             	message := sprintf("It is not allowed in access level %v - Region %v", [test_region, asset.access_level.name])
              	metadata := {"resource": asset.name, "access_level_name": asset.access_level.name}
              }
              #ENDINLINE

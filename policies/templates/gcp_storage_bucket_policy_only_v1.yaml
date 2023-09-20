@@ -68,7 +68,7 @@ spec:
            	bucket_policy_enabled(bucket) != true
            	uniform_bucket_level_access_enabled(bucket) != true
            
-           	message := sprintf("Does not have bucket policy only enabled: %v", [asset.name])
+           	message := sprintf("Does not have bucket policy only enabled - %v", [asset.name])
            	metadata := {"resource": asset.name}
            }
            

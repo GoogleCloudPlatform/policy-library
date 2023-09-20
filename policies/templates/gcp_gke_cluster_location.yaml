@@ -90,7 +90,7 @@ spec:
            	target_location_match_count(params.mode, desired_count)
            	count(location_matches) == desired_count
            
-           	message := sprintf("Cluster %v is in a disallowed location", [asset.name])
+           	message := sprintf("It is in a disallowed location - cluster %v", [asset.name])
            	metadata := {"resource": asset.name}
            }
            
