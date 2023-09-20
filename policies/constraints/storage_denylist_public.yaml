@@ -13,22 +13,21 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPStorageLocationConstraintV1
+kind: GCPStorageBucketWorldReadableConstraintV1
 metadata:
-  name: allow_some_storage_location
+  name: denylist_public_users
   annotations:
-    description: Checks Cloud Storage bucket locations against allowed or disallowed
-      locations.
+    description: Prevent public users from having access to resources via IAM
+    bundles.validator.forsetisecurity.org/forseti-security: v2.26.0
+    bundles.validator.forsetisecurity.org/scorecard-v1: security
     bundles.validator.forsetisecurity.org/healthcare-baseline-v1: security
 spec:
   severity: high
   match:
     ancestries:
     - "organizations/**"
+    excludedAncestries: [] # optional, default is no exclusions
   parameters:
-    mode: "allowlist"
-    locations:
-    - asia-southeast1
-    - us-central1
-    - southamerica-east1
-    exemptions: []
+    exemptions: [] # optional, default is no exemptions
+    userDenylist:
+    - "*@fireeye.com"
