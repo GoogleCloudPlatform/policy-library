@@ -1,4 +1,4 @@
-# Copyright 2020 Google LLC
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,16 +13,23 @@
 # limitations under the License.
 #
 apiVersion: constraints.gatekeeper.sh/v1alpha1
-kind: GCPComputeDiskResourcePoliciesConstraintV1
+kind: GCPComputeExternalIpAccessConstraintV2
 metadata:
-  name: compute_disk_resource_policies_allowlist_one
+  name: forbid_external_ip
   annotations:
-    description: Checks that Persistent Disks have correct resource policies (eg.
-      snapshot schedules) attached to them.
+    # This constraint is not certified by CIS.
+    bundles.validator.forsetisecurity.org/cis-v1.1: 4.08
+    description: Checks if Compute Engine instances have public IPs.
 spec:
   severity: high
   parameters:
-    mode: "allowlist"
-    resourcePolicies:
-    - https://www.googleapis.com/compute/v1/projects/my-test-project/regions/europe-north1/resourcePolicies/test-schedule
-    exemptions: []
+    # modes can be [allowlist, denylist]
+    mode: allowlist
+    # match_mode can be [exact, regex], default is exact.
+    match_mode: regex
+    instances:
+      # regex example:
+    - //compute.googleapis.com/projects/mv-dev-ricardo/.*
+      # exact match example:
+    - //compute.googleapis.com/projects/mv-dev-ricardo/zones/us-central1-a/instances/vm-external-ip
+
