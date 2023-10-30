@@ -1,0 +1,6 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: NoAutoSubnetVPC
+metadata:
+  name: no-autosubnet-vpc
+spec:
+  allowAutoSubnet: false

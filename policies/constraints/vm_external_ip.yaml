@@ -27,9 +27,9 @@ spec:
     mode: allowlist
     # match_mode can be [exact, regex], default is exact.
     match_mode: regex
-    instances:
+    instances: []
       # regex example:
-    - //compute.googleapis.com/projects/mv-dev-ricardo/.*
+    # - //compute.googleapis.com/projects/mv-dev-ricardo/.*
       # exact match example:
-    - //compute.googleapis.com/projects/mv-dev-ricardo/zones/us-central1-a/instances/vm-external-ip
+    # - //compute.googleapis.com/projects/mv-dev-ricardo/zones/us-east1-b/instances/vm-external-ip
 

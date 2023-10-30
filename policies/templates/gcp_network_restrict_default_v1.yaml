@@ -54,7 +54,7 @@ spec:
             	a.asset_type == "compute.googleapis.com/Network"
             	a.resource.data.name == "default"
             	name := a.name
-            	message := sprintf("Default network in use: %v", [name])
+            	message := sprintf("Default network in use - %v", [name])
             	metadata := {"resource": name}
             }
             #ENDINLINE
