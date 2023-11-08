@@ -1,0 +1,39 @@
+apiVersion: constraints.templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: projectnaming
+spec:
+  crd:
+    spec:
+      names:
+        kind: ProjectNaming
+      validation:
+        openAPIV3Schema:
+          properties:
+            allowedPattern:
+              type: string
+            allowedPatternDescription:
+              type: string
+            deniedPattern:
+              type: string
+            deniedPatternDescription:
+              type: string
+            errorMessage:
+              type: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package projectnaming
+
+        violation[{"msg": msg, "details": {"allowedPattern": input.review.object.allowedPattern, "deniedPattern": input.review.object.deniedPattern, "projectName": input.review.object.metadata.name, "env": data.env, "pattern": data.pattern}}] {
+          data.regexp.match("mv-([a-z]+)-(.+)", input.review.object.metadata.name, data.match)
+          not data.regexp.match(input.review.object.allowedPattern, data.match[2])
+          data.match[1] == data.env
+          data.match[2] != ""
+          data.env != input.review.object.deniedPattern
+          data.env == input.review.object.env
+          data.pattern := input.review.object.allowedPattern
+          data.env := input.review.object.env
+          data.projectName := input.review.object.metadata.name
+          msg := input.review.object.errorMessage
+        }

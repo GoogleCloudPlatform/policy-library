@@ -58,7 +58,7 @@ spec:
          	ipv4 := lib.get_default(ip_config, "ipv4Enabled", true)
          	ipv4 == true
          
-         	message := sprintf("%v is not allowed to have a Public IP.", [asset.name])
+         	message := sprintf("It is not allowed to have a Public IP - %v", [asset.name])
          	metadata := {"resource": asset.name}
          }
          #ENDINLINE
