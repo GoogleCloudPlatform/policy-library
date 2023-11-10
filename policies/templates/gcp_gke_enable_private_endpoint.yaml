@@ -61,7 +61,7 @@ spec:
             
             	not_private_endpoint(cluster)
             
-            	message := sprintf("%v has private endpoint disabled", [asset.name])
+            	message := sprintf("Has private endpoint disabled %v", [asset.name])
             	metadata := {"resource": asset.name}
             }
             
